@@ -432,16 +432,21 @@ create trigger trg_protect_profile_privileges
 --
 -- Важно: триггер on_auth_user_created (раздел 6) срабатывает на любую
 -- вставку в auth.users — в том числе на создание пользователя вручную
--- через Dashboard, где кода приглашения нет. Без временного отключения
--- триггера Dashboard откажет с ошибкой "failed to create user". Порядок:
+-- через Dashboard, где кода приглашения нет. Без обхода этого триггера
+-- Dashboard откажет с ошибкой "failed to create user".
 --
---   1. alter table auth.users disable trigger on_auth_user_created;
+-- "alter table auth.users disable trigger ..." тут не сработает: таблицей
+-- auth.users в Supabase владеет системная роль, а не ваш аккаунт. Зато вы
+-- владеете функцией handle_new_user(), которую вызывает триггер, — значит,
+-- можно временно превратить её в пустышку, не трогая сам триггер. Порядок:
+--
+--   1. Временно заменить тело функции на "begin return new; end;"
+--      (create or replace function ... as $$ begin return new; end; $$;).
 --   2. Authentication -> Users -> Add user — создать пользователя с email/паролем.
 --   3. Скопировать его id (uuid).
---   4. Выполнить в SQL Editor (оба запроса вместе — иначе обычная
+--   4. Выполнить в SQL Editor одним запросом (обязательно вместе с полным
+--      восстановлением тела функции — см. раздел 6 выше, — иначе обычная
 --      регистрация по коду в приложении останется сломанной для всех):
---
---      alter table auth.users enable trigger on_auth_user_created;
 --
 --      insert into public.profiles (id, full_name, phone, role)
 --      values ('<uuid пользователя>', 'Имя Фамилия', '+70000000000', 'admin');
