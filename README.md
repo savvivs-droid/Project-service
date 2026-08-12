@@ -137,14 +137,29 @@ values ('ROMASHKA-1', 'client', '<id заведения Ромашка>');
 
 Коды приглашений создают только сотрудники — а самому первому сотруднику
 код выдать некому. Поэтому первого администратора нужно создать вручную
-(это описано и в конце `schema.sql`):
+(это описано и в конце `schema.sql`).
 
-1. В Supabase Dashboard: **Authentication → Users → Add user** — создайте
+⚠️ Важно: триггер `handle_new_user` (см. раздел 6 в `schema.sql`) срабатывает
+на **любое** добавление строки в `auth.users`, включая создание пользователя
+вручную через Dashboard — а там кода приглашения нет. Без обхода этого
+триггера Dashboard молча откажет с ошибкой "failed to create user". Поэтому
+временно отключаем триггер на время создания:
+
+1. В **SQL Editor** выполните:
+
+   ```sql
+   alter table auth.users disable trigger on_auth_user_created;
+   ```
+
+2. В Supabase Dashboard: **Authentication → Users → Add user** — создайте
    пользователя с email и паролем.
-2. Скопируйте его `id` (uuid) из списка пользователей.
-3. В **SQL Editor** выполните:
+3. Скопируйте его `id` (uuid) из списка пользователей.
+4. В **SQL Editor** выполните (обязательно вместе — второй запрос без
+   первого оставит обычную регистрацию по коду сломанной для всех):
 
 ```sql
+alter table auth.users enable trigger on_auth_user_created;
+
 insert into public.profiles (id, full_name, phone, role)
 values ('<uuid пользователя>', 'Имя Фамилия', '+70000000000', 'admin');
 ```

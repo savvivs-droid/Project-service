@@ -428,10 +428,20 @@ create trigger trg_protect_profile_privileges
 -- -----------------------------------------------------------------------------
 -- Коды приглашений создают только сотрудники, а самый первый сотрудник
 -- ещё не может иметь код (его некому было выдать). Поэтому первого
--- администратора нужно создать вручную:
---   1. Authentication -> Users -> Add user — создать пользователя с email/паролем.
---   2. Скопировать его id (uuid).
---   3. Выполнить в SQL Editor:
+-- администратора нужно создать вручную.
+--
+-- Важно: триггер on_auth_user_created (раздел 6) срабатывает на любую
+-- вставку в auth.users — в том числе на создание пользователя вручную
+-- через Dashboard, где кода приглашения нет. Без временного отключения
+-- триггера Dashboard откажет с ошибкой "failed to create user". Порядок:
+--
+--   1. alter table auth.users disable trigger on_auth_user_created;
+--   2. Authentication -> Users -> Add user — создать пользователя с email/паролем.
+--   3. Скопировать его id (uuid).
+--   4. Выполнить в SQL Editor (оба запроса вместе — иначе обычная
+--      регистрация по коду в приложении останется сломанной для всех):
+--
+--      alter table auth.users enable trigger on_auth_user_created;
 --
 --      insert into public.profiles (id, full_name, phone, role)
 --      values ('<uuid пользователя>', 'Имя Фамилия', '+70000000000', 'admin');
