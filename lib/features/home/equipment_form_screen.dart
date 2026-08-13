@@ -1,11 +1,25 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
+import '../../core/utils/image_picker_helper.dart';
 import '../../models/equipment.dart';
+import '../../services/equipment_photo_service.dart';
 import '../../services/equipment_repository.dart';
 
 const _otherTypeSentinel = '__other__';
+
+/// Фото в форме — либо уже загруженное (есть [url]), либо только что
+/// выбранное на устройстве и ещё не загруженное в Storage (есть [bytes]).
+class _PhotoItem {
+  final String? url;
+  final Uint8List? bytes;
+
+  const _PhotoItem.existing(String this.url) : bytes = null;
+  const _PhotoItem.picked(Uint8List this.bytes) : url = null;
+}
 
 /// Форма добавления или редактирования оборудования. Если [existing]
 /// передан — форма работает на редактирование, иначе создаёт новую запись.
@@ -26,16 +40,19 @@ class EquipmentFormScreen extends StatefulWidget {
 class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _repository = EquipmentRepository();
+  final _photoService = EquipmentPhotoService();
 
   late final TextEditingController _customTypeController;
   late final TextEditingController _modelController;
-  late final TextEditingController _stickerCodeController;
 
   String? _selectedType;
   bool _showTypeError = false;
   late EquipmentStatus _status;
   DateTime? _installedAt;
   bool _isSaving = false;
+
+  _PhotoItem? _stickerPhoto;
+  final List<_PhotoItem> _photos = [];
 
   bool get _isEditing => widget.existing != null;
 
@@ -57,17 +74,22 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       text: _selectedType == _otherTypeSentinel ? existingType : '',
     );
     _modelController = TextEditingController(text: existing?.model ?? '');
-    _stickerCodeController =
-        TextEditingController(text: existing?.stickerCode ?? '');
     _status = existing?.status ?? EquipmentStatus.active;
     _installedAt = existing?.installedAt;
+
+    final existingStickerUrl = existing?.stickerPhotoUrl;
+    if (existingStickerUrl != null) {
+      _stickerPhoto = _PhotoItem.existing(existingStickerUrl);
+    }
+    for (final url in existing?.photos ?? const <String>[]) {
+      _photos.add(_PhotoItem.existing(url));
+    }
   }
 
   @override
   void dispose() {
     _customTypeController.dispose();
     _modelController.dispose();
-    _stickerCodeController.dispose();
     super.dispose();
   }
 
@@ -76,6 +98,16 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       _selectedType = value;
       _showTypeError = false;
     });
+  }
+
+  Future<void> _pickStickerPhoto() async {
+    final bytes = await pickImageBytes(context);
+    if (bytes != null) setState(() => _stickerPhoto = _PhotoItem.picked(bytes));
+  }
+
+  Future<void> _addPhoto() async {
+    final bytes = await pickImageBytes(context);
+    if (bytes != null) setState(() => _photos.add(_PhotoItem.picked(bytes)));
   }
 
   Future<void> _pickInstalledAt() async {
@@ -87,6 +119,14 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       lastDate: now,
     );
     if (picked != null) setState(() => _installedAt = picked);
+  }
+
+  Future<String> _resolveUrl(_PhotoItem item) async {
+    if (item.url != null) return item.url!;
+    return _photoService.upload(
+      establishmentId: widget.establishmentId,
+      bytes: item.bytes!,
+    );
   }
 
   Future<void> _submit() async {
@@ -103,7 +143,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     setState(() => _isSaving = true);
     try {
       final model = _modelController.text.trim();
-      final stickerCode = _stickerCodeController.text.trim();
+
+      final stickerPhotoUrl =
+          _stickerPhoto == null ? null : await _resolveUrl(_stickerPhoto!);
+      final photoUrls = [for (final photo in _photos) await _resolveUrl(photo)];
 
       if (_isEditing) {
         await _repository.update(
@@ -111,7 +154,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           type: type,
           status: _status,
           model: model.isEmpty ? null : model,
-          stickerCode: stickerCode.isEmpty ? null : stickerCode,
+          stickerPhotoUrl: stickerPhotoUrl,
+          photos: photoUrls,
           installedAt: _installedAt,
         );
       } else {
@@ -120,19 +164,19 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           type: type,
           status: _status,
           model: model.isEmpty ? null : model,
-          stickerCode: stickerCode.isEmpty ? null : stickerCode,
+          stickerPhotoUrl: stickerPhotoUrl,
+          photos: photoUrls,
           installedAt: _installedAt,
         );
       }
 
       if (!mounted) return;
       Navigator.of(context).pop(true);
-    } catch (e) {
+    } catch (_) {
       if (!mounted) return;
-      final message = e.toString().toLowerCase().contains('sticker_code')
-          ? 'Такой код стикера уже используется другим оборудованием.'
-          : 'Не удалось сохранить оборудование.';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось сохранить оборудование.')),
+      );
     } finally {
       if (mounted) setState(() => _isSaving = false);
     }
@@ -203,16 +247,35 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   controller: _modelController,
                   decoration: const InputDecoration(labelText: 'Модель'),
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _stickerCodeController,
-                  textCapitalization: TextCapitalization.characters,
-                  decoration: const InputDecoration(
-                    labelText: 'Код стикера',
-                    hintText: 'Например, EQ-0231',
-                  ),
+                const SizedBox(height: 20),
+                Text('Фото стикера', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 4),
+                Text(
+                  'Сфотографируйте бирку на оборудовании — код вводить не нужно.',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
+                _PhotoThumb(
+                  item: _stickerPhoto,
+                  onAdd: _pickStickerPhoto,
+                  onRemove: () => setState(() => _stickerPhoto = null),
+                ),
+                const SizedBox(height: 20),
+                Text('Фото оборудования', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    for (var i = 0; i < _photos.length; i++)
+                      _PhotoThumb(
+                        item: _photos[i],
+                        onRemove: () => setState(() => _photos.removeAt(i)),
+                      ),
+                    _PhotoThumb(item: null, onAdd: _addPhoto),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 DropdownButtonFormField<EquipmentStatus>(
                   initialValue: _status,
                   decoration: const InputDecoration(labelText: 'Статус'),
@@ -303,6 +366,62 @@ class _TypeOptionTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Миниатюра фото с кнопкой удаления, либо (если [item] равен null)
+/// плитка "добавить фото".
+class _PhotoThumb extends StatelessWidget {
+  const _PhotoThumb({required this.item, this.onAdd, this.onRemove});
+
+  final _PhotoItem? item;
+  final VoidCallback? onAdd;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (item == null) {
+      return InkWell(
+        onTap: onAdd,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 84,
+          height: 84,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: colorScheme.outlineVariant),
+          ),
+          child: Icon(Icons.add_a_photo_outlined, color: colorScheme.onSurfaceVariant),
+        ),
+      );
+    }
+
+    final image = item!.bytes != null
+        ? Image.memory(item!.bytes!, width: 84, height: 84, fit: BoxFit.cover)
+        : Image.network(item!.url!, width: 84, height: 84, fit: BoxFit.cover);
+
+    return Stack(
+      children: [
+        ClipRRect(borderRadius: BorderRadius.circular(12), child: image),
+        Positioned(
+          top: 2,
+          right: 2,
+          child: GestureDetector(
+            onTap: onRemove,
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: const BoxDecoration(
+                color: Colors.black54,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.close, size: 16, color: Colors.white),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

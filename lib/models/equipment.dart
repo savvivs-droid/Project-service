@@ -7,6 +7,7 @@ class Equipment {
   final String type;
   final String? model;
   final String? stickerCode;
+  final String? stickerPhotoUrl;
   final List<String> photos;
   final DateTime? installedAt;
   final EquipmentStatus status;
@@ -18,6 +19,7 @@ class Equipment {
     required this.status,
     this.model,
     this.stickerCode,
+    this.stickerPhotoUrl,
     this.photos = const [],
     this.installedAt,
   });
@@ -29,6 +31,7 @@ class Equipment {
       type: json['type'] as String,
       model: json['model'] as String?,
       stickerCode: json['sticker_code'] as String?,
+      stickerPhotoUrl: json['sticker_photo_url'] as String?,
       photos: (json['photos'] as List<dynamic>? ?? const [])
           .map((e) => e as String)
           .toList(),

@@ -24,14 +24,16 @@ class EquipmentRepository {
     required String type,
     required EquipmentStatus status,
     String? model,
-    String? stickerCode,
+    String? stickerPhotoUrl,
+    List<String> photos = const [],
     DateTime? installedAt,
   }) {
     return _client.from('equipment').insert({
       'establishment_id': establishmentId,
       'type': type,
       'model': model,
-      'sticker_code': stickerCode,
+      'sticker_photo_url': stickerPhotoUrl,
+      'photos': photos,
       'installed_at': _formatDate(installedAt),
       'status': status.value,
     });
@@ -42,13 +44,15 @@ class EquipmentRepository {
     required String type,
     required EquipmentStatus status,
     String? model,
-    String? stickerCode,
+    String? stickerPhotoUrl,
+    List<String> photos = const [],
     DateTime? installedAt,
   }) {
     return _client.from('equipment').update({
       'type': type,
       'model': model,
-      'sticker_code': stickerCode,
+      'sticker_photo_url': stickerPhotoUrl,
+      'photos': photos,
       'installed_at': _formatDate(installedAt),
       'status': status.value,
     }).eq('id', id);

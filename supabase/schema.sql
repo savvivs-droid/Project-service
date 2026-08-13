@@ -76,7 +76,12 @@ create table public.equipment (
   establishment_id uuid not null references public.establishments (id) on delete cascade,
   type text not null,
   model text,
+  -- sticker_code (текстовый код с бирки) больше не используется в
+  -- приложении — вместо ручного ввода кода фотографируют саму бирку,
+  -- см. sticker_photo_url. Колонку оставили, вдруг пригодится позже
+  -- (например, для распознавания кода с фото).
   sticker_code text unique,
+  sticker_photo_url text,
   photos text[] not null default '{}',
   installed_at date,
   status public.equipment_status not null default 'active',
@@ -435,3 +440,38 @@ create trigger trg_protect_profile_privileges
 --
 -- После этого администратор сможет входить в приложение, видеть все
 -- заведения, оборудование и заявки, и обрабатывать их.
+
+
+-- -----------------------------------------------------------------------------
+-- 8. Хранилище фото оборудования (Supabase Storage)
+-- -----------------------------------------------------------------------------
+-- Бакет "equipment-photos" — сюда попадают фото бирки (стикера) и самого
+-- оборудования, которые снимает администратор при добавлении/редактировании
+-- оборудования (см. lib/services/equipment_photo_service.dart).
+--
+-- Бакет публичный на чтение (public = true): это упрощает отображение фото
+-- в приложении — не нужно генерировать подписанные ссылки — и приемлемо,
+-- так как в нём нет ничего чувствительнее фото кухонной техники. Если
+-- позже это станет важно, можно сделать бакет приватным и переключиться
+-- на createSignedUrl(). Загрузка/изменение/удаление — только администратору.
+
+insert into storage.buckets (id, name, public)
+values ('equipment-photos', 'equipment-photos', true)
+on conflict (id) do nothing;
+
+create policy "Фото оборудования доступны на чтение всем"
+  on storage.objects for select
+  using (bucket_id = 'equipment-photos');
+
+create policy "Только админ загружает фото оборудования"
+  on storage.objects for insert
+  with check (bucket_id = 'equipment-photos' and public.is_staff());
+
+create policy "Только админ изменяет фото оборудования"
+  on storage.objects for update
+  using (bucket_id = 'equipment-photos' and public.is_staff())
+  with check (bucket_id = 'equipment-photos' and public.is_staff());
+
+create policy "Только админ удаляет фото оборудования"
+  on storage.objects for delete
+  using (bucket_id = 'equipment-photos' and public.is_staff());

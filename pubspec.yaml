@@ -22,6 +22,9 @@ dependencies:
   # Запрос к чешскому реестру ARES для автозаполнения заведения по IČO
   http: ^1.2.0
 
+  # Съёмка/выбор фото стикера и оборудования
+  image_picker: ^1.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
