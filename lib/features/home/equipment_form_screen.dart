@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../models/equipment.dart';
 import '../../services/equipment_repository.dart';
+
+const _otherTypeSentinel = '__other__';
 
 /// Форма добавления или редактирования оборудования. Если [existing]
 /// передан — форма работает на редактирование, иначе создаёт новую запись.
@@ -24,10 +27,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _repository = EquipmentRepository();
 
-  late final TextEditingController _typeController;
+  late final TextEditingController _customTypeController;
   late final TextEditingController _modelController;
   late final TextEditingController _stickerCodeController;
 
+  String? _selectedType;
+  bool _showTypeError = false;
   late EquipmentStatus _status;
   DateTime? _installedAt;
   bool _isSaving = false;
@@ -38,7 +43,19 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   void initState() {
     super.initState();
     final existing = widget.existing;
-    _typeController = TextEditingController(text: existing?.type ?? '');
+
+    final existingType = existing?.type;
+    if (existingType == null) {
+      _selectedType = null;
+    } else if (equipmentTypeOptions.any((option) => option.label == existingType)) {
+      _selectedType = existingType;
+    } else {
+      _selectedType = _otherTypeSentinel;
+    }
+
+    _customTypeController = TextEditingController(
+      text: _selectedType == _otherTypeSentinel ? existingType : '',
+    );
     _modelController = TextEditingController(text: existing?.model ?? '');
     _stickerCodeController =
         TextEditingController(text: existing?.stickerCode ?? '');
@@ -48,10 +65,17 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
   @override
   void dispose() {
-    _typeController.dispose();
+    _customTypeController.dispose();
     _modelController.dispose();
     _stickerCodeController.dispose();
     super.dispose();
+  }
+
+  void _selectType(String value) {
+    setState(() {
+      _selectedType = value;
+      _showTypeError = false;
+    });
   }
 
   Future<void> _pickInstalledAt() async {
@@ -66,11 +90,18 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   }
 
   Future<void> _submit() async {
+    if (_selectedType == null) {
+      setState(() => _showTypeError = true);
+      return;
+    }
     if (!_formKey.currentState!.validate()) return;
+
+    final type = _selectedType == _otherTypeSentinel
+        ? _customTypeController.text.trim()
+        : _selectedType!;
 
     setState(() => _isSaving = true);
     try {
-      final type = _typeController.text.trim();
       final model = _modelController.text.trim();
       final stickerCode = _stickerCodeController.text.trim();
 
@@ -121,17 +152,53 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                TextFormField(
-                  controller: _typeController,
-                  decoration: const InputDecoration(
-                    labelText: 'Тип оборудования',
-                    hintText: 'Например, Пароконвектомат',
-                  ),
-                  validator: (value) => (value == null || value.trim().isEmpty)
-                      ? 'Введите тип оборудования'
-                      : null,
+                Text('Тип оборудования', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    for (final option in equipmentTypeOptions)
+                      _TypeOptionTile(
+                        icon: option.icon,
+                        label: option.label,
+                        selected: _selectedType == option.label,
+                        onTap: () => _selectType(option.label),
+                      ),
+                    _TypeOptionTile(
+                      icon: Icons.more_horiz,
+                      label: 'Другое',
+                      selected: _selectedType == _otherTypeSentinel,
+                      onTap: () => _selectType(_otherTypeSentinel),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
+                if (_showTypeError) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    'Выберите тип оборудования',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+                if (_selectedType == _otherTypeSentinel) ...[
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _customTypeController,
+                    decoration: const InputDecoration(
+                      labelText: 'Укажите тип оборудования',
+                    ),
+                    validator: (value) {
+                      if (_selectedType != _otherTypeSentinel) return null;
+                      return (value == null || value.trim().isEmpty)
+                          ? 'Введите тип оборудования'
+                          : null;
+                    },
+                  ),
+                ],
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _modelController,
                   decoration: const InputDecoration(labelText: 'Модель'),
@@ -181,6 +248,59 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TypeOptionTile extends StatelessWidget {
+  const _TypeOptionTile({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: 92,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? colorScheme.primary : colorScheme.outlineVariant,
+            width: selected ? 2 : 1,
+          ),
+          color: selected ? colorScheme.primary.withValues(alpha: 0.08) : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: selected ? colorScheme.primary : null,
+                    fontWeight: selected ? FontWeight.w600 : null,
+                  ),
+            ),
+          ],
         ),
       ),
     );
