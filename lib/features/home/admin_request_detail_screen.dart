@@ -129,18 +129,21 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
       appBar: AppBar(
         title: Text('Заявка #$shortId'),
         actions: [
-          IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => RequestChatScreen(
-                  requestId: request.id,
-                  title: _item.establishmentName,
-                  otherPartyName: _item.clientName,
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton.filled(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RequestChatScreen(
+                    requestId: request.id,
+                    title: _item.establishmentName,
+                    otherPartyName: _item.clientName,
+                  ),
                 ),
               ),
+              icon: const Icon(Icons.chat_bubble),
+              tooltip: 'Чат с клиентом',
             ),
-            icon: const Icon(Icons.chat_bubble_outline),
-            tooltip: 'Чат с клиентом',
           ),
         ],
       ),
@@ -174,6 +177,20 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                   ],
                 ),
               ),
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RequestChatScreen(
+                    requestId: request.id,
+                    title: _item.establishmentName,
+                    otherPartyName: _item.clientName,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.chat_bubble_outline),
+              label: const Text('Чат с клиентом'),
             ),
             const SizedBox(height: 12),
             Card(

@@ -21,18 +21,21 @@ class ClientRequestDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Заявка #$shortId'),
         actions: [
-          IconButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => RequestChatScreen(
-                  requestId: request.id,
-                  title: item.establishmentName,
-                  otherPartyName: 'Мастер',
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton.filled(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RequestChatScreen(
+                    requestId: request.id,
+                    title: item.establishmentName,
+                    otherPartyName: 'Мастер',
+                  ),
                 ),
               ),
+              icon: const Icon(Icons.chat_bubble),
+              tooltip: 'Чат с мастером',
             ),
-            icon: const Icon(Icons.chat_bubble_outline),
-            tooltip: 'Чат с мастером',
           ),
         ],
       ),
@@ -51,6 +54,20 @@ class ClientRequestDetailScreen extends StatelessWidget {
               ),
               _StatusChip(status: request.status),
             ],
+          ),
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => RequestChatScreen(
+                  requestId: request.id,
+                  title: item.establishmentName,
+                  otherPartyName: 'Мастер',
+                ),
+              ),
+            ),
+            icon: const Icon(Icons.chat_bubble_outline),
+            label: const Text('Чат с мастером'),
           ),
           const SizedBox(height: 16),
           Card(
