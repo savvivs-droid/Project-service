@@ -50,6 +50,10 @@ create table public.establishments (
   -- это не даёт одному и тому же бизнесу завестись дважды через
   -- самостоятельную регистрацию клиента (см. handle_new_user ниже).
   ico text,
+  -- Фото входной группы (фасад/вход заведения) — для узнаваемости
+  -- заведения мастером на месте. Загружается администратором, см.
+  -- lib/features/home/establishment_detail_screen.dart.
+  entrance_photo_url text,
   connected_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );

@@ -6,7 +6,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/utils/image_picker_helper.dart';
 import '../../models/equipment.dart';
-import '../../services/equipment_photo_service.dart';
+import '../../services/photo_upload_service.dart';
 import '../../services/equipment_repository.dart';
 
 const _otherTypeSentinel = '__other__';
@@ -40,7 +40,7 @@ class EquipmentFormScreen extends StatefulWidget {
 class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _repository = EquipmentRepository();
-  final _photoService = EquipmentPhotoService();
+  final _photoService = PhotoUploadService();
 
   late final TextEditingController _customTypeController;
   late final TextEditingController _modelController;
@@ -124,7 +124,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Future<String> _resolveUrl(_PhotoItem item) async {
     if (item.url != null) return item.url!;
     return _photoService.upload(
-      establishmentId: widget.establishmentId,
+      folder: '${widget.establishmentId}/equipment',
       bytes: item.bytes!,
     );
   }

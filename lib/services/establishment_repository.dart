@@ -18,4 +18,13 @@ class EstablishmentRepository {
         .map((row) => Establishment.fromJson(row as Map<String, dynamic>))
         .toList();
   }
+
+  Future<void> updateEntrancePhoto({
+    required String id,
+    required String? entrancePhotoUrl,
+  }) {
+    return _client
+        .from('establishments')
+        .update({'entrance_photo_url': entrancePhotoUrl}).eq('id', id);
+  }
 }

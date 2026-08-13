@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
+import '../../core/utils/image_picker_helper.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
 import '../../services/equipment_repository.dart';
+import '../../services/establishment_repository.dart';
+import '../../services/photo_upload_service.dart';
 import 'equipment_form_screen.dart';
 
 class EstablishmentDetailScreen extends StatefulWidget {
@@ -19,18 +22,25 @@ class EstablishmentDetailScreen extends StatefulWidget {
 
 class _EstablishmentDetailScreenState
     extends State<EstablishmentDetailScreen> {
-  final _repository = EquipmentRepository();
+  final _equipmentRepository = EquipmentRepository();
+  final _establishmentRepository = EstablishmentRepository();
+  final _photoService = PhotoUploadService();
+
   late Future<List<Equipment>> _equipmentFuture;
+  late String? _entrancePhotoUrl;
+  bool _isSavingEntrancePhoto = false;
 
   @override
   void initState() {
     super.initState();
     _equipmentFuture =
-        _repository.fetchForEstablishment(widget.establishment.id);
+        _equipmentRepository.fetchForEstablishment(widget.establishment.id);
+    _entrancePhotoUrl = widget.establishment.entrancePhotoUrl;
   }
 
   Future<void> _refresh() async {
-    final future = _repository.fetchForEstablishment(widget.establishment.id);
+    final future =
+        _equipmentRepository.fetchForEstablishment(widget.establishment.id);
     setState(() => _equipmentFuture = future);
     await future;
   }
@@ -45,6 +55,49 @@ class _EstablishmentDetailScreenState
       ),
     );
     if (saved == true) _refresh();
+  }
+
+  Future<void> _pickEntrancePhoto() async {
+    final bytes = await pickImageBytes(context);
+    if (bytes == null) return;
+
+    setState(() => _isSavingEntrancePhoto = true);
+    try {
+      final url = await _photoService.upload(
+        folder: '${widget.establishment.id}/entrance',
+        bytes: bytes,
+      );
+      await _establishmentRepository.updateEntrancePhoto(
+        id: widget.establishment.id,
+        entrancePhotoUrl: url,
+      );
+      if (mounted) setState(() => _entrancePhotoUrl = url);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось сохранить фото')),
+      );
+    } finally {
+      if (mounted) setState(() => _isSavingEntrancePhoto = false);
+    }
+  }
+
+  Future<void> _removeEntrancePhoto() async {
+    setState(() => _isSavingEntrancePhoto = true);
+    try {
+      await _establishmentRepository.updateEntrancePhoto(
+        id: widget.establishment.id,
+        entrancePhotoUrl: null,
+      );
+      if (mounted) setState(() => _entrancePhotoUrl = null);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось удалить фото')),
+      );
+    } finally {
+      if (mounted) setState(() => _isSavingEntrancePhoto = false);
+    }
   }
 
   @override
@@ -63,6 +116,15 @@ class _EstablishmentDetailScreenState
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            Text('Входная группа', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 8),
+            _EntrancePhoto(
+              url: _entrancePhotoUrl,
+              isSaving: _isSavingEntrancePhoto,
+              onAddOrReplace: _pickEntrancePhoto,
+              onRemove: _removeEntrancePhoto,
+            ),
+            const SizedBox(height: 20),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -124,6 +186,116 @@ class _EstablishmentDetailScreenState
             const SizedBox(height: 72),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _EntrancePhoto extends StatelessWidget {
+  const _EntrancePhoto({
+    required this.url,
+    required this.isSaving,
+    required this.onAddOrReplace,
+    required this.onRemove,
+  });
+
+  final String? url;
+  final bool isSaving;
+  final VoidCallback onAddOrReplace;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (url == null) {
+      return InkWell(
+        onTap: isSaving ? null : onAddOrReplace,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          height: 160,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: colorScheme.outlineVariant),
+          ),
+          child: Center(
+            child: isSaving
+                ? const CircularProgressIndicator()
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.storefront_outlined,
+                        size: 32,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Добавить фото входной группы',
+                        style: TextStyle(color: colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Stack(
+        children: [
+          Image.network(
+            url!,
+            height: 160,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          if (isSaving)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black26,
+                child: const Center(child: CircularProgressIndicator()),
+              ),
+            ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Row(
+              children: [
+                _RoundIconButton(
+                  icon: Icons.edit_outlined,
+                  onTap: isSaving ? null : onAddOrReplace,
+                ),
+                const SizedBox(width: 8),
+                _RoundIconButton(
+                  icon: Icons.close,
+                  onTap: isSaving ? null : onRemove,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _RoundIconButton extends StatelessWidget {
+  const _RoundIconButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(color: Colors.black54, shape: BoxShape.circle),
+        child: Icon(icon, size: 18, color: Colors.white),
       ),
     );
   }
