@@ -8,6 +8,7 @@ import '../../services/auth_repository.dart';
 import '../../services/establishment_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'admin_request_detail_screen.dart';
+import 'establishment_detail_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key, required this.profile});
@@ -320,8 +321,16 @@ class _ClientsTabState extends State<_ClientsTab> {
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: establishments.length,
-            itemBuilder: (context, index) =>
-                _EstablishmentCard(establishment: establishments[index]),
+            itemBuilder: (context, index) => _EstablishmentCard(
+              establishment: establishments[index],
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => EstablishmentDetailScreen(
+                    establishment: establishments[index],
+                  ),
+                ),
+              ),
+            ),
           ),
         );
       },
@@ -330,52 +339,56 @@ class _ClientsTabState extends State<_ClientsTab> {
 }
 
 class _EstablishmentCard extends StatelessWidget {
-  const _EstablishmentCard({required this.establishment});
+  const _EstablishmentCard({required this.establishment, required this.onTap});
 
   final Establishment establishment;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    establishment.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w700),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      establishment.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
                   ),
+                  if (establishment.ico != null)
+                    Chip(
+                      label: Text('IČO ${establishment.ico}'),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                ],
+              ),
+              if (establishment.address != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  establishment.address!,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                if (establishment.ico != null)
-                  Chip(
-                    label: Text('IČO ${establishment.ico}'),
-                    visualDensity: VisualDensity.compact,
-                  ),
               ],
-            ),
-            if (establishment.address != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                establishment.address!,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              if (establishment.contactPhone != null) ...[
+                const SizedBox(height: 2),
+                Text(
+                  establishment.contactPhone!,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ],
-            if (establishment.contactPhone != null) ...[
-              const SizedBox(height: 2),
-              Text(
-                establishment.contactPhone!,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );
