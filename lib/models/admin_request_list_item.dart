@@ -2,12 +2,13 @@ import 'service_request.dart';
 
 /// Заявка для экрана администратора — вместе с данными, которые обычной
 /// модели ServiceRequest не нужны, но нужны для списка/детали: название
-/// заведения, контакт клиента, человекочитаемые названия оборудования.
-/// Собирается из одного запроса с embed-джойнами Supabase (см.
-/// ServiceRequestRepository.fetchAllForAdmin).
+/// и адрес заведения, контакт клиента, человекочитаемые названия
+/// оборудования. Собирается из одного запроса с embed-джойнами Supabase
+/// (см. ServiceRequestRepository.fetchAllForAdmin).
 class AdminRequestListItem {
   final ServiceRequest request;
   final String establishmentName;
+  final String? establishmentAddress;
   final String clientName;
   final String? clientPhone;
   final List<String> equipmentLabels;
@@ -17,6 +18,7 @@ class AdminRequestListItem {
     required this.establishmentName,
     required this.clientName,
     required this.equipmentLabels,
+    this.establishmentAddress,
     this.clientPhone,
   });
 
@@ -29,6 +31,7 @@ class AdminRequestListItem {
     return AdminRequestListItem(
       request: ServiceRequest.fromJson(json),
       establishmentName: establishment?['name'] as String? ?? 'Заведение',
+      establishmentAddress: establishment?['address'] as String?,
       clientName: client?['full_name'] as String? ?? 'Клиент',
       clientPhone: client?['phone'] as String?,
       equipmentLabels: equipmentLinks.map((link) {

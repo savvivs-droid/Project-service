@@ -13,7 +13,7 @@ class ServiceRequestRepository {
     final data = await _client
         .from('service_requests')
         .select(
-          '*, establishments(name), profiles(full_name, phone), '
+          '*, establishments(name, address), profiles(full_name, phone), '
           'service_request_equipment(equipment(type, sticker_code))',
         )
         .order('created_at', ascending: false);

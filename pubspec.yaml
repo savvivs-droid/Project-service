@@ -25,6 +25,9 @@ dependencies:
   # Съёмка/выбор фото стикера и оборудования
   image_picker: ^1.1.2
 
+  # Открыть Google Maps по адресу и номер телефона для звонка
+  url_launcher: ^6.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

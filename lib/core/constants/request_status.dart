@@ -22,14 +22,18 @@ extension RequestStatusX on RequestStatus {
       };
 
   /// Служебный цвет статуса — намеренно отдельный от основного цвета
-  /// бренда (см. AppTheme), чтобы взгляд по цвету в списке заявок
-  /// однозначно читался как статус, а не как акцент интерфейса.
+  /// бренда (см. AppTheme). Зелёный — заявка ещё в работе (новая или
+  /// согласовано время), синий — выполнена, красный — отменена.
   Color get color => switch (this) {
-        RequestStatus.newRequest => const Color(0xFF6E7B93),
-        RequestStatus.scheduled => const Color(0xFF2F6FED),
-        RequestStatus.done => const Color(0xFF2F9E63),
+        RequestStatus.newRequest => const Color(0xFF2F9E63),
+        RequestStatus.scheduled => const Color(0xFF2F9E63),
+        RequestStatus.done => const Color(0xFF2F6FED),
         RequestStatus.cancelled => const Color(0xFFC4453B),
       };
+
+  /// Новая или согласовано время — заявка ещё в работе, а не закрыта.
+  bool get isActive =>
+      this == RequestStatus.newRequest || this == RequestStatus.scheduled;
 
   static RequestStatus fromValue(String value) {
     return RequestStatus.values.firstWhere(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/utils/launch_helpers.dart';
 import '../../models/admin_request_list_item.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
@@ -129,25 +130,26 @@ class _RequestsTabState extends State<_RequestsTab> {
           );
         }
 
-        final grouped = <RequestStatus, List<AdminRequestListItem>>{
-          for (final status in RequestStatus.values) status: [],
-        };
-        for (final item in items) {
-          grouped[item.request.status]!.add(item);
-        }
+        final active = items.where((item) => item.request.status.isActive).toList();
+        final closed = items.where((item) => !item.request.status.isActive).toList();
 
         return RefreshIndicator(
           onRefresh: _refresh,
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              for (final status in RequestStatus.values)
-                if (grouped[status]!.isNotEmpty)
-                  _StatusSection(
-                    status: status,
-                    items: grouped[status]!,
-                    onTap: _openDetail,
-                  ),
+              if (active.isNotEmpty)
+                _RequestsSection(
+                  title: 'Активные заявки',
+                  items: active,
+                  onTap: _openDetail,
+                ),
+              if (closed.isNotEmpty)
+                _RequestsSection(
+                  title: 'Выполненные заявки',
+                  items: closed,
+                  onTap: _openDetail,
+                ),
             ],
           ),
         );
@@ -156,14 +158,14 @@ class _RequestsTabState extends State<_RequestsTab> {
   }
 }
 
-class _StatusSection extends StatelessWidget {
-  const _StatusSection({
-    required this.status,
+class _RequestsSection extends StatelessWidget {
+  const _RequestsSection({
+    required this.title,
     required this.items,
     required this.onTap,
   });
 
-  final RequestStatus status;
+  final String title;
   final List<AdminRequestListItem> items;
   final ValueChanged<AdminRequestListItem> onTap;
 
@@ -176,22 +178,9 @@ class _StatusSection extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: status.color,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '${status.label} · ${items.length}',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ],
+            child: Text(
+              '$title · ${items.length}',
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           for (final item in items)
@@ -208,14 +197,38 @@ class _RequestCard extends StatelessWidget {
   final AdminRequestListItem item;
   final VoidCallback onTap;
 
+  Future<void> _openMaps(BuildContext context) async {
+    final address = item.establishmentAddress;
+    if (address == null) return;
+    final opened = await launchMapsSearch(address);
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось открыть карты')),
+      );
+    }
+  }
+
+  Future<void> _call(BuildContext context) async {
+    final phone = item.clientPhone;
+    if (phone == null) return;
+    final opened = await launchPhoneCall(phone);
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось начать звонок')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final request = item.request;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: request.status.color.withValues(alpha: 0.5)),
+        side: BorderSide(color: request.status.color, width: 1.5),
       ),
       child: InkWell(
         onTap: onTap,
@@ -236,13 +249,65 @@ class _RequestCard extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
-                  if (request.scheduledAt != null)
-                    Text(
-                      _formatDateTime(request.scheduledAt!),
-                      style: Theme.of(context).textTheme.bodySmall,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: request.status.color,
+                      borderRadius: BorderRadius.circular(999),
                     ),
+                    child: Text(
+                      request.status.label,
+                      style: const TextStyle(color: Colors.white, fontSize: 11),
+                    ),
+                  ),
                 ],
               ),
+              const SizedBox(height: 2),
+              Text(item.clientName, style: Theme.of(context).textTheme.bodySmall),
+              if (item.establishmentAddress != null)
+                InkWell(
+                  onTap: () => _openMaps(context),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      children: [
+                        Icon(Icons.place_outlined, size: 15, color: colorScheme.primary),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            item.establishmentAddress!,
+                            style: TextStyle(
+                              color: colorScheme.primary,
+                              decoration: TextDecoration.underline,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              if (item.clientPhone != null)
+                InkWell(
+                  onTap: () => _call(context),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      children: [
+                        Icon(Icons.call_outlined, size: 15, color: colorScheme.primary),
+                        const SizedBox(width: 4),
+                        Text(
+                          item.clientPhone!,
+                          style: TextStyle(
+                            color: colorScheme.primary,
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               const SizedBox(height: 4),
               Text(
                 item.equipmentLabels.isEmpty
@@ -252,6 +317,13 @@ class _RequestCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
+              if (request.scheduledAt != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  'Визит: ${_formatDateTime(request.scheduledAt!)}',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ],
           ),
         ),
