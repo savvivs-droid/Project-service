@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/constants/user_role.dart';
+import '../../core/utils/ico_validator.dart';
+import '../../services/ares_service.dart';
 import '../../services/auth_repository.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _inviteCodeController = TextEditingController();
+  final _icoController = TextEditingController();
   final _establishmentNameController = TextEditingController();
   final _establishmentAddressController = TextEditingController();
   final _establishmentPhoneController = TextEditingController();
@@ -37,20 +42,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isLoading = false;
 
+  Timer? _icoDebounce;
+  bool _isLookingUpIco = false;
+  String? _icoLookupNote;
+
   bool get _isClient => _selectedRole == UserRole.client;
   bool get _requiresInviteCode => !_isClient || _hasInviteCode;
 
   @override
   void dispose() {
+    _icoDebounce?.cancel();
     _fullNameController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _inviteCodeController.dispose();
+    _icoController.dispose();
     _establishmentNameController.dispose();
     _establishmentAddressController.dispose();
     _establishmentPhoneController.dispose();
     super.dispose();
+  }
+
+  void _onIcoChanged(String value) {
+    _icoDebounce?.cancel();
+    setState(() => _icoLookupNote = null);
+
+    if (!isValidCzechIco(value)) return;
+
+    _icoDebounce = Timer(const Duration(milliseconds: 500), () {
+      _lookupIco(value.trim());
+    });
+  }
+
+  Future<void> _lookupIco(String ico) async {
+    setState(() => _isLookingUpIco = true);
+    final company = await AresService.lookupByIco(ico);
+    if (!mounted) return;
+
+    setState(() {
+      _isLookingUpIco = false;
+      if (company == null) {
+        _icoLookupNote =
+            'Не нашли организацию в ARES — заполните название и адрес '
+            'вручную.';
+      } else {
+        _establishmentNameController.text = company.name;
+        if (company.address != null) {
+          _establishmentAddressController.text = company.address!;
+        }
+        _icoLookupNote = 'Данные подтянуты из ARES.';
+      }
+    });
   }
 
   Future<void> _submit() async {
@@ -73,6 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _passwordController.text,
           fullName: _fullNameController.text,
           phone: _phoneController.text,
+          establishmentIco: _icoController.text,
           establishmentName: _establishmentNameController.text,
           establishmentAddress: _establishmentAddressController.text,
           establishmentContactPhone: _establishmentPhoneController.text,
@@ -102,6 +146,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _translateError(String message) {
     final lower = message.toLowerCase();
+    if (lower.contains('ičo') || lower.contains('ico')) {
+      return 'Заведение с таким IČO уже зарегистрировано в системе. '
+          'Обратитесь к администратору сервисной компании.';
+    }
     if (lower.contains('invite') || lower.contains('приглаш')) {
       return 'Код приглашения недействителен, уже использован или относится '
           'к другой роли.';
@@ -248,10 +296,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
+                        controller: _icoController,
+                        keyboardType: TextInputType.number,
+                        onChanged: _onIcoChanged,
+                        decoration: InputDecoration(
+                          labelText: 'IČO',
+                          hintText: '8 цифр',
+                          suffixIcon: _isLookingUpIco
+                              ? const Padding(
+                                  padding: EdgeInsets.all(14),
+                                  child: SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
+                              : null,
+                          helperText: _icoLookupNote,
+                        ),
+                        validator: (value) => isValidCzechIco(value ?? '')
+                            ? null
+                            : 'Введите корректный IČO (8 цифр)',
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
                         controller: _establishmentNameController,
                         decoration: const InputDecoration(
                           labelText: 'Название заведения',
-                          hintText: 'Например, Кафе «Ромашка»',
+                          hintText:
+                              'Подставится из ARES или введите вручную',
                         ),
                         validator: (value) => (value == null ||
                                 value.trim().isEmpty)

@@ -5,6 +5,7 @@ class Establishment {
   final String name;
   final String? address;
   final String? contactPhone;
+  final String? ico;
   final DateTime connectedAt;
 
   const Establishment({
@@ -13,6 +14,7 @@ class Establishment {
     required this.connectedAt,
     this.address,
     this.contactPhone,
+    this.ico,
   });
 
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Establishment {
       name: json['name'] as String,
       address: json['address'] as String?,
       contactPhone: json['contact_phone'] as String?,
+      ico: json['ico'] as String?,
       connectedAt: DateTime.parse(json['connected_at'] as String),
     );
   }

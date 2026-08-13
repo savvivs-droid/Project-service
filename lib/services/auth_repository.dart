@@ -53,6 +53,7 @@ class AuthRepository {
     required String password,
     required String fullName,
     required String phone,
+    required String establishmentIco,
     required String establishmentName,
     required String establishmentAddress,
     required String establishmentContactPhone,
@@ -63,6 +64,7 @@ class AuthRepository {
       data: {
         'full_name': fullName.trim(),
         'phone': phone.trim(),
+        'new_establishment_ico': establishmentIco.trim(),
         'new_establishment_name': establishmentName.trim(),
         'new_establishment_address': establishmentAddress.trim(),
         'new_establishment_contact_phone': establishmentContactPhone.trim(),

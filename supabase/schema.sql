@@ -39,9 +39,19 @@ create table public.establishments (
   name text not null,
   address text,
   contact_phone text,
+  -- IČO — идентификационный номер организации в чешском реестре ARES.
+  -- Не у всех заведений (добавленных вручную сотрудником) он обязателен,
+  -- поэтому колонка nullable, но если указан — должен быть уникальным:
+  -- это не даёт одному и тому же бизнесу завестись дважды через
+  -- самостоятельную регистрацию клиента (см. handle_new_user ниже).
+  ico text,
   connected_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
+
+create unique index establishments_ico_key
+  on public.establishments (ico)
+  where ico is not null;
 
 -- Профили пользователей. id ссылается на auth.users — таблицу, которую
 -- уже создал и обслуживает сам Supabase Auth. Мы не храним email/пароль
@@ -368,6 +378,7 @@ declare
   v_invite public.invite_codes%rowtype;
   v_establishment_id uuid;
   v_new_establishment_name text;
+  v_new_establishment_ico text;
 begin
   -- Клиент может зарегистрироваться без кода приглашения, сразу заведя
   -- своё заведение (самостоятельный онбординг). Признак такой регистрации —
@@ -377,11 +388,24 @@ begin
   v_new_establishment_name := new.raw_user_meta_data ->> 'new_establishment_name';
 
   if v_new_establishment_name is not null then
-    insert into public.establishments (name, address, contact_phone)
+    v_new_establishment_ico := nullif(
+      new.raw_user_meta_data ->> 'new_establishment_ico', ''
+    );
+
+    if v_new_establishment_ico is not null
+       and exists (
+         select 1 from public.establishments where ico = v_new_establishment_ico
+       )
+    then
+      raise exception 'Заведение с таким IČO уже зарегистрировано в системе';
+    end if;
+
+    insert into public.establishments (name, address, contact_phone, ico)
     values (
       v_new_establishment_name,
       new.raw_user_meta_data ->> 'new_establishment_address',
-      new.raw_user_meta_data ->> 'new_establishment_contact_phone'
+      new.raw_user_meta_data ->> 'new_establishment_contact_phone',
+      v_new_establishment_ico
     )
     returning id into v_establishment_id;
 
