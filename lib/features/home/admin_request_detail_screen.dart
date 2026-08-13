@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
-import '../../models/admin_request_list_item.dart';
+import '../../models/request_list_item.dart';
 import '../../services/service_request_repository.dart';
+import 'request_chat_screen.dart';
 
 class AdminRequestDetailScreen extends StatefulWidget {
   const AdminRequestDetailScreen({super.key, required this.item});
 
-  final AdminRequestListItem item;
+  final RequestListItem item;
 
   @override
   State<AdminRequestDetailScreen> createState() =>
@@ -20,7 +21,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
 
   bool _isSaving = false;
 
-  AdminRequestListItem get _item => widget.item;
+  RequestListItem get _item => widget.item;
 
   @override
   void initState() {
@@ -127,6 +128,21 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Заявка #$shortId'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => RequestChatScreen(
+                  requestId: request.id,
+                  title: _item.establishmentName,
+                  otherPartyName: _item.clientName,
+                ),
+              ),
+            ),
+            icon: const Icon(Icons.chat_bubble_outline),
+            tooltip: 'Чат с клиентом',
+          ),
+        ],
       ),
       body: AbsorbPointer(
         absorbing: _isSaving,

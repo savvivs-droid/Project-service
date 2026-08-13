@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/utils/launch_helpers.dart';
-import '../../models/admin_request_list_item.dart';
+import '../../models/request_list_item.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
@@ -86,21 +86,21 @@ class _RequestsTab extends StatefulWidget {
 
 class _RequestsTabState extends State<_RequestsTab> {
   final _repository = ServiceRequestRepository();
-  late Future<List<AdminRequestListItem>> _requestsFuture;
+  late Future<List<RequestListItem>> _requestsFuture;
 
   @override
   void initState() {
     super.initState();
-    _requestsFuture = _repository.fetchAllForAdmin();
+    _requestsFuture = _repository.fetchAll();
   }
 
   Future<void> _refresh() async {
-    final future = _repository.fetchAllForAdmin();
+    final future = _repository.fetchAll();
     setState(() => _requestsFuture = future);
     await future;
   }
 
-  Future<void> _openDetail(AdminRequestListItem item) async {
+  Future<void> _openDetail(RequestListItem item) async {
     final changed = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => AdminRequestDetailScreen(item: item),
@@ -111,7 +111,7 @@ class _RequestsTabState extends State<_RequestsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<AdminRequestListItem>>(
+    return FutureBuilder<List<RequestListItem>>(
       future: _requestsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -170,7 +170,7 @@ class _RequestsTabState extends State<_RequestsTab> {
 class _RequestCard extends StatelessWidget {
   const _RequestCard({required this.item, required this.onTap});
 
-  final AdminRequestListItem item;
+  final RequestListItem item;
   final VoidCallback onTap;
 
   Future<void> _openMaps(BuildContext context) async {

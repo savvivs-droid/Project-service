@@ -1,15 +1,15 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../models/admin_request_list_item.dart';
+import '../models/request_list_item.dart';
 import 'supabase_service.dart';
 
 class ServiceRequestRepository {
   final SupabaseClient _client = SupabaseService.client;
 
-  /// Все заявки со всех заведений — доступно только администратору
-  /// (клиента RLS на уровне базы отфильтрует до его собственного
-  /// заведения, даже если бы этот метод вызвали из-под клиента).
-  Future<List<AdminRequestListItem>> fetchAllForAdmin() async {
+  /// Заявки, видимые текущему пользователю. Один и тот же запрос — RLS
+  /// на уровне базы сам решает, что вернуть: администратору видны все
+  /// заявки, клиенту — только заявки его собственного заведения.
+  Future<List<RequestListItem>> fetchAll() async {
     final data = await _client
         .from('service_requests')
         .select(
@@ -19,8 +19,7 @@ class ServiceRequestRepository {
         .order('created_at', ascending: false);
 
     return (data as List<dynamic>)
-        .map((row) =>
-            AdminRequestListItem.fromJson(row as Map<String, dynamic>))
+        .map((row) => RequestListItem.fromJson(row as Map<String, dynamic>))
         .toList();
   }
 

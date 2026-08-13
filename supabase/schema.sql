@@ -125,12 +125,24 @@ create table public.repair_history (
   created_at timestamptz not null default now()
 );
 
+-- Переписка по конкретной заявке — здесь клиент и администратор
+-- согласовывают детали ремонта и стоимость. Сообщения не редактируются
+-- и не удаляются (простая история чата), только читаются и добавляются.
+create table public.request_messages (
+  id uuid primary key default gen_random_uuid(),
+  request_id uuid not null references public.service_requests (id) on delete cascade,
+  sender_id uuid not null references public.profiles (id) on delete cascade,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+
 -- Индексы для внешних ключей, по которым мы часто фильтруем
 create index idx_profiles_establishment on public.profiles (establishment_id);
 create index idx_equipment_establishment on public.equipment (establishment_id);
 create index idx_service_requests_establishment on public.service_requests (establishment_id);
 create index idx_service_requests_client on public.service_requests (client_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
+create index idx_request_messages_request on public.request_messages (request_id, created_at);
 
 
 -- -----------------------------------------------------------------------------
@@ -191,6 +203,7 @@ alter table public.equipment enable row level security;
 alter table public.service_requests enable row level security;
 alter table public.service_request_equipment enable row level security;
 alter table public.repair_history enable row level security;
+alter table public.request_messages enable row level security;
 
 -- === establishments ===
 create policy "Админ видит все заведения, клиент — только своё"
@@ -324,6 +337,39 @@ create policy "Только админ редактирует историю р�
 create policy "Только админ удаляет историю ремонта"
   on public.repair_history for delete
   using (public.is_staff());
+
+-- === request_messages (чат по заявке) ===
+create policy "Сообщения видит админ и клиент своего заведения"
+  on public.request_messages for select
+  using (
+    public.is_staff()
+    or exists (
+      select 1 from public.service_requests sr
+      where sr.id = request_id
+        and sr.establishment_id = public.current_user_establishment()
+    )
+  );
+
+create policy "Писать может админ или клиент своего заведения, только от своего имени"
+  on public.request_messages for insert
+  with check (
+    sender_id = auth.uid()
+    and (
+      public.is_staff()
+      or exists (
+        select 1 from public.service_requests sr
+        where sr.id = request_id
+          and sr.establishment_id = public.current_user_establishment()
+      )
+    )
+  );
+
+-- Сообщения не редактируются и не удаляются — политик update/delete
+-- нет намеренно, RLS по умолчанию запрещает всё, что не разрешено явно.
+
+-- Включаем Realtime для чата — без этого supabase_flutter .stream(...)
+-- не будет получать новые сообщения без ручного обновления экрана.
+alter publication supabase_realtime add table public.request_messages;
 
 
 -- -----------------------------------------------------------------------------

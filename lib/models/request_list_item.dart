@@ -1,11 +1,13 @@
 import 'service_request.dart';
 
-/// Заявка для экрана администратора — вместе с данными, которые обычной
-/// модели ServiceRequest не нужны, но нужны для списка/детали: название
-/// и адрес заведения, контакт клиента, человекочитаемые названия
-/// оборудования. Собирается из одного запроса с embed-джойнами Supabase
-/// (см. ServiceRequestRepository.fetchAllForAdmin).
-class AdminRequestListItem {
+/// Заявка вместе с данными, которые обычной модели ServiceRequest не
+/// нужны, но нужны для списка/детали: название и адрес заведения,
+/// контакт клиента, человекочитаемые названия оборудования. Собирается
+/// из одного запроса с embed-джойнами Supabase (см.
+/// ServiceRequestRepository.fetchAll()) — используется и на экране
+/// администратора (видит все заявки), и на экране клиента (видит только
+/// заявки своего заведения, это фильтрует RLS на уровне базы).
+class RequestListItem {
   final ServiceRequest request;
   final String establishmentName;
   final String? establishmentAddress;
@@ -13,7 +15,7 @@ class AdminRequestListItem {
   final String? clientPhone;
   final List<String> equipmentLabels;
 
-  const AdminRequestListItem({
+  const RequestListItem({
     required this.request,
     required this.establishmentName,
     required this.clientName,
@@ -22,13 +24,13 @@ class AdminRequestListItem {
     this.clientPhone,
   });
 
-  factory AdminRequestListItem.fromJson(Map<String, dynamic> json) {
+  factory RequestListItem.fromJson(Map<String, dynamic> json) {
     final establishment = json['establishments'] as Map<String, dynamic>?;
     final client = json['profiles'] as Map<String, dynamic>?;
     final equipmentLinks =
         json['service_request_equipment'] as List<dynamic>? ?? const [];
 
-    return AdminRequestListItem(
+    return RequestListItem(
       request: ServiceRequest.fromJson(json),
       establishmentName: establishment?['name'] as String? ?? 'Заведение',
       establishmentAddress: establishment?['address'] as String?,
