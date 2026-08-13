@@ -17,37 +17,11 @@ class AuthRepository {
     return _client.auth.signInWithPassword(email: email, password: password);
   }
 
-  /// Регистрация нового пользователя по коду приглашения.
-  ///
-  /// Роль и заведение пользователя мы НЕ передаём с клиента — их
-  /// определяет сама база данных на основе кода приглашения (см.
-  /// триггер handle_new_user в supabase/schema.sql). Так пользователь
-  /// не может просто выбрать себе роль "администратор" в интерфейсе —
-  /// без действительного кода с этой ролью учётная запись не будет
-  /// привязана ни к какой роли и ни к какому заведению.
-  Future<AuthResponse> signUpWithInviteCode({
-    required String email,
-    required String password,
-    required String inviteCode,
-    required String fullName,
-    required String phone,
-  }) {
-    return _client.auth.signUp(
-      email: email,
-      password: password,
-      data: {
-        'invite_code': inviteCode.trim(),
-        'full_name': fullName.trim(),
-        'phone': phone.trim(),
-      },
-    );
-  }
-
-  /// Самостоятельная регистрация клиента без кода приглашения: клиент
-  /// заводит своё заведение прямо при регистрации. Роль всегда 'client' —
-  /// это решает база данных (см. handle_new_user), а не выбор в интерфейсе.
-  /// Доступно только для роли "клиент": сотрудников (диспетчер/админ)
-  /// по-прежнему заводит только по коду приглашения, см. [signUpWithInviteCode].
+  /// Регистрация клиента: клиент заводит своё заведение прямо при
+  /// регистрации. Роль всегда 'client' — это решает база данных (см.
+  /// handle_new_user в supabase/schema.sql), а не выбор в интерфейсе.
+  /// Это единственный способ создать аккаунт через приложение —
+  /// администраторов заводят вручную (см. schema.sql, раздел 7).
   Future<AuthResponse> signUpNewClient({
     required String email,
     required String password,

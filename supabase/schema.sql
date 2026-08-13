@@ -6,6 +6,11 @@
 -- Файл идемпотентен настолько, насколько это возможно для первого запуска
 -- (use "if not exists" где это поддерживается), но рассчитан на запуск
 -- один раз на чистой базе.
+--
+-- Роли в системе: 'client' (ответственный в заведении) и 'admin'
+-- (сотрудник сервисной компании — сейчас админов заводят вручную, см.
+-- раздел 6). Отдельной роли диспетчера нет: все заявки обрабатывают
+-- администраторы.
 -- =============================================================================
 
 
@@ -20,7 +25,7 @@ create extension if not exists pgcrypto;
 -- 2. Типы-перечисления (enum)
 -- -----------------------------------------------------------------------------
 -- Роль пользователя. Значения должны совпадать с lib/core/constants/user_role.dart
-create type public.user_role as enum ('client', 'dispatcher', 'admin');
+create type public.user_role as enum ('client', 'admin');
 
 -- Статус единицы оборудования.
 create type public.equipment_status as enum ('active', 'in_repair', 'decommissioned');
@@ -63,24 +68,6 @@ create table public.profiles (
   role public.user_role not null default 'client',
   establishment_id uuid references public.establishments (id) on delete set null,
   created_at timestamptz not null default now()
-);
-
--- Коды приглашений. Администратор/диспетчер создаёт код для конкретного
--- заведения (роль 'client') или для нового сотрудника (роль 'dispatcher'
--- или 'admin', establishment_id = null). Пользователь вводит код при
--- регистрации — это единственный способ получить роль и заведение
--- (пользователь не может выбрать их сам, см. handle_new_user ниже).
-create table public.invite_codes (
-  code text primary key,
-  role public.user_role not null,
-  establishment_id uuid references public.establishments (id) on delete cascade,
-  created_by uuid references public.profiles (id) on delete set null,
-  used_by uuid references public.profiles (id) on delete set null,
-  used_at timestamptz,
-  expires_at timestamptz,
-  created_at timestamptz not null default now(),
-  constraint invite_client_requires_establishment
-    check (role <> 'client' or establishment_id is not null)
 );
 
 -- Оборудование, установленное в заведении
@@ -135,7 +122,6 @@ create index idx_equipment_establishment on public.equipment (establishment_id);
 create index idx_service_requests_establishment on public.service_requests (establishment_id);
 create index idx_service_requests_client on public.service_requests (client_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
-create index idx_invite_codes_establishment on public.invite_codes (establishment_id);
 
 
 -- -----------------------------------------------------------------------------
@@ -177,7 +163,7 @@ set search_path = public
 as $$
   select exists (
     select 1 from public.profiles
-    where id = auth.uid() and role in ('dispatcher', 'admin')
+    where id = auth.uid() and role = 'admin'
   );
 $$;
 
@@ -186,38 +172,37 @@ $$;
 -- 5. Row Level Security
 -- -----------------------------------------------------------------------------
 -- Общий принцип:
---   - Диспетчер и администратор (is_staff()) видят и могут менять всё.
+--   - Администратор (is_staff()) видит и может менять всё.
 --   - Клиент видит только своё заведение, его оборудование, заявки и
 --     историю ремонта — определяется через current_user_establishment().
 
 alter table public.establishments enable row level security;
 alter table public.profiles enable row level security;
-alter table public.invite_codes enable row level security;
 alter table public.equipment enable row level security;
 alter table public.service_requests enable row level security;
 alter table public.service_request_equipment enable row level security;
 alter table public.repair_history enable row level security;
 
 -- === establishments ===
-create policy "Сотрудники видят все заведения, клиент — только своё"
+create policy "Админ видит все заведения, клиент — только своё"
   on public.establishments for select
   using (public.is_staff() or id = public.current_user_establishment());
 
-create policy "Только сотрудники создают/меняют заведения"
+create policy "Только админ меняет заведения вручную"
   on public.establishments for insert
   with check (public.is_staff());
 
-create policy "Только сотрудники обновляют заведения"
+create policy "Только админ обновляет заведения"
   on public.establishments for update
   using (public.is_staff())
   with check (public.is_staff());
 
-create policy "Только сотрудники удаляют заведения"
+create policy "Только админ удаляет заведения"
   on public.establishments for delete
   using (public.is_staff());
 
 -- === profiles ===
-create policy "Свой профиль виден себе, сотрудникам — все профили"
+create policy "Свой профиль виден себе, админу — все профили"
   on public.profiles for select
   using (id = auth.uid() or public.is_staff());
 
@@ -233,51 +218,30 @@ create policy "Пользователь может обновить свой п�
   with check (id = auth.uid() or public.is_staff());
 
 -- update-политика выше разрешает менять свою строку, но роль и заведение
--- через UPDATE можно поменять только сотруднику — это дополнительно
+-- через UPDATE можно поменять только админу — это дополнительно
 -- защищено триггером trg_protect_profile_privileges ниже, потому что
 -- Row Level Security не умеет ограничивать доступ к отдельным колонкам.
 
--- === invite_codes ===
-create policy "Коды приглашений видят только сотрудники"
-  on public.invite_codes for select
-  using (public.is_staff());
-
-create policy "Диспетчер создаёт коды для клиентов, админ — любые"
-  on public.invite_codes for insert
-  with check (
-    public.current_user_role() = 'admin'
-    or (public.current_user_role() = 'dispatcher' and role = 'client')
-  );
-
-create policy "Только админ меняет и удаляет коды приглашений"
-  on public.invite_codes for update
-  using (public.current_user_role() = 'admin')
-  with check (public.current_user_role() = 'admin');
-
-create policy "Только админ удаляет коды приглашений"
-  on public.invite_codes for delete
-  using (public.current_user_role() = 'admin');
-
 -- === equipment ===
-create policy "Сотрудники видят всё оборудование, клиент — своего заведения"
+create policy "Админ видит всё оборудование, клиент — своего заведения"
   on public.equipment for select
   using (public.is_staff() or establishment_id = public.current_user_establishment());
 
-create policy "Только сотрудники добавляют оборудование"
+create policy "Только админ добавляет оборудование"
   on public.equipment for insert
   with check (public.is_staff());
 
-create policy "Только сотрудники редактируют оборудование"
+create policy "Только админ редактирует оборудование"
   on public.equipment for update
   using (public.is_staff())
   with check (public.is_staff());
 
-create policy "Только сотрудники удаляют оборудование"
+create policy "Только админ удаляет оборудование"
   on public.equipment for delete
   using (public.is_staff());
 
 -- === service_requests ===
-create policy "Сотрудники видят все заявки, клиент — заявки своего заведения"
+create policy "Админ видит все заявки, клиент — заявки своего заведения"
   on public.service_requests for select
   using (public.is_staff() or establishment_id = public.current_user_establishment());
 
@@ -288,7 +252,7 @@ create policy "Клиент создаёт заявку от своего име
     or (client_id = auth.uid() and establishment_id = public.current_user_establishment())
   );
 
-create policy "Сотрудники меняют любые заявки, клиент — только новую свою"
+create policy "Админ меняет любые заявки, клиент — только новую свою"
   on public.service_requests for update
   using (
     public.is_staff()
@@ -299,7 +263,7 @@ create policy "Сотрудники меняют любые заявки, кли
     or (client_id = auth.uid() and status in ('new', 'cancelled'))
   );
 
-create policy "Только сотрудники удаляют заявки"
+create policy "Только админ удаляет заявки"
   on public.service_requests for delete
   using (public.is_staff());
 
@@ -314,7 +278,7 @@ create policy "Видимость связки как у самой заявки
     )
   );
 
-create policy "Добавлять оборудование в заявку может её автор или сотрудник"
+create policy "Добавлять оборудование в заявку может её автор или админ"
   on public.service_request_equipment for insert
   with check (
     exists (
@@ -324,12 +288,12 @@ create policy "Добавлять оборудование в заявку мо�
     )
   );
 
-create policy "Только сотрудники убирают оборудование из заявки"
+create policy "Только админ убирает оборудование из заявки"
   on public.service_request_equipment for delete
   using (public.is_staff());
 
 -- === repair_history ===
-create policy "Сотрудники видят всю историю, клиент — историю своего оборудования"
+create policy "Админ видит всю историю, клиент — историю своего оборудования"
   on public.repair_history for select
   using (
     public.is_staff()
@@ -339,34 +303,32 @@ create policy "Сотрудники видят всю историю, клиен
     )
   );
 
-create policy "Только сотрудники ведут историю ремонта"
+create policy "Только админ ведёт историю ремонта"
   on public.repair_history for insert
   with check (public.is_staff());
 
-create policy "Только сотрудники редактируют историю ремонта"
+create policy "Только админ редактирует историю ремонта"
   on public.repair_history for update
   using (public.is_staff())
   with check (public.is_staff());
 
-create policy "Только сотрудники удаляют историю ремонта"
+create policy "Только админ удаляет историю ремонта"
   on public.repair_history for delete
   using (public.is_staff());
 
 
 -- -----------------------------------------------------------------------------
--- 6. Автоматическое создание профиля при регистрации по коду приглашения
+-- 6. Автоматическое создание профиля при регистрации клиента
 -- -----------------------------------------------------------------------------
--- При вызове supabase.auth.signUp(...) на клиенте мы передаём invite_code,
--- full_name и phone в поле "data" (это попадает в auth.users.raw_user_meta_data).
--- Триггер ниже срабатывает сразу при создании строки в auth.users — даже
--- если ещё требуется подтверждение email — и:
---   1. находит неиспользованный, непросроченный код приглашения;
---   2. создаёт профиль с ролью и establishment_id ИЗ КОДА (не из данных,
---      присланных клиентом, — так пользователь не может "назначить себе"
---      роль администратора);
---   3. помечает код как использованный.
--- Если код неверный/использован/просрочен — исключение отменяет всю
--- операцию регистрации, и Supabase Auth вернёт ошибку в приложение.
+-- Регистрация в приложении — только для клиентов, и только самостоятельная:
+-- клиент вводит email/пароль, свои данные и данные своего заведения (в том
+-- числе IČO — см. lib/services/ares_service.dart), приложение вызывает
+-- supabase.auth.signUp(...), передавая всё это как метаданные пользователя
+-- (raw_user_meta_data). Триггер ниже срабатывает сразу при создании строки
+-- в auth.users — даже если ещё требуется подтверждение email — и создаёт
+-- заведение и профиль клиента одним махом.
+--
+-- Администраторов эта регистрация не касается: их заводят вручную (раздел 7).
 
 create or replace function public.handle_new_user()
 returns trigger
@@ -375,77 +337,41 @@ security definer
 set search_path = public
 as $$
 declare
-  v_invite public.invite_codes%rowtype;
   v_establishment_id uuid;
-  v_new_establishment_name text;
-  v_new_establishment_ico text;
+  v_establishment_name text;
+  v_ico text;
 begin
-  -- Клиент может зарегистрироваться без кода приглашения, сразу заведя
-  -- своё заведение (самостоятельный онбординг). Признак такой регистрации —
-  -- метаданные new_establishment_name вместо invite_code. Роль в этом
-  -- случае жёстко 'client' — самостоятельно завести себе роль сотрудника
-  -- так нельзя, для этого по-прежнему нужен код приглашения (см. ниже).
-  v_new_establishment_name := new.raw_user_meta_data ->> 'new_establishment_name';
+  v_establishment_name := new.raw_user_meta_data ->> 'new_establishment_name';
 
-  if v_new_establishment_name is not null then
-    v_new_establishment_ico := nullif(
-      new.raw_user_meta_data ->> 'new_establishment_ico', ''
-    );
-
-    if v_new_establishment_ico is not null
-       and exists (
-         select 1 from public.establishments where ico = v_new_establishment_ico
-       )
-    then
-      raise exception 'Заведение с таким IČO уже зарегистрировано в системе';
-    end if;
-
-    insert into public.establishments (name, address, contact_phone, ico)
-    values (
-      v_new_establishment_name,
-      new.raw_user_meta_data ->> 'new_establishment_address',
-      new.raw_user_meta_data ->> 'new_establishment_contact_phone',
-      v_new_establishment_ico
-    )
-    returning id into v_establishment_id;
-
-    insert into public.profiles (id, full_name, phone, role, establishment_id)
-    values (
-      new.id,
-      new.raw_user_meta_data ->> 'full_name',
-      new.raw_user_meta_data ->> 'phone',
-      'client',
-      v_establishment_id
-    );
-
-    return new;
+  if v_establishment_name is null then
+    raise exception 'Отсутствуют данные заведения для регистрации клиента';
   end if;
 
-  -- Иначе — обычный путь по коду приглашения (клиент, привязанный к уже
-  -- существующему заведению, либо сотрудник — диспетчер/админ).
-  select * into v_invite
-  from public.invite_codes
-  where code = new.raw_user_meta_data ->> 'invite_code'
-    and used_by is null
-    and (expires_at is null or expires_at > now())
-  for update;
+  v_ico := nullif(new.raw_user_meta_data ->> 'new_establishment_ico', '');
 
-  if v_invite is null then
-    raise exception 'Код приглашения недействителен, уже использован или просрочен';
+  if v_ico is not null
+     and exists (select 1 from public.establishments where ico = v_ico)
+  then
+    raise exception 'Заведение с таким IČO уже зарегистрировано в системе';
   end if;
+
+  insert into public.establishments (name, address, contact_phone, ico)
+  values (
+    v_establishment_name,
+    new.raw_user_meta_data ->> 'new_establishment_address',
+    new.raw_user_meta_data ->> 'new_establishment_contact_phone',
+    v_ico
+  )
+  returning id into v_establishment_id;
 
   insert into public.profiles (id, full_name, phone, role, establishment_id)
   values (
     new.id,
     new.raw_user_meta_data ->> 'full_name',
     new.raw_user_meta_data ->> 'phone',
-    v_invite.role,
-    v_invite.establishment_id
+    'client',
+    v_establishment_id
   );
-
-  update public.invite_codes
-  set used_by = new.id, used_at = now()
-  where code = v_invite.code;
 
   return new;
 end;
@@ -455,9 +381,9 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
--- Запрещаем пользователю (кроме сотрудников) менять себе роль или
--- заведение через обычный UPDATE — RLS выше это не может ограничить
--- на уровне колонок, поэтому здесь дополнительная защита триггером.
+-- Запрещаем пользователю (кроме админа) менять себе роль или заведение
+-- через обычный UPDATE — RLS выше это не может ограничить на уровне
+-- колонок, поэтому здесь дополнительная защита триггером.
 create or replace function public.protect_profile_privileges()
 returns trigger
 language plpgsql
@@ -480,21 +406,21 @@ create trigger trg_protect_profile_privileges
 
 
 -- -----------------------------------------------------------------------------
--- 7. Первый администратор (сделать вручную один раз)
+-- 7. Администраторы (заводятся вручную)
 -- -----------------------------------------------------------------------------
--- Коды приглашений создают только сотрудники, а самый первый сотрудник
--- ещё не может иметь код (его некому было выдать). Поэтому первого
--- администратора нужно создать вручную.
+-- Регистрация через приложение доступна только клиентам, поэтому
+-- администраторов заводят вручную через Dashboard.
 --
 -- Важно: триггер on_auth_user_created (раздел 6) срабатывает на любую
 -- вставку в auth.users — в том числе на создание пользователя вручную
--- через Dashboard, где кода приглашения нет. Без обхода этого триггера
+-- через Dashboard, где данных заведения нет. Без обхода этого триггера
 -- Dashboard откажет с ошибкой "failed to create user".
 --
 -- "alter table auth.users disable trigger ..." тут не сработает: таблицей
 -- auth.users в Supabase владеет системная роль, а не ваш аккаунт. Зато вы
 -- владеете функцией handle_new_user(), которую вызывает триггер, — значит,
--- можно временно превратить её в пустышку, не трогая сам триггер. Порядок:
+-- можно временно превратить её в пустышку, не трогая сам триггер. Порядок
+-- (повторить для каждого нового администратора):
 --
 --   1. Временно заменить тело функции на "begin return new; end;"
 --      (create or replace function ... as $$ begin return new; end; $$;).
@@ -502,11 +428,10 @@ create trigger trg_protect_profile_privileges
 --   3. Скопировать его id (uuid).
 --   4. Выполнить в SQL Editor одним запросом (обязательно вместе с полным
 --      восстановлением тела функции — см. раздел 6 выше, — иначе обычная
---      регистрация по коду в приложении останется сломанной для всех):
+--      регистрация клиентов в приложении останется сломанной для всех):
 --
 --      insert into public.profiles (id, full_name, phone, role)
 --      values ('<uuid пользователя>', 'Имя Фамилия', '+70000000000', 'admin');
 --
--- После этого администратор сможет входить в приложение и создавать
--- коды приглашений для диспетчеров и клиентов через будущий экран
--- администрирования (следующие этапы).
+-- После этого администратор сможет входить в приложение, видеть все
+-- заведения, оборудование и заявки, и обрабатывать их.

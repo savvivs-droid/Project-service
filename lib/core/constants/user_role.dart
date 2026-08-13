@@ -3,18 +3,20 @@
 /// Значения совпадают с значениями enum user_role в базе данных
 /// (см. supabase/schema.sql), поэтому не переименовывайте value без
 /// синхронного изменения схемы БД.
-enum UserRole { client, dispatcher, admin }
+///
+/// Роли всего две: клиент регистрируется сам через приложение, админ
+/// заводится вручную сотрудниками сервисной компании (см. schema.sql,
+/// раздел 7) и обрабатывает все заявки — отдельной роли диспетчера нет.
+enum UserRole { client, admin }
 
 extension UserRoleX on UserRole {
   String get value => switch (this) {
         UserRole.client => 'client',
-        UserRole.dispatcher => 'dispatcher',
         UserRole.admin => 'admin',
       };
 
   String get label => switch (this) {
         UserRole.client => 'Клиент',
-        UserRole.dispatcher => 'Диспетчер',
         UserRole.admin => 'Администратор',
       };
 
