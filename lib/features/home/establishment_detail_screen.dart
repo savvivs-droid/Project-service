@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -169,7 +170,11 @@ class _EquipmentTile extends StatelessWidget {
         onTap: onTap,
         leading: CircleAvatar(
           backgroundColor: _statusColor(context),
-          child: const Icon(Icons.kitchen_outlined, color: Colors.white, size: 20),
+          child: Icon(
+            iconForEquipmentType(equipment.type),
+            color: Colors.white,
+            size: 20,
+          ),
         ),
         title: Text(equipment.type),
         subtitle: Text([
