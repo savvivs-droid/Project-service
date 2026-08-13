@@ -18,7 +18,7 @@ class ProjectServiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Сервис ремонта оборудования',
+      title: 'FixMyGastro',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       home: const AuthGate(),

@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Сервис ремонта оборудования',
+                      'FixMyGastro',
                       style: Theme.of(context).textTheme.headlineSmall,
                       textAlign: TextAlign.center,
                     ),

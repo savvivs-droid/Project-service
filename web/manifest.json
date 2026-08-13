@@ -1,11 +1,11 @@
 {
-    "name": "project_service",
-    "short_name": "project_service",
+    "name": "FixMyGastro",
+    "short_name": "FixMyGastro",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Сервис ремонта гастрооборудования",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
