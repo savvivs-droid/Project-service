@@ -83318,7 +83318,7 @@ break
 case 6:case 1:return A.A(q,r)
 case 2:return A.z(o.at(-1),r)}})
 return A.B($async$xs,r)},
-M(a){var s=this,r=null,q=A.e0("\u0421\u0435\u0440\u0432\u0438\u0441 \u0440\u0435\u043c\u043e\u043d\u0442\u0430 \u043e\u0431\u043e\u0440\u0443\u0434\u043e\u0432\u0430\u043d\u0438\u044f",r,r,r,A.a7(a).ok.f,B.c_,r),p=A.tS(s.e,B.nL,B.lh,!1,B.dL,new A.alq()),o=A.tS(s.f,B.nK,r,!0,B.dL,new A.alr()),n=s.w,m=n?r:s.gafu()
+M(a){var s=this,r=null,q=A.e0("FixMyGastro",r,r,r,A.a7(a).ok.f,B.c_,r),p=A.tS(s.e,B.nL,B.lh,!1,B.dL,new A.alq()),o=A.tS(s.f,B.nK,r,!0,B.dL,new A.alr()),n=s.w,m=n?r:s.gafu()
 m=A.ata(n?B.yQ:B.Ts,m)
 return A.A6(r,A.M6(!0,A.hX(A.azv(A.axC(new A.fj(B.m4,A.HP(A.d([q,B.Od,p,B.dH,o,B.yR,m,B.Ob,A.afs(B.Tv,r,r,n?r:new A.als(a),r,r)],t.E),B.d8,B.bh,B.cJ),r),s.d),B.dc),r,r),!0))}}
 A.aln.prototype={
@@ -83483,7 +83483,7 @@ break
 default:r=s}return r}}
 A.Lf.prototype={
 M(a){var s=null
-return new A.yI(B.Ad,"\u0421\u0435\u0440\u0432\u0438\u0441 \u0440\u0435\u043c\u043e\u043d\u0442\u0430 \u043e\u0431\u043e\u0440\u0443\u0434\u043e\u0432\u0430\u043d\u0438\u044f",A.tU(s,A.awR(B.aa,s,s,B.Cz),B.F1,!0),!1,s)}}
+return new A.yI(B.Ad,"FixMyGastro",A.tU(s,A.awR(B.aa,s,s,B.Cz),B.F1,!0),!1,s)}}
 A.p1.prototype={}
 A.w7.prototype={}
 A.a9R.prototype={
