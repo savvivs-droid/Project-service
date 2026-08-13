@@ -20,12 +20,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _inviteCodeController = TextEditingController();
+  final _establishmentNameController = TextEditingController();
+  final _establishmentAddressController = TextEditingController();
+  final _establishmentPhoneController = TextEditingController();
 
   // Выбор роли в интерфейсе — это только подсказка для пользователя
-  // (меняет текст под полем "код приглашения"). Реальную роль назначает
-  // сервер по коду приглашения, см. комментарий в auth_repository.dart.
+  // (меняет текст и набор полей ниже). Реальную роль назначает сервер,
+  // см. комментарий в auth_repository.dart.
   UserRole _selectedRole = UserRole.client;
+
+  // Только для роли "клиент": можно зарегистрироваться по коду от
+  // сервисной компании (привязка к уже существующему заведению) либо
+  // без кода, заведя своё заведение самостоятельно. Сотрудники
+  // (диспетчер/админ) всегда регистрируются только по коду.
+  bool _hasInviteCode = false;
+
   bool _isLoading = false;
+
+  bool get _isClient => _selectedRole == UserRole.client;
+  bool get _requiresInviteCode => !_isClient || _hasInviteCode;
 
   @override
   void dispose() {
@@ -34,6 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _inviteCodeController.dispose();
+    _establishmentNameController.dispose();
+    _establishmentAddressController.dispose();
+    _establishmentPhoneController.dispose();
     super.dispose();
   }
 
@@ -42,13 +58,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final response = await _authRepository.signUpWithInviteCode(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-        inviteCode: _inviteCodeController.text,
-        fullName: _fullNameController.text,
-        phone: _phoneController.text,
-      );
+      final AuthResponse response;
+      if (_requiresInviteCode) {
+        response = await _authRepository.signUpWithInviteCode(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          inviteCode: _inviteCodeController.text,
+          fullName: _fullNameController.text,
+          phone: _phoneController.text,
+        );
+      } else {
+        response = await _authRepository.signUpNewClient(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          fullName: _fullNameController.text,
+          phone: _phoneController.text,
+          establishmentName: _establishmentNameController.text,
+          establishmentAddress: _establishmentAddressController.text,
+          establishmentContactPhone: _establishmentPhoneController.text,
+        );
+      }
 
       if (!mounted) return;
 
@@ -63,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _showMessage(_translateError(e.message));
     } catch (_) {
       _showMessage(
-        'Не удалось зарегистрироваться. Проверьте код приглашения и '
+        'Не удалось зарегистрироваться. Проверьте введённые данные и '
         'подключение к интернету.',
       );
     } finally {
@@ -133,17 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() => _selectedRole = selection.first);
                       },
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _selectedRole == UserRole.client
-                          ? 'Введите код приглашения, который выдала '
-                              'сервисная компания — он привяжет вас к '
-                              'вашему заведению.'
-                          : 'Введите код приглашения сотрудника, выданный '
-                              'администратором сервисной компании.',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                     TextFormField(
                       controller: _fullNameController,
                       decoration: const InputDecoration(labelText: 'Имя'),
@@ -182,19 +201,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ? 'Минимум 6 символов'
                               : null,
                     ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _inviteCodeController,
-                      textCapitalization: TextCapitalization.characters,
-                      decoration: const InputDecoration(
-                        labelText: 'Код приглашения',
-                        hintText: 'Например, CAFE-4F2A',
+                    const SizedBox(height: 20),
+                    if (_isClient) ...[
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('У меня есть код приглашения'),
+                        subtitle: Text(
+                          _hasInviteCode
+                              ? 'Код от сервисной компании привяжет вас к '
+                                  'вашему заведению.'
+                              : 'Без кода можно зарегистрироваться '
+                                  'самостоятельно и завести своё заведение.',
+                        ),
+                        value: _hasInviteCode,
+                        onChanged: (value) =>
+                            setState(() => _hasInviteCode = value),
                       ),
-                      validator: (value) => (value == null ||
-                              value.trim().isEmpty)
-                          ? 'Код приглашения обязателен'
-                          : null,
-                    ),
+                      const SizedBox(height: 8),
+                    ] else
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Для сотрудников регистрация только по коду '
+                          'приглашения, выданному администратором '
+                          'сервисной компании.',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    if (_requiresInviteCode)
+                      TextFormField(
+                        controller: _inviteCodeController,
+                        textCapitalization: TextCapitalization.characters,
+                        decoration: const InputDecoration(
+                          labelText: 'Код приглашения',
+                          hintText: 'Например, CAFE-4F2A',
+                        ),
+                        validator: (value) => (value == null ||
+                                value.trim().isEmpty)
+                            ? 'Код приглашения обязателен'
+                            : null,
+                      )
+                    else ...[
+                      Text(
+                        'Ваше заведение',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _establishmentNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Название заведения',
+                          hintText: 'Например, Кафе «Ромашка»',
+                        ),
+                        validator: (value) => (value == null ||
+                                value.trim().isEmpty)
+                            ? 'Введите название заведения'
+                            : null,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _establishmentAddressController,
+                        decoration:
+                            const InputDecoration(labelText: 'Адрес'),
+                        validator: (value) => (value == null ||
+                                value.trim().isEmpty)
+                            ? 'Введите адрес заведения'
+                            : null,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _establishmentPhoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                          labelText: 'Контактный телефон заведения',
+                        ),
+                        validator: (value) => (value == null ||
+                                value.trim().isEmpty)
+                            ? 'Введите контактный телефон'
+                            : null,
+                      ),
+                    ],
                     const SizedBox(height: 24),
                     FilledButton(
                       onPressed: _isLoading ? null : _submit,

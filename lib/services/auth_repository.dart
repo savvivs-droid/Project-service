@@ -43,5 +43,32 @@ class AuthRepository {
     );
   }
 
+  /// Самостоятельная регистрация клиента без кода приглашения: клиент
+  /// заводит своё заведение прямо при регистрации. Роль всегда 'client' —
+  /// это решает база данных (см. handle_new_user), а не выбор в интерфейсе.
+  /// Доступно только для роли "клиент": сотрудников (диспетчер/админ)
+  /// по-прежнему заводит только по коду приглашения, см. [signUpWithInviteCode].
+  Future<AuthResponse> signUpNewClient({
+    required String email,
+    required String password,
+    required String fullName,
+    required String phone,
+    required String establishmentName,
+    required String establishmentAddress,
+    required String establishmentContactPhone,
+  }) {
+    return _client.auth.signUp(
+      email: email,
+      password: password,
+      data: {
+        'full_name': fullName.trim(),
+        'phone': phone.trim(),
+        'new_establishment_name': establishmentName.trim(),
+        'new_establishment_address': establishmentAddress.trim(),
+        'new_establishment_contact_phone': establishmentContactPhone.trim(),
+      },
+    );
+  }
+
   Future<void> signOut() => _client.auth.signOut();
 }

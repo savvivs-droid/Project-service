@@ -366,7 +366,39 @@ set search_path = public
 as $$
 declare
   v_invite public.invite_codes%rowtype;
+  v_establishment_id uuid;
+  v_new_establishment_name text;
 begin
+  -- Клиент может зарегистрироваться без кода приглашения, сразу заведя
+  -- своё заведение (самостоятельный онбординг). Признак такой регистрации —
+  -- метаданные new_establishment_name вместо invite_code. Роль в этом
+  -- случае жёстко 'client' — самостоятельно завести себе роль сотрудника
+  -- так нельзя, для этого по-прежнему нужен код приглашения (см. ниже).
+  v_new_establishment_name := new.raw_user_meta_data ->> 'new_establishment_name';
+
+  if v_new_establishment_name is not null then
+    insert into public.establishments (name, address, contact_phone)
+    values (
+      v_new_establishment_name,
+      new.raw_user_meta_data ->> 'new_establishment_address',
+      new.raw_user_meta_data ->> 'new_establishment_contact_phone'
+    )
+    returning id into v_establishment_id;
+
+    insert into public.profiles (id, full_name, phone, role, establishment_id)
+    values (
+      new.id,
+      new.raw_user_meta_data ->> 'full_name',
+      new.raw_user_meta_data ->> 'phone',
+      'client',
+      v_establishment_id
+    );
+
+    return new;
+  end if;
+
+  -- Иначе — обычный путь по коду приглашения (клиент, привязанный к уже
+  -- существующему заведению, либо сотрудник — диспетчер/админ).
   select * into v_invite
   from public.invite_codes
   where code = new.raw_user_meta_data ->> 'invite_code'
