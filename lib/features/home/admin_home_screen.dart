@@ -23,7 +23,7 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   int _tabIndex = 0;
 
-  static const _titles = ['Все заявки', 'Клиенты'];
+  static const _titles = ['Активные заявки', 'Выполненные заявки', 'Клиенты'];
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       body: IndexedStack(
         index: _tabIndex,
         children: const [
-          _RequestsTab(),
+          _RequestsTab(showActive: true),
+          _RequestsTab(showActive: false),
           _ClientsTab(),
         ],
       ),
@@ -52,7 +53,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.assignment_outlined),
             selectedIcon: Icon(Icons.assignment),
-            label: 'Заявки',
+            label: 'Активные',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.task_alt_outlined),
+            selectedIcon: Icon(Icons.task_alt),
+            label: 'Выполненные',
           ),
           NavigationDestination(
             icon: Icon(Icons.storefront_outlined),
@@ -65,8 +71,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   }
 }
 
+/// Показывает либо только активные заявки (новая/согласовано время),
+/// либо только закрытые (выполнено/отменено) — в зависимости от
+/// [showActive]. Это отдельные вкладки нижней навигации, а не секции
+/// одного списка.
 class _RequestsTab extends StatefulWidget {
-  const _RequestsTab();
+  const _RequestsTab({required this.showActive});
+
+  final bool showActive;
 
   @override
   State<_RequestsTab> createState() => _RequestsTabState();
@@ -115,78 +127,42 @@ class _RequestsTabState extends State<_RequestsTab> {
           );
         }
 
-        final items = snapshot.data ?? const [];
+        final items = (snapshot.data ?? const [])
+            .where((item) => item.request.status.isActive == widget.showActive)
+            .toList();
+
         if (items.isEmpty) {
           return RefreshIndicator(
             onRefresh: _refresh,
             child: ListView(
-              children: const [
+              children: [
                 Padding(
-                  padding: EdgeInsets.all(32),
-                  child: Center(child: Text('Заявок пока нет')),
+                  padding: const EdgeInsets.all(32),
+                  child: Center(
+                    child: Text(
+                      widget.showActive
+                          ? 'Активных заявок пока нет'
+                          : 'Выполненных заявок пока нет',
+                    ),
+                  ),
                 ),
               ],
             ),
           );
         }
 
-        final active = items.where((item) => item.request.status.isActive).toList();
-        final closed = items.where((item) => !item.request.status.isActive).toList();
-
         return RefreshIndicator(
           onRefresh: _refresh,
-          child: ListView(
+          child: ListView.builder(
             padding: const EdgeInsets.all(16),
-            children: [
-              if (active.isNotEmpty)
-                _RequestsSection(
-                  title: 'Активные заявки',
-                  items: active,
-                  onTap: _openDetail,
-                ),
-              if (closed.isNotEmpty)
-                _RequestsSection(
-                  title: 'Выполненные заявки',
-                  items: closed,
-                  onTap: _openDetail,
-                ),
-            ],
+            itemCount: items.length,
+            itemBuilder: (context, index) => _RequestCard(
+              item: items[index],
+              onTap: () => _openDetail(items[index]),
+            ),
           ),
         );
       },
-    );
-  }
-}
-
-class _RequestsSection extends StatelessWidget {
-  const _RequestsSection({
-    required this.title,
-    required this.items,
-    required this.onTap,
-  });
-
-  final String title;
-  final List<AdminRequestListItem> items;
-  final ValueChanged<AdminRequestListItem> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              '$title · ${items.length}',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
-          for (final item in items)
-            _RequestCard(item: item, onTap: () => onTap(item)),
-        ],
-      ),
     );
   }
 }
