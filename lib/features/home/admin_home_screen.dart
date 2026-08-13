@@ -241,46 +241,58 @@ class _RequestCard extends StatelessWidget {
               const SizedBox(height: 2),
               Text(item.clientName, style: Theme.of(context).textTheme.bodySmall),
               if (item.establishmentAddress != null)
-                InkWell(
-                  onTap: () => _openMaps(context),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      children: [
-                        Icon(Icons.place_outlined, size: 15, color: colorScheme.primary),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            item.establishmentAddress!,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    onTap: () => _openMaps(context),
+                    borderRadius: BorderRadius.circular(4),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.place_outlined, size: 15, color: colorScheme.primary),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              item.establishmentAddress!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                                decoration: TextDecoration.underline,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              if (item.clientPhone != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    onTap: () => _call(context),
+                    borderRadius: BorderRadius.circular(4),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.call_outlined, size: 15, color: colorScheme.primary),
+                          const SizedBox(width: 4),
+                          Text(
+                            item.clientPhone!,
                             style: TextStyle(
                               color: colorScheme.primary,
                               decoration: TextDecoration.underline,
                               fontSize: 12,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              if (item.clientPhone != null)
-                InkWell(
-                  onTap: () => _call(context),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      children: [
-                        Icon(Icons.call_outlined, size: 15, color: colorScheme.primary),
-                        const SizedBox(width: 4),
-                        Text(
-                          item.clientPhone!,
-                          style: TextStyle(
-                            color: colorScheme.primary,
-                            decoration: TextDecoration.underline,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
