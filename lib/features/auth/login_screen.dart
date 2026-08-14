@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../services/auth_repository.dart';
 import 'register_screen.dart';
@@ -41,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } on AuthException catch (e) {
       _showError(e.message);
     } catch (_) {
-      _showError('Не удалось войти. Проверьте подключение к интернету.');
+      if (mounted) _showError(context.l10n.loginGenericError);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -73,20 +74,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration:
+                          InputDecoration(labelText: context.l10n.loginEmailLabel),
                       validator: (value) =>
                           (value == null || !value.contains('@'))
-                              ? 'Введите корректный email'
+                              ? context.l10n.loginEmailInvalid
                               : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Пароль'),
+                      decoration: InputDecoration(
+                          labelText: context.l10n.loginPasswordLabel),
                       validator: (value) =>
                           (value == null || value.length < 6)
-                              ? 'Минимум 6 символов'
+                              ? context.l10n.loginPasswordTooShort
                               : null,
                     ),
                     const SizedBox(height: 24),
@@ -99,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child:
                                   CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text('Войти'),
+                          : Text(context.l10n.loginSubmitButton),
                     ),
                     const SizedBox(height: 12),
                     TextButton(
@@ -110,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (_) => const RegisterScreen(),
                                 ),
                               ),
-                      child: const Text('Нет аккаунта? Зарегистрироваться'),
+                      child: Text(context.l10n.loginNoAccount),
                     ),
                   ],
                 ),

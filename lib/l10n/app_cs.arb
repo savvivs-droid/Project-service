@@ -1,0 +1,468 @@
+{
+  "@@locale": "cs",
+  "loginEmailLabel": "E-mail",
+  "@loginEmailLabel": {
+    "description": "Login: email field label"
+  },
+  "loginEmailInvalid": "Zadejte platný e-mail",
+  "@loginEmailInvalid": {
+    "description": "Login: invalid email validator"
+  },
+  "loginPasswordLabel": "Heslo",
+  "@loginPasswordLabel": {
+    "description": "Login: password field label"
+  },
+  "loginPasswordTooShort": "Minimálně 6 znaků",
+  "@loginPasswordTooShort": {
+    "description": "Login: password too short validator"
+  },
+  "loginSubmitButton": "Přihlásit se",
+  "@loginSubmitButton": {
+    "description": "Login: submit button"
+  },
+  "loginNoAccount": "Nemáte účet? Zaregistrujte se",
+  "@loginNoAccount": {
+    "description": "Login: link to register screen"
+  },
+  "loginGenericError": "Přihlášení se nezdařilo. Zkontrolujte připojení k internetu.",
+  "@loginGenericError": {
+    "description": "Login: generic sign-in error"
+  },
+  "registerTitle": "Registrace",
+  "@registerTitle": {
+    "description": "Register: app bar title"
+  },
+  "registerEstablishmentSectionTitle": "Registrace podniku",
+  "@registerEstablishmentSectionTitle": {
+    "description": "Register: section heading"
+  },
+  "registerFullNameLabel": "Jméno",
+  "@registerFullNameLabel": {
+    "description": "Register: full name field"
+  },
+  "registerFullNameRequired": "Zadejte jméno",
+  "@registerFullNameRequired": {
+    "description": "Register: full name validator"
+  },
+  "registerPhoneLabel": "Telefon",
+  "@registerPhoneLabel": {
+    "description": "Register: phone field"
+  },
+  "registerPhoneRequired": "Zadejte telefon",
+  "@registerPhoneRequired": {
+    "description": "Register: phone validator"
+  },
+  "registerYourEstablishmentTitle": "Váš podnik",
+  "@registerYourEstablishmentTitle": {
+    "description": "Register: establishment section heading"
+  },
+  "registerIcoLabel": "IČO",
+  "@registerIcoLabel": {
+    "description": "Register: IČO field label"
+  },
+  "registerIcoHint": "8 číslic",
+  "@registerIcoHint": {
+    "description": "Register: IČO field hint"
+  },
+  "registerIcoInvalid": "Zadejte platné IČO (8 číslic)",
+  "@registerIcoInvalid": {
+    "description": "Register: IČO validator"
+  },
+  "registerEstablishmentNameLabel": "Název podniku",
+  "@registerEstablishmentNameLabel": {
+    "description": "Register: establishment name field"
+  },
+  "registerEstablishmentNameHint": "Doplní se z ARES, nebo zadejte ručně",
+  "@registerEstablishmentNameHint": {
+    "description": "Register: establishment name hint"
+  },
+  "registerEstablishmentNameRequired": "Zadejte název podniku",
+  "@registerEstablishmentNameRequired": {
+    "description": "Register: establishment name validator"
+  },
+  "registerAddressLabel": "Adresa",
+  "@registerAddressLabel": {
+    "description": "Register: address field"
+  },
+  "registerAddressRequired": "Zadejte adresu podniku",
+  "@registerAddressRequired": {
+    "description": "Register: address validator"
+  },
+  "registerEstablishmentPhoneLabel": "Kontaktní telefon podniku",
+  "@registerEstablishmentPhoneLabel": {
+    "description": "Register: establishment phone field"
+  },
+  "registerEstablishmentPhoneRequired": "Zadejte kontaktní telefon",
+  "@registerEstablishmentPhoneRequired": {
+    "description": "Register: establishment phone validator"
+  },
+  "registerSubmitButton": "Zaregistrovat se",
+  "@registerSubmitButton": {
+    "description": "Register: submit button"
+  },
+  "registerIcoNotFoundInAres": "Organizaci jsme v ARES nenašli — vyplňte název a adresu ručně.",
+  "@registerIcoNotFoundInAres": {
+    "description": "Register: ARES lookup not found"
+  },
+  "registerIcoFoundInAres": "Údaje byly načteny z ARES.",
+  "@registerIcoFoundInAres": {
+    "description": "Register: ARES lookup success"
+  },
+  "registerEmailConfirmationNeeded": "Registrace je téměř dokončena! Potvrďte e-mail odkazem z dopisu a poté se přihlaste.",
+  "@registerEmailConfirmationNeeded": {
+    "description": "Register: email confirmation needed"
+  },
+  "registerGenericError": "Registrace se nezdařila. Zkontrolujte zadané údaje a připojení k internetu.",
+  "@registerGenericError": {
+    "description": "Register: generic sign-up error"
+  },
+  "registerIcoAlreadyRegistered": "Podnik s tímto IČO je již v systému zaregistrován. Obraťte se na administrátora servisní společnosti.",
+  "@registerIcoAlreadyRegistered": {
+    "description": "Register: IČO already registered error"
+  },
+  "registerEmailAlreadyRegistered": "Uživatel s tímto e-mailem je již zaregistrován.",
+  "@registerEmailAlreadyRegistered": {
+    "description": "Register: email already registered error"
+  },
+  "authGateProfileNotFound": "Nepodařilo se najít profil uživatele.\nRegistrace zřejmě není dokončena — potvrďte e-mail.",
+  "@authGateProfileNotFound": {
+    "description": "Auth gate: profile not found message"
+  },
+  "authGateSignOutRetry": "Odhlásit se a zkusit znovu",
+  "@authGateSignOutRetry": {
+    "description": "Auth gate: sign out and retry button"
+  },
+  "statusRequestNew": "Nová",
+  "@statusRequestNew": {
+    "description": "Request status: new"
+  },
+  "statusRequestScheduled": "Domluven čas",
+  "@statusRequestScheduled": {
+    "description": "Request status: scheduled"
+  },
+  "statusRequestDone": "Hotovo",
+  "@statusRequestDone": {
+    "description": "Request status: done"
+  },
+  "statusRequestCancelled": "Zrušeno",
+  "@statusRequestCancelled": {
+    "description": "Request status: cancelled"
+  },
+  "statusEquipmentActive": "Funguje",
+  "@statusEquipmentActive": {
+    "description": "Equipment status: active"
+  },
+  "statusEquipmentInRepair": "V opravě",
+  "@statusEquipmentInRepair": {
+    "description": "Equipment status: in repair"
+  },
+  "statusEquipmentDecommissioned": "Vyřazeno",
+  "@statusEquipmentDecommissioned": {
+    "description": "Equipment status: decommissioned"
+  },
+  "adminHomeActiveTab": "Aktivní zakázky",
+  "@adminHomeActiveTab": {
+    "description": "Admin home: active tab title"
+  },
+  "adminHomeDoneTab": "Dokončené zakázky",
+  "@adminHomeDoneTab": {
+    "description": "Admin home: done tab title"
+  },
+  "adminHomeClientsTab": "Klienti",
+  "@adminHomeClientsTab": {
+    "description": "Admin home: clients tab title"
+  },
+  "signOutTooltip": "Odhlásit se",
+  "@signOutTooltip": {
+    "description": "Sign out icon button tooltip"
+  },
+  "navActive": "Aktivní",
+  "@navActive": {
+    "description": "Bottom nav: active label"
+  },
+  "navDone": "Dokončené",
+  "@navDone": {
+    "description": "Bottom nav: done label"
+  },
+  "requestsLoadError": "Nepodařilo se načíst zakázky: {error}",
+  "@requestsLoadError": {
+    "description": "Requests load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noActiveRequests": "Zatím žádné aktivní zakázky",
+  "@noActiveRequests": {
+    "description": "Empty state: no active requests"
+  },
+  "noDoneRequests": "Zatím žádné dokončené zakázky",
+  "@noDoneRequests": {
+    "description": "Empty state: no done requests"
+  },
+  "mapsOpenError": "Nepodařilo se otevřít mapy",
+  "@mapsOpenError": {
+    "description": "Error opening maps app"
+  },
+  "callError": "Nepodařilo se zahájit hovor",
+  "@callError": {
+    "description": "Error starting a phone call"
+  },
+  "visitLabel": "Návštěva: {time}",
+  "@visitLabel": {
+    "description": "Scheduled visit time label",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentsLoadError": "Nepodařilo se načíst podniky: {error}",
+  "@establishmentsLoadError": {
+    "description": "Establishments load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEstablishments": "Zatím žádné podniky",
+  "@noEstablishments": {
+    "description": "Empty state: no establishments"
+  },
+  "requestFallbackTitle": "Zakázka",
+  "@requestFallbackTitle": {
+    "description": "Fallback request card title when no equipment listed"
+  },
+  "requestDetailTitle": "Zakázka #{id}",
+  "@requestDetailTitle": {
+    "description": "Request detail: app bar title with short id",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "chatWithClient": "Chat s klientem",
+  "@chatWithClient": {
+    "description": "Chat button/tooltip on admin request detail"
+  },
+  "clientLabel": "Klient",
+  "@clientLabel": {
+    "description": "Request detail: client section label"
+  },
+  "equipmentLabel": "Vybavení",
+  "@equipmentLabel": {
+    "description": "Request detail: equipment section label"
+  },
+  "notSpecified": "Neuvedeno",
+  "@notSpecified": {
+    "description": "Generic 'not specified' value"
+  },
+  "descriptionLabel": "Popis",
+  "@descriptionLabel": {
+    "description": "Request detail: description section label"
+  },
+  "assignTimeButton": "Naplánovat čas",
+  "@assignTimeButton": {
+    "description": "Button to assign a visit time"
+  },
+  "changeTimeButton": "Změnit čas ({time})",
+  "@changeTimeButton": {
+    "description": "Button to change the assigned visit time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "technicianCommentTitle": "Poznámka technika",
+  "@technicianCommentTitle": {
+    "description": "Technician comment section title"
+  },
+  "technicianCommentHint": "Co bylo uděláno, co bylo vyměněno...",
+  "@technicianCommentHint": {
+    "description": "Technician comment text field hint"
+  },
+  "saveCommentButton": "Uložit poznámku",
+  "@saveCommentButton": {
+    "description": "Save technician comment button"
+  },
+  "markDoneButton": "Označit jako dokončeno",
+  "@markDoneButton": {
+    "description": "Mark request as done button"
+  },
+  "cancelRequestButton": "Zrušit zakázku",
+  "@cancelRequestButton": {
+    "description": "Cancel request button/dialog action"
+  },
+  "cancelRequestDialogTitle": "Zrušit zakázku?",
+  "@cancelRequestDialogTitle": {
+    "description": "Cancel request confirmation dialog title"
+  },
+  "cancelRequestDialogContent": "Tuto akci bude možné vrátit zpět jen ručně v databázi.",
+  "@cancelRequestDialogContent": {
+    "description": "Cancel request confirmation dialog body"
+  },
+  "cancelRequestDialogDismiss": "Nerušit",
+  "@cancelRequestDialogDismiss": {
+    "description": "Cancel request confirmation dialog dismiss action"
+  },
+  "saveChangesError": "Nepodařilo se uložit změny",
+  "@saveChangesError": {
+    "description": "Generic save error"
+  },
+  "chatWithTechnician": "Chat s technikem",
+  "@chatWithTechnician": {
+    "description": "Chat button/tooltip on client request detail"
+  },
+  "technicianName": "Technik",
+  "@technicianName": {
+    "description": "Display name for the technician side in chat"
+  },
+  "visitTimeLabel": "Čas návštěvy",
+  "@visitTimeLabel": {
+    "description": "Client request detail: visit time section label"
+  },
+  "chatSendError": "Nepodařilo se odeslat zprávu",
+  "@chatSendError": {
+    "description": "Chat: send message error"
+  },
+  "chatTitle": "Chat · {title}",
+  "@chatTitle": {
+    "description": "Chat screen app bar title",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "chatLoadError": "Nepodařilo se načíst chat: {error}",
+  "@chatLoadError": {
+    "description": "Chat load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chatEmpty": "Zatím žádné zprávy — napište první",
+  "@chatEmpty": {
+    "description": "Chat empty state"
+  },
+  "chatMessageHint": "Zpráva...",
+  "@chatMessageHint": {
+    "description": "Chat message input hint"
+  },
+  "addEquipmentTooltip": "Přidat vybavení",
+  "@addEquipmentTooltip": {
+    "description": "Establishment detail: add equipment FAB tooltip"
+  },
+  "entranceSectionTitle": "Vstup",
+  "@entranceSectionTitle": {
+    "description": "Establishment detail: entrance photo section title"
+  },
+  "photoSaveError": "Nepodařilo se uložit fotku",
+  "@photoSaveError": {
+    "description": "Photo save error"
+  },
+  "photoDeleteError": "Nepodařilo se smazat fotku",
+  "@photoDeleteError": {
+    "description": "Photo delete error"
+  },
+  "addEntrancePhotoLabel": "Přidat fotku vstupu",
+  "@addEntrancePhotoLabel": {
+    "description": "Add entrance photo placeholder label"
+  },
+  "equipmentLoadError": "Nepodařilo se načíst vybavení: {error}",
+  "@equipmentLoadError": {
+    "description": "Equipment load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEquipmentYet": "Zatím nebylo přidáno žádné vybavení",
+  "@noEquipmentYet": {
+    "description": "Empty state: no equipment"
+  },
+  "equipmentFormEditTitle": "Upravit vybavení",
+  "@equipmentFormEditTitle": {
+    "description": "Equipment form: edit title"
+  },
+  "equipmentFormNewTitle": "Nové vybavení",
+  "@equipmentFormNewTitle": {
+    "description": "Equipment form: new title"
+  },
+  "equipmentTypeSectionTitle": "Typ vybavení",
+  "@equipmentTypeSectionTitle": {
+    "description": "Equipment form: type section title"
+  },
+  "equipmentTypeOther": "Jiné",
+  "@equipmentTypeOther": {
+    "description": "Equipment type picker: other option"
+  },
+  "equipmentTypeRequired": "Vyberte typ vybavení",
+  "@equipmentTypeRequired": {
+    "description": "Equipment type validator"
+  },
+  "equipmentTypeCustomLabel": "Uveďte typ vybavení",
+  "@equipmentTypeCustomLabel": {
+    "description": "Custom equipment type field label"
+  },
+  "equipmentTypeCustomRequired": "Zadejte typ vybavení",
+  "@equipmentTypeCustomRequired": {
+    "description": "Custom equipment type validator"
+  },
+  "modelLabel": "Model",
+  "@modelLabel": {
+    "description": "Equipment model field label"
+  },
+  "stickerPhotoSectionTitle": "Fotka štítku",
+  "@stickerPhotoSectionTitle": {
+    "description": "Sticker photo section title"
+  },
+  "stickerPhotoHint": "Vyfoťte štítek na vybavení — kód zadávat nemusíte.",
+  "@stickerPhotoHint": {
+    "description": "Sticker photo instructions"
+  },
+  "equipmentPhotosSectionTitle": "Fotky vybavení",
+  "@equipmentPhotosSectionTitle": {
+    "description": "Equipment photos section title"
+  },
+  "statusDropdownLabel": "Stav",
+  "@statusDropdownLabel": {
+    "description": "Equipment status dropdown label"
+  },
+  "installedAtNotSet": "Datum instalace neuvedeno",
+  "@installedAtNotSet": {
+    "description": "Installed-at button, no date set"
+  },
+  "installedAtSet": "Instalováno: {date}",
+  "@installedAtSet": {
+    "description": "Installed-at button with date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "saveButton": "Uložit",
+  "@saveButton": {
+    "description": "Generic save button"
+  },
+  "equipmentSaveError": "Nepodařilo se uložit vybavení.",
+  "@equipmentSaveError": {
+    "description": "Equipment save error"
+  },
+  "cameraOption": "Fotoaparát",
+  "@cameraOption": {
+    "description": "Photo source picker: camera option"
+  },
+  "galleryOption": "Galerie",
+  "@galleryOption": {
+    "description": "Photo source picker: gallery option"
+  }
+}

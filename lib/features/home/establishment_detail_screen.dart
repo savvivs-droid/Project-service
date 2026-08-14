@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -75,7 +76,7 @@ class _EstablishmentDetailScreenState
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось сохранить фото')),
+        SnackBar(content: Text(context.l10n.photoSaveError)),
       );
     } finally {
       if (mounted) setState(() => _isSavingEntrancePhoto = false);
@@ -93,7 +94,7 @@ class _EstablishmentDetailScreenState
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось удалить фото')),
+        SnackBar(content: Text(context.l10n.photoDeleteError)),
       );
     } finally {
       if (mounted) setState(() => _isSavingEntrancePhoto = false);
@@ -108,7 +109,7 @@ class _EstablishmentDetailScreenState
       appBar: AppBar(title: Text(establishment.name)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openForm(),
-        tooltip: 'Добавить оборудование',
+        tooltip: context.l10n.addEquipmentTooltip,
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
@@ -116,7 +117,8 @@ class _EstablishmentDetailScreenState
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text('Входная группа', style: Theme.of(context).textTheme.titleSmall),
+            Text(context.l10n.entranceSectionTitle,
+                style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8),
             _EntrancePhoto(
               url: _entrancePhotoUrl,
@@ -145,7 +147,8 @@ class _EstablishmentDetailScreenState
               ),
             ),
             const SizedBox(height: 20),
-            Text('Оборудование', style: Theme.of(context).textTheme.titleSmall),
+            Text(context.l10n.equipmentLabel,
+                style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8),
             FutureBuilder<List<Equipment>>(
               future: _equipmentFuture,
@@ -160,15 +163,17 @@ class _EstablishmentDetailScreenState
                 if (snapshot.hasError) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Не удалось загрузить оборудование: ${snapshot.error}'),
+                    child: Text(
+                      context.l10n.equipmentLoadError(snapshot.error.toString()),
+                    ),
                   );
                 }
 
                 final equipment = snapshot.data ?? const [];
                 if (equipment.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Text('Оборудование пока не добавлено'),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Text(context.l10n.noEquipmentYet),
                   );
                 }
 
@@ -232,7 +237,7 @@ class _EntrancePhoto extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Добавить фото входной группы',
+                        context.l10n.addEntrancePhotoLabel,
                         style: TextStyle(color: colorScheme.onSurfaceVariant),
                       ),
                     ],
@@ -355,7 +360,7 @@ class _EquipmentTile extends StatelessWidget {
         ].join(' · ')),
         trailing: Chip(
           label: Text(
-            equipment.status.label,
+            equipment.status.label(context),
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
           backgroundColor: _statusColor(context),

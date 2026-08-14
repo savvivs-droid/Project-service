@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/l10n/l10n_extension.dart';
 import '../../models/request_message.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/supabase_service.dart';
@@ -63,7 +64,7 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Не удалось отправить сообщение')),
+          SnackBar(content: Text(context.l10n.chatSendError)),
         );
       }
     } finally {
@@ -85,7 +86,7 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Чат · ${widget.title}')),
+      appBar: AppBar(title: Text(context.l10n.chatTitle(widget.title))),
       body: Column(
         children: [
           Expanded(
@@ -100,17 +101,19 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(24),
-                      child: Text('Не удалось загрузить чат: ${snapshot.error}'),
+                      child: Text(
+                        context.l10n.chatLoadError(snapshot.error.toString()),
+                      ),
                     ),
                   );
                 }
 
                 final messages = snapshot.data ?? const [];
                 if (messages.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Padding(
-                      padding: EdgeInsets.all(24),
-                      child: Text('Сообщений пока нет — напишите первым'),
+                      padding: const EdgeInsets.all(24),
+                      child: Text(context.l10n.chatEmpty),
                     ),
                   );
                 }
@@ -145,13 +148,13 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                       maxLines: 4,
                       textInputAction: TextInputAction.send,
                       onSubmitted: (_) => _send(),
-                      decoration: const InputDecoration(
-                        hintText: 'Сообщение...',
-                        border: OutlineInputBorder(
+                      decoration: InputDecoration(
+                        hintText: context.l10n.chatMessageHint,
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(24)),
                         ),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
                       ),
                     ),
                   ),

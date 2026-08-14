@@ -1,3 +1,7 @@
+import 'package:flutter/widgets.dart';
+
+import '../l10n/l10n_extension.dart';
+
 /// Статус оборудования.
 ///
 /// Значения совпадают со значениями enum equipment_status в базе данных.
@@ -10,10 +14,11 @@ extension EquipmentStatusX on EquipmentStatus {
         EquipmentStatus.decommissioned => 'decommissioned',
       };
 
-  String get label => switch (this) {
-        EquipmentStatus.active => 'Работает',
-        EquipmentStatus.inRepair => 'В ремонте',
-        EquipmentStatus.decommissioned => 'Списано',
+  String label(BuildContext context) => switch (this) {
+        EquipmentStatus.active => context.l10n.statusEquipmentActive,
+        EquipmentStatus.inRepair => context.l10n.statusEquipmentInRepair,
+        EquipmentStatus.decommissioned =>
+          context.l10n.statusEquipmentDecommissioned,
       };
 
   static EquipmentStatus fromValue(String value) {

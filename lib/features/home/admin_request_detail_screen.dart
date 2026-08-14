@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../models/request_list_item.dart';
 import '../../services/service_request_repository.dart';
 import 'request_chat_screen.dart';
@@ -83,16 +84,16 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Отменить заявку?'),
-        content: const Text('Это действие можно будет отменить только вручную в базе.'),
+        title: Text(context.l10n.cancelRequestDialogTitle),
+        content: Text(context.l10n.cancelRequestDialogContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Не отменять'),
+            child: Text(context.l10n.cancelRequestDialogDismiss),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Отменить заявку'),
+            child: Text(context.l10n.cancelRequestButton),
           ),
         ],
       ),
@@ -111,7 +112,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось сохранить изменения')),
+        SnackBar(content: Text(context.l10n.saveChangesError)),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -127,7 +128,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Заявка #$shortId'),
+        title: Text(context.l10n.requestDetailTitle(shortId)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8),
@@ -142,7 +143,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 ),
               ),
               icon: const Icon(Icons.chat_bubble),
-              tooltip: 'Чат с клиентом',
+              tooltip: context.l10n.chatWithClient,
             ),
           ),
         ],
@@ -170,7 +171,8 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Клиент', style: Theme.of(context).textTheme.labelMedium),
+                    Text(context.l10n.clientLabel,
+                        style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 4),
                     Text(_item.clientName),
                     if (_item.clientPhone != null) Text(_item.clientPhone!),
@@ -190,7 +192,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 ),
               ),
               icon: const Icon(Icons.chat_bubble_outline),
-              label: const Text('Чат с клиентом'),
+              label: Text(context.l10n.chatWithClient),
             ),
             const SizedBox(height: 12),
             Card(
@@ -199,11 +201,11 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Оборудование',
+                    Text(context.l10n.equipmentLabel,
                         style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 8),
                     if (_item.equipmentLabels.isEmpty)
-                      const Text('Не указано')
+                      Text(context.l10n.notSpecified)
                     else
                       Wrap(
                         spacing: 8,
@@ -224,7 +226,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Описание',
+                    Text(context.l10n.descriptionLabel,
                         style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 4),
                     Text(request.description),
@@ -238,19 +240,20 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
               icon: const Icon(Icons.event_outlined),
               label: Text(
                 request.scheduledAt == null
-                    ? 'Назначить время'
-                    : 'Изменить время (${_formatDateTime(request.scheduledAt!)})',
+                    ? context.l10n.assignTimeButton
+                    : context.l10n
+                        .changeTimeButton(_formatDateTime(request.scheduledAt!)),
               ),
             ),
             const SizedBox(height: 20),
-            Text('Комментарий мастера',
+            Text(context.l10n.technicianCommentTitle,
                 style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8),
             TextField(
               controller: _commentController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Что сделано, что заменено...',
+              decoration: InputDecoration(
+                hintText: context.l10n.technicianCommentHint,
               ),
             ),
             const SizedBox(height: 8),
@@ -258,19 +261,19 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: _saveComment,
-                child: const Text('Сохранить комментарий'),
+                child: Text(context.l10n.saveCommentButton),
               ),
             ),
             const SizedBox(height: 12),
             if (!isClosed) ...[
               FilledButton(
                 onPressed: _markDone,
-                child: const Text('Отметить выполненной'),
+                child: Text(context.l10n.markDoneButton),
               ),
               const SizedBox(height: 8),
               OutlinedButton(
                 onPressed: _cancel,
-                child: const Text('Отменить заявку'),
+                child: Text(context.l10n.cancelRequestButton),
               ),
             ],
             if (_isSaving) ...[
@@ -293,7 +296,7 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Chip(
       label: Text(
-        status.label,
+        status.label(context),
         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
       ),
       backgroundColor: status.color,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../models/request_list_item.dart';
 import 'request_chat_screen.dart';
 
@@ -19,7 +20,7 @@ class ClientRequestDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Заявка #$shortId'),
+        title: Text(context.l10n.requestDetailTitle(shortId)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8),
@@ -29,12 +30,12 @@ class ClientRequestDetailScreen extends StatelessWidget {
                   builder: (_) => RequestChatScreen(
                     requestId: request.id,
                     title: item.establishmentName,
-                    otherPartyName: 'Мастер',
+                    otherPartyName: context.l10n.technicianName,
                   ),
                 ),
               ),
               icon: const Icon(Icons.chat_bubble),
-              tooltip: 'Чат с мастером',
+              tooltip: context.l10n.chatWithTechnician,
             ),
           ),
         ],
@@ -47,7 +48,7 @@ class ClientRequestDetailScreen extends StatelessWidget {
               Expanded(
                 child: Text(
                   item.equipmentLabels.isEmpty
-                      ? 'Заявка'
+                      ? context.l10n.requestFallbackTitle
                       : item.equipmentLabels.join(', '),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
@@ -62,12 +63,12 @@ class ClientRequestDetailScreen extends StatelessWidget {
                 builder: (_) => RequestChatScreen(
                   requestId: request.id,
                   title: item.establishmentName,
-                  otherPartyName: 'Мастер',
+                  otherPartyName: context.l10n.technicianName,
                 ),
               ),
             ),
             icon: const Icon(Icons.chat_bubble_outline),
-            label: const Text('Чат с мастером'),
+            label: Text(context.l10n.chatWithTechnician),
           ),
           const SizedBox(height: 16),
           Card(
@@ -76,7 +77,8 @@ class ClientRequestDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Описание', style: Theme.of(context).textTheme.labelMedium),
+                  Text(context.l10n.descriptionLabel,
+                      style: Theme.of(context).textTheme.labelMedium),
                   const SizedBox(height: 4),
                   Text(request.description),
                 ],
@@ -91,7 +93,7 @@ class ClientRequestDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Время визита',
+                    Text(context.l10n.visitTimeLabel,
                         style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 4),
                     Text(_formatDateTime(request.scheduledAt!)),
@@ -109,7 +111,7 @@ class ClientRequestDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Комментарий мастера',
+                    Text(context.l10n.technicianCommentTitle,
                         style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 4),
                     Text(request.technicianComment!),
@@ -133,7 +135,7 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Chip(
       label: Text(
-        status.label,
+        status.label(context),
         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
       ),
       backgroundColor: status.color,

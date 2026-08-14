@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
@@ -20,10 +21,11 @@ class ClientHomeScreen extends StatefulWidget {
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
   int _tabIndex = 0;
 
-  static const _titles = ['Активные заявки', 'Выполненные заявки'];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final titles = [l10n.adminHomeActiveTab, l10n.adminHomeDoneTab];
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -31,14 +33,14 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           children: [
             const AppBrandIcon(size: 22),
             const SizedBox(width: 10),
-            Text(_titles[_tabIndex]),
+            Text(titles[_tabIndex]),
           ],
         ),
         actions: [
           IconButton(
             onPressed: () => AuthRepository().signOut(),
             icon: const Icon(Icons.logout),
-            tooltip: 'Выйти',
+            tooltip: l10n.signOutTooltip,
           ),
         ],
       ),
@@ -52,16 +54,16 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.assignment_outlined),
-            selectedIcon: Icon(Icons.assignment),
-            label: 'Активные',
+            icon: const Icon(Icons.assignment_outlined),
+            selectedIcon: const Icon(Icons.assignment),
+            label: l10n.navActive,
           ),
           NavigationDestination(
-            icon: Icon(Icons.task_alt_outlined),
-            selectedIcon: Icon(Icons.task_alt),
-            label: 'Выполненные',
+            icon: const Icon(Icons.task_alt_outlined),
+            selectedIcon: const Icon(Icons.task_alt),
+            label: l10n.navDone,
           ),
         ],
       ),
@@ -110,7 +112,9 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Text('Не удалось загрузить заявки: ${snapshot.error}'),
+              child: Text(
+                context.l10n.requestsLoadError(snapshot.error.toString()),
+              ),
             ),
           );
         }
@@ -129,8 +133,8 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
                   child: Center(
                     child: Text(
                       widget.showActive
-                          ? 'Активных заявок пока нет'
-                          : 'Выполненных заявок пока нет',
+                          ? context.l10n.noActiveRequests
+                          : context.l10n.noDoneRequests,
                     ),
                   ),
                 ),
@@ -188,7 +192,7 @@ class _ClientRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       item.equipmentLabels.isEmpty
-                          ? 'Заявка'
+                          ? context.l10n.requestFallbackTitle
                           : item.equipmentLabels.join(', '),
                       style: Theme.of(context)
                           .textTheme
@@ -203,7 +207,7 @@ class _ClientRequestCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      request.status.label,
+                      request.status.label(context),
                       style: const TextStyle(color: Colors.white, fontSize: 11),
                     ),
                   ),
@@ -219,7 +223,8 @@ class _ClientRequestCard extends StatelessWidget {
               if (request.scheduledAt != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  'Визит: ${_formatDateTime(request.scheduledAt!)}',
+                  context.l10n
+                      .visitLabel(_formatDateTime(request.scheduledAt!)),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

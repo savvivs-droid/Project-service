@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../core/l10n/l10n_extension.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
 import '../../services/profile_repository.dart';
@@ -53,17 +54,14 @@ class _AuthGateState extends State<AuthGate> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          'Не удалось найти профиль пользователя.\n'
-                          'Похоже, регистрация не завершена: подтвердите '
-                          'email или проверьте, что код приглашения был '
-                          'принят.',
+                        Text(
+                          context.l10n.authGateProfileNotFound,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
                         FilledButton(
                           onPressed: () => _authRepository.signOut(),
-                          child: const Text('Выйти и попробовать снова'),
+                          child: Text(context.l10n.authGateSignOutRetry),
                         ),
                       ],
                     ),

@@ -30,16 +30,20 @@ class RequestListItem {
     final equipmentLinks =
         json['service_request_equipment'] as List<dynamic>? ?? const [];
 
+    // Эти строки парсят JSON вне дерева виджетов (нет BuildContext, а
+    // значит и локали), а пустыми они практически не бывают — это
+    // подстраховка на случай неполных данных, а не текст интерфейса,
+    // поэтому используем нейтральный прочерк, а не слово на одном языке.
     return RequestListItem(
       request: ServiceRequest.fromJson(json),
-      establishmentName: establishment?['name'] as String? ?? 'Заведение',
+      establishmentName: establishment?['name'] as String? ?? '—',
       establishmentAddress: establishment?['address'] as String?,
-      clientName: client?['full_name'] as String? ?? 'Клиент',
+      clientName: client?['full_name'] as String? ?? '—',
       clientPhone: client?['phone'] as String?,
       equipmentLabels: equipmentLinks.map((link) {
         final equipment =
             (link as Map<String, dynamic>)['equipment'] as Map<String, dynamic>?;
-        final type = equipment?['type'] as String? ?? 'Оборудование';
+        final type = equipment?['type'] as String? ?? '—';
         final code = equipment?['sticker_code'] as String?;
         return code == null ? type : '$type · $code';
       }).toList(),

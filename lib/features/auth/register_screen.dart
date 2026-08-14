@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/ico_validator.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../services/ares_service.dart';
@@ -70,15 +71,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLookingUpIco = false;
       if (company == null) {
-        _icoLookupNote =
-            'Не нашли организацию в ARES — заполните название и адрес '
-            'вручную.';
+        _icoLookupNote = context.l10n.registerIcoNotFoundInAres;
       } else {
         _establishmentNameController.text = company.name;
         if (company.address != null) {
           _establishmentAddressController.text = company.address!;
         }
-        _icoLookupNote = 'Данные подтянуты из ARES.';
+        _icoLookupNote = context.l10n.registerIcoFoundInAres;
       }
     });
   }
@@ -102,19 +101,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (!mounted) return;
 
       if (response.session == null) {
-        _showMessage(
-          'Регистрация почти завершена! Подтвердите email по ссылке из '
-          'письма, а затем войдите.',
-        );
+        _showMessage(context.l10n.registerEmailConfirmationNeeded);
       }
       Navigator.of(context).pop();
     } on AuthException catch (e) {
       _showMessage(_translateError(e.message));
     } catch (_) {
-      _showMessage(
-        'Не удалось зарегистрироваться. Проверьте введённые данные и '
-        'подключение к интернету.',
-      );
+      _showMessage(context.l10n.registerGenericError);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -123,12 +116,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _translateError(String message) {
     final lower = message.toLowerCase();
     if (lower.contains('ičo') || lower.contains('ico')) {
-      return 'Заведение с таким IČO уже зарегистрировано в системе. '
-          'Обратитесь к администратору сервисной компании.';
+      return context.l10n.registerIcoAlreadyRegistered;
     }
     if (lower.contains('already registered') ||
         lower.contains('already exists')) {
-      return 'Пользователь с таким email уже зарегистрирован.';
+      return context.l10n.registerEmailAlreadyRegistered;
     }
     return message;
   }
@@ -143,12 +135,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppBrandIcon(size: 22),
-            SizedBox(width: 10),
-            Text('Регистрация'),
+            const AppBrandIcon(size: 22),
+            const SizedBox(width: 10),
+            Text(context.l10n.registerTitle),
           ],
         ),
       ),
@@ -164,51 +156,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Регистрация заведения',
+                      context.l10n.registerEstablishmentSectionTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _fullNameController,
-                      decoration: const InputDecoration(labelText: 'Имя'),
+                      decoration: InputDecoration(
+                          labelText: context.l10n.registerFullNameLabel),
                       validator: (value) => (value == null ||
                               value.trim().isEmpty)
-                          ? 'Введите имя'
+                          ? context.l10n.registerFullNameRequired
                           : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(labelText: 'Телефон'),
+                      decoration: InputDecoration(
+                          labelText: context.l10n.registerPhoneLabel),
                       validator: (value) => (value == null ||
                               value.trim().isEmpty)
-                          ? 'Введите телефон'
+                          ? context.l10n.registerPhoneRequired
                           : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration:
+                          InputDecoration(labelText: context.l10n.loginEmailLabel),
                       validator: (value) =>
                           (value == null || !value.contains('@'))
-                              ? 'Введите корректный email'
+                              ? context.l10n.loginEmailInvalid
                               : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Пароль'),
+                      decoration: InputDecoration(
+                          labelText: context.l10n.loginPasswordLabel),
                       validator: (value) =>
                           (value == null || value.length < 6)
-                              ? 'Минимум 6 символов'
+                              ? context.l10n.loginPasswordTooShort
                               : null,
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Ваше заведение',
+                      context.l10n.registerYourEstablishmentTitle,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 12),
@@ -217,8 +213,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       keyboardType: TextInputType.number,
                       onChanged: _onIcoChanged,
                       decoration: InputDecoration(
-                        labelText: 'IČO',
-                        hintText: '8 цифр',
+                        labelText: context.l10n.registerIcoLabel,
+                        hintText: context.l10n.registerIcoHint,
                         suffixIcon: _isLookingUpIco
                             ? const Padding(
                                 padding: EdgeInsets.all(14),
@@ -235,39 +231,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       validator: (value) => isValidCzechIco(value ?? '')
                           ? null
-                          : 'Введите корректный IČO (8 цифр)',
+                          : context.l10n.registerIcoInvalid,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _establishmentNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Название заведения',
-                        hintText: 'Подставится из ARES или введите вручную',
+                      decoration: InputDecoration(
+                        labelText: context.l10n.registerEstablishmentNameLabel,
+                        hintText: context.l10n.registerEstablishmentNameHint,
                       ),
                       validator: (value) => (value == null ||
                               value.trim().isEmpty)
-                          ? 'Введите название заведения'
+                          ? context.l10n.registerEstablishmentNameRequired
                           : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _establishmentAddressController,
-                      decoration: const InputDecoration(labelText: 'Адрес'),
+                      decoration: InputDecoration(
+                          labelText: context.l10n.registerAddressLabel),
                       validator: (value) => (value == null ||
                               value.trim().isEmpty)
-                          ? 'Введите адрес заведения'
+                          ? context.l10n.registerAddressRequired
                           : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _establishmentPhoneController,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        labelText: 'Контактный телефон заведения',
+                      decoration: InputDecoration(
+                        labelText: context.l10n.registerEstablishmentPhoneLabel,
                       ),
                       validator: (value) => (value == null ||
                               value.trim().isEmpty)
-                          ? 'Введите контактный телефон'
+                          ? context.l10n.registerEstablishmentPhoneRequired
                           : null,
                     ),
                     const SizedBox(height: 24),
@@ -280,7 +277,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child:
                                   CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text('Зарегистрироваться'),
+                          : Text(context.l10n.registerSubmitButton),
                     ),
                   ],
                 ),

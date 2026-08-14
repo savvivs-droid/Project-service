@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../models/request_list_item.dart';
@@ -24,10 +25,15 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   int _tabIndex = 0;
 
-  static const _titles = ['Активные заявки', 'Выполненные заявки', 'Клиенты'];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final titles = [
+      l10n.adminHomeActiveTab,
+      l10n.adminHomeDoneTab,
+      l10n.adminHomeClientsTab,
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -35,14 +41,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           children: [
             const AppBrandIcon(size: 22),
             const SizedBox(width: 10),
-            Text(_titles[_tabIndex]),
+            Text(titles[_tabIndex]),
           ],
         ),
         actions: [
           IconButton(
             onPressed: () => AuthRepository().signOut(),
             icon: const Icon(Icons.logout),
-            tooltip: 'Выйти',
+            tooltip: l10n.signOutTooltip,
           ),
         ],
       ),
@@ -57,21 +63,21 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.assignment_outlined),
-            selectedIcon: Icon(Icons.assignment),
-            label: 'Активные',
+            icon: const Icon(Icons.assignment_outlined),
+            selectedIcon: const Icon(Icons.assignment),
+            label: l10n.navActive,
           ),
           NavigationDestination(
-            icon: Icon(Icons.task_alt_outlined),
-            selectedIcon: Icon(Icons.task_alt),
-            label: 'Выполненные',
+            icon: const Icon(Icons.task_alt_outlined),
+            selectedIcon: const Icon(Icons.task_alt),
+            label: l10n.navDone,
           ),
           NavigationDestination(
-            icon: Icon(Icons.storefront_outlined),
-            selectedIcon: Icon(Icons.storefront),
-            label: 'Клиенты',
+            icon: const Icon(Icons.storefront_outlined),
+            selectedIcon: const Icon(Icons.storefront),
+            label: l10n.adminHomeClientsTab,
           ),
         ],
       ),
@@ -130,7 +136,9 @@ class _RequestsTabState extends State<_RequestsTab> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Text('Не удалось загрузить заявки: ${snapshot.error}'),
+              child: Text(
+                context.l10n.requestsLoadError(snapshot.error.toString()),
+              ),
             ),
           );
         }
@@ -149,8 +157,8 @@ class _RequestsTabState extends State<_RequestsTab> {
                   child: Center(
                     child: Text(
                       widget.showActive
-                          ? 'Активных заявок пока нет'
-                          : 'Выполненных заявок пока нет',
+                          ? context.l10n.noActiveRequests
+                          : context.l10n.noDoneRequests,
                     ),
                   ),
                 ),
@@ -187,7 +195,7 @@ class _RequestCard extends StatelessWidget {
     final opened = await launchMapsSearch(address);
     if (!opened && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось открыть карты')),
+        SnackBar(content: Text(context.l10n.mapsOpenError)),
       );
     }
   }
@@ -198,7 +206,7 @@ class _RequestCard extends StatelessWidget {
     final opened = await launchPhoneCall(phone);
     if (!opened && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось начать звонок')),
+        SnackBar(content: Text(context.l10n.callError)),
       );
     }
   }
@@ -240,7 +248,7 @@ class _RequestCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      request.status.label,
+                      request.status.label(context),
                       style: const TextStyle(color: Colors.white, fontSize: 11),
                     ),
                   ),
@@ -316,7 +324,8 @@ class _RequestCard extends StatelessWidget {
               if (request.scheduledAt != null) ...[
                 const SizedBox(height: 4),
                 Text(
-                  'Визит: ${_formatDateTime(request.scheduledAt!)}',
+                  context.l10n
+                      .visitLabel(_formatDateTime(request.scheduledAt!)),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -364,7 +373,11 @@ class _ClientsTabState extends State<_ClientsTab> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Text('Не удалось загрузить заведения: ${snapshot.error}'),
+              child: Text(
+                context.l10n.establishmentsLoadError(
+                  snapshot.error.toString(),
+                ),
+              ),
             ),
           );
         }
@@ -374,10 +387,10 @@ class _ClientsTabState extends State<_ClientsTab> {
           return RefreshIndicator(
             onRefresh: _refresh,
             child: ListView(
-              children: const [
+              children: [
                 Padding(
-                  padding: EdgeInsets.all(32),
-                  child: Center(child: Text('Заведений пока нет')),
+                  padding: const EdgeInsets.all(32),
+                  child: Center(child: Text(context.l10n.noEstablishments)),
                 ),
               ],
             ),

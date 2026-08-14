@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
+import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
 import '../../models/equipment.dart';
 import '../../services/photo_upload_service.dart';
@@ -175,7 +176,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось сохранить оборудование.')),
+        SnackBar(content: Text(context.l10n.equipmentSaveError)),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -186,7 +187,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Изменить оборудование' : 'Новое оборудование'),
+        title: Text(_isEditing
+            ? context.l10n.equipmentFormEditTitle
+            : context.l10n.equipmentFormNewTitle),
       ),
       body: SafeArea(
         child: AbsorbPointer(
@@ -196,7 +199,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                Text('Тип оборудования', style: Theme.of(context).textTheme.titleSmall),
+                Text(context.l10n.equipmentTypeSectionTitle,
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 10,
@@ -211,7 +215,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                       ),
                     _TypeOptionTile(
                       icon: Icons.more_horiz,
-                      label: 'Другое',
+                      label: context.l10n.equipmentTypeOther,
                       selected: _selectedType == _otherTypeSentinel,
                       onTap: () => _selectType(_otherTypeSentinel),
                     ),
@@ -220,7 +224,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 if (_showTypeError) ...[
                   const SizedBox(height: 8),
                   Text(
-                    'Выберите тип оборудования',
+                    context.l10n.equipmentTypeRequired,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                       fontSize: 12,
@@ -231,13 +235,13 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _customTypeController,
-                    decoration: const InputDecoration(
-                      labelText: 'Укажите тип оборудования',
+                    decoration: InputDecoration(
+                      labelText: context.l10n.equipmentTypeCustomLabel,
                     ),
                     validator: (value) {
                       if (_selectedType != _otherTypeSentinel) return null;
                       return (value == null || value.trim().isEmpty)
-                          ? 'Введите тип оборудования'
+                          ? context.l10n.equipmentTypeCustomRequired
                           : null;
                     },
                   ),
@@ -245,13 +249,14 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _modelController,
-                  decoration: const InputDecoration(labelText: 'Модель'),
+                  decoration: InputDecoration(labelText: context.l10n.modelLabel),
                 ),
                 const SizedBox(height: 20),
-                Text('Фото стикера', style: Theme.of(context).textTheme.titleSmall),
+                Text(context.l10n.stickerPhotoSectionTitle,
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 4),
                 Text(
-                  'Сфотографируйте бирку на оборудовании — код вводить не нужно.',
+                  context.l10n.stickerPhotoHint,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 12),
@@ -261,7 +266,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   onRemove: () => setState(() => _stickerPhoto = null),
                 ),
                 const SizedBox(height: 20),
-                Text('Фото оборудования', style: Theme.of(context).textTheme.titleSmall),
+                Text(context.l10n.equipmentPhotosSectionTitle,
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 10,
@@ -278,10 +284,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 const SizedBox(height: 20),
                 DropdownButtonFormField<EquipmentStatus>(
                   initialValue: _status,
-                  decoration: const InputDecoration(labelText: 'Статус'),
+                  decoration:
+                      InputDecoration(labelText: context.l10n.statusDropdownLabel),
                   items: [
                     for (final status in EquipmentStatus.values)
-                      DropdownMenuItem(value: status, child: Text(status.label)),
+                      DropdownMenuItem(
+                          value: status, child: Text(status.label(context))),
                   ],
                   onChanged: (value) {
                     if (value != null) setState(() => _status = value);
@@ -293,8 +301,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   icon: const Icon(Icons.event_outlined),
                   label: Text(
                     _installedAt == null
-                        ? 'Дата установки не указана'
-                        : 'Установлено: ${_formatDate(_installedAt!)}',
+                        ? context.l10n.installedAtNotSet
+                        : context.l10n.installedAtSet(_formatDate(_installedAt!)),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -306,7 +314,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                           width: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('Сохранить'),
+                      : Text(context.l10n.saveButton),
                 ),
               ],
             ),

@@ -1,0 +1,468 @@
+{
+  "@@locale": "vi",
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Login: email field label"
+  },
+  "loginEmailInvalid": "Nhập email hợp lệ",
+  "@loginEmailInvalid": {
+    "description": "Login: invalid email validator"
+  },
+  "loginPasswordLabel": "Mật khẩu",
+  "@loginPasswordLabel": {
+    "description": "Login: password field label"
+  },
+  "loginPasswordTooShort": "Tối thiểu 6 ký tự",
+  "@loginPasswordTooShort": {
+    "description": "Login: password too short validator"
+  },
+  "loginSubmitButton": "Đăng nhập",
+  "@loginSubmitButton": {
+    "description": "Login: submit button"
+  },
+  "loginNoAccount": "Chưa có tài khoản? Đăng ký",
+  "@loginNoAccount": {
+    "description": "Login: link to register screen"
+  },
+  "loginGenericError": "Không thể đăng nhập. Kiểm tra kết nối internet.",
+  "@loginGenericError": {
+    "description": "Login: generic sign-in error"
+  },
+  "registerTitle": "Đăng ký",
+  "@registerTitle": {
+    "description": "Register: app bar title"
+  },
+  "registerEstablishmentSectionTitle": "Đăng ký cơ sở",
+  "@registerEstablishmentSectionTitle": {
+    "description": "Register: section heading"
+  },
+  "registerFullNameLabel": "Họ tên",
+  "@registerFullNameLabel": {
+    "description": "Register: full name field"
+  },
+  "registerFullNameRequired": "Nhập họ tên",
+  "@registerFullNameRequired": {
+    "description": "Register: full name validator"
+  },
+  "registerPhoneLabel": "Số điện thoại",
+  "@registerPhoneLabel": {
+    "description": "Register: phone field"
+  },
+  "registerPhoneRequired": "Nhập số điện thoại",
+  "@registerPhoneRequired": {
+    "description": "Register: phone validator"
+  },
+  "registerYourEstablishmentTitle": "Cơ sở của bạn",
+  "@registerYourEstablishmentTitle": {
+    "description": "Register: establishment section heading"
+  },
+  "registerIcoLabel": "IČO",
+  "@registerIcoLabel": {
+    "description": "Register: IČO field label"
+  },
+  "registerIcoHint": "8 chữ số",
+  "@registerIcoHint": {
+    "description": "Register: IČO field hint"
+  },
+  "registerIcoInvalid": "Nhập IČO hợp lệ (8 chữ số)",
+  "@registerIcoInvalid": {
+    "description": "Register: IČO validator"
+  },
+  "registerEstablishmentNameLabel": "Tên cơ sở",
+  "@registerEstablishmentNameLabel": {
+    "description": "Register: establishment name field"
+  },
+  "registerEstablishmentNameHint": "Tự động điền từ ARES hoặc nhập thủ công",
+  "@registerEstablishmentNameHint": {
+    "description": "Register: establishment name hint"
+  },
+  "registerEstablishmentNameRequired": "Nhập tên cơ sở",
+  "@registerEstablishmentNameRequired": {
+    "description": "Register: establishment name validator"
+  },
+  "registerAddressLabel": "Địa chỉ",
+  "@registerAddressLabel": {
+    "description": "Register: address field"
+  },
+  "registerAddressRequired": "Nhập địa chỉ cơ sở",
+  "@registerAddressRequired": {
+    "description": "Register: address validator"
+  },
+  "registerEstablishmentPhoneLabel": "Số điện thoại liên hệ của cơ sở",
+  "@registerEstablishmentPhoneLabel": {
+    "description": "Register: establishment phone field"
+  },
+  "registerEstablishmentPhoneRequired": "Nhập số điện thoại liên hệ",
+  "@registerEstablishmentPhoneRequired": {
+    "description": "Register: establishment phone validator"
+  },
+  "registerSubmitButton": "Đăng ký",
+  "@registerSubmitButton": {
+    "description": "Register: submit button"
+  },
+  "registerIcoNotFoundInAres": "Không tìm thấy tổ chức trong ARES — vui lòng nhập tên và địa chỉ thủ công.",
+  "@registerIcoNotFoundInAres": {
+    "description": "Register: ARES lookup not found"
+  },
+  "registerIcoFoundInAres": "Đã lấy dữ liệu từ ARES.",
+  "@registerIcoFoundInAres": {
+    "description": "Register: ARES lookup success"
+  },
+  "registerEmailConfirmationNeeded": "Đăng ký gần hoàn tất! Xác nhận email qua liên kết trong thư, sau đó đăng nhập.",
+  "@registerEmailConfirmationNeeded": {
+    "description": "Register: email confirmation needed"
+  },
+  "registerGenericError": "Không thể đăng ký. Kiểm tra thông tin đã nhập và kết nối internet.",
+  "@registerGenericError": {
+    "description": "Register: generic sign-up error"
+  },
+  "registerIcoAlreadyRegistered": "Cơ sở có IČO này đã được đăng ký trong hệ thống. Vui lòng liên hệ quản trị viên công ty dịch vụ.",
+  "@registerIcoAlreadyRegistered": {
+    "description": "Register: IČO already registered error"
+  },
+  "registerEmailAlreadyRegistered": "Người dùng với email này đã được đăng ký.",
+  "@registerEmailAlreadyRegistered": {
+    "description": "Register: email already registered error"
+  },
+  "authGateProfileNotFound": "Không tìm thấy hồ sơ người dùng.\nCó vẻ đăng ký chưa hoàn tất — hãy xác nhận email.",
+  "@authGateProfileNotFound": {
+    "description": "Auth gate: profile not found message"
+  },
+  "authGateSignOutRetry": "Đăng xuất và thử lại",
+  "@authGateSignOutRetry": {
+    "description": "Auth gate: sign out and retry button"
+  },
+  "statusRequestNew": "Mới",
+  "@statusRequestNew": {
+    "description": "Request status: new"
+  },
+  "statusRequestScheduled": "Đã hẹn thời gian",
+  "@statusRequestScheduled": {
+    "description": "Request status: scheduled"
+  },
+  "statusRequestDone": "Đã hoàn thành",
+  "@statusRequestDone": {
+    "description": "Request status: done"
+  },
+  "statusRequestCancelled": "Đã hủy",
+  "@statusRequestCancelled": {
+    "description": "Request status: cancelled"
+  },
+  "statusEquipmentActive": "Đang hoạt động",
+  "@statusEquipmentActive": {
+    "description": "Equipment status: active"
+  },
+  "statusEquipmentInRepair": "Đang sửa chữa",
+  "@statusEquipmentInRepair": {
+    "description": "Equipment status: in repair"
+  },
+  "statusEquipmentDecommissioned": "Đã ngừng sử dụng",
+  "@statusEquipmentDecommissioned": {
+    "description": "Equipment status: decommissioned"
+  },
+  "adminHomeActiveTab": "Yêu cầu đang xử lý",
+  "@adminHomeActiveTab": {
+    "description": "Admin home: active tab title"
+  },
+  "adminHomeDoneTab": "Yêu cầu đã hoàn thành",
+  "@adminHomeDoneTab": {
+    "description": "Admin home: done tab title"
+  },
+  "adminHomeClientsTab": "Khách hàng",
+  "@adminHomeClientsTab": {
+    "description": "Admin home: clients tab title"
+  },
+  "signOutTooltip": "Đăng xuất",
+  "@signOutTooltip": {
+    "description": "Sign out icon button tooltip"
+  },
+  "navActive": "Đang xử lý",
+  "@navActive": {
+    "description": "Bottom nav: active label"
+  },
+  "navDone": "Đã hoàn thành",
+  "@navDone": {
+    "description": "Bottom nav: done label"
+  },
+  "requestsLoadError": "Không thể tải yêu cầu: {error}",
+  "@requestsLoadError": {
+    "description": "Requests load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noActiveRequests": "Chưa có yêu cầu đang xử lý",
+  "@noActiveRequests": {
+    "description": "Empty state: no active requests"
+  },
+  "noDoneRequests": "Chưa có yêu cầu đã hoàn thành",
+  "@noDoneRequests": {
+    "description": "Empty state: no done requests"
+  },
+  "mapsOpenError": "Không thể mở bản đồ",
+  "@mapsOpenError": {
+    "description": "Error opening maps app"
+  },
+  "callError": "Không thể bắt đầu cuộc gọi",
+  "@callError": {
+    "description": "Error starting a phone call"
+  },
+  "visitLabel": "Thăm khám: {time}",
+  "@visitLabel": {
+    "description": "Scheduled visit time label",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentsLoadError": "Không thể tải danh sách cơ sở: {error}",
+  "@establishmentsLoadError": {
+    "description": "Establishments load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEstablishments": "Chưa có cơ sở nào",
+  "@noEstablishments": {
+    "description": "Empty state: no establishments"
+  },
+  "requestFallbackTitle": "Yêu cầu",
+  "@requestFallbackTitle": {
+    "description": "Fallback request card title when no equipment listed"
+  },
+  "requestDetailTitle": "Yêu cầu #{id}",
+  "@requestDetailTitle": {
+    "description": "Request detail: app bar title with short id",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "chatWithClient": "Trò chuyện với khách hàng",
+  "@chatWithClient": {
+    "description": "Chat button/tooltip on admin request detail"
+  },
+  "clientLabel": "Khách hàng",
+  "@clientLabel": {
+    "description": "Request detail: client section label"
+  },
+  "equipmentLabel": "Thiết bị",
+  "@equipmentLabel": {
+    "description": "Request detail: equipment section label"
+  },
+  "notSpecified": "Chưa xác định",
+  "@notSpecified": {
+    "description": "Generic 'not specified' value"
+  },
+  "descriptionLabel": "Mô tả",
+  "@descriptionLabel": {
+    "description": "Request detail: description section label"
+  },
+  "assignTimeButton": "Đặt lịch hẹn",
+  "@assignTimeButton": {
+    "description": "Button to assign a visit time"
+  },
+  "changeTimeButton": "Đổi thời gian ({time})",
+  "@changeTimeButton": {
+    "description": "Button to change the assigned visit time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "technicianCommentTitle": "Ghi chú của kỹ thuật viên",
+  "@technicianCommentTitle": {
+    "description": "Technician comment section title"
+  },
+  "technicianCommentHint": "Đã làm gì, đã thay gì...",
+  "@technicianCommentHint": {
+    "description": "Technician comment text field hint"
+  },
+  "saveCommentButton": "Lưu ghi chú",
+  "@saveCommentButton": {
+    "description": "Save technician comment button"
+  },
+  "markDoneButton": "Đánh dấu đã hoàn thành",
+  "@markDoneButton": {
+    "description": "Mark request as done button"
+  },
+  "cancelRequestButton": "Hủy yêu cầu",
+  "@cancelRequestButton": {
+    "description": "Cancel request button/dialog action"
+  },
+  "cancelRequestDialogTitle": "Hủy yêu cầu?",
+  "@cancelRequestDialogTitle": {
+    "description": "Cancel request confirmation dialog title"
+  },
+  "cancelRequestDialogContent": "Hành động này chỉ có thể hoàn tác thủ công trong cơ sở dữ liệu.",
+  "@cancelRequestDialogContent": {
+    "description": "Cancel request confirmation dialog body"
+  },
+  "cancelRequestDialogDismiss": "Không hủy",
+  "@cancelRequestDialogDismiss": {
+    "description": "Cancel request confirmation dialog dismiss action"
+  },
+  "saveChangesError": "Không thể lưu thay đổi",
+  "@saveChangesError": {
+    "description": "Generic save error"
+  },
+  "chatWithTechnician": "Trò chuyện với kỹ thuật viên",
+  "@chatWithTechnician": {
+    "description": "Chat button/tooltip on client request detail"
+  },
+  "technicianName": "Kỹ thuật viên",
+  "@technicianName": {
+    "description": "Display name for the technician side in chat"
+  },
+  "visitTimeLabel": "Thời gian thăm khám",
+  "@visitTimeLabel": {
+    "description": "Client request detail: visit time section label"
+  },
+  "chatSendError": "Không thể gửi tin nhắn",
+  "@chatSendError": {
+    "description": "Chat: send message error"
+  },
+  "chatTitle": "Trò chuyện · {title}",
+  "@chatTitle": {
+    "description": "Chat screen app bar title",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "chatLoadError": "Không thể tải cuộc trò chuyện: {error}",
+  "@chatLoadError": {
+    "description": "Chat load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chatEmpty": "Chưa có tin nhắn nào — hãy là người đầu tiên",
+  "@chatEmpty": {
+    "description": "Chat empty state"
+  },
+  "chatMessageHint": "Tin nhắn...",
+  "@chatMessageHint": {
+    "description": "Chat message input hint"
+  },
+  "addEquipmentTooltip": "Thêm thiết bị",
+  "@addEquipmentTooltip": {
+    "description": "Establishment detail: add equipment FAB tooltip"
+  },
+  "entranceSectionTitle": "Lối vào",
+  "@entranceSectionTitle": {
+    "description": "Establishment detail: entrance photo section title"
+  },
+  "photoSaveError": "Không thể lưu ảnh",
+  "@photoSaveError": {
+    "description": "Photo save error"
+  },
+  "photoDeleteError": "Không thể xóa ảnh",
+  "@photoDeleteError": {
+    "description": "Photo delete error"
+  },
+  "addEntrancePhotoLabel": "Thêm ảnh lối vào",
+  "@addEntrancePhotoLabel": {
+    "description": "Add entrance photo placeholder label"
+  },
+  "equipmentLoadError": "Không thể tải thiết bị: {error}",
+  "@equipmentLoadError": {
+    "description": "Equipment load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEquipmentYet": "Chưa có thiết bị nào được thêm",
+  "@noEquipmentYet": {
+    "description": "Empty state: no equipment"
+  },
+  "equipmentFormEditTitle": "Chỉnh sửa thiết bị",
+  "@equipmentFormEditTitle": {
+    "description": "Equipment form: edit title"
+  },
+  "equipmentFormNewTitle": "Thiết bị mới",
+  "@equipmentFormNewTitle": {
+    "description": "Equipment form: new title"
+  },
+  "equipmentTypeSectionTitle": "Loại thiết bị",
+  "@equipmentTypeSectionTitle": {
+    "description": "Equipment form: type section title"
+  },
+  "equipmentTypeOther": "Khác",
+  "@equipmentTypeOther": {
+    "description": "Equipment type picker: other option"
+  },
+  "equipmentTypeRequired": "Chọn loại thiết bị",
+  "@equipmentTypeRequired": {
+    "description": "Equipment type validator"
+  },
+  "equipmentTypeCustomLabel": "Nhập loại thiết bị",
+  "@equipmentTypeCustomLabel": {
+    "description": "Custom equipment type field label"
+  },
+  "equipmentTypeCustomRequired": "Nhập loại thiết bị",
+  "@equipmentTypeCustomRequired": {
+    "description": "Custom equipment type validator"
+  },
+  "modelLabel": "Model",
+  "@modelLabel": {
+    "description": "Equipment model field label"
+  },
+  "stickerPhotoSectionTitle": "Ảnh tem nhãn",
+  "@stickerPhotoSectionTitle": {
+    "description": "Sticker photo section title"
+  },
+  "stickerPhotoHint": "Chụp ảnh tem nhãn trên thiết bị — không cần nhập mã.",
+  "@stickerPhotoHint": {
+    "description": "Sticker photo instructions"
+  },
+  "equipmentPhotosSectionTitle": "Ảnh thiết bị",
+  "@equipmentPhotosSectionTitle": {
+    "description": "Equipment photos section title"
+  },
+  "statusDropdownLabel": "Trạng thái",
+  "@statusDropdownLabel": {
+    "description": "Equipment status dropdown label"
+  },
+  "installedAtNotSet": "Chưa xác định ngày lắp đặt",
+  "@installedAtNotSet": {
+    "description": "Installed-at button, no date set"
+  },
+  "installedAtSet": "Đã lắp đặt: {date}",
+  "@installedAtSet": {
+    "description": "Installed-at button with date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "saveButton": "Lưu",
+  "@saveButton": {
+    "description": "Generic save button"
+  },
+  "equipmentSaveError": "Không thể lưu thiết bị.",
+  "@equipmentSaveError": {
+    "description": "Equipment save error"
+  },
+  "cameraOption": "Máy ảnh",
+  "@cameraOption": {
+    "description": "Photo source picker: camera option"
+  },
+  "galleryOption": "Thư viện ảnh",
+  "@galleryOption": {
+    "description": "Photo source picker: gallery option"
+  }
+}

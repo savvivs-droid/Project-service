@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/l10n_extension.dart';
+
 /// Статус заявки на ремонт.
 ///
 /// Значения совпадают со значениями enum request_status в базе данных.
@@ -14,11 +16,11 @@ extension RequestStatusX on RequestStatus {
         RequestStatus.cancelled => 'cancelled',
       };
 
-  String get label => switch (this) {
-        RequestStatus.newRequest => 'Новая',
-        RequestStatus.scheduled => 'Согласовано время',
-        RequestStatus.done => 'Выполнено',
-        RequestStatus.cancelled => 'Отменено',
+  String label(BuildContext context) => switch (this) {
+        RequestStatus.newRequest => context.l10n.statusRequestNew,
+        RequestStatus.scheduled => context.l10n.statusRequestScheduled,
+        RequestStatus.done => context.l10n.statusRequestDone,
+        RequestStatus.cancelled => context.l10n.statusRequestCancelled,
       };
 
   /// Служебный цвет статуса — намеренно отдельный от основного цвета

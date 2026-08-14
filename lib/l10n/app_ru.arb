@@ -1,0 +1,468 @@
+{
+  "@@locale": "ru",
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Login: email field label"
+  },
+  "loginEmailInvalid": "Введите корректный email",
+  "@loginEmailInvalid": {
+    "description": "Login: invalid email validator"
+  },
+  "loginPasswordLabel": "Пароль",
+  "@loginPasswordLabel": {
+    "description": "Login: password field label"
+  },
+  "loginPasswordTooShort": "Минимум 6 символов",
+  "@loginPasswordTooShort": {
+    "description": "Login: password too short validator"
+  },
+  "loginSubmitButton": "Войти",
+  "@loginSubmitButton": {
+    "description": "Login: submit button"
+  },
+  "loginNoAccount": "Нет аккаунта? Зарегистрироваться",
+  "@loginNoAccount": {
+    "description": "Login: link to register screen"
+  },
+  "loginGenericError": "Не удалось войти. Проверьте подключение к интернету.",
+  "@loginGenericError": {
+    "description": "Login: generic sign-in error"
+  },
+  "registerTitle": "Регистрация",
+  "@registerTitle": {
+    "description": "Register: app bar title"
+  },
+  "registerEstablishmentSectionTitle": "Регистрация заведения",
+  "@registerEstablishmentSectionTitle": {
+    "description": "Register: section heading"
+  },
+  "registerFullNameLabel": "Имя",
+  "@registerFullNameLabel": {
+    "description": "Register: full name field"
+  },
+  "registerFullNameRequired": "Введите имя",
+  "@registerFullNameRequired": {
+    "description": "Register: full name validator"
+  },
+  "registerPhoneLabel": "Телефон",
+  "@registerPhoneLabel": {
+    "description": "Register: phone field"
+  },
+  "registerPhoneRequired": "Введите телефон",
+  "@registerPhoneRequired": {
+    "description": "Register: phone validator"
+  },
+  "registerYourEstablishmentTitle": "Ваше заведение",
+  "@registerYourEstablishmentTitle": {
+    "description": "Register: establishment section heading"
+  },
+  "registerIcoLabel": "IČO",
+  "@registerIcoLabel": {
+    "description": "Register: IČO field label"
+  },
+  "registerIcoHint": "8 цифр",
+  "@registerIcoHint": {
+    "description": "Register: IČO field hint"
+  },
+  "registerIcoInvalid": "Введите корректный IČO (8 цифр)",
+  "@registerIcoInvalid": {
+    "description": "Register: IČO validator"
+  },
+  "registerEstablishmentNameLabel": "Название заведения",
+  "@registerEstablishmentNameLabel": {
+    "description": "Register: establishment name field"
+  },
+  "registerEstablishmentNameHint": "Подставится из ARES или введите вручную",
+  "@registerEstablishmentNameHint": {
+    "description": "Register: establishment name hint"
+  },
+  "registerEstablishmentNameRequired": "Введите название заведения",
+  "@registerEstablishmentNameRequired": {
+    "description": "Register: establishment name validator"
+  },
+  "registerAddressLabel": "Адрес",
+  "@registerAddressLabel": {
+    "description": "Register: address field"
+  },
+  "registerAddressRequired": "Введите адрес заведения",
+  "@registerAddressRequired": {
+    "description": "Register: address validator"
+  },
+  "registerEstablishmentPhoneLabel": "Контактный телефон заведения",
+  "@registerEstablishmentPhoneLabel": {
+    "description": "Register: establishment phone field"
+  },
+  "registerEstablishmentPhoneRequired": "Введите контактный телефон",
+  "@registerEstablishmentPhoneRequired": {
+    "description": "Register: establishment phone validator"
+  },
+  "registerSubmitButton": "Зарегистрироваться",
+  "@registerSubmitButton": {
+    "description": "Register: submit button"
+  },
+  "registerIcoNotFoundInAres": "Не нашли организацию в ARES — заполните название и адрес вручную.",
+  "@registerIcoNotFoundInAres": {
+    "description": "Register: ARES lookup not found"
+  },
+  "registerIcoFoundInAres": "Данные подтянуты из ARES.",
+  "@registerIcoFoundInAres": {
+    "description": "Register: ARES lookup success"
+  },
+  "registerEmailConfirmationNeeded": "Регистрация почти завершена! Подтвердите email по ссылке из письма, а затем войдите.",
+  "@registerEmailConfirmationNeeded": {
+    "description": "Register: email confirmation needed"
+  },
+  "registerGenericError": "Не удалось зарегистрироваться. Проверьте введённые данные и подключение к интернету.",
+  "@registerGenericError": {
+    "description": "Register: generic sign-up error"
+  },
+  "registerIcoAlreadyRegistered": "Заведение с таким IČO уже зарегистрировано в системе. Обратитесь к администратору сервисной компании.",
+  "@registerIcoAlreadyRegistered": {
+    "description": "Register: IČO already registered error"
+  },
+  "registerEmailAlreadyRegistered": "Пользователь с таким email уже зарегистрирован.",
+  "@registerEmailAlreadyRegistered": {
+    "description": "Register: email already registered error"
+  },
+  "authGateProfileNotFound": "Не удалось найти профиль пользователя.\nПохоже, регистрация не завершена: подтвердите email.",
+  "@authGateProfileNotFound": {
+    "description": "Auth gate: profile not found message"
+  },
+  "authGateSignOutRetry": "Выйти и попробовать снова",
+  "@authGateSignOutRetry": {
+    "description": "Auth gate: sign out and retry button"
+  },
+  "statusRequestNew": "Новая",
+  "@statusRequestNew": {
+    "description": "Request status: new"
+  },
+  "statusRequestScheduled": "Согласовано время",
+  "@statusRequestScheduled": {
+    "description": "Request status: scheduled"
+  },
+  "statusRequestDone": "Выполнено",
+  "@statusRequestDone": {
+    "description": "Request status: done"
+  },
+  "statusRequestCancelled": "Отменено",
+  "@statusRequestCancelled": {
+    "description": "Request status: cancelled"
+  },
+  "statusEquipmentActive": "Работает",
+  "@statusEquipmentActive": {
+    "description": "Equipment status: active"
+  },
+  "statusEquipmentInRepair": "В ремонте",
+  "@statusEquipmentInRepair": {
+    "description": "Equipment status: in repair"
+  },
+  "statusEquipmentDecommissioned": "Списано",
+  "@statusEquipmentDecommissioned": {
+    "description": "Equipment status: decommissioned"
+  },
+  "adminHomeActiveTab": "Активные заявки",
+  "@adminHomeActiveTab": {
+    "description": "Admin home: active tab title"
+  },
+  "adminHomeDoneTab": "Выполненные заявки",
+  "@adminHomeDoneTab": {
+    "description": "Admin home: done tab title"
+  },
+  "adminHomeClientsTab": "Клиенты",
+  "@adminHomeClientsTab": {
+    "description": "Admin home: clients tab title"
+  },
+  "signOutTooltip": "Выйти",
+  "@signOutTooltip": {
+    "description": "Sign out icon button tooltip"
+  },
+  "navActive": "Активные",
+  "@navActive": {
+    "description": "Bottom nav: active label"
+  },
+  "navDone": "Выполненные",
+  "@navDone": {
+    "description": "Bottom nav: done label"
+  },
+  "requestsLoadError": "Не удалось загрузить заявки: {error}",
+  "@requestsLoadError": {
+    "description": "Requests load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noActiveRequests": "Активных заявок пока нет",
+  "@noActiveRequests": {
+    "description": "Empty state: no active requests"
+  },
+  "noDoneRequests": "Выполненных заявок пока нет",
+  "@noDoneRequests": {
+    "description": "Empty state: no done requests"
+  },
+  "mapsOpenError": "Не удалось открыть карты",
+  "@mapsOpenError": {
+    "description": "Error opening maps app"
+  },
+  "callError": "Не удалось начать звонок",
+  "@callError": {
+    "description": "Error starting a phone call"
+  },
+  "visitLabel": "Визит: {time}",
+  "@visitLabel": {
+    "description": "Scheduled visit time label",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentsLoadError": "Не удалось загрузить заведения: {error}",
+  "@establishmentsLoadError": {
+    "description": "Establishments load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEstablishments": "Заведений пока нет",
+  "@noEstablishments": {
+    "description": "Empty state: no establishments"
+  },
+  "requestFallbackTitle": "Заявка",
+  "@requestFallbackTitle": {
+    "description": "Fallback request card title when no equipment listed"
+  },
+  "requestDetailTitle": "Заявка #{id}",
+  "@requestDetailTitle": {
+    "description": "Request detail: app bar title with short id",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "chatWithClient": "Чат с клиентом",
+  "@chatWithClient": {
+    "description": "Chat button/tooltip on admin request detail"
+  },
+  "clientLabel": "Клиент",
+  "@clientLabel": {
+    "description": "Request detail: client section label"
+  },
+  "equipmentLabel": "Оборудование",
+  "@equipmentLabel": {
+    "description": "Request detail: equipment section label"
+  },
+  "notSpecified": "Не указано",
+  "@notSpecified": {
+    "description": "Generic 'not specified' value"
+  },
+  "descriptionLabel": "Описание",
+  "@descriptionLabel": {
+    "description": "Request detail: description section label"
+  },
+  "assignTimeButton": "Назначить время",
+  "@assignTimeButton": {
+    "description": "Button to assign a visit time"
+  },
+  "changeTimeButton": "Изменить время ({time})",
+  "@changeTimeButton": {
+    "description": "Button to change the assigned visit time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "technicianCommentTitle": "Комментарий мастера",
+  "@technicianCommentTitle": {
+    "description": "Technician comment section title"
+  },
+  "technicianCommentHint": "Что сделано, что заменено...",
+  "@technicianCommentHint": {
+    "description": "Technician comment text field hint"
+  },
+  "saveCommentButton": "Сохранить комментарий",
+  "@saveCommentButton": {
+    "description": "Save technician comment button"
+  },
+  "markDoneButton": "Отметить выполненной",
+  "@markDoneButton": {
+    "description": "Mark request as done button"
+  },
+  "cancelRequestButton": "Отменить заявку",
+  "@cancelRequestButton": {
+    "description": "Cancel request button/dialog action"
+  },
+  "cancelRequestDialogTitle": "Отменить заявку?",
+  "@cancelRequestDialogTitle": {
+    "description": "Cancel request confirmation dialog title"
+  },
+  "cancelRequestDialogContent": "Это действие можно будет отменить только вручную в базе.",
+  "@cancelRequestDialogContent": {
+    "description": "Cancel request confirmation dialog body"
+  },
+  "cancelRequestDialogDismiss": "Не отменять",
+  "@cancelRequestDialogDismiss": {
+    "description": "Cancel request confirmation dialog dismiss action"
+  },
+  "saveChangesError": "Не удалось сохранить изменения",
+  "@saveChangesError": {
+    "description": "Generic save error"
+  },
+  "chatWithTechnician": "Чат с мастером",
+  "@chatWithTechnician": {
+    "description": "Chat button/tooltip on client request detail"
+  },
+  "technicianName": "Мастер",
+  "@technicianName": {
+    "description": "Display name for the technician side in chat"
+  },
+  "visitTimeLabel": "Время визита",
+  "@visitTimeLabel": {
+    "description": "Client request detail: visit time section label"
+  },
+  "chatSendError": "Не удалось отправить сообщение",
+  "@chatSendError": {
+    "description": "Chat: send message error"
+  },
+  "chatTitle": "Чат · {title}",
+  "@chatTitle": {
+    "description": "Chat screen app bar title",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "chatLoadError": "Не удалось загрузить чат: {error}",
+  "@chatLoadError": {
+    "description": "Chat load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chatEmpty": "Сообщений пока нет — напишите первым",
+  "@chatEmpty": {
+    "description": "Chat empty state"
+  },
+  "chatMessageHint": "Сообщение...",
+  "@chatMessageHint": {
+    "description": "Chat message input hint"
+  },
+  "addEquipmentTooltip": "Добавить оборудование",
+  "@addEquipmentTooltip": {
+    "description": "Establishment detail: add equipment FAB tooltip"
+  },
+  "entranceSectionTitle": "Входная группа",
+  "@entranceSectionTitle": {
+    "description": "Establishment detail: entrance photo section title"
+  },
+  "photoSaveError": "Не удалось сохранить фото",
+  "@photoSaveError": {
+    "description": "Photo save error"
+  },
+  "photoDeleteError": "Не удалось удалить фото",
+  "@photoDeleteError": {
+    "description": "Photo delete error"
+  },
+  "addEntrancePhotoLabel": "Добавить фото входной группы",
+  "@addEntrancePhotoLabel": {
+    "description": "Add entrance photo placeholder label"
+  },
+  "equipmentLoadError": "Не удалось загрузить оборудование: {error}",
+  "@equipmentLoadError": {
+    "description": "Equipment load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noEquipmentYet": "Оборудование пока не добавлено",
+  "@noEquipmentYet": {
+    "description": "Empty state: no equipment"
+  },
+  "equipmentFormEditTitle": "Изменить оборудование",
+  "@equipmentFormEditTitle": {
+    "description": "Equipment form: edit title"
+  },
+  "equipmentFormNewTitle": "Новое оборудование",
+  "@equipmentFormNewTitle": {
+    "description": "Equipment form: new title"
+  },
+  "equipmentTypeSectionTitle": "Тип оборудования",
+  "@equipmentTypeSectionTitle": {
+    "description": "Equipment form: type section title"
+  },
+  "equipmentTypeOther": "Другое",
+  "@equipmentTypeOther": {
+    "description": "Equipment type picker: other option"
+  },
+  "equipmentTypeRequired": "Выберите тип оборудования",
+  "@equipmentTypeRequired": {
+    "description": "Equipment type validator"
+  },
+  "equipmentTypeCustomLabel": "Укажите тип оборудования",
+  "@equipmentTypeCustomLabel": {
+    "description": "Custom equipment type field label"
+  },
+  "equipmentTypeCustomRequired": "Введите тип оборудования",
+  "@equipmentTypeCustomRequired": {
+    "description": "Custom equipment type validator"
+  },
+  "modelLabel": "Модель",
+  "@modelLabel": {
+    "description": "Equipment model field label"
+  },
+  "stickerPhotoSectionTitle": "Фото стикера",
+  "@stickerPhotoSectionTitle": {
+    "description": "Sticker photo section title"
+  },
+  "stickerPhotoHint": "Сфотографируйте бирку на оборудовании — код вводить не нужно.",
+  "@stickerPhotoHint": {
+    "description": "Sticker photo instructions"
+  },
+  "equipmentPhotosSectionTitle": "Фото оборудования",
+  "@equipmentPhotosSectionTitle": {
+    "description": "Equipment photos section title"
+  },
+  "statusDropdownLabel": "Статус",
+  "@statusDropdownLabel": {
+    "description": "Equipment status dropdown label"
+  },
+  "installedAtNotSet": "Дата установки не указана",
+  "@installedAtNotSet": {
+    "description": "Installed-at button, no date set"
+  },
+  "installedAtSet": "Установлено: {date}",
+  "@installedAtSet": {
+    "description": "Installed-at button with date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "saveButton": "Сохранить",
+  "@saveButton": {
+    "description": "Generic save button"
+  },
+  "equipmentSaveError": "Не удалось сохранить оборудование.",
+  "@equipmentSaveError": {
+    "description": "Equipment save error"
+  },
+  "cameraOption": "Камера",
+  "@cameraOption": {
+    "description": "Photo source picker: camera option"
+  },
+  "galleryOption": "Галерея",
+  "@galleryOption": {
+    "description": "Photo source picker: gallery option"
+  }
+}

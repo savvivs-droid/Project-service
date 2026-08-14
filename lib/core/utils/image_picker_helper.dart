@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../l10n/l10n_extension.dart';
+
 /// Выбирает фото и возвращает его байты, либо null, если пользователь
 /// отменил выбор.
 ///
@@ -31,12 +33,12 @@ Future<Uint8List?> pickImageBytes(BuildContext context) async {
         children: [
           ListTile(
             leading: const Icon(Icons.photo_camera_outlined),
-            title: const Text('Камера'),
+            title: Text(context.l10n.cameraOption),
             onTap: () => Navigator.of(context).pop(ImageSource.camera),
           ),
           ListTile(
             leading: const Icon(Icons.photo_library_outlined),
-            title: const Text('Галерея'),
+            title: Text(context.l10n.galleryOption),
             onTap: () => Navigator.of(context).pop(ImageSource.gallery),
           ),
         ],
