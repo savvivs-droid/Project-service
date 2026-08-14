@@ -887,6 +887,66 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se změnit heslo'**
   String get passwordChangeError;
+
+  /// Client home: FAB label to create a repair request
+  ///
+  /// In cs, this message translates to:
+  /// **'Vytvořit žádost o opravu'**
+  String get clientCreateRequestButton;
+
+  /// Create request screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nová žádost'**
+  String get createRequestTitle;
+
+  /// Create request: equipment type section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Typ vybavení'**
+  String get createRequestTypeSectionTitle;
+
+  /// Create request: specific equipment section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Vybavení'**
+  String get createRequestEquipmentSectionTitle;
+
+  /// Create request: equipment not selected error
+  ///
+  /// In cs, this message translates to:
+  /// **'Vyberte vybavení'**
+  String get createRequestEquipmentRequired;
+
+  /// Create request: description section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Popište problém'**
+  String get createRequestDescriptionSectionTitle;
+
+  /// Create request: description field hint
+  ///
+  /// In cs, this message translates to:
+  /// **'Stručně popište, co se stalo'**
+  String get createRequestDescriptionHint;
+
+  /// Create request: description required error
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidejte popis problému'**
+  String get createRequestDescriptionRequired;
+
+  /// Create request: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat žádost'**
+  String get createRequestSubmitButton;
+
+  /// Create request: submission error with details
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se vytvořit žádost: {error}'**
+  String createRequestError(String error);
 }
 
 class _AppLocalizationsDelegate

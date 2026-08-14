@@ -362,6 +362,15 @@ class _ClientsTabState extends State<_ClientsTab> {
     await future;
   }
 
+  Future<void> _openDetail(Establishment establishment) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EstablishmentDetailScreen(establishment: establishment),
+      ),
+    );
+    _refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Establishment>>(
@@ -406,13 +415,7 @@ class _ClientsTabState extends State<_ClientsTab> {
             itemCount: establishments.length,
             itemBuilder: (context, index) => _EstablishmentCard(
               establishment: establishments[index],
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => EstablishmentDetailScreen(
-                    establishment: establishments[index],
-                  ),
-                ),
-              ),
+              onTap: () => _openDetail(establishments[index]),
             ),
           ),
         );

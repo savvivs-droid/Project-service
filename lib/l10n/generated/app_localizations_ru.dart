@@ -432,4 +432,36 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Не удалось изменить пароль';
+
+  @override
+  String get clientCreateRequestButton => 'Создать заявку на ремонт';
+
+  @override
+  String get createRequestTitle => 'Новая заявка';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Вид техники';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Оборудование';
+
+  @override
+  String get createRequestEquipmentRequired => 'Выберите оборудование';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Опишите проблему';
+
+  @override
+  String get createRequestDescriptionHint => 'Кратко расскажите, что случилось';
+
+  @override
+  String get createRequestDescriptionRequired => 'Добавьте описание проблемы';
+
+  @override
+  String get createRequestSubmitButton => 'Отправить заявку';
+
+  @override
+  String createRequestError(String error) {
+    return 'Не удалось создать заявку: $error';
+  }
 }
