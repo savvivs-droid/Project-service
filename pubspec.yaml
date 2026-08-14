@@ -42,6 +42,17 @@ flutter:
   assets:
     - .env
     - assets/brand/logo_mark.png
+  fonts:
+    # Golos Text (Google Fonts, OFL) — фирменный шрифт приложения,
+    # заменяет системный Roboto/San Francisco. Файлы — статические
+    # инстансы вариативного шрифта (Regular/Bold), полный набор
+    # кириллицы + латиницы, см. assets/fonts/OFL.txt.
+    - family: Golos Text
+      fonts:
+        - asset: assets/fonts/GolosText-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/GolosText-Bold.ttf
+          weight: 700
 
 flutter_launcher_icons:
   image_path: "assets_icon_source.png"

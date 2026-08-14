@@ -18,6 +18,9 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
+      // Фирменный шрифт вместо системного Roboto/San Francisco —
+      // см. assets/fonts (Golos Text, Google Fonts, OFL-лицензия).
+      fontFamily: 'Golos Text',
       inputDecorationTheme: const InputDecorationTheme(
         border: OutlineInputBorder(),
       ),
@@ -29,6 +32,7 @@ class AppTheme {
         foregroundColor: onPrimary,
         titleTextStyle: TextStyle(
           color: onPrimary,
+          fontFamily: 'Golos Text',
           fontSize: 20,
           fontWeight: FontWeight.w700,
         ),
