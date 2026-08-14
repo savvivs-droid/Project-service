@@ -383,4 +383,51 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get equipmentTypeCuttingTable => 'Разделочный стол';
+
+  @override
+  String get clientEquipmentTab => 'Моё оборудование';
+
+  @override
+  String get profileTitle => 'Профиль';
+
+  @override
+  String get profilePersonalDataTitle => 'Личные данные';
+
+  @override
+  String get profileSaved => 'Данные сохранены';
+
+  @override
+  String get profileSaveError => 'Не удалось сохранить данные';
+
+  @override
+  String get profileEmailSectionTitle => 'Email';
+
+  @override
+  String get profileEmailHint =>
+      'После смены email может понадобиться подтверждение по ссылке из письма.';
+
+  @override
+  String get profileChangeEmailButton => 'Изменить email';
+
+  @override
+  String get emailChangeRequested =>
+      'Запрос отправлен. Проверьте почту, если потребуется подтверждение.';
+
+  @override
+  String get emailChangeError => 'Не удалось изменить email';
+
+  @override
+  String get profilePasswordSectionTitle => 'Пароль';
+
+  @override
+  String get profileNewPasswordLabel => 'Новый пароль';
+
+  @override
+  String get profileChangePasswordButton => 'Изменить пароль';
+
+  @override
+  String get passwordChanged => 'Пароль изменён';
+
+  @override
+  String get passwordChangeError => 'Не удалось изменить пароль';
 }

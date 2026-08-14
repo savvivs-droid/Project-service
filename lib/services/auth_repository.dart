@@ -47,4 +47,16 @@ class AuthRepository {
   }
 
   Future<void> signOut() => _client.auth.signOut();
+
+  /// Смена email — в зависимости от настроек проекта (Authentication ->
+  /// Sign In / Providers -> Email -> "Secure email change") Supabase
+  /// может потребовать подтверждения по ссылке из письма, прежде чем
+  /// адрес реально поменяется.
+  Future<void> updateEmail(String newEmail) {
+    return _client.auth.updateUser(UserAttributes(email: newEmail));
+  }
+
+  Future<void> updatePassword(String newPassword) {
+    return _client.auth.updateUser(UserAttributes(password: newPassword));
+  }
 }

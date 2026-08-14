@@ -508,5 +508,65 @@
   "equipmentTypeCuttingTable": "Bàn sơ chế",
   "@equipmentTypeCuttingTable": {
     "description": "Equipment type: cutting table"
+  },
+  "clientEquipmentTab": "Thiết bị của tôi",
+  "@clientEquipmentTab": {
+    "description": "Client bottom nav: equipment tab"
+  },
+  "profileTitle": "Hồ sơ",
+  "@profileTitle": {
+    "description": "Client bottom nav: profile tab / app bar title"
+  },
+  "profilePersonalDataTitle": "Thông tin cá nhân",
+  "@profilePersonalDataTitle": {
+    "description": "Profile: personal data section title"
+  },
+  "profileSaved": "Đã lưu thông tin",
+  "@profileSaved": {
+    "description": "Profile: save success message"
+  },
+  "profileSaveError": "Không thể lưu thông tin",
+  "@profileSaveError": {
+    "description": "Profile: save error"
+  },
+  "profileEmailSectionTitle": "Email",
+  "@profileEmailSectionTitle": {
+    "description": "Profile: email section title"
+  },
+  "profileEmailHint": "Sau khi đổi email, có thể cần xác nhận qua liên kết trong thư.",
+  "@profileEmailHint": {
+    "description": "Profile: email change hint"
+  },
+  "profileChangeEmailButton": "Đổi email",
+  "@profileChangeEmailButton": {
+    "description": "Profile: change email button"
+  },
+  "emailChangeRequested": "Đã gửi yêu cầu. Kiểm tra hộp thư nếu cần xác nhận.",
+  "@emailChangeRequested": {
+    "description": "Profile: email change requested message"
+  },
+  "emailChangeError": "Không thể đổi email",
+  "@emailChangeError": {
+    "description": "Profile: email change error"
+  },
+  "profilePasswordSectionTitle": "Mật khẩu",
+  "@profilePasswordSectionTitle": {
+    "description": "Profile: password section title"
+  },
+  "profileNewPasswordLabel": "Mật khẩu mới",
+  "@profileNewPasswordLabel": {
+    "description": "Profile: new password field label"
+  },
+  "profileChangePasswordButton": "Đổi mật khẩu",
+  "@profileChangePasswordButton": {
+    "description": "Profile: change password button"
+  },
+  "passwordChanged": "Đã đổi mật khẩu",
+  "@passwordChanged": {
+    "description": "Profile: password change success"
+  },
+  "passwordChangeError": "Không thể đổi mật khẩu",
+  "@passwordChangeError": {
+    "description": "Profile: password change error"
   }
 }

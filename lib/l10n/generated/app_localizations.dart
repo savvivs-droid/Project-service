@@ -797,6 +797,96 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Krájecí stůl'**
   String get equipmentTypeCuttingTable;
+
+  /// Client bottom nav: equipment tab
+  ///
+  /// In cs, this message translates to:
+  /// **'Moje vybavení'**
+  String get clientEquipmentTab;
+
+  /// Client bottom nav: profile tab / app bar title
+  ///
+  /// In cs, this message translates to:
+  /// **'Profil'**
+  String get profileTitle;
+
+  /// Profile: personal data section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Osobní údaje'**
+  String get profilePersonalDataTitle;
+
+  /// Profile: save success message
+  ///
+  /// In cs, this message translates to:
+  /// **'Údaje uloženy'**
+  String get profileSaved;
+
+  /// Profile: save error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se uložit údaje'**
+  String get profileSaveError;
+
+  /// Profile: email section title
+  ///
+  /// In cs, this message translates to:
+  /// **'E-mail'**
+  String get profileEmailSectionTitle;
+
+  /// Profile: email change hint
+  ///
+  /// In cs, this message translates to:
+  /// **'Po změně e-mailu může být potřeba potvrzení odkazem z dopisu.'**
+  String get profileEmailHint;
+
+  /// Profile: change email button
+  ///
+  /// In cs, this message translates to:
+  /// **'Změnit e-mail'**
+  String get profileChangeEmailButton;
+
+  /// Profile: email change requested message
+  ///
+  /// In cs, this message translates to:
+  /// **'Žádost odeslána. Zkontrolujte poštu, pokud je potřeba potvrzení.'**
+  String get emailChangeRequested;
+
+  /// Profile: email change error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se změnit e-mail'**
+  String get emailChangeError;
+
+  /// Profile: password section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Heslo'**
+  String get profilePasswordSectionTitle;
+
+  /// Profile: new password field label
+  ///
+  /// In cs, this message translates to:
+  /// **'Nové heslo'**
+  String get profileNewPasswordLabel;
+
+  /// Profile: change password button
+  ///
+  /// In cs, this message translates to:
+  /// **'Změnit heslo'**
+  String get profileChangePasswordButton;
+
+  /// Profile: password change success
+  ///
+  /// In cs, this message translates to:
+  /// **'Heslo bylo změněno'**
+  String get passwordChanged;
+
+  /// Profile: password change error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se změnit heslo'**
+  String get passwordChangeError;
 }
 
 class _AppLocalizationsDelegate

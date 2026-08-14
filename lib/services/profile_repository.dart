@@ -21,4 +21,17 @@ class ProfileRepository {
     if (data == null) return null;
     return Profile.fromJson(data);
   }
+
+  /// Клиент может менять только своё имя и телефон — роль и заведение
+  /// защищены RLS-триггером (см. schema.sql, trg_protect_profile_privileges).
+  Future<void> updateProfile({
+    required String fullName,
+    required String phone,
+  }) {
+    final userId = _client.auth.currentUser!.id;
+    return _client.from('profiles').update({
+      'full_name': fullName,
+      'phone': phone,
+    }).eq('id', userId);
+  }
 }

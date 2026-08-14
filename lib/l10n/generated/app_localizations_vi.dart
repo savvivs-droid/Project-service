@@ -384,4 +384,51 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get equipmentTypeCuttingTable => 'Bàn sơ chế';
+
+  @override
+  String get clientEquipmentTab => 'Thiết bị của tôi';
+
+  @override
+  String get profileTitle => 'Hồ sơ';
+
+  @override
+  String get profilePersonalDataTitle => 'Thông tin cá nhân';
+
+  @override
+  String get profileSaved => 'Đã lưu thông tin';
+
+  @override
+  String get profileSaveError => 'Không thể lưu thông tin';
+
+  @override
+  String get profileEmailSectionTitle => 'Email';
+
+  @override
+  String get profileEmailHint =>
+      'Sau khi đổi email, có thể cần xác nhận qua liên kết trong thư.';
+
+  @override
+  String get profileChangeEmailButton => 'Đổi email';
+
+  @override
+  String get emailChangeRequested =>
+      'Đã gửi yêu cầu. Kiểm tra hộp thư nếu cần xác nhận.';
+
+  @override
+  String get emailChangeError => 'Không thể đổi email';
+
+  @override
+  String get profilePasswordSectionTitle => 'Mật khẩu';
+
+  @override
+  String get profileNewPasswordLabel => 'Mật khẩu mới';
+
+  @override
+  String get profileChangePasswordButton => 'Đổi mật khẩu';
+
+  @override
+  String get passwordChanged => 'Đã đổi mật khẩu';
+
+  @override
+  String get passwordChangeError => 'Không thể đổi mật khẩu';
 }

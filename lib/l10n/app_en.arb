@@ -508,5 +508,65 @@
   "equipmentTypeCuttingTable": "Cutting table",
   "@equipmentTypeCuttingTable": {
     "description": "Equipment type: cutting table"
+  },
+  "clientEquipmentTab": "My equipment",
+  "@clientEquipmentTab": {
+    "description": "Client bottom nav: equipment tab"
+  },
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "Client bottom nav: profile tab / app bar title"
+  },
+  "profilePersonalDataTitle": "Personal details",
+  "@profilePersonalDataTitle": {
+    "description": "Profile: personal data section title"
+  },
+  "profileSaved": "Details saved",
+  "@profileSaved": {
+    "description": "Profile: save success message"
+  },
+  "profileSaveError": "Couldn't save the details",
+  "@profileSaveError": {
+    "description": "Profile: save error"
+  },
+  "profileEmailSectionTitle": "Email",
+  "@profileEmailSectionTitle": {
+    "description": "Profile: email section title"
+  },
+  "profileEmailHint": "After changing your email, you may need to confirm it via the link we send.",
+  "@profileEmailHint": {
+    "description": "Profile: email change hint"
+  },
+  "profileChangeEmailButton": "Change email",
+  "@profileChangeEmailButton": {
+    "description": "Profile: change email button"
+  },
+  "emailChangeRequested": "Request sent. Check your inbox if confirmation is needed.",
+  "@emailChangeRequested": {
+    "description": "Profile: email change requested message"
+  },
+  "emailChangeError": "Couldn't change the email",
+  "@emailChangeError": {
+    "description": "Profile: email change error"
+  },
+  "profilePasswordSectionTitle": "Password",
+  "@profilePasswordSectionTitle": {
+    "description": "Profile: password section title"
+  },
+  "profileNewPasswordLabel": "New password",
+  "@profileNewPasswordLabel": {
+    "description": "Profile: new password field label"
+  },
+  "profileChangePasswordButton": "Change password",
+  "@profileChangePasswordButton": {
+    "description": "Profile: change password button"
+  },
+  "passwordChanged": "Password changed",
+  "@passwordChanged": {
+    "description": "Profile: password change success"
+  },
+  "passwordChangeError": "Couldn't change the password",
+  "@passwordChangeError": {
+    "description": "Profile: password change error"
   }
 }

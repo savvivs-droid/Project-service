@@ -508,5 +508,65 @@
   "equipmentTypeCuttingTable": "Разделочный стол",
   "@equipmentTypeCuttingTable": {
     "description": "Equipment type: cutting table"
+  },
+  "clientEquipmentTab": "Моё оборудование",
+  "@clientEquipmentTab": {
+    "description": "Client bottom nav: equipment tab"
+  },
+  "profileTitle": "Профиль",
+  "@profileTitle": {
+    "description": "Client bottom nav: profile tab / app bar title"
+  },
+  "profilePersonalDataTitle": "Личные данные",
+  "@profilePersonalDataTitle": {
+    "description": "Profile: personal data section title"
+  },
+  "profileSaved": "Данные сохранены",
+  "@profileSaved": {
+    "description": "Profile: save success message"
+  },
+  "profileSaveError": "Не удалось сохранить данные",
+  "@profileSaveError": {
+    "description": "Profile: save error"
+  },
+  "profileEmailSectionTitle": "Email",
+  "@profileEmailSectionTitle": {
+    "description": "Profile: email section title"
+  },
+  "profileEmailHint": "После смены email может понадобиться подтверждение по ссылке из письма.",
+  "@profileEmailHint": {
+    "description": "Profile: email change hint"
+  },
+  "profileChangeEmailButton": "Изменить email",
+  "@profileChangeEmailButton": {
+    "description": "Profile: change email button"
+  },
+  "emailChangeRequested": "Запрос отправлен. Проверьте почту, если потребуется подтверждение.",
+  "@emailChangeRequested": {
+    "description": "Profile: email change requested message"
+  },
+  "emailChangeError": "Не удалось изменить email",
+  "@emailChangeError": {
+    "description": "Profile: email change error"
+  },
+  "profilePasswordSectionTitle": "Пароль",
+  "@profilePasswordSectionTitle": {
+    "description": "Profile: password section title"
+  },
+  "profileNewPasswordLabel": "Новый пароль",
+  "@profileNewPasswordLabel": {
+    "description": "Profile: new password field label"
+  },
+  "profileChangePasswordButton": "Изменить пароль",
+  "@profileChangePasswordButton": {
+    "description": "Profile: change password button"
+  },
+  "passwordChanged": "Пароль изменён",
+  "@passwordChanged": {
+    "description": "Profile: password change success"
+  },
+  "passwordChangeError": "Не удалось изменить пароль",
+  "@passwordChangeError": {
+    "description": "Profile: password change error"
   }
 }

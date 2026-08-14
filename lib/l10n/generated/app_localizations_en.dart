@@ -386,4 +386,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equipmentTypeCuttingTable => 'Cutting table';
+
+  @override
+  String get clientEquipmentTab => 'My equipment';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profilePersonalDataTitle => 'Personal details';
+
+  @override
+  String get profileSaved => 'Details saved';
+
+  @override
+  String get profileSaveError => 'Couldn\'t save the details';
+
+  @override
+  String get profileEmailSectionTitle => 'Email';
+
+  @override
+  String get profileEmailHint =>
+      'After changing your email, you may need to confirm it via the link we send.';
+
+  @override
+  String get profileChangeEmailButton => 'Change email';
+
+  @override
+  String get emailChangeRequested =>
+      'Request sent. Check your inbox if confirmation is needed.';
+
+  @override
+  String get emailChangeError => 'Couldn\'t change the email';
+
+  @override
+  String get profilePasswordSectionTitle => 'Password';
+
+  @override
+  String get profileNewPasswordLabel => 'New password';
+
+  @override
+  String get profileChangePasswordButton => 'Change password';
+
+  @override
+  String get passwordChanged => 'Password changed';
+
+  @override
+  String get passwordChangeError => 'Couldn\'t change the password';
 }

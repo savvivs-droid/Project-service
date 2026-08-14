@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/equipment_icons.dart';
+import '../../core/constants/equipment_status.dart';
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
+import '../../models/equipment.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
+import '../../services/equipment_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
 
 class ClientHomeScreen extends StatefulWidget {
@@ -25,7 +30,12 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final titles = [l10n.adminHomeActiveTab, l10n.adminHomeDoneTab];
+    final titles = [
+      l10n.adminHomeActiveTab,
+      l10n.adminHomeDoneTab,
+      l10n.clientEquipmentTab,
+      l10n.profileTitle,
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -48,9 +58,11 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       ),
       body: IndexedStack(
         index: _tabIndex,
-        children: const [
-          _ClientRequestsTab(showActive: true),
-          _ClientRequestsTab(showActive: false),
+        children: [
+          const _ClientRequestsTab(showActive: true),
+          const _ClientRequestsTab(showActive: false),
+          _ClientEquipmentTab(establishmentId: widget.profile.establishmentId),
+          ClientProfileTab(profile: widget.profile),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -66,6 +78,16 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             icon: const Icon(Icons.task_alt_outlined),
             selectedIcon: const Icon(Icons.task_alt),
             label: l10n.navDone,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.kitchen_outlined),
+            selectedIcon: const Icon(Icons.kitchen),
+            label: l10n.clientEquipmentTab,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.profileTitle,
           ),
         ],
       ),
@@ -234,6 +256,131 @@ class _ClientRequestCard extends StatelessWidget {
               ],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Оборудование заведения клиента — только чтение (добавляет и меняет
+/// оборудование только администратор, см. EstablishmentDetailScreen).
+class _ClientEquipmentTab extends StatefulWidget {
+  const _ClientEquipmentTab({required this.establishmentId});
+
+  final String? establishmentId;
+
+  @override
+  State<_ClientEquipmentTab> createState() => _ClientEquipmentTabState();
+}
+
+class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
+  final _repository = EquipmentRepository();
+  late Future<List<Equipment>> _equipmentFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _equipmentFuture = _fetch();
+  }
+
+  Future<List<Equipment>> _fetch() {
+    final establishmentId = widget.establishmentId;
+    if (establishmentId == null) return Future.value(const []);
+    return _repository.fetchForEstablishment(establishmentId);
+  }
+
+  Future<void> _refresh() async {
+    final future = _fetch();
+    setState(() => _equipmentFuture = future);
+    await future;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Equipment>>(
+      future: _equipmentFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                context.l10n.equipmentLoadError(snapshot.error.toString()),
+              ),
+            ),
+          );
+        }
+
+        final equipment = snapshot.data ?? const [];
+        if (equipment.isEmpty) {
+          return RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Center(child: Text(context.l10n.noEquipmentYet)),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return RefreshIndicator(
+          onRefresh: _refresh,
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: equipment.length,
+            itemBuilder: (context, index) =>
+                _ClientEquipmentCard(equipment: equipment[index]),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ClientEquipmentCard extends StatelessWidget {
+  const _ClientEquipmentCard({required this.equipment});
+
+  final Equipment equipment;
+
+  Color _statusColor(BuildContext context) => switch (equipment.status) {
+        EquipmentStatus.active => const Color(0xFF2F9E63),
+        EquipmentStatus.inRepair => const Color(0xFF2F6FED),
+        EquipmentStatus.decommissioned => const Color(0xFF6E7B93),
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: _statusColor(context),
+          child: Icon(
+            equipmentTypeIcon(equipment.type),
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+        title: Text(equipmentTypeLabel(context, equipment.type)),
+        subtitle: Text([
+          if (equipment.model != null) equipment.model!,
+          if (equipment.stickerCode != null) equipment.stickerCode!,
+        ].join(' · ')),
+        trailing: Chip(
+          label: Text(
+            equipment.status.label(context),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+          backgroundColor: _statusColor(context),
+          side: BorderSide.none,
+          visualDensity: VisualDensity.compact,
         ),
       ),
     );

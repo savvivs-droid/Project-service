@@ -508,5 +508,65 @@
   "equipmentTypeCuttingTable": "Krájecí stůl",
   "@equipmentTypeCuttingTable": {
     "description": "Equipment type: cutting table"
+  },
+  "clientEquipmentTab": "Moje vybavení",
+  "@clientEquipmentTab": {
+    "description": "Client bottom nav: equipment tab"
+  },
+  "profileTitle": "Profil",
+  "@profileTitle": {
+    "description": "Client bottom nav: profile tab / app bar title"
+  },
+  "profilePersonalDataTitle": "Osobní údaje",
+  "@profilePersonalDataTitle": {
+    "description": "Profile: personal data section title"
+  },
+  "profileSaved": "Údaje uloženy",
+  "@profileSaved": {
+    "description": "Profile: save success message"
+  },
+  "profileSaveError": "Nepodařilo se uložit údaje",
+  "@profileSaveError": {
+    "description": "Profile: save error"
+  },
+  "profileEmailSectionTitle": "E-mail",
+  "@profileEmailSectionTitle": {
+    "description": "Profile: email section title"
+  },
+  "profileEmailHint": "Po změně e-mailu může být potřeba potvrzení odkazem z dopisu.",
+  "@profileEmailHint": {
+    "description": "Profile: email change hint"
+  },
+  "profileChangeEmailButton": "Změnit e-mail",
+  "@profileChangeEmailButton": {
+    "description": "Profile: change email button"
+  },
+  "emailChangeRequested": "Žádost odeslána. Zkontrolujte poštu, pokud je potřeba potvrzení.",
+  "@emailChangeRequested": {
+    "description": "Profile: email change requested message"
+  },
+  "emailChangeError": "Nepodařilo se změnit e-mail",
+  "@emailChangeError": {
+    "description": "Profile: email change error"
+  },
+  "profilePasswordSectionTitle": "Heslo",
+  "@profilePasswordSectionTitle": {
+    "description": "Profile: password section title"
+  },
+  "profileNewPasswordLabel": "Nové heslo",
+  "@profileNewPasswordLabel": {
+    "description": "Profile: new password field label"
+  },
+  "profileChangePasswordButton": "Změnit heslo",
+  "@profileChangePasswordButton": {
+    "description": "Profile: change password button"
+  },
+  "passwordChanged": "Heslo bylo změněno",
+  "@passwordChanged": {
+    "description": "Profile: password change success"
+  },
+  "passwordChangeError": "Nepodařilo se změnit heslo",
+  "@passwordChangeError": {
+    "description": "Profile: password change error"
   }
 }

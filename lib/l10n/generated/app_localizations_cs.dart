@@ -383,4 +383,51 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get equipmentTypeCuttingTable => 'Krájecí stůl';
+
+  @override
+  String get clientEquipmentTab => 'Moje vybavení';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get profilePersonalDataTitle => 'Osobní údaje';
+
+  @override
+  String get profileSaved => 'Údaje uloženy';
+
+  @override
+  String get profileSaveError => 'Nepodařilo se uložit údaje';
+
+  @override
+  String get profileEmailSectionTitle => 'E-mail';
+
+  @override
+  String get profileEmailHint =>
+      'Po změně e-mailu může být potřeba potvrzení odkazem z dopisu.';
+
+  @override
+  String get profileChangeEmailButton => 'Změnit e-mail';
+
+  @override
+  String get emailChangeRequested =>
+      'Žádost odeslána. Zkontrolujte poštu, pokud je potřeba potvrzení.';
+
+  @override
+  String get emailChangeError => 'Nepodařilo se změnit e-mail';
+
+  @override
+  String get profilePasswordSectionTitle => 'Heslo';
+
+  @override
+  String get profileNewPasswordLabel => 'Nové heslo';
+
+  @override
+  String get profileChangePasswordButton => 'Změnit heslo';
+
+  @override
+  String get passwordChanged => 'Heslo bylo změněno';
+
+  @override
+  String get passwordChangeError => 'Nepodařilo se změnit heslo';
 }
