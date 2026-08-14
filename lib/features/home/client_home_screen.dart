@@ -451,37 +451,56 @@ class _CategoryTile extends StatelessWidget {
           border: Border.all(color: colorScheme.outlineVariant),
         ),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
+            // Иконка и подпись раскладываются по фиксированным зонам
+            // (а не центрируются как единый блок), иначе у подписей
+            // на одну и две строки центр иконки съезжает по вертикали
+            // и иконки в соседних плитках оказываются не на одном
+            // уровне.
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, size: 30, color: colorScheme.primary),
+                Expanded(
+                  child: Center(
+                    child: Icon(icon, size: 30, color: colorScheme.primary),
+                  ),
+                ),
                 const SizedBox(height: 8),
-                Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall,
+                SizedBox(
+                  height: 32,
+                  child: Center(
+                    child: Text(
+                      label,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
                 ),
               ],
             ),
             if (count > 0)
               Positioned(
-                top: -4,
-                right: -4,
+                top: -6,
+                right: -6,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  constraints: const BoxConstraints(minWidth: 20, minHeight: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,
                     borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: colorScheme.surface, width: 2),
                   ),
+                  alignment: Alignment.center,
                   child: Text(
                     '$count',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: colorScheme.onSecondary,
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
+                      height: 1,
                     ),
                   ),
                 ),
