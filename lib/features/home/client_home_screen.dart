@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
@@ -37,6 +38,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           ],
         ),
         actions: [
+          const LanguageSwitcher(),
           IconButton(
             onPressed: () => AuthRepository().signOut(),
             icon: const Icon(Icons.logout),

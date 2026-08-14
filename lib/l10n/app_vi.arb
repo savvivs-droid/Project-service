@@ -464,5 +464,13 @@
   "galleryOption": "Thư viện ảnh",
   "@galleryOption": {
     "description": "Photo source picker: gallery option"
+  },
+  "languageSwitcherTooltip": "Ngôn ngữ",
+  "@languageSwitcherTooltip": {
+    "description": "Language switcher icon button tooltip"
+  },
+  "systemLanguageOption": "Theo hệ thống",
+  "@systemLanguageOption": {
+    "description": "Language switcher: follow system language option"
   }
 }

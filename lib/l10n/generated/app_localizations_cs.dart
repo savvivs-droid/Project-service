@@ -350,4 +350,10 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get galleryOption => 'Galerie';
+
+  @override
+  String get languageSwitcherTooltip => 'Jazyk';
+
+  @override
+  String get systemLanguageOption => 'Jako v systému';
 }

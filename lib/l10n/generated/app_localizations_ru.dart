@@ -350,4 +350,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get galleryOption => 'Галерея';
+
+  @override
+  String get languageSwitcherTooltip => 'Язык';
+
+  @override
+  String get systemLanguageOption => 'Как в системе';
 }

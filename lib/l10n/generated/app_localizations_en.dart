@@ -353,4 +353,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get galleryOption => 'Gallery';
+
+  @override
+  String get languageSwitcherTooltip => 'Language';
+
+  @override
+  String get systemLanguageOption => 'System language';
 }

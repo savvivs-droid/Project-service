@@ -351,4 +351,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get galleryOption => 'Thư viện ảnh';
+
+  @override
+  String get languageSwitcherTooltip => 'Ngôn ngữ';
+
+  @override
+  String get systemLanguageOption => 'Theo hệ thống';
 }

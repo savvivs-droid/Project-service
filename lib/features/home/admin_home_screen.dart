@@ -4,6 +4,7 @@ import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
@@ -45,6 +46,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ],
         ),
         actions: [
+          const LanguageSwitcher(),
           IconButton(
             onPressed: () => AuthRepository().signOut(),
             icon: const Icon(Icons.logout),

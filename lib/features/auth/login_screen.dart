@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../services/auth_repository.dart';
 import 'register_screen.dart';
 
@@ -57,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: const [LanguageSwitcher()]),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

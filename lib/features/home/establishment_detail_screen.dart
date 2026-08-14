@@ -4,6 +4,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
 import '../../services/equipment_repository.dart';
@@ -106,7 +107,10 @@ class _EstablishmentDetailScreenState
     final establishment = widget.establishment;
 
     return Scaffold(
-      appBar: AppBar(title: Text(establishment.name)),
+      appBar: AppBar(
+        title: Text(establishment.name),
+        actions: const [LanguageSwitcher()],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openForm(),
         tooltip: context.l10n.addEquipmentTooltip,

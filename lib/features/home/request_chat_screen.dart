@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/request_message.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/supabase_service.dart';
@@ -86,7 +87,10 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.chatTitle(widget.title))),
+      appBar: AppBar(
+        title: Text(context.l10n.chatTitle(widget.title)),
+        actions: const [LanguageSwitcher()],
+      ),
       body: Column(
         children: [
           Expanded(

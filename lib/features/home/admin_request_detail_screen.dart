@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
 import '../../services/service_request_repository.dart';
 import 'request_chat_screen.dart';
@@ -130,6 +131,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
       appBar: AppBar(
         title: Text(context.l10n.requestDetailTitle(shortId)),
         actions: [
+          const LanguageSwitcher(),
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: IconButton.filled(

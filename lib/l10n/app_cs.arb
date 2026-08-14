@@ -464,5 +464,13 @@
   "galleryOption": "Galerie",
   "@galleryOption": {
     "description": "Photo source picker: gallery option"
+  },
+  "languageSwitcherTooltip": "Jazyk",
+  "@languageSwitcherTooltip": {
+    "description": "Language switcher icon button tooltip"
+  },
+  "systemLanguageOption": "Jako v systému",
+  "@systemLanguageOption": {
+    "description": "Language switcher: follow system language option"
   }
 }

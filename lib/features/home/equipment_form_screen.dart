@@ -6,6 +6,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../services/photo_upload_service.dart';
 import '../../services/equipment_repository.dart';
@@ -190,6 +191,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         title: Text(_isEditing
             ? context.l10n.equipmentFormEditTitle
             : context.l10n.equipmentFormNewTitle),
+        actions: const [LanguageSwitcher()],
       ),
       body: SafeArea(
         child: AbsorbPointer(

@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/ico_validator.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/language_switcher.dart';
 import '../../services/ares_service.dart';
 import '../../services/auth_repository.dart';
 
@@ -143,6 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Text(context.l10n.registerTitle),
           ],
         ),
+        actions: const [LanguageSwitcher()],
       ),
       body: SafeArea(
         child: Center(

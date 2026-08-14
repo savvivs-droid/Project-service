@@ -731,6 +731,18 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Galerie'**
   String get galleryOption;
+
+  /// Language switcher icon button tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Jazyk'**
+  String get languageSwitcherTooltip;
+
+  /// Language switcher: follow system language option
+  ///
+  /// In cs, this message translates to:
+  /// **'Jako v systému'**
+  String get systemLanguageOption;
 }
 
 class _AppLocalizationsDelegate
