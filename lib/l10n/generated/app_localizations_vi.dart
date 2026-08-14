@@ -433,4 +433,36 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Không thể đổi mật khẩu';
+
+  @override
+  String get clientCreateRequestButton => 'Tạo yêu cầu sửa chữa';
+
+  @override
+  String get createRequestTitle => 'Yêu cầu mới';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Loại thiết bị';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Thiết bị';
+
+  @override
+  String get createRequestEquipmentRequired => 'Chọn thiết bị';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Mô tả sự cố';
+
+  @override
+  String get createRequestDescriptionHint => 'Mô tả ngắn gọn điều đã xảy ra';
+
+  @override
+  String get createRequestDescriptionRequired => 'Thêm mô tả sự cố';
+
+  @override
+  String get createRequestSubmitButton => 'Gửi yêu cầu';
+
+  @override
+  String createRequestError(String error) {
+    return 'Không thể tạo yêu cầu: $error';
+  }
 }

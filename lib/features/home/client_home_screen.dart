@@ -11,6 +11,7 @@ import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'client_create_request_screen.dart';
 import 'client_equipment_category_screen.dart';
 import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
@@ -28,6 +29,25 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   // Открываем сразу на "Моё оборудование" — это то, с чем клиент
   // взаимодействует чаще всего, а не список заявок.
   int _tabIndex = 2;
+
+  // Меняется при каждой успешно созданной заявке, чтобы пересоздать
+  // вкладку "Активные" с новым ключом — иначе IndexedStack держит её
+  // состояние и список заявок не подхватит только что созданную запись.
+  int _activeRequestsRefreshTick = 0;
+
+  Future<void> _openCreateRequest() async {
+    final created = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => ClientCreateRequestScreen(profile: widget.profile),
+      ),
+    );
+    if (created == true) {
+      setState(() {
+        _tabIndex = 0;
+        _activeRequestsRefreshTick++;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +81,21 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       body: IndexedStack(
         index: _tabIndex,
         children: [
-          const _ClientRequestsTab(showActive: true),
+          _ClientRequestsTab(
+            key: ValueKey(_activeRequestsRefreshTick),
+            showActive: true,
+          ),
           const _ClientRequestsTab(showActive: false),
           _ClientEquipmentTab(establishmentId: widget.profile.establishmentId),
           ClientProfileTab(profile: widget.profile),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _openCreateRequest,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.build_outlined),
+        label: Text(l10n.clientCreateRequestButton),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
@@ -101,7 +131,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 /// (ServiceRequestRepository.fetchAll()) — какие строки вернутся, решает
 /// RLS в базе: клиенту видны только заявки его собственного заведения.
 class _ClientRequestsTab extends StatefulWidget {
-  const _ClientRequestsTab({required this.showActive});
+  const _ClientRequestsTab({super.key, required this.showActive});
 
   final bool showActive;
 
