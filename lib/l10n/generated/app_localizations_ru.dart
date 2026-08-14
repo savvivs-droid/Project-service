@@ -356,4 +356,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get systemLanguageOption => 'Как в системе';
+
+  @override
+  String get equipmentTypeFridge => 'Холодильник';
+
+  @override
+  String get equipmentTypeFreezer => 'Морозильная камера';
+
+  @override
+  String get equipmentTypeCombiOven => 'Пароконвектомат';
+
+  @override
+  String get equipmentTypeStove => 'Плита';
+
+  @override
+  String get equipmentTypeDishwasher => 'Посудомоечная машина';
+
+  @override
+  String get equipmentTypeGrill => 'Гриль';
+
+  @override
+  String get equipmentTypeCoffeeMachine => 'Кофемашина';
+
+  @override
+  String get equipmentTypeMixer => 'Миксер/блендер';
+
+  @override
+  String get equipmentTypeCuttingTable => 'Разделочный стол';
 }

@@ -743,6 +743,60 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Jako v systému'**
   String get systemLanguageOption;
+
+  /// Equipment type: fridge
+  ///
+  /// In cs, this message translates to:
+  /// **'Lednice'**
+  String get equipmentTypeFridge;
+
+  /// Equipment type: freezer
+  ///
+  /// In cs, this message translates to:
+  /// **'Mraznička'**
+  String get equipmentTypeFreezer;
+
+  /// Equipment type: combi oven
+  ///
+  /// In cs, this message translates to:
+  /// **'Konvektomat'**
+  String get equipmentTypeCombiOven;
+
+  /// Equipment type: stove
+  ///
+  /// In cs, this message translates to:
+  /// **'Sporák'**
+  String get equipmentTypeStove;
+
+  /// Equipment type: dishwasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Myčka nádobí'**
+  String get equipmentTypeDishwasher;
+
+  /// Equipment type: grill
+  ///
+  /// In cs, this message translates to:
+  /// **'Gril'**
+  String get equipmentTypeGrill;
+
+  /// Equipment type: coffee machine
+  ///
+  /// In cs, this message translates to:
+  /// **'Kávovar'**
+  String get equipmentTypeCoffeeMachine;
+
+  /// Equipment type: mixer/blender
+  ///
+  /// In cs, this message translates to:
+  /// **'Mixér / tyčový mixér'**
+  String get equipmentTypeMixer;
+
+  /// Equipment type: cutting table
+  ///
+  /// In cs, this message translates to:
+  /// **'Krájecí stůl'**
+  String get equipmentTypeCuttingTable;
 }
 
 class _AppLocalizationsDelegate

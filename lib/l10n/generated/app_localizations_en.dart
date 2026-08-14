@@ -359,4 +359,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get systemLanguageOption => 'System language';
+
+  @override
+  String get equipmentTypeFridge => 'Fridge';
+
+  @override
+  String get equipmentTypeFreezer => 'Freezer';
+
+  @override
+  String get equipmentTypeCombiOven => 'Combi oven';
+
+  @override
+  String get equipmentTypeStove => 'Stove';
+
+  @override
+  String get equipmentTypeDishwasher => 'Dishwasher';
+
+  @override
+  String get equipmentTypeGrill => 'Grill';
+
+  @override
+  String get equipmentTypeCoffeeMachine => 'Coffee machine';
+
+  @override
+  String get equipmentTypeMixer => 'Mixer/blender';
+
+  @override
+  String get equipmentTypeCuttingTable => 'Cutting table';
 }

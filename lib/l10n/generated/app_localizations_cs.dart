@@ -356,4 +356,31 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get systemLanguageOption => 'Jako v systému';
+
+  @override
+  String get equipmentTypeFridge => 'Lednice';
+
+  @override
+  String get equipmentTypeFreezer => 'Mraznička';
+
+  @override
+  String get equipmentTypeCombiOven => 'Konvektomat';
+
+  @override
+  String get equipmentTypeStove => 'Sporák';
+
+  @override
+  String get equipmentTypeDishwasher => 'Myčka nádobí';
+
+  @override
+  String get equipmentTypeGrill => 'Gril';
+
+  @override
+  String get equipmentTypeCoffeeMachine => 'Kávovar';
+
+  @override
+  String get equipmentTypeMixer => 'Mixér / tyčový mixér';
+
+  @override
+  String get equipmentTypeCuttingTable => 'Krájecí stůl';
 }

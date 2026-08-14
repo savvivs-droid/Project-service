@@ -206,15 +206,15 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                     Text(context.l10n.equipmentLabel,
                         style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 8),
-                    if (_item.equipmentLabels.isEmpty)
+                    if (_item.equipmentRefs.isEmpty)
                       Text(context.l10n.notSpecified)
                     else
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          for (final label in _item.equipmentLabels)
-                            Chip(label: Text(label)),
+                          for (final ref in _item.equipmentRefs)
+                            Chip(label: Text(ref.label(context))),
                         ],
                       ),
                   ],

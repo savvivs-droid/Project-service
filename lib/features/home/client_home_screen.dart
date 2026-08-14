@@ -193,9 +193,11 @@ class _ClientRequestCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      item.equipmentLabels.isEmpty
+                      item.equipmentRefs.isEmpty
                           ? context.l10n.requestFallbackTitle
-                          : item.equipmentLabels.join(', '),
+                          : item.equipmentRefs
+                              .map((e) => e.label(context))
+                              .join(', '),
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall

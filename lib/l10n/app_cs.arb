@@ -472,5 +472,41 @@
   "systemLanguageOption": "Jako v systému",
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
+  },
+  "equipmentTypeFridge": "Lednice",
+  "@equipmentTypeFridge": {
+    "description": "Equipment type: fridge"
+  },
+  "equipmentTypeFreezer": "Mraznička",
+  "@equipmentTypeFreezer": {
+    "description": "Equipment type: freezer"
+  },
+  "equipmentTypeCombiOven": "Konvektomat",
+  "@equipmentTypeCombiOven": {
+    "description": "Equipment type: combi oven"
+  },
+  "equipmentTypeStove": "Sporák",
+  "@equipmentTypeStove": {
+    "description": "Equipment type: stove"
+  },
+  "equipmentTypeDishwasher": "Myčka nádobí",
+  "@equipmentTypeDishwasher": {
+    "description": "Equipment type: dishwasher"
+  },
+  "equipmentTypeGrill": "Gril",
+  "@equipmentTypeGrill": {
+    "description": "Equipment type: grill"
+  },
+  "equipmentTypeCoffeeMachine": "Kávovar",
+  "@equipmentTypeCoffeeMachine": {
+    "description": "Equipment type: coffee machine"
+  },
+  "equipmentTypeMixer": "Mixér / tyčový mixér",
+  "@equipmentTypeMixer": {
+    "description": "Equipment type: mixer/blender"
+  },
+  "equipmentTypeCuttingTable": "Krájecí stůl",
+  "@equipmentTypeCuttingTable": {
+    "description": "Equipment type: cutting table"
   }
 }

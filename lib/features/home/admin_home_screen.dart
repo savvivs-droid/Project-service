@@ -316,9 +316,9 @@ class _RequestCard extends StatelessWidget {
                 ),
               const SizedBox(height: 4),
               Text(
-                item.equipmentLabels.isEmpty
+                item.equipmentRefs.isEmpty
                     ? request.description
-                    : '${item.equipmentLabels.join(', ')} — ${request.description}',
+                    : '${item.equipmentRefs.map((e) => e.label(context)).join(', ')} — ${request.description}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,

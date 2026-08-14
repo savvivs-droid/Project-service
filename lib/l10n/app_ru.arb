@@ -472,5 +472,41 @@
   "systemLanguageOption": "Как в системе",
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
+  },
+  "equipmentTypeFridge": "Холодильник",
+  "@equipmentTypeFridge": {
+    "description": "Equipment type: fridge"
+  },
+  "equipmentTypeFreezer": "Морозильная камера",
+  "@equipmentTypeFreezer": {
+    "description": "Equipment type: freezer"
+  },
+  "equipmentTypeCombiOven": "Пароконвектомат",
+  "@equipmentTypeCombiOven": {
+    "description": "Equipment type: combi oven"
+  },
+  "equipmentTypeStove": "Плита",
+  "@equipmentTypeStove": {
+    "description": "Equipment type: stove"
+  },
+  "equipmentTypeDishwasher": "Посудомоечная машина",
+  "@equipmentTypeDishwasher": {
+    "description": "Equipment type: dishwasher"
+  },
+  "equipmentTypeGrill": "Гриль",
+  "@equipmentTypeGrill": {
+    "description": "Equipment type: grill"
+  },
+  "equipmentTypeCoffeeMachine": "Кофемашина",
+  "@equipmentTypeCoffeeMachine": {
+    "description": "Equipment type: coffee machine"
+  },
+  "equipmentTypeMixer": "Миксер/блендер",
+  "@equipmentTypeMixer": {
+    "description": "Equipment type: mixer/blender"
+  },
+  "equipmentTypeCuttingTable": "Разделочный стол",
+  "@equipmentTypeCuttingTable": {
+    "description": "Equipment type: cutting table"
   }
 }

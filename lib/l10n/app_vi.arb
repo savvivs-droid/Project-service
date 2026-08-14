@@ -472,5 +472,41 @@
   "systemLanguageOption": "Theo hệ thống",
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
+  },
+  "equipmentTypeFridge": "Tủ lạnh",
+  "@equipmentTypeFridge": {
+    "description": "Equipment type: fridge"
+  },
+  "equipmentTypeFreezer": "Tủ đông",
+  "@equipmentTypeFreezer": {
+    "description": "Equipment type: freezer"
+  },
+  "equipmentTypeCombiOven": "Lò hấp nướng đa năng",
+  "@equipmentTypeCombiOven": {
+    "description": "Equipment type: combi oven"
+  },
+  "equipmentTypeStove": "Bếp",
+  "@equipmentTypeStove": {
+    "description": "Equipment type: stove"
+  },
+  "equipmentTypeDishwasher": "Máy rửa chén",
+  "@equipmentTypeDishwasher": {
+    "description": "Equipment type: dishwasher"
+  },
+  "equipmentTypeGrill": "Vỉ nướng",
+  "@equipmentTypeGrill": {
+    "description": "Equipment type: grill"
+  },
+  "equipmentTypeCoffeeMachine": "Máy pha cà phê",
+  "@equipmentTypeCoffeeMachine": {
+    "description": "Equipment type: coffee machine"
+  },
+  "equipmentTypeMixer": "Máy trộn/máy xay",
+  "@equipmentTypeMixer": {
+    "description": "Equipment type: mixer/blender"
+  },
+  "equipmentTypeCuttingTable": "Bàn sơ chế",
+  "@equipmentTypeCuttingTable": {
+    "description": "Equipment type: cutting table"
   }
 }

@@ -1,51 +1,100 @@
 import 'package:flutter/material.dart';
 
-/// Один пункт визуального выбора типа оборудования на форме добавления.
-class EquipmentTypeOption {
-  final String label;
-  final IconData icon;
+import '../l10n/l10n_extension.dart';
 
-  const EquipmentTypeOption({required this.label, required this.icon});
+/// Стабильный, независимый от языка идентификатор типа оборудования.
+/// Именно [storageValue] сохраняется в БД (equipment.type) — не
+/// локализованное название, иначе один и тот же холодильник назывался
+/// бы по-разному в зависимости от того, на каком языке интерфейса его
+/// когда-то добавили. Отображаемое название — всегда через
+/// [EquipmentTypeKeyX.label], по текущему языку приложения.
+enum EquipmentTypeKey {
+  fridge,
+  freezer,
+  combiOven,
+  stove,
+  dishwasher,
+  grill,
+  coffeeMachine,
+  mixer,
+  cuttingTable,
 }
 
-/// Самые частые типы оборудования гастрокухни — показываются иконками
-/// с подписью на форме добавления. Список не исчерпывающий: для всего
-/// остального на форме есть пункт "Другое" со свободным текстом (тип
-/// в базе — обычный text, не enum, поэтому список ничего не ограничивает).
-const List<EquipmentTypeOption> equipmentTypeOptions = [
-  EquipmentTypeOption(label: 'Холодильник', icon: Icons.ac_unit_outlined),
-  EquipmentTypeOption(label: 'Морозильная камера', icon: Icons.severe_cold_outlined),
-  EquipmentTypeOption(label: 'Пароконвектомат', icon: Icons.microwave_outlined),
-  EquipmentTypeOption(label: 'Плита', icon: Icons.local_fire_department_outlined),
-  EquipmentTypeOption(
-    label: 'Посудомоечная машина',
-    icon: Icons.local_laundry_service_outlined,
-  ),
-  EquipmentTypeOption(label: 'Гриль', icon: Icons.outdoor_grill_outlined),
-  EquipmentTypeOption(label: 'Кофемашина', icon: Icons.coffee_maker_outlined),
-  EquipmentTypeOption(label: 'Миксер/блендер', icon: Icons.blender_outlined),
-  EquipmentTypeOption(label: 'Разделочный стол', icon: Icons.countertops_outlined),
-];
+extension EquipmentTypeKeyX on EquipmentTypeKey {
+  String get storageValue => switch (this) {
+        EquipmentTypeKey.fridge => 'fridge',
+        EquipmentTypeKey.freezer => 'freezer',
+        EquipmentTypeKey.combiOven => 'combi_oven',
+        EquipmentTypeKey.stove => 'stove',
+        EquipmentTypeKey.dishwasher => 'dishwasher',
+        EquipmentTypeKey.grill => 'grill',
+        EquipmentTypeKey.coffeeMachine => 'coffee_machine',
+        EquipmentTypeKey.mixer => 'mixer',
+        EquipmentTypeKey.cuttingTable => 'cutting_table',
+      };
 
-/// Подбирает иконку по названию типа оборудования (свободный текст) —
-/// используется в списке оборудования, где тип уже задан. Ищет по
-/// ключевым словам, покрывает варианты из [equipmentTypeOptions] и
-/// немного шире. Для нераспознанного типа — нейтральная иконка.
-IconData iconForEquipmentType(String type) {
-  final normalized = type.toLowerCase();
-  bool has(String keyword) => normalized.contains(keyword);
+  IconData get icon => switch (this) {
+        EquipmentTypeKey.fridge => Icons.ac_unit_outlined,
+        EquipmentTypeKey.freezer => Icons.severe_cold_outlined,
+        EquipmentTypeKey.combiOven => Icons.microwave_outlined,
+        EquipmentTypeKey.stove => Icons.local_fire_department_outlined,
+        EquipmentTypeKey.dishwasher => Icons.local_laundry_service_outlined,
+        EquipmentTypeKey.grill => Icons.outdoor_grill_outlined,
+        EquipmentTypeKey.coffeeMachine => Icons.coffee_maker_outlined,
+        EquipmentTypeKey.mixer => Icons.blender_outlined,
+        EquipmentTypeKey.cuttingTable => Icons.countertops_outlined,
+      };
 
-  if (has('посудомо')) return Icons.local_laundry_service_outlined;
-  if (has('морозил')) return Icons.severe_cold_outlined;
-  if (has('холодильн') || has('камера')) return Icons.ac_unit_outlined;
-  if (has('пароконвектомат') || has('конвектомат') || has('духов') || has('печь')) {
-    return Icons.microwave_outlined;
+  String label(BuildContext context) => switch (this) {
+        EquipmentTypeKey.fridge => context.l10n.equipmentTypeFridge,
+        EquipmentTypeKey.freezer => context.l10n.equipmentTypeFreezer,
+        EquipmentTypeKey.combiOven => context.l10n.equipmentTypeCombiOven,
+        EquipmentTypeKey.stove => context.l10n.equipmentTypeStove,
+        EquipmentTypeKey.dishwasher => context.l10n.equipmentTypeDishwasher,
+        EquipmentTypeKey.grill => context.l10n.equipmentTypeGrill,
+        EquipmentTypeKey.coffeeMachine =>
+          context.l10n.equipmentTypeCoffeeMachine,
+        EquipmentTypeKey.mixer => context.l10n.equipmentTypeMixer,
+        EquipmentTypeKey.cuttingTable =>
+          context.l10n.equipmentTypeCuttingTable,
+      };
+}
+
+/// Записи, добавленные до многоязычности, хранят тип обычным русским
+/// текстом — распознаём и его, чтобы у уже существующего оборудования
+/// не пропали иконка и понятное название. При следующем сохранении
+/// такой записи тип автоматически перезапишется стабильным ключом (см.
+/// EquipmentFormScreen), так что база сама "самолечится" по мере правок.
+const _legacyRussianLabels = {
+  'Холодильник': EquipmentTypeKey.fridge,
+  'Морозильная камера': EquipmentTypeKey.freezer,
+  'Пароконвектомат': EquipmentTypeKey.combiOven,
+  'Плита': EquipmentTypeKey.stove,
+  'Посудомоечная машина': EquipmentTypeKey.dishwasher,
+  'Гриль': EquipmentTypeKey.grill,
+  'Кофемашина': EquipmentTypeKey.coffeeMachine,
+  'Миксер/блендер': EquipmentTypeKey.mixer,
+  'Разделочный стол': EquipmentTypeKey.cuttingTable,
+};
+
+/// Определяет ключ типа по значению из БД — новому ([storageValue]) или
+/// старому (русский текст). null означает свободный текст ("Другое") —
+/// такое показываем как есть, переводить нечего, это не наш словарь.
+EquipmentTypeKey? equipmentTypeKeyFromStorage(String value) {
+  for (final key in EquipmentTypeKey.values) {
+    if (key.storageValue == value) return key;
   }
-  if (has('плита') || has('варочн')) return Icons.local_fire_department_outlined;
-  if (has('гриль')) return Icons.outdoor_grill_outlined;
-  if (has('кофе')) return Icons.coffee_maker_outlined;
-  if (has('миксер') || has('блендер')) return Icons.blender_outlined;
-  if (has('стол') || has('поверхност')) return Icons.countertops_outlined;
+  return _legacyRussianLabels[value];
+}
 
-  return Icons.kitchen_outlined;
+/// Локализованное название типа оборудования для отображения.
+String equipmentTypeLabel(BuildContext context, String storedType) {
+  final key = equipmentTypeKeyFromStorage(storedType);
+  return key == null ? storedType : key.label(context);
+}
+
+/// Иконка по значению из БД. Для нераспознанного (свободного) типа —
+/// нейтральная иконка.
+IconData equipmentTypeIcon(String storedType) {
+  return equipmentTypeKeyFromStorage(storedType)?.icon ?? Icons.kitchen_outlined;
 }

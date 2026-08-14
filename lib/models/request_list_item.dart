@@ -1,25 +1,44 @@
+import 'package:flutter/widgets.dart';
+
+import '../core/constants/equipment_icons.dart';
 import 'service_request.dart';
+
+/// Единица оборудования, привязанная к заявке — храним сырые данные
+/// (не готовую строку), потому что тип нужно локализовать при показе,
+/// а во время разбора JSON (фабрика ниже) BuildContext ещё недоступен.
+class EquipmentRef {
+  final String type;
+  final String? stickerCode;
+
+  const EquipmentRef({required this.type, this.stickerCode});
+
+  /// Локализованное название типа, с кодом стикера через " · ", если он есть.
+  String label(BuildContext context) {
+    final typeLabel = equipmentTypeLabel(context, type);
+    return stickerCode == null ? typeLabel : '$typeLabel · $stickerCode';
+  }
+}
 
 /// Заявка вместе с данными, которые обычной модели ServiceRequest не
 /// нужны, но нужны для списка/детали: название и адрес заведения,
-/// контакт клиента, человекочитаемые названия оборудования. Собирается
-/// из одного запроса с embed-джойнами Supabase (см.
-/// ServiceRequestRepository.fetchAll()) — используется и на экране
-/// администратора (видит все заявки), и на экране клиента (видит только
-/// заявки своего заведения, это фильтрует RLS на уровне базы).
+/// контакт клиента, оборудование. Собирается из одного запроса с
+/// embed-джойнами Supabase (см. ServiceRequestRepository.fetchAll()) —
+/// используется и на экране администратора (видит все заявки), и на
+/// экране клиента (видит только заявки своего заведения, это фильтрует
+/// RLS на уровне базы).
 class RequestListItem {
   final ServiceRequest request;
   final String establishmentName;
   final String? establishmentAddress;
   final String clientName;
   final String? clientPhone;
-  final List<String> equipmentLabels;
+  final List<EquipmentRef> equipmentRefs;
 
   const RequestListItem({
     required this.request,
     required this.establishmentName,
     required this.clientName,
-    required this.equipmentLabels,
+    required this.equipmentRefs,
     this.establishmentAddress,
     this.clientPhone,
   });
@@ -40,12 +59,13 @@ class RequestListItem {
       establishmentAddress: establishment?['address'] as String?,
       clientName: client?['full_name'] as String? ?? '—',
       clientPhone: client?['phone'] as String?,
-      equipmentLabels: equipmentLinks.map((link) {
+      equipmentRefs: equipmentLinks.map((link) {
         final equipment =
             (link as Map<String, dynamic>)['equipment'] as Map<String, dynamic>?;
-        final type = equipment?['type'] as String? ?? '—';
-        final code = equipment?['sticker_code'] as String?;
-        return code == null ? type : '$type · $code';
+        return EquipmentRef(
+          type: equipment?['type'] as String? ?? '—',
+          stickerCode: equipment?['sticker_code'] as String?,
+        );
       }).toList(),
     );
   }

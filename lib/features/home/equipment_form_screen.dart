@@ -64,10 +64,15 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     final existing = widget.existing;
 
     final existingType = existing?.type;
+    final existingKey =
+        existingType == null ? null : equipmentTypeKeyFromStorage(existingType);
     if (existingType == null) {
       _selectedType = null;
-    } else if (equipmentTypeOptions.any((option) => option.label == existingType)) {
-      _selectedType = existingType;
+    } else if (existingKey != null) {
+      // Нормализуем: если тип хранился в старом (русском) формате,
+      // выбор в форме всё равно попадает на нужную плитку, а при
+      // сохранении запишется уже стабильный ключ.
+      _selectedType = existingKey.storageValue;
     } else {
       _selectedType = _otherTypeSentinel;
     }
@@ -208,12 +213,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    for (final option in equipmentTypeOptions)
+                    for (final key in EquipmentTypeKey.values)
                       _TypeOptionTile(
-                        icon: option.icon,
-                        label: option.label,
-                        selected: _selectedType == option.label,
-                        onTap: () => _selectType(option.label),
+                        icon: key.icon,
+                        label: key.label(context),
+                        selected: _selectedType == key.storageValue,
+                        onTap: () => _selectType(key.storageValue),
                       ),
                     _TypeOptionTile(
                       icon: Icons.more_horiz,

@@ -357,4 +357,31 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get systemLanguageOption => 'Theo hệ thống';
+
+  @override
+  String get equipmentTypeFridge => 'Tủ lạnh';
+
+  @override
+  String get equipmentTypeFreezer => 'Tủ đông';
+
+  @override
+  String get equipmentTypeCombiOven => 'Lò hấp nướng đa năng';
+
+  @override
+  String get equipmentTypeStove => 'Bếp';
+
+  @override
+  String get equipmentTypeDishwasher => 'Máy rửa chén';
+
+  @override
+  String get equipmentTypeGrill => 'Vỉ nướng';
+
+  @override
+  String get equipmentTypeCoffeeMachine => 'Máy pha cà phê';
+
+  @override
+  String get equipmentTypeMixer => 'Máy trộn/máy xay';
+
+  @override
+  String get equipmentTypeCuttingTable => 'Bàn sơ chế';
 }

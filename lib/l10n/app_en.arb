@@ -472,5 +472,41 @@
   "systemLanguageOption": "System language",
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
+  },
+  "equipmentTypeFridge": "Fridge",
+  "@equipmentTypeFridge": {
+    "description": "Equipment type: fridge"
+  },
+  "equipmentTypeFreezer": "Freezer",
+  "@equipmentTypeFreezer": {
+    "description": "Equipment type: freezer"
+  },
+  "equipmentTypeCombiOven": "Combi oven",
+  "@equipmentTypeCombiOven": {
+    "description": "Equipment type: combi oven"
+  },
+  "equipmentTypeStove": "Stove",
+  "@equipmentTypeStove": {
+    "description": "Equipment type: stove"
+  },
+  "equipmentTypeDishwasher": "Dishwasher",
+  "@equipmentTypeDishwasher": {
+    "description": "Equipment type: dishwasher"
+  },
+  "equipmentTypeGrill": "Grill",
+  "@equipmentTypeGrill": {
+    "description": "Equipment type: grill"
+  },
+  "equipmentTypeCoffeeMachine": "Coffee machine",
+  "@equipmentTypeCoffeeMachine": {
+    "description": "Equipment type: coffee machine"
+  },
+  "equipmentTypeMixer": "Mixer/blender",
+  "@equipmentTypeMixer": {
+    "description": "Equipment type: mixer/blender"
+  },
+  "equipmentTypeCuttingTable": "Cutting table",
+  "@equipmentTypeCuttingTable": {
+    "description": "Equipment type: cutting table"
   }
 }

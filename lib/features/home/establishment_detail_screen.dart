@@ -352,12 +352,12 @@ class _EquipmentTile extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: _statusColor(context),
           child: Icon(
-            iconForEquipmentType(equipment.type),
+            equipmentTypeIcon(equipment.type),
             color: Colors.white,
             size: 20,
           ),
         ),
-        title: Text(equipment.type),
+        title: Text(equipmentTypeLabel(context, equipment.type)),
         subtitle: Text([
           if (equipment.model != null) equipment.model!,
           if (equipment.stickerCode != null) equipment.stickerCode!,
