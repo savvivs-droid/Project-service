@@ -343,7 +343,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get saveButton => 'Uložit';
 
   @override
-  String get equipmentSaveError => 'Nepodařilo se uložit vybavení.';
+  String equipmentSaveError(String error) {
+    return 'Nepodařilo se uložit vybavení: $error';
+  }
 
   @override
   String get cameraOption => 'Fotoaparát';

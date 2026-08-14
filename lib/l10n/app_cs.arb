@@ -453,9 +453,14 @@
   "@saveButton": {
     "description": "Generic save button"
   },
-  "equipmentSaveError": "Nepodařilo se uložit vybavení.",
+  "equipmentSaveError": "Nepodařilo se uložit vybavení: {error}",
   "@equipmentSaveError": {
-    "description": "Equipment save error"
+    "description": "Equipment save error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "cameraOption": "Fotoaparát",
   "@cameraOption": {

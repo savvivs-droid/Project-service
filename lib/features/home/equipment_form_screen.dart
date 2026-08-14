@@ -179,10 +179,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
       if (!mounted) return;
       Navigator.of(context).pop(true);
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.equipmentSaveError)),
+        SnackBar(content: Text(context.l10n.equipmentSaveError(e.toString()))),
       );
     } finally {
       if (mounted) setState(() => _isSaving = false);

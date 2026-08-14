@@ -344,7 +344,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get saveButton => 'Lưu';
 
   @override
-  String get equipmentSaveError => 'Không thể lưu thiết bị.';
+  String equipmentSaveError(String error) {
+    return 'Không thể lưu thiết bị: $error';
+  }
 
   @override
   String get cameraOption => 'Máy ảnh';

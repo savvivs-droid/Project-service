@@ -346,7 +346,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveButton => 'Save';
 
   @override
-  String get equipmentSaveError => 'Couldn\'t save the equipment.';
+  String equipmentSaveError(String error) {
+    return 'Couldn\'t save the equipment: $error';
+  }
 
   @override
   String get cameraOption => 'Camera';

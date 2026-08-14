@@ -343,7 +343,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get saveButton => 'Сохранить';
 
   @override
-  String get equipmentSaveError => 'Не удалось сохранить оборудование.';
+  String equipmentSaveError(String error) {
+    return 'Не удалось сохранить оборудование: $error';
+  }
 
   @override
   String get cameraOption => 'Камера';

@@ -453,9 +453,14 @@
   "@saveButton": {
     "description": "Generic save button"
   },
-  "equipmentSaveError": "Couldn't save the equipment.",
+  "equipmentSaveError": "Couldn't save the equipment: {error}",
   "@equipmentSaveError": {
-    "description": "Equipment save error"
+    "description": "Equipment save error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "cameraOption": "Camera",
   "@cameraOption": {

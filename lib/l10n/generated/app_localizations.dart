@@ -714,11 +714,11 @@ abstract class AppLocalizations {
   /// **'Uložit'**
   String get saveButton;
 
-  /// Equipment save error
+  /// Equipment save error with details
   ///
   /// In cs, this message translates to:
-  /// **'Nepodařilo se uložit vybavení.'**
-  String get equipmentSaveError;
+  /// **'Nepodařilo se uložit vybavení: {error}'**
+  String equipmentSaveError(String error);
 
   /// Photo source picker: camera option
   ///
