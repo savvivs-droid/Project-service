@@ -432,4 +432,36 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Nepodařilo se změnit heslo';
+
+  @override
+  String get clientCreateRequestButton => 'Vytvořit žádost o opravu';
+
+  @override
+  String get createRequestTitle => 'Nová žádost';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Typ vybavení';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Vybavení';
+
+  @override
+  String get createRequestEquipmentRequired => 'Vyberte vybavení';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Popište problém';
+
+  @override
+  String get createRequestDescriptionHint => 'Stručně popište, co se stalo';
+
+  @override
+  String get createRequestDescriptionRequired => 'Přidejte popis problému';
+
+  @override
+  String get createRequestSubmitButton => 'Odeslat žádost';
+
+  @override
+  String createRequestError(String error) {
+    return 'Nepodařilo se vytvořit žádost: $error';
+  }
 }

@@ -23,6 +23,31 @@ class ServiceRequestRepository {
         .toList();
   }
 
+  /// Создаёт заявку от имени клиента и привязывает к ней выбранное
+  /// оборудование через связующую таблицу service_request_equipment.
+  Future<void> create({
+    required String establishmentId,
+    required String clientId,
+    required String description,
+    required List<String> equipmentIds,
+  }) async {
+    final row = await _client
+        .from('service_requests')
+        .insert({
+          'establishment_id': establishmentId,
+          'client_id': clientId,
+          'description': description,
+        })
+        .select('id')
+        .single();
+
+    final requestId = row['id'] as String;
+    await _client.from('service_request_equipment').insert([
+      for (final equipmentId in equipmentIds)
+        {'request_id': requestId, 'equipment_id': equipmentId},
+    ]);
+  }
+
   Future<void> assignSchedule({
     required String requestId,
     required DateTime scheduledAt,

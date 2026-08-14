@@ -435,4 +435,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Couldn\'t change the password';
+
+  @override
+  String get clientCreateRequestButton => 'Create repair request';
+
+  @override
+  String get createRequestTitle => 'New request';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Equipment type';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Equipment';
+
+  @override
+  String get createRequestEquipmentRequired => 'Select equipment';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Describe the problem';
+
+  @override
+  String get createRequestDescriptionHint => 'Briefly describe what happened';
+
+  @override
+  String get createRequestDescriptionRequired => 'Add a problem description';
+
+  @override
+  String get createRequestSubmitButton => 'Submit request';
+
+  @override
+  String createRequestError(String error) {
+    return 'Failed to create request: $error';
+  }
 }

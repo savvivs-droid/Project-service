@@ -573,5 +573,50 @@
   "passwordChangeError": "Couldn't change the password",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Create repair request",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "New request",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Equipment type",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Equipment",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Select equipment",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Describe the problem",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Briefly describe what happened",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Add a problem description",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Submit request",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Failed to create request: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -573,5 +573,50 @@
   "passwordChangeError": "Nepodařilo se změnit heslo",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Vytvořit žádost o opravu",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "Nová žádost",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Typ vybavení",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Vybavení",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Vyberte vybavení",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Popište problém",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Stručně popište, co se stalo",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Přidejte popis problému",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Odeslat žádost",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Nepodařilo se vytvořit žádost: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   }
 }
