@@ -19,7 +19,7 @@ class PhotoUploadService {
     required String folder,
     required Uint8List bytes,
   }) async {
-    final random = Random().nextInt(1 << 32).toRadixString(16);
+    final random = Random().nextInt(2147483647).toRadixString(16);
     final path =
         '$folder/${DateTime.now().microsecondsSinceEpoch}_$random.jpg';
 
