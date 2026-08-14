@@ -77,12 +77,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registerAddressRequired => 'Введите адрес заведения';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Контактный телефон заведения';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Введите контактный телефон';
-
-  @override
   String get registerSubmitButton => 'Зарегистрироваться';
 
   @override

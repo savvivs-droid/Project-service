@@ -88,14 +88,6 @@
   "@registerAddressRequired": {
     "description": "Register: address validator"
   },
-  "registerEstablishmentPhoneLabel": "Số điện thoại liên hệ của cơ sở",
-  "@registerEstablishmentPhoneLabel": {
-    "description": "Register: establishment phone field"
-  },
-  "registerEstablishmentPhoneRequired": "Nhập số điện thoại liên hệ",
-  "@registerEstablishmentPhoneRequired": {
-    "description": "Register: establishment phone validator"
-  },
   "registerSubmitButton": "Đăng ký",
   "@registerSubmitButton": {
     "description": "Register: submit button"

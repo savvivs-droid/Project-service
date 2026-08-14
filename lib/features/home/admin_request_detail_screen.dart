@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
 import '../../services/service_request_repository.dart';
@@ -129,7 +130,9 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.requestDetailTitle(shortId)),
+        title: AppBrandAppBarTitle(
+          subtitle: context.l10n.requestDetailTitle(shortId),
+        ),
         actions: [
           const LanguageSwitcher(),
           Padding(

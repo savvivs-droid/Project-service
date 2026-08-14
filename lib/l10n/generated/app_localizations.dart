@@ -234,18 +234,6 @@ abstract class AppLocalizations {
   /// **'Zadejte adresu podniku'**
   String get registerAddressRequired;
 
-  /// Register: establishment phone field
-  ///
-  /// In cs, this message translates to:
-  /// **'Kontaktní telefon podniku'**
-  String get registerEstablishmentPhoneLabel;
-
-  /// Register: establishment phone validator
-  ///
-  /// In cs, this message translates to:
-  /// **'Zadejte kontaktní telefon'**
-  String get registerEstablishmentPhoneRequired;
-
   /// Register: submit button
   ///
   /// In cs, this message translates to:

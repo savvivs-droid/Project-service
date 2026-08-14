@@ -34,6 +34,34 @@ class AppBrandIcon extends StatelessWidget {
   }
 }
 
+/// Заголовок AppBar, где название FixMyGastro всегда видно первым, а
+/// специфичный для экрана текст (если есть) идёт следом через
+/// разделитель и обрезается многоточием, если места не хватает —
+/// бренд не должен пропадать при переходе вглубь приложения.
+class AppBrandAppBarTitle extends StatelessWidget {
+  const AppBrandAppBarTitle({super.key, this.subtitle});
+
+  final String? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    if (subtitle == null || subtitle!.isEmpty) return const AppBrandTitle();
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const AppBrandTitle(),
+        const SizedBox(width: 10),
+        Container(width: 1, height: 18, color: AppTheme.onPrimary.withValues(alpha: 0.4)),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Text(subtitle!, overflow: TextOverflow.ellipsis),
+        ),
+      ],
+    );
+  }
+}
+
 class AppBrandLockup extends StatelessWidget {
   const AppBrandLockup({super.key});
 

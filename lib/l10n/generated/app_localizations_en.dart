@@ -79,13 +79,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerAddressRequired => 'Enter the establishment\'s address';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Establishment contact phone';
-
-  @override
-  String get registerEstablishmentPhoneRequired =>
-      'Enter a contact phone number';
-
-  @override
   String get registerSubmitButton => 'Sign up';
 
   @override

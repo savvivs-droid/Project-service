@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../services/equipment_repository.dart';
@@ -61,14 +62,7 @@ class _ClientEquipmentCategoryScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(widget.icon, size: 22),
-            const SizedBox(width: 10),
-            Text(widget.title),
-          ],
-        ),
+        title: AppBrandAppBarTitle(subtitle: widget.title),
         actions: const [LanguageSwitcher()],
       ),
       body: FutureBuilder<List<Equipment>>(

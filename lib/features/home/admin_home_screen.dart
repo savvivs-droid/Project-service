@@ -37,14 +37,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const AppBrandIcon(size: 22),
-            const SizedBox(width: 10),
-            Text(titles[_tabIndex]),
-          ],
-        ),
+        title: AppBrandAppBarTitle(subtitle: titles[_tabIndex]),
         actions: [
           const LanguageSwitcher(),
           IconButton(

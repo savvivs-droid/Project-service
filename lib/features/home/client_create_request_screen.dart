@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/profile.dart';
@@ -102,7 +103,7 @@ class _ClientCreateRequestScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.createRequestTitle),
+        title: AppBrandAppBarTitle(subtitle: context.l10n.createRequestTitle),
         actions: const [LanguageSwitcher()],
       ),
       body: SafeArea(

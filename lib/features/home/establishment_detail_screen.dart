@@ -4,6 +4,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -108,7 +109,7 @@ class _EstablishmentDetailScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(establishment.name),
+        title: AppBrandAppBarTitle(subtitle: establishment.name),
         actions: const [LanguageSwitcher()],
       ),
       floatingActionButton: FloatingActionButton(

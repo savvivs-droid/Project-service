@@ -77,13 +77,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get registerAddressRequired => 'Nhập địa chỉ cơ sở';
 
   @override
-  String get registerEstablishmentPhoneLabel =>
-      'Số điện thoại liên hệ của cơ sở';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Nhập số điện thoại liên hệ';
-
-  @override
   String get registerSubmitButton => 'Đăng ký';
 
   @override

@@ -77,12 +77,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get registerAddressRequired => 'Zadejte adresu podniku';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Kontaktní telefon podniku';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Zadejte kontaktní telefon';
-
-  @override
   String get registerSubmitButton => 'Zaregistrovat se';
 
   @override

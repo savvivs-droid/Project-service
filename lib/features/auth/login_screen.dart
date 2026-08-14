@@ -58,7 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: const [LanguageSwitcher()]),
+      appBar: AppBar(
+        title: const AppBrandAppBarTitle(),
+        actions: const [LanguageSwitcher()],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
