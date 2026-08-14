@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/utils/launch_helpers.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../models/request_list_item.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
@@ -29,7 +30,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_tabIndex]),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const AppBrandIcon(size: 22),
+            const SizedBox(width: 10),
+            Text(_titles[_tabIndex]),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () => AuthRepository().signOut(),

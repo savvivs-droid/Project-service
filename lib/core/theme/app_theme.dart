@@ -8,6 +8,7 @@ class AppTheme {
   static const primary = Color(0xFF0E5C63);
   static const accent = Color(0xFFE2762B);
   static const background = Color(0xFFF3F6F5);
+  static const onPrimary = Color(0xFFF3F6F5);
 
   static ThemeData get light {
     final colorScheme =
@@ -19,6 +20,19 @@ class AppTheme {
       scaffoldBackgroundColor: background,
       inputDecorationTheme: const InputDecorationTheme(
         border: OutlineInputBorder(),
+      ),
+      // Единый фирменный AppBar на всех экранах — петроль с кремовым
+      // текстом/иконками, как на иконке приложения, а не серо-белый
+      // Material-стандарт.
+      appBarTheme: const AppBarTheme(
+        backgroundColor: primary,
+        foregroundColor: onPrimary,
+        titleTextStyle: TextStyle(
+          color: onPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+        iconTheme: IconThemeData(color: onPrimary),
       ),
     );
   }

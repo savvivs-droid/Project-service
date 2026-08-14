@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../core/widgets/app_brand.dart';
 import '../../services/auth_repository.dart';
 import 'register_screen.dart';
 
@@ -67,11 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'FixMyGastro',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      textAlign: TextAlign.center,
-                    ),
+                    const Center(child: AppBrandLockup()),
                     const SizedBox(height: 32),
                     TextFormField(
                       controller: _emailController,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/utils/ico_validator.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../services/ares_service.dart';
 import '../../services/auth_repository.dart';
 
@@ -141,7 +142,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Регистрация')),
+      appBar: AppBar(
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppBrandIcon(size: 22),
+            SizedBox(width: 10),
+            Text('Регистрация'),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

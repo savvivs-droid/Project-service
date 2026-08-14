@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
@@ -25,7 +26,14 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_tabIndex]),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const AppBrandIcon(size: 22),
+            const SizedBox(width: 10),
+            Text(_titles[_tabIndex]),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () => AuthRepository().signOut(),

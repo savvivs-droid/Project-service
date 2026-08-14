@@ -41,6 +41,7 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/brand/logo_mark.png
 
 flutter_launcher_icons:
   image_path: "assets_icon_source.png"
