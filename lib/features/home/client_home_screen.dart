@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
-import '../../core/constants/equipment_status.dart';
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
@@ -12,6 +11,7 @@ import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'client_equipment_category_screen.dart';
 import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
 
@@ -25,7 +25,9 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
-  int _tabIndex = 0;
+  // Открываем сразу на "Моё оборудование" — это то, с чем клиент
+  // взаимодействует чаще всего, а не список заявок.
+  int _tabIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -262,8 +264,12 @@ class _ClientRequestCard extends StatelessWidget {
   }
 }
 
-/// Оборудование заведения клиента — только чтение (добавляет и меняет
-/// оборудование только администратор, см. EstablishmentDetailScreen).
+/// Категории оборудования заведения клиента — все известные типы
+/// показываются всегда, даже если по ним пока ничего не заведено
+/// (кроме "Другое", которое появляется только если такое оборудование
+/// реально есть — свободный текст без известного типа). Нажатие на
+/// плитку открывает список конкретных единиц этой категории. Добавляет
+/// и меняет оборудование только администратор, см. EstablishmentDetailScreen.
 class _ClientEquipmentTab extends StatefulWidget {
   const _ClientEquipmentTab({required this.establishmentId});
 
@@ -295,6 +301,26 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
     await future;
   }
 
+  void _openCategory(
+    BuildContext context,
+    EquipmentTypeKey? key,
+    String title,
+    IconData icon,
+  ) {
+    final establishmentId = widget.establishmentId;
+    if (establishmentId == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ClientEquipmentCategoryScreen(
+          establishmentId: establishmentId,
+          typeKey: key,
+          title: title,
+          icon: icon,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Equipment>>(
@@ -316,27 +342,47 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
         }
 
         final equipment = snapshot.data ?? const [];
-        if (equipment.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: _refresh,
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Center(child: Text(context.l10n.noEquipmentYet)),
-                ),
-              ],
-            ),
-          );
-        }
+        int countFor(EquipmentTypeKey? key) => equipment
+            .where((item) => equipmentTypeKeyFromStorage(item.type) == key)
+            .length;
+        final otherCount = countFor(null);
 
         return RefreshIndicator(
           onRefresh: _refresh,
-          child: ListView.builder(
+          child: GridView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: equipment.length,
-            itemBuilder: (context, index) =>
-                _ClientEquipmentCard(equipment: equipment[index]),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 0.85,
+            ),
+            // Все известные категории показываем всегда; "Другое" —
+            // только если у заведения реально есть такое оборудование.
+            itemCount: EquipmentTypeKey.values.length + (otherCount > 0 ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index < EquipmentTypeKey.values.length) {
+                final key = EquipmentTypeKey.values[index];
+                return _CategoryTile(
+                  icon: key.icon,
+                  label: key.label(context),
+                  count: countFor(key),
+                  onTap: () =>
+                      _openCategory(context, key, key.label(context), key.icon),
+                );
+              }
+              return _CategoryTile(
+                icon: Icons.more_horiz,
+                label: context.l10n.equipmentTypeOther,
+                count: otherCount,
+                onTap: () => _openCategory(
+                  context,
+                  null,
+                  context.l10n.equipmentTypeOther,
+                  Icons.more_horiz,
+                ),
+              );
+            },
           ),
         );
       },
@@ -344,43 +390,69 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
   }
 }
 
-class _ClientEquipmentCard extends StatelessWidget {
-  const _ClientEquipmentCard({required this.equipment});
+class _CategoryTile extends StatelessWidget {
+  const _CategoryTile({
+    required this.icon,
+    required this.label,
+    required this.count,
+    required this.onTap,
+  });
 
-  final Equipment equipment;
-
-  Color _statusColor(BuildContext context) => switch (equipment.status) {
-        EquipmentStatus.active => const Color(0xFF2F9E63),
-        EquipmentStatus.inRepair => const Color(0xFF2F6FED),
-        EquipmentStatus.decommissioned => const Color(0xFF6E7B93),
-      };
+  final IconData icon;
+  final String label;
+  final int count;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: _statusColor(context),
-          child: Icon(
-            equipmentTypeIcon(equipment.type),
-            color: Colors.white,
-            size: 20,
-          ),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: colorScheme.outlineVariant),
         ),
-        title: Text(equipmentTypeLabel(context, equipment.type)),
-        subtitle: Text([
-          if (equipment.model != null) equipment.model!,
-          if (equipment.stickerCode != null) equipment.stickerCode!,
-        ].join(' · ')),
-        trailing: Chip(
-          label: Text(
-            equipment.status.label(context),
-            style: const TextStyle(color: Colors.white, fontSize: 12),
-          ),
-          backgroundColor: _statusColor(context),
-          side: BorderSide.none,
-          visualDensity: VisualDensity.compact,
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 30, color: colorScheme.primary),
+                const SizedBox(height: 8),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+            if (count > 0)
+              Positioned(
+                top: -4,
+                right: -4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    '$count',
+                    style: TextStyle(
+                      color: colorScheme.onSecondary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
