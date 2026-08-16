@@ -33,6 +33,12 @@ dependencies:
   # Хранит выбранный вручную язык интерфейса между запусками приложения
   shared_preferences: ^2.3.2
 
+  # Push-уведомления (Firebase Cloud Messaging) — токен устройства
+  # регистрируется в device_tokens, а сама отправка на новое сообщение
+  # чата — на стороне сервера, см. supabase/functions/send-push-notification.
+  firebase_core: ^4.13.0
+  firebase_messaging: ^16.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

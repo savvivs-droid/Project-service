@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -5,6 +7,7 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
 import '../../services/profile_repository.dart';
+import '../../services/push_notification_service.dart';
 import '../home/role_router_screen.dart';
 import 'login_screen.dart';
 
@@ -69,6 +72,11 @@ class _AuthGateState extends State<AuthGate> {
                 ),
               );
             }
+
+            // Заводит/обновляет токен устройства для push-уведомлений —
+            // не блокирует отрисовку экрана, ошибки (например, отказ в
+            // разрешении) не критичны для работы приложения.
+            unawaited(PushNotificationService.instance.registerForCurrentUser());
 
             return RoleRouterScreen(profile: profile);
           },

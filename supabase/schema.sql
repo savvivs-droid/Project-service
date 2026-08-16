@@ -161,12 +161,27 @@ create table public.request_read_state (
   primary key (request_id, profile_id)
 );
 
+-- Токены устройств для push-уведомлений (Firebase Cloud Messaging) — один
+-- пользователь может быть залогинен на нескольких устройствах, у каждого
+-- свой токен, поэтому это отдельная таблица, а не колонка в profiles.
+-- Заполняется приложением при входе (см.
+-- lib/services/device_token_repository.dart), читается только серверной
+-- частью (Edge Function send-push-notification, service role — в обход
+-- RLS) при отправке пуша на новое сообщение чата.
+create table public.device_tokens (
+  token text primary key,
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  platform text not null,
+  updated_at timestamptz not null default now()
+);
+
 -- Индексы для внешних ключей, по которым мы часто фильтруем
 create index idx_profiles_establishment on public.profiles (establishment_id);
 create index idx_establishment_members_establishment on public.establishment_members (establishment_id);
 create index idx_equipment_establishment on public.equipment (establishment_id);
 create index idx_service_requests_establishment on public.service_requests (establishment_id);
 create index idx_service_requests_client on public.service_requests (client_id);
+create index idx_device_tokens_profile on public.device_tokens (profile_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
 create index idx_request_messages_request on public.request_messages (request_id, created_at);
 create index idx_request_read_state_profile on public.request_read_state (profile_id);
@@ -451,6 +466,29 @@ create policy "Обновляет только свою отметку проч�
   on public.request_read_state for update
   using (profile_id = auth.uid())
   with check (profile_id = auth.uid());
+
+-- === device_tokens (push-уведомления) ===
+alter table public.device_tokens enable row level security;
+
+-- Читать чужие токены изнутри приложения не нужно никому, даже
+-- администратору — их читает только Edge Function по service role
+-- (в обход RLS), поэтому select-политика разрешает видеть только свои.
+create policy "Каждый видит только свои токены устройств"
+  on public.device_tokens for select
+  using (profile_id = auth.uid());
+
+create policy "Заводит токен только от своего имени"
+  on public.device_tokens for insert
+  with check (profile_id = auth.uid());
+
+create policy "Обновляет только свой токен"
+  on public.device_tokens for update
+  using (profile_id = auth.uid())
+  with check (profile_id = auth.uid());
+
+create policy "Удаляет только свой токен"
+  on public.device_tokens for delete
+  using (profile_id = auth.uid());
 
 -- Включаем Realtime для чата — без этого supabase_flutter .stream(...)
 -- не будет получать новые сообщения без ручного обновления экрана.

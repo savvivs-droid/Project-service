@@ -14,6 +14,7 @@ import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
 import '../../services/establishment_repository.dart';
+import '../../services/push_notification_service.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'client_add_establishment_screen.dart';
@@ -172,7 +173,10 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           ),
           const LanguageSwitcher(),
           IconButton(
-            onPressed: () => AuthRepository().signOut(),
+            onPressed: () async {
+              await PushNotificationService.instance.unregisterCurrentDevice();
+              await AuthRepository().signOut();
+            },
             icon: const Icon(Icons.logout),
             tooltip: l10n.signOutTooltip,
           ),
