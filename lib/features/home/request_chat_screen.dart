@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n_extension.dart';
@@ -46,6 +48,18 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
   void initState() {
     super.initState();
     _messagesStream = _repository.watchMessages(widget.requestId);
+    _markReadSoon();
+  }
+
+  /// Отмечает чат прочитанным — сразу при открытии экрана и затем каждый
+  /// раз, как приходит новое сообщение, пока экран открыт (иначе сообщение,
+  /// пришедшее во время просмотра, так и останется "непрочитанным" после
+  /// выхода). addPostFrameCallback — чтобы не дёргать сеть прямо из build.
+  void _markReadSoon() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      unawaited(_repository.markRead(widget.requestId));
+    });
   }
 
   @override
@@ -126,6 +140,7 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                 }
 
                 _scrollToBottomSoon();
+                _markReadSoon();
                 return ListView.builder(
                   controller: _scrollController,
                   padding: const EdgeInsets.all(12),

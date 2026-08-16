@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
@@ -12,6 +14,7 @@ import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
 import '../../services/establishment_repository.dart';
+import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'client_add_establishment_screen.dart';
 import 'client_create_request_screen.dart';
@@ -47,11 +50,29 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   // загрузился (или клиент состоит только в одном).
   String? _selectedEstablishmentId;
 
+  // Id заявок с непрочитанными сообщениями в чате — общий для всех
+  // вкладок список, живой (обновляется через Realtime), см.
+  // RequestMessageRepository.watchUnreadRequestIds.
+  final _messageRepository = RequestMessageRepository();
+  Set<String> _unreadRequestIds = const {};
+  StreamSubscription<Set<String>>? _unreadSubscription;
+
   @override
   void initState() {
     super.initState();
     _selectedEstablishmentId = widget.profile.establishmentId;
     _establishmentsFuture = _loadEstablishments();
+    _unreadSubscription = _messageRepository.watchUnreadRequestIds().listen(
+      (ids) {
+        if (mounted) setState(() => _unreadRequestIds = ids);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _unreadSubscription?.cancel();
+    super.dispose();
   }
 
   Future<List<Establishment>> _loadEstablishments() async {
@@ -164,11 +185,13 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
             showActive: true,
             establishmentId: _selectedEstablishmentId,
+            unreadRequestIds: _unreadRequestIds,
           ),
           _ClientRequestsTab(
             key: ValueKey('done-$_selectedEstablishmentId'),
             showActive: false,
             establishmentId: _selectedEstablishmentId,
+            unreadRequestIds: _unreadRequestIds,
           ),
           _ClientEquipmentTab(
             key: ValueKey(_selectedEstablishmentId),
@@ -189,13 +212,25 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.assignment_outlined),
-            selectedIcon: const Icon(Icons.assignment),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment),
+            ),
             label: l10n.navActive,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.task_alt_outlined),
-            selectedIcon: const Icon(Icons.task_alt),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt),
+            ),
             label: l10n.navDone,
           ),
           NavigationDestination(
@@ -224,10 +259,12 @@ class _ClientRequestsTab extends StatefulWidget {
     super.key,
     required this.showActive,
     required this.establishmentId,
+    required this.unreadRequestIds,
   });
 
   final bool showActive;
   final String? establishmentId;
+  final Set<String> unreadRequestIds;
 
   @override
   State<_ClientRequestsTab> createState() => _ClientRequestsTabState();
@@ -304,6 +341,7 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
             itemCount: items.length,
             itemBuilder: (context, index) => _ClientRequestCard(
               item: items[index],
+              hasUnread: widget.unreadRequestIds.contains(items[index].request.id),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => ClientRequestDetailScreen(item: items[index]),
@@ -318,9 +356,14 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
 }
 
 class _ClientRequestCard extends StatelessWidget {
-  const _ClientRequestCard({required this.item, required this.onTap});
+  const _ClientRequestCard({
+    required this.item,
+    required this.hasUnread,
+    required this.onTap,
+  });
 
   final RequestListItem item;
+  final bool hasUnread;
   final VoidCallback onTap;
 
   @override
@@ -343,6 +386,17 @@ class _ClientRequestCard extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  if (hasUnread) ...[
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.error,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
                   Expanded(
                     child: Text(
                       item.equipmentRefs.isEmpty

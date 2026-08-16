@@ -322,7 +322,23 @@ class _EquipmentOptionTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        leading: Icon(equipmentTypeIcon(equipment.type), color: colorScheme.primary),
+        leading: equipment.photos.isEmpty
+            ? CircleAvatar(
+                backgroundColor: colorScheme.primary.withValues(alpha: 0.1),
+                child: Icon(
+                  equipmentTypeIcon(equipment.type),
+                  color: colorScheme.primary,
+                ),
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  equipment.photos.first,
+                  width: 44,
+                  height: 44,
+                  fit: BoxFit.cover,
+                ),
+              ),
         title: Text(
           equipment.model?.isNotEmpty == true
               ? equipment.model!

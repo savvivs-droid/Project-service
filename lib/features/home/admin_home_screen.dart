@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
@@ -10,6 +12,7 @@ import '../../models/establishment.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
 import '../../services/establishment_repository.dart';
+import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'admin_request_detail_screen.dart';
 import 'establishment_detail_screen.dart';
@@ -25,6 +28,29 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   int _tabIndex = 0;
+
+  // Id заявок с непрочитанными сообщениями в чате — общий для всех
+  // вкладок, живой (Realtime), см.
+  // RequestMessageRepository.watchUnreadRequestIds.
+  final _messageRepository = RequestMessageRepository();
+  Set<String> _unreadRequestIds = const {};
+  StreamSubscription<Set<String>>? _unreadSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _unreadSubscription = _messageRepository.watchUnreadRequestIds().listen(
+      (ids) {
+        if (mounted) setState(() => _unreadRequestIds = ids);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _unreadSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +75,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       ),
       body: IndexedStack(
         index: _tabIndex,
-        children: const [
-          _RequestsTab(showActive: true),
-          _RequestsTab(showActive: false),
-          _ClientsTab(),
+        children: [
+          _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
+          _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
+          const _ClientsTab(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -60,13 +86,25 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.assignment_outlined),
-            selectedIcon: const Icon(Icons.assignment),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment),
+            ),
             label: l10n.navActive,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.task_alt_outlined),
-            selectedIcon: const Icon(Icons.task_alt),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt),
+            ),
             label: l10n.navDone,
           ),
           NavigationDestination(
@@ -85,9 +123,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 /// [showActive]. Это отдельные вкладки нижней навигации, а не секции
 /// одного списка.
 class _RequestsTab extends StatefulWidget {
-  const _RequestsTab({required this.showActive});
+  const _RequestsTab({required this.showActive, required this.unreadRequestIds});
 
   final bool showActive;
+  final Set<String> unreadRequestIds;
 
   @override
   State<_RequestsTab> createState() => _RequestsTabState();
@@ -169,6 +208,7 @@ class _RequestsTabState extends State<_RequestsTab> {
             itemCount: items.length,
             itemBuilder: (context, index) => _RequestCard(
               item: items[index],
+              hasUnread: widget.unreadRequestIds.contains(items[index].request.id),
               onTap: () => _openDetail(items[index]),
             ),
           ),
@@ -179,9 +219,14 @@ class _RequestsTabState extends State<_RequestsTab> {
 }
 
 class _RequestCard extends StatelessWidget {
-  const _RequestCard({required this.item, required this.onTap});
+  const _RequestCard({
+    required this.item,
+    required this.hasUnread,
+    required this.onTap,
+  });
 
   final RequestListItem item;
+  final bool hasUnread;
   final VoidCallback onTap;
 
   Future<void> _openMaps(BuildContext context) async {
@@ -227,6 +272,17 @@ class _RequestCard extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  if (hasUnread) ...[
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.error,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
                   Expanded(
                     child: Text(
                       item.establishmentName,

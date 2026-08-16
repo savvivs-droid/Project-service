@@ -149,6 +149,18 @@ create table public.request_messages (
   created_at timestamptz not null default now()
 );
 
+-- Отметка "прочитано до какого момента" по заявке — своя у каждого
+-- участника переписки (клиент и админ читают чат независимо друг от
+-- друга). Используется, чтобы посчитать непрочитанные сообщения (см.
+-- unread_message_request_ids() ниже) и показать индикатор на вкладках
+-- и карточках заявок, см. lib/services/request_message_repository.dart.
+create table public.request_read_state (
+  request_id uuid not null references public.service_requests (id) on delete cascade,
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  last_read_at timestamptz not null default now(),
+  primary key (request_id, profile_id)
+);
+
 -- Индексы для внешних ключей, по которым мы часто фильтруем
 create index idx_profiles_establishment on public.profiles (establishment_id);
 create index idx_establishment_members_establishment on public.establishment_members (establishment_id);
@@ -157,6 +169,7 @@ create index idx_service_requests_establishment on public.service_requests (esta
 create index idx_service_requests_client on public.service_requests (client_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
 create index idx_request_messages_request on public.request_messages (request_id, created_at);
+create index idx_request_read_state_profile on public.request_read_state (profile_id);
 
 
 -- -----------------------------------------------------------------------------
@@ -423,9 +436,49 @@ create policy "Писать может админ или клиент своих
 -- Сообщения не редактируются и не удаляются — политик update/delete
 -- нет намеренно, RLS по умолчанию запрещает всё, что не разрешено явно.
 
+-- === request_read_state (отметки прочтения чата) ===
+alter table public.request_read_state enable row level security;
+
+create policy "Каждый видит свою отметку прочтения, админ — все"
+  on public.request_read_state for select
+  using (profile_id = auth.uid() or public.is_staff());
+
+create policy "Отмечает прочтение только от своего имени"
+  on public.request_read_state for insert
+  with check (profile_id = auth.uid());
+
+create policy "Обновляет только свою отметку прочтения"
+  on public.request_read_state for update
+  using (profile_id = auth.uid())
+  with check (profile_id = auth.uid());
+
 -- Включаем Realtime для чата — без этого supabase_flutter .stream(...)
 -- не будет получать новые сообщения без ручного обновления экрана.
+-- request_read_state — для живого обновления индикатора непрочитанного
+-- на всех вкладках (см. RequestMessageRepository.watchUnreadRequestIds).
 alter publication supabase_realtime add table public.request_messages;
+alter publication supabase_realtime add table public.request_read_state;
+
+-- Заявки (их id), где есть хоть одно сообщение от другой стороны,
+-- написанное позже последней отметки прочтения текущего пользователя
+-- (или вообще без отметки — тогда читаем "непрочитано с самого начала").
+-- Используется для индикатора непрочитанного в интерфейсе.
+create or replace function public.unread_message_request_ids()
+returns setof uuid
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select distinct rm.request_id
+  from public.request_messages rm
+  join public.service_requests sr on sr.id = rm.request_id
+  left join public.request_read_state rrs
+    on rrs.request_id = rm.request_id and rrs.profile_id = auth.uid()
+  where rm.sender_id <> auth.uid()
+    and rm.created_at > coalesce(rrs.last_read_at, '-infinity'::timestamptz)
+    and (public.is_staff() or public.is_establishment_member(sr.establishment_id));
+$$;
 
 
 -- -----------------------------------------------------------------------------
