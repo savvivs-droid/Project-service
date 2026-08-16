@@ -610,5 +610,33 @@
         "type": "String"
       }
     }
+  },
+  "establishmentSwitcherTooltip": "Chuyển cơ sở",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Thêm cơ sở",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Cơ sở mới",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Số điện thoại liên hệ của cơ sở",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Nhập số điện thoại liên hệ",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Thêm",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Không thể thêm cơ sở. Kiểm tra thông tin đã nhập và kết nối internet.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
   }
 }

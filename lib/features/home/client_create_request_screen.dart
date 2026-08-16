@@ -5,19 +5,23 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
-import '../../models/profile.dart';
 import '../../services/equipment_repository.dart';
 import '../../services/service_request_repository.dart';
 
 /// Форма создания заявки на ремонт клиентом: вид техники → конкретный
 /// прибор → краткое описание проблемы. Список оборудования на выбор —
-/// только то, что реально числится за заведением клиента (добавляет и
-/// редактирует оборудование только администратор, см.
+/// только то, что реально числится за выбранным заведением клиента
+/// (добавляет и редактирует оборудование только администратор, см.
 /// EstablishmentDetailScreen).
 class ClientCreateRequestScreen extends StatefulWidget {
-  const ClientCreateRequestScreen({super.key, required this.profile});
+  const ClientCreateRequestScreen({
+    super.key,
+    required this.establishmentId,
+    required this.clientId,
+  });
 
-  final Profile profile;
+  final String establishmentId;
+  final String clientId;
 
   @override
   State<ClientCreateRequestScreen> createState() =>
@@ -41,10 +45,8 @@ class _ClientCreateRequestScreenState
   @override
   void initState() {
     super.initState();
-    final establishmentId = widget.profile.establishmentId;
-    _equipmentFuture = establishmentId == null
-        ? Future.value(const [])
-        : _equipmentRepository.fetchForEstablishment(establishmentId);
+    _equipmentFuture =
+        _equipmentRepository.fetchForEstablishment(widget.establishmentId);
   }
 
   @override
@@ -75,14 +77,11 @@ class _ClientCreateRequestScreenState
     }
     if (!_formKey.currentState!.validate()) return;
 
-    final establishmentId = widget.profile.establishmentId;
-    if (establishmentId == null) return;
-
     setState(() => _isSaving = true);
     try {
       await _requestRepository.create(
-        establishmentId: establishmentId,
-        clientId: widget.profile.id,
+        establishmentId: widget.establishmentId,
+        clientId: widget.clientId,
         description: _descriptionController.text.trim(),
         equipmentIds: [_selectedEquipment!.id],
       );

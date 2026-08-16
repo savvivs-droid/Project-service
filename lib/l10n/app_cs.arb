@@ -610,5 +610,33 @@
         "type": "String"
       }
     }
+  },
+  "establishmentSwitcherTooltip": "Přepnout podnik",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Přidat podnik",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Nový podnik",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Kontaktní telefon podniku",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Zadejte kontaktní telefon",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Přidat",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
   }
 }

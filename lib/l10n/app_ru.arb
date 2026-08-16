@@ -610,5 +610,33 @@
         "type": "String"
       }
     }
+  },
+  "establishmentSwitcherTooltip": "Сменить заведение",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Добавить заведение",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Новое заведение",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Контактный телефон заведения",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Введите контактный телефон",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Добавить",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Не удалось добавить заведение. Проверьте введённые данные и подключение к интернету.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
   }
 }

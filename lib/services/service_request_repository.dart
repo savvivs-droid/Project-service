@@ -8,15 +8,21 @@ class ServiceRequestRepository {
 
   /// Заявки, видимые текущему пользователю. Один и тот же запрос — RLS
   /// на уровне базы сам решает, что вернуть: администратору видны все
-  /// заявки, клиенту — только заявки его собственного заведения.
-  Future<List<RequestListItem>> fetchAll() async {
-    final data = await _client
-        .from('service_requests')
-        .select(
+  /// заявки, клиенту — заявки заведений, где он состоит (см.
+  /// establishment_members в supabase/schema.sql). [establishmentId] —
+  /// дополнительный фильтр поверх этого для клиента с несколькими
+  /// заведениями: сузить список до одного выбранного в переключателе.
+  Future<List<RequestListItem>> fetchAll({String? establishmentId}) async {
+    final query = _client.from('service_requests').select(
           '*, establishments(name, address), profiles(full_name, phone), '
           'service_request_equipment(equipment(type, sticker_code))',
-        )
-        .order('created_at', ascending: false);
+        );
+
+    final filtered = establishmentId == null
+        ? query
+        : query.eq('establishment_id', establishmentId);
+
+    final data = await filtered.order('created_at', ascending: false);
 
     return (data as List<dynamic>)
         .map((row) => RequestListItem.fromJson(row as Map<String, dynamic>))

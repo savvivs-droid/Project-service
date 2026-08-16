@@ -6,11 +6,14 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
+import '../../models/establishment.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
+import '../../services/establishment_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'client_add_establishment_screen.dart';
 import 'client_create_request_screen.dart';
 import 'client_equipment_category_screen.dart';
 import 'client_profile_tab.dart';
@@ -30,21 +33,74 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   // взаимодействует чаще всего, а не список заявок.
   int _tabIndex = 2;
 
-  // Меняется при каждой успешно созданной заявке, чтобы пересоздать
-  // вкладку "Активные" с новым ключом — иначе IndexedStack держит её
-  // состояние и список заявок не подхватит только что созданную запись.
-  int _activeRequestsRefreshTick = 0;
+  // Меняется при каждой успешно созданной заявке или смене заведения,
+  // чтобы пересоздать вкладки с новым ключом — иначе IndexedStack держит
+  // их состояние и не подхватывает ни новую заявку, ни данные другого
+  // заведения.
+  int _refreshTick = 0;
+
+  final _establishmentRepository = EstablishmentRepository();
+  late Future<List<Establishment>> _establishmentsFuture;
+
+  // Заведение "по умолчанию" из профиля — то, что заведено при
+  // регистрации, — пока список остальных заведений клиента ещё не
+  // загрузился (или клиент состоит только в одном).
+  String? _selectedEstablishmentId;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedEstablishmentId = widget.profile.establishmentId;
+    _establishmentsFuture = _loadEstablishments();
+  }
+
+  Future<List<Establishment>> _loadEstablishments() async {
+    final list = await _establishmentRepository.fetchForCurrentClient();
+    if (!mounted) return list;
+    if (list.isNotEmpty &&
+        !list.any((e) => e.id == _selectedEstablishmentId)) {
+      setState(() => _selectedEstablishmentId = list.first.id);
+    }
+    return list;
+  }
+
+  void _selectEstablishment(String id) {
+    if (id == _selectedEstablishmentId) return;
+    setState(() {
+      _selectedEstablishmentId = id;
+      _refreshTick++;
+    });
+  }
+
+  Future<void> _openAddEstablishment() async {
+    final added = await Navigator.of(context).push<Establishment>(
+      MaterialPageRoute(
+        builder: (_) => const ClientAddEstablishmentScreen(),
+      ),
+    );
+    if (added == null) return;
+    setState(() {
+      _selectedEstablishmentId = added.id;
+      _refreshTick++;
+      _establishmentsFuture = _loadEstablishments();
+    });
+  }
 
   Future<void> _openCreateRequest() async {
+    final establishmentId = _selectedEstablishmentId;
+    if (establishmentId == null) return;
     final created = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
-        builder: (_) => ClientCreateRequestScreen(profile: widget.profile),
+        builder: (_) => ClientCreateRequestScreen(
+          establishmentId: establishmentId,
+          clientId: widget.profile.id,
+        ),
       ),
     );
     if (created == true) {
       setState(() {
         _tabIndex = 0;
-        _activeRequestsRefreshTick++;
+        _refreshTick++;
       });
     }
   }
@@ -63,6 +119,36 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       appBar: AppBar(
         title: AppBrandAppBarTitle(subtitle: titles[_tabIndex]),
         actions: [
+          FutureBuilder<List<Establishment>>(
+            future: _establishmentsFuture,
+            builder: (context, snapshot) {
+              final establishments = snapshot.data ?? const [];
+              return PopupMenuButton<String?>(
+                icon: const Icon(Icons.storefront_outlined),
+                tooltip: l10n.establishmentSwitcherTooltip,
+                onSelected: (value) {
+                  if (value == null) {
+                    _openAddEstablishment();
+                  } else {
+                    _selectEstablishment(value);
+                  }
+                },
+                itemBuilder: (context) => [
+                  for (final establishment in establishments)
+                    CheckedPopupMenuItem(
+                      value: establishment.id,
+                      checked: establishment.id == _selectedEstablishmentId,
+                      child: Text(establishment.name),
+                    ),
+                  if (establishments.isNotEmpty) const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: null,
+                    child: Text(l10n.establishmentSwitcherAddNew),
+                  ),
+                ],
+              );
+            },
+          ),
           const LanguageSwitcher(),
           IconButton(
             onPressed: () => AuthRepository().signOut(),
@@ -75,11 +161,19 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
         index: _tabIndex,
         children: [
           _ClientRequestsTab(
-            key: ValueKey(_activeRequestsRefreshTick),
+            key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
             showActive: true,
+            establishmentId: _selectedEstablishmentId,
           ),
-          const _ClientRequestsTab(showActive: false),
-          _ClientEquipmentTab(establishmentId: widget.profile.establishmentId),
+          _ClientRequestsTab(
+            key: ValueKey('done-$_selectedEstablishmentId'),
+            showActive: false,
+            establishmentId: _selectedEstablishmentId,
+          ),
+          _ClientEquipmentTab(
+            key: ValueKey(_selectedEstablishmentId),
+            establishmentId: _selectedEstablishmentId,
+          ),
           ClientProfileTab(profile: widget.profile),
         ],
       ),
@@ -122,11 +216,18 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
 /// Заявки текущего клиента. Запрос тот же, что и на экране администратора
 /// (ServiceRequestRepository.fetchAll()) — какие строки вернутся, решает
-/// RLS в базе: клиенту видны только заявки его собственного заведения.
+/// RLS в базе: клиенту видны только заявки заведений, где он состоит.
+/// [establishmentId] дополнительно сужает список до одного выбранного в
+/// переключателе заведения (см. _ClientHomeScreenState).
 class _ClientRequestsTab extends StatefulWidget {
-  const _ClientRequestsTab({super.key, required this.showActive});
+  const _ClientRequestsTab({
+    super.key,
+    required this.showActive,
+    required this.establishmentId,
+  });
 
   final bool showActive;
+  final String? establishmentId;
 
   @override
   State<_ClientRequestsTab> createState() => _ClientRequestsTabState();
@@ -139,11 +240,15 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
   @override
   void initState() {
     super.initState();
-    _requestsFuture = _repository.fetchAll();
+    _requestsFuture = _fetch();
+  }
+
+  Future<List<RequestListItem>> _fetch() {
+    return _repository.fetchAll(establishmentId: widget.establishmentId);
   }
 
   Future<void> _refresh() async {
-    final future = _repository.fetchAll();
+    final future = _fetch();
     setState(() => _requestsFuture = future);
     await future;
   }
@@ -294,7 +399,7 @@ class _ClientRequestCard extends StatelessWidget {
 /// плитку открывает список конкретных единиц этой категории. Добавляет
 /// и меняет оборудование только администратор, см. EstablishmentDetailScreen.
 class _ClientEquipmentTab extends StatefulWidget {
-  const _ClientEquipmentTab({required this.establishmentId});
+  const _ClientEquipmentTab({super.key, required this.establishmentId});
 
   final String? establishmentId;
 

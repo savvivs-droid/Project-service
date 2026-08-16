@@ -74,6 +74,19 @@ create table public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Связь клиентов с заведениями — многие ко многим: один клиент может
+-- состоять в нескольких заведениях (например, управляет сетью из
+-- нескольких точек), в одном заведении может быть больше одного клиента.
+-- profiles.establishment_id при этом остаётся — как заведение "по
+-- умолчанию", выбранное при регистрации, но доступ (RLS) определяется
+-- только через эту таблицу, см. is_establishment_member() ниже.
+create table public.establishment_members (
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  establishment_id uuid not null references public.establishments (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (profile_id, establishment_id)
+);
+
 -- Оборудование, установленное в заведении
 create table public.equipment (
   id uuid primary key default gen_random_uuid(),
@@ -138,6 +151,7 @@ create table public.request_messages (
 
 -- Индексы для внешних ключей, по которым мы часто фильтруем
 create index idx_profiles_establishment on public.profiles (establishment_id);
+create index idx_establishment_members_establishment on public.establishment_members (establishment_id);
 create index idx_equipment_establishment on public.equipment (establishment_id);
 create index idx_service_requests_establishment on public.service_requests (establishment_id);
 create index idx_service_requests_client on public.service_requests (client_id);
@@ -165,6 +179,10 @@ as $$
   select role from public.profiles where id = auth.uid();
 $$;
 
+-- Заведение "по умолчанию" (то, что указано в профиле — обычно первое,
+-- заведённое при регистрации). Доступ (RLS) через эту функцию больше не
+-- проверяется — только is_establishment_member() ниже; здесь она осталась
+-- как значение для интерфейса (какое заведение выбрать при входе).
 create or replace function public.current_user_establishment()
 returns uuid
 language sql
@@ -173,6 +191,22 @@ stable
 set search_path = public
 as $$
   select establishment_id from public.profiles where id = auth.uid();
+$$;
+
+-- Состоит ли текущий пользователь в заведении p_establishment_id — на
+-- этом строится доступ клиента к заведению, его оборудованию, заявкам и
+-- истории ремонта (клиент может состоять в нескольких заведениях сразу).
+create or replace function public.is_establishment_member(p_establishment_id uuid)
+returns boolean
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.establishment_members
+    where establishment_id = p_establishment_id and profile_id = auth.uid()
+  );
 $$;
 
 create or replace function public.is_staff()
@@ -194,10 +228,12 @@ $$;
 -- -----------------------------------------------------------------------------
 -- Общий принцип:
 --   - Администратор (is_staff()) видит и может менять всё.
---   - Клиент видит только своё заведение, его оборудование, заявки и
---     историю ремонта — определяется через current_user_establishment().
+--   - Клиент видит заведения, где он состоит (может быть несколько), их
+--     оборудование, заявки и историю ремонта — определяется через
+--     is_establishment_member().
 
 alter table public.establishments enable row level security;
+alter table public.establishment_members enable row level security;
 alter table public.profiles enable row level security;
 alter table public.equipment enable row level security;
 alter table public.service_requests enable row level security;
@@ -206,9 +242,9 @@ alter table public.repair_history enable row level security;
 alter table public.request_messages enable row level security;
 
 -- === establishments ===
-create policy "Админ видит все заведения, клиент — только своё"
+create policy "Админ видит все заведения, клиент — только свои"
   on public.establishments for select
-  using (public.is_staff() or id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(id));
 
 create policy "Только админ меняет заведения вручную"
   on public.establishments for insert
@@ -244,10 +280,30 @@ create policy "Пользователь может обновить свой п�
 -- защищено триггером trg_protect_profile_privileges ниже, потому что
 -- Row Level Security не умеет ограничивать доступ к отдельным колонкам.
 
+-- === establishment_members ===
+create policy "Клиент видит свои связки с заведениями, админ — все"
+  on public.establishment_members for select
+  using (profile_id = auth.uid() or public.is_staff());
+
+-- Прямая вставка/удаление из приложения не предусмотрены для клиента —
+-- первая связка создаётся триггером handle_new_user при регистрации,
+-- последующие — функцией add_client_establishment (раздел 6), обе
+-- security definer и не подчиняются этим политикам. Явных insert/delete
+-- политик для клиента нет, поэтому обычным пользователям через
+-- обычный insert/delete это недоступно; администратору оставляем эту
+-- возможность на будущее.
+create policy "Только админ добавляет связки вручную"
+  on public.establishment_members for insert
+  with check (public.is_staff());
+
+create policy "Только админ удаляет связки"
+  on public.establishment_members for delete
+  using (public.is_staff());
+
 -- === equipment ===
-create policy "Админ видит всё оборудование, клиент — своего заведения"
+create policy "Админ видит всё оборудование, клиент — своих заведений"
   on public.equipment for select
-  using (public.is_staff() or establishment_id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(establishment_id));
 
 create policy "Только админ добавляет оборудование"
   on public.equipment for insert
@@ -263,15 +319,15 @@ create policy "Только админ удаляет оборудование"
   using (public.is_staff());
 
 -- === service_requests ===
-create policy "Админ видит все заявки, клиент — заявки своего заведения"
+create policy "Админ видит все заявки, клиент — заявки своих заведений"
   on public.service_requests for select
-  using (public.is_staff() or establishment_id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(establishment_id));
 
 create policy "Клиент создаёт заявку от своего имени и заведения"
   on public.service_requests for insert
   with check (
     public.is_staff()
-    or (client_id = auth.uid() and establishment_id = public.current_user_establishment())
+    or (client_id = auth.uid() and public.is_establishment_member(establishment_id))
   );
 
 create policy "Админ меняет любые заявки, клиент — только новую свою"
@@ -296,7 +352,7 @@ create policy "Видимость связки как у самой заявки
     exists (
       select 1 from public.service_requests sr
       where sr.id = request_id
-        and (public.is_staff() or sr.establishment_id = public.current_user_establishment())
+        and (public.is_staff() or public.is_establishment_member(sr.establishment_id))
     )
   );
 
@@ -321,7 +377,7 @@ create policy "Админ видит всю историю, клиент — и�
     public.is_staff()
     or exists (
       select 1 from public.equipment e
-      where e.id = equipment_id and e.establishment_id = public.current_user_establishment()
+      where e.id = equipment_id and public.is_establishment_member(e.establishment_id)
     )
   );
 
@@ -339,18 +395,18 @@ create policy "Только админ удаляет историю ремон�
   using (public.is_staff());
 
 -- === request_messages (чат по заявке) ===
-create policy "Сообщения видит админ и клиент своего заведения"
+create policy "Сообщения видит админ и клиент своих заведений"
   on public.request_messages for select
   using (
     public.is_staff()
     or exists (
       select 1 from public.service_requests sr
       where sr.id = request_id
-        and sr.establishment_id = public.current_user_establishment()
+        and public.is_establishment_member(sr.establishment_id)
     )
   );
 
-create policy "Писать может админ или клиент своего заведения, только от своего имени"
+create policy "Писать может админ или клиент своих заведений, только от своего имени"
   on public.request_messages for insert
   with check (
     sender_id = auth.uid()
@@ -359,7 +415,7 @@ create policy "Писать может админ или клиент своег
       or exists (
         select 1 from public.service_requests sr
         where sr.id = request_id
-          and sr.establishment_id = public.current_user_establishment()
+          and public.is_establishment_member(sr.establishment_id)
       )
     )
   );
@@ -428,6 +484,9 @@ begin
     v_establishment_id
   );
 
+  insert into public.establishment_members (profile_id, establishment_id)
+  values (new.id, v_establishment_id);
+
   return new;
 end;
 $$;
@@ -435,6 +494,54 @@ $$;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- Клиент добавляет себе ещё одно заведение (после регистрации, когда у
+-- него уже есть аккаунт) — тот же принцип, что и в handle_new_user выше:
+-- создаёт заведение и сразу привязывает текущего пользователя к нему
+-- через establishment_members. security definer нужен, потому что
+-- обычная insert-политика на establishments разрешена только админу
+-- (раздел 5) — это единственная контролируемая лазейка для клиента.
+create or replace function public.add_client_establishment(
+  p_ico text,
+  p_name text,
+  p_address text,
+  p_contact_phone text
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_establishment_id uuid;
+  v_ico text;
+begin
+  if public.current_user_role() is distinct from 'client' then
+    raise exception 'Добавлять заведение может только клиент';
+  end if;
+
+  if p_name is null or btrim(p_name) = '' then
+    raise exception 'Не указано название заведения';
+  end if;
+
+  v_ico := nullif(p_ico, '');
+
+  if v_ico is not null
+     and exists (select 1 from public.establishments where ico = v_ico)
+  then
+    raise exception 'Заведение с таким IČO уже зарегистрировано в системе';
+  end if;
+
+  insert into public.establishments (name, address, contact_phone, ico)
+  values (p_name, p_address, p_contact_phone, v_ico)
+  returning id into v_establishment_id;
+
+  insert into public.establishment_members (profile_id, establishment_id)
+  values (auth.uid(), v_establishment_id);
+
+  return v_establishment_id;
+end;
+$$;
 
 -- Запрещаем пользователю (кроме админа) менять себе роль или заведение
 -- через обычный UPDATE — RLS выше это не может ограничить на уровне

@@ -458,4 +458,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String createRequestError(String error) {
     return 'Не удалось создать заявку: $error';
   }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Сменить заведение';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Добавить заведение';
+
+  @override
+  String get addEstablishmentTitle => 'Новое заведение';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Контактный телефон заведения';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Введите контактный телефон';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Добавить';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Не удалось добавить заведение. Проверьте введённые данные и подключение к интернету.';
 }

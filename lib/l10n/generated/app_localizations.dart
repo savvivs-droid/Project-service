@@ -935,6 +935,48 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se vytvořit žádost: {error}'**
   String createRequestError(String error);
+
+  /// Establishment switcher: button tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Přepnout podnik'**
+  String get establishmentSwitcherTooltip;
+
+  /// Establishment switcher: menu item to add another establishment
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat podnik'**
+  String get establishmentSwitcherAddNew;
+
+  /// Add establishment: screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nový podnik'**
+  String get addEstablishmentTitle;
+
+  /// Add establishment: contact phone field
+  ///
+  /// In cs, this message translates to:
+  /// **'Kontaktní telefon podniku'**
+  String get addEstablishmentPhoneLabel;
+
+  /// Add establishment: contact phone validator
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte kontaktní telefon'**
+  String get addEstablishmentPhoneRequired;
+
+  /// Add establishment: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat'**
+  String get addEstablishmentSubmitButton;
+
+  /// Add establishment: generic submission error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.'**
+  String get addEstablishmentGenericError;
 }
 
 class _AppLocalizationsDelegate

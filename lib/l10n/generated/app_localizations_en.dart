@@ -460,4 +460,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String createRequestError(String error) {
     return 'Failed to create request: $error';
   }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Switch establishment';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Add establishment';
+
+  @override
+  String get addEstablishmentTitle => 'New establishment';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Establishment contact phone';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Enter a contact phone number';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Add';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Failed to add the establishment. Check the details and your internet connection.';
 }

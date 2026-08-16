@@ -458,4 +458,26 @@ class AppLocalizationsVi extends AppLocalizations {
   String createRequestError(String error) {
     return 'Không thể tạo yêu cầu: $error';
   }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Chuyển cơ sở';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Thêm cơ sở';
+
+  @override
+  String get addEstablishmentTitle => 'Cơ sở mới';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Số điện thoại liên hệ của cơ sở';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Nhập số điện thoại liên hệ';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Thêm';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Không thể thêm cơ sở. Kiểm tra thông tin đã nhập và kết nối internet.';
 }

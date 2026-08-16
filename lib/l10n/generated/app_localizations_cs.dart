@@ -458,4 +458,26 @@ class AppLocalizationsCs extends AppLocalizations {
   String createRequestError(String error) {
     return 'Nepodařilo se vytvořit žádost: $error';
   }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Přepnout podnik';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Přidat podnik';
+
+  @override
+  String get addEstablishmentTitle => 'Nový podnik';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Kontaktní telefon podniku';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Zadejte kontaktní telefon';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Přidat';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.';
 }
