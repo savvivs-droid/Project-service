@@ -1187,6 +1187,36 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.'**
   String get resetPasswordGenericError;
+
+  /// Register: privacy consent checkbox text before the link
+  ///
+  /// In cs, this message translates to:
+  /// **'Souhlasím se'**
+  String get registerPrivacyConsentPrefix;
+
+  /// Register: privacy consent checkbox link text
+  ///
+  /// In cs, this message translates to:
+  /// **'zpracováním osobních údajů'**
+  String get registerPrivacyConsentLinkText;
+
+  /// Register: privacy consent not checked error
+  ///
+  /// In cs, this message translates to:
+  /// **'Je třeba potvrdit souhlas se zpracováním osobních údajů'**
+  String get registerPrivacyConsentRequired;
+
+  /// Privacy policy screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Zásady ochrany osobních údajů'**
+  String get privacyPolicyTitle;
+
+  /// Privacy policy screen placeholder text
+  ///
+  /// In cs, this message translates to:
+  /// **'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.'**
+  String get privacyPolicyPlaceholder;
 }
 
 class _AppLocalizationsDelegate

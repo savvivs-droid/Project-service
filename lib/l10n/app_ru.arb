@@ -783,5 +783,25 @@
   "resetPasswordGenericError": "Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.",
   "@resetPasswordGenericError": {
     "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Я согласен(на) с",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "политикой обработки персональных данных",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Нужно подтвердить согласие с обработкой персональных данных",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Политика конфиденциальности",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
   }
 }

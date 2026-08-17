@@ -783,5 +783,25 @@
   "resetPasswordGenericError": "Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.",
   "@resetPasswordGenericError": {
     "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Souhlasím se",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "zpracováním osobních údajů",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Je třeba potvrdit souhlas se zpracováním osobních údajů",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Zásady ochrany osobních údajů",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
   }
 }

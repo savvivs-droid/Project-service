@@ -10,6 +10,7 @@ import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../services/ares_service.dart';
 import '../../services/auth_repository.dart';
+import 'privacy_policy_screen.dart';
 
 class _CountryDialCode {
   const _CountryDialCode(this.flag, this.dialCode);
@@ -60,6 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   _CountryDialCode _dialCode = _dialCodes.first;
 
   bool _isLoading = false;
+  bool _agreedToPrivacyPolicy = false;
 
   Timer? _icoDebounce;
   bool _isLookingUpIco = false;
@@ -110,6 +112,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    if (!_agreedToPrivacyPolicy) {
+      _showMessage(context.l10n.registerPrivacyConsentRequired);
+      return;
+    }
 
     final phone = '${_dialCode.dialCode} ${_phoneController.text.trim()}';
 
@@ -307,7 +313,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? context.l10n.registerAddressRequired
                           : null,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
+                    CheckboxListTile(
+                      value: _agreedToPrivacyPolicy,
+                      onChanged: (value) =>
+                          setState(() => _agreedToPrivacyPolicy = value ?? false),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(context.l10n.registerPrivacyConsentPrefix),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PrivacyPolicyScreen(),
+                              ),
+                            ),
+                            child: Text(
+                              context.l10n.registerPrivacyConsentLinkText,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     FilledButton(
                       onPressed: _isLoading ? null : _submit,
                       child: _isLoading

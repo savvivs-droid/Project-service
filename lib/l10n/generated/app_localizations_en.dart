@@ -593,4 +593,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resetPasswordGenericError =>
       'Couldn\'t save the password. Try sending the reset link again.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'I agree to the';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'personal data processing policy';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Please confirm you agree to the personal data processing policy';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.';
 }

@@ -591,4 +591,22 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get resetPasswordGenericError =>
       'Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Я согласен(на) с';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'политикой обработки персональных данных';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Нужно подтвердить согласие с обработкой персональных данных';
+
+  @override
+  String get privacyPolicyTitle => 'Политика конфиденциальности';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.';
 }

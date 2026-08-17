@@ -592,4 +592,22 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get resetPasswordGenericError =>
       'Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Tôi đồng ý với';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'chính sách xử lý dữ liệu cá nhân';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Vui lòng xác nhận đồng ý với chính sách xử lý dữ liệu cá nhân';
+
+  @override
+  String get privacyPolicyTitle => 'Chính sách bảo mật';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.';
 }

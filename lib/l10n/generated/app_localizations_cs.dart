@@ -591,4 +591,21 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get resetPasswordGenericError =>
       'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Souhlasím se';
+
+  @override
+  String get registerPrivacyConsentLinkText => 'zpracováním osobních údajů';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Je třeba potvrdit souhlas se zpracováním osobních údajů';
+
+  @override
+  String get privacyPolicyTitle => 'Zásady ochrany osobních údajů';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.';
 }

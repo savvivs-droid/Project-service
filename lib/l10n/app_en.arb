@@ -783,5 +783,25 @@
   "resetPasswordGenericError": "Couldn't save the password. Try sending the reset link again.",
   "@resetPasswordGenericError": {
     "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "I agree to the",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "personal data processing policy",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Please confirm you agree to the personal data processing policy",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
   }
 }

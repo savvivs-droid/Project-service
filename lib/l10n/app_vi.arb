@@ -783,5 +783,25 @@
   "resetPasswordGenericError": "Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.",
   "@resetPasswordGenericError": {
     "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Tôi đồng ý với",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "chính sách xử lý dữ liệu cá nhân",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Vui lòng xác nhận đồng ý với chính sách xử lý dữ liệu cá nhân",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Chính sách bảo mật",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
   }
 }
