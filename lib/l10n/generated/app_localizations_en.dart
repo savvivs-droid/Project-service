@@ -541,4 +541,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String statsLoadError(String error) {
     return 'Failed to load statistics: $error';
   }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Search by address or phone';
+
+  @override
+  String get searchNoResults => 'No results found';
 }

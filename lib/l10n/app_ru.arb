@@ -719,5 +719,13 @@
         "type": "String"
       }
     }
+  },
+  "searchByAddressOrPhoneHint": "Поиск по адресу или телефону",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Ничего не найдено",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
   }
 }

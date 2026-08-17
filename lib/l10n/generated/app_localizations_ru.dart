@@ -539,4 +539,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String statsLoadError(String error) {
     return 'Не удалось загрузить статистику: $error';
   }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Поиск по адресу или телефону';
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
 }

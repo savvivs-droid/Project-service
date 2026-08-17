@@ -719,5 +719,13 @@
         "type": "String"
       }
     }
+  },
+  "searchByAddressOrPhoneHint": "Tìm theo địa chỉ hoặc số điện thoại",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Không tìm thấy kết quả",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
   }
 }

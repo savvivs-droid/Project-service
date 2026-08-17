@@ -719,5 +719,13 @@
         "type": "String"
       }
     }
+  },
+  "searchByAddressOrPhoneHint": "Hledat podle adresy nebo telefonu",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Nic nenalezeno",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
   }
 }

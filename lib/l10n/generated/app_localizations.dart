@@ -1091,6 +1091,18 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se načíst statistiku: {error}'**
   String statsLoadError(String error);
+
+  /// Admin: requests/clients search field hint
+  ///
+  /// In cs, this message translates to:
+  /// **'Hledat podle adresy nebo telefonu'**
+  String get searchByAddressOrPhoneHint;
+
+  /// Admin: search returned no results
+  ///
+  /// In cs, this message translates to:
+  /// **'Nic nenalezeno'**
+  String get searchNoResults;
 }
 
 class _AppLocalizationsDelegate

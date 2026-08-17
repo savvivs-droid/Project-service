@@ -539,4 +539,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String statsLoadError(String error) {
     return 'Không thể tải thống kê: $error';
   }
+
+  @override
+  String get searchByAddressOrPhoneHint =>
+      'Tìm theo địa chỉ hoặc số điện thoại';
+
+  @override
+  String get searchNoResults => 'Không tìm thấy kết quả';
 }

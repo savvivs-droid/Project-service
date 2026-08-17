@@ -719,5 +719,13 @@
         "type": "String"
       }
     }
+  },
+  "searchByAddressOrPhoneHint": "Search by address or phone",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "No results found",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
   }
 }

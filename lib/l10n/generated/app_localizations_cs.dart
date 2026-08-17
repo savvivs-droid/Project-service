@@ -539,4 +539,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String statsLoadError(String error) {
     return 'Nepodařilo se načíst statistiku: $error';
   }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Hledat podle adresy nebo telefonu';
+
+  @override
+  String get searchNoResults => 'Nic nenalezeno';
 }
