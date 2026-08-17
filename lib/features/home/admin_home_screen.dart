@@ -304,16 +304,34 @@ class _RequestCard extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: request.status.color,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      request.status.label(context),
-                      style: const TextStyle(color: Colors.white, fontSize: 11),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: request.status.color,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          request.status.label(context),
+                          style: const TextStyle(color: Colors.white, fontSize: 11),
+                        ),
+                      ),
+                      if (request.repairCost != null ||
+                          request.partsCost != null) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          '${((request.repairCost ?? 0) + (request.partsCost ?? 0)).toStringAsFixed(2)} Kč',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 13,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),
@@ -390,19 +408,6 @@ class _RequestCard extends StatelessWidget {
                   context.l10n
                       .visitLabel(_formatDateTime(request.scheduledAt!)),
                   style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-              if (request.repairCost != null || request.partsCost != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  '${context.l10n.requestCostRepairLabel}: '
-                  '${(request.repairCost ?? 0).toStringAsFixed(2)} Kč · '
-                  '${context.l10n.requestCostPartsLabel}: '
-                  '${(request.partsCost ?? 0).toStringAsFixed(2)} Kč',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ],

@@ -264,21 +264,29 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
             Text(context.l10n.technicianCommentTitle,
                 style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8),
-            TextField(
-              controller: _commentController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: context.l10n.technicianCommentHint,
+            if (isClosed)
+              Text(
+                request.technicianComment?.isNotEmpty == true
+                    ? request.technicianComment!
+                    : context.l10n.notSpecified,
+              )
+            else ...[
+              TextField(
+                controller: _commentController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: context.l10n.technicianCommentHint,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: _saveComment,
-                child: Text(context.l10n.saveCommentButton),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: _saveComment,
+                  child: Text(context.l10n.saveCommentButton),
+                ),
               ),
-            ),
+            ],
             if (request.repairCost != null || request.partsCost != null) ...[
               const SizedBox(height: 12),
               Card(
