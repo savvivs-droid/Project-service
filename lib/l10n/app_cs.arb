@@ -638,5 +638,86 @@
   "addEstablishmentGenericError": "Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.",
   "@addEstablishmentGenericError": {
     "description": "Add establishment: generic submission error"
+  },
+  "markDoneDialogTitle": "Uzavřít zakázku",
+  "@markDoneDialogTitle": {
+    "description": "Mark done dialog: title"
+  },
+  "markDoneRepairCostLabel": "Cena opravy",
+  "@markDoneRepairCostLabel": {
+    "description": "Mark done dialog: repair cost field"
+  },
+  "markDonePartsCostLabel": "Cena náhradních dílů",
+  "@markDonePartsCostLabel": {
+    "description": "Mark done dialog: parts cost field"
+  },
+  "markDoneCostRequired": "Zadejte částku",
+  "@markDoneCostRequired": {
+    "description": "Mark done dialog: cost field required"
+  },
+  "markDoneCostInvalid": "Zadejte platnou částku",
+  "@markDoneCostInvalid": {
+    "description": "Mark done dialog: cost field invalid"
+  },
+  "markDoneDialogCancel": "Zrušit",
+  "@markDoneDialogCancel": {
+    "description": "Mark done dialog: cancel action"
+  },
+  "markDoneDialogConfirm": "Uzavřít zakázku",
+  "@markDoneDialogConfirm": {
+    "description": "Mark done dialog: confirm action"
+  },
+  "requestCostRepairLabel": "Oprava",
+  "@requestCostRepairLabel": {
+    "description": "Request card: repair cost short label"
+  },
+  "requestCostPartsLabel": "Díly",
+  "@requestCostPartsLabel": {
+    "description": "Request card: parts cost short label"
+  },
+  "adminHomeStatsTab": "Statistika",
+  "@adminHomeStatsTab": {
+    "description": "Admin home: statistics tab title"
+  },
+  "statsPeriodWeek": "Týden",
+  "@statsPeriodWeek": {
+    "description": "Statistics: week period preset"
+  },
+  "statsPeriodMonth": "Měsíc",
+  "@statsPeriodMonth": {
+    "description": "Statistics: month period preset"
+  },
+  "statsPeriodYear": "Rok",
+  "@statsPeriodYear": {
+    "description": "Statistics: year period preset"
+  },
+  "statsPeriodCustom": "Vlastní období",
+  "@statsPeriodCustom": {
+    "description": "Statistics: custom period preset"
+  },
+  "statsClosedCount": "Uzavřené zakázky",
+  "@statsClosedCount": {
+    "description": "Statistics: closed requests count label"
+  },
+  "statsRevenue": "Příjem",
+  "@statsRevenue": {
+    "description": "Statistics: revenue (sum of repair cost) label"
+  },
+  "statsExpenses": "Výdaje",
+  "@statsExpenses": {
+    "description": "Statistics: expenses (sum of parts cost) label"
+  },
+  "statsProfit": "Zisk",
+  "@statsProfit": {
+    "description": "Statistics: profit label"
+  },
+  "statsLoadError": "Nepodařilo se načíst statistiku: {error}",
+  "@statsLoadError": {
+    "description": "Statistics: load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/request_list_item.dart';
+import '../models/service_request.dart';
 import 'supabase_service.dart';
 
 class ServiceRequestRepository {
@@ -79,10 +80,18 @@ class ServiceRequestRepository {
         .update({'technician_comment': comment}).eq('id', requestId);
   }
 
-  Future<void> markDone({required String requestId}) {
+  /// Закрывает заявку — стоимость ремонта (доход) и запчастей (расход)
+  /// обязательны, см. вкладку "Статистика" у администратора.
+  Future<void> markDone({
+    required String requestId,
+    required double repairCost,
+    required double partsCost,
+  }) {
     return _client.from('service_requests').update({
       'status': 'done',
       'completed_at': DateTime.now().toIso8601String(),
+      'repair_cost': repairCost,
+      'parts_cost': partsCost,
     }).eq('id', requestId);
   }
 
@@ -90,5 +99,26 @@ class ServiceRequestRepository {
     return _client
         .from('service_requests')
         .update({'status': 'cancelled'}).eq('id', requestId);
+  }
+
+  /// Закрытые заявки за период (по дате закрытия) — только нужные для
+  /// статистики поля, без тяжёлых join'ов fetchAll(). Только
+  /// администратору RLS отдаст заявки не своего заведения, но этот
+  /// метод и вызывается только с экрана статистики администратора.
+  Future<List<ServiceRequest>> fetchClosedInRange({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final data = await _client
+        .from('service_requests')
+        .select()
+        .eq('status', 'done')
+        .gte('completed_at', start.toIso8601String())
+        .lte('completed_at', end.toIso8601String())
+        .order('completed_at', ascending: false);
+
+    return (data as List<dynamic>)
+        .map((row) => ServiceRequest.fromJson(row as Map<String, dynamic>))
+        .toList();
   }
 }

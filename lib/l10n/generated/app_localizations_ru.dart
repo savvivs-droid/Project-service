@@ -480,4 +480,63 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get addEstablishmentGenericError =>
       'Не удалось добавить заведение. Проверьте введённые данные и подключение к интернету.';
+
+  @override
+  String get markDoneDialogTitle => 'Закрыть заявку';
+
+  @override
+  String get markDoneRepairCostLabel => 'Стоимость ремонта';
+
+  @override
+  String get markDonePartsCostLabel => 'Стоимость запчастей';
+
+  @override
+  String get markDoneCostRequired => 'Введите сумму';
+
+  @override
+  String get markDoneCostInvalid => 'Введите корректную сумму';
+
+  @override
+  String get markDoneDialogCancel => 'Отмена';
+
+  @override
+  String get markDoneDialogConfirm => 'Закрыть заявку';
+
+  @override
+  String get requestCostRepairLabel => 'Ремонт';
+
+  @override
+  String get requestCostPartsLabel => 'Запчасти';
+
+  @override
+  String get adminHomeStatsTab => 'Статистика';
+
+  @override
+  String get statsPeriodWeek => 'Неделя';
+
+  @override
+  String get statsPeriodMonth => 'Месяц';
+
+  @override
+  String get statsPeriodYear => 'Год';
+
+  @override
+  String get statsPeriodCustom => 'Свой период';
+
+  @override
+  String get statsClosedCount => 'Закрыто заявок';
+
+  @override
+  String get statsRevenue => 'Доход';
+
+  @override
+  String get statsExpenses => 'Расход';
+
+  @override
+  String get statsProfit => 'Прибыль';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Не удалось загрузить статистику: $error';
+  }
 }

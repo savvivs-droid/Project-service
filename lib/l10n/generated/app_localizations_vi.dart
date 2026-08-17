@@ -480,4 +480,63 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get addEstablishmentGenericError =>
       'Không thể thêm cơ sở. Kiểm tra thông tin đã nhập và kết nối internet.';
+
+  @override
+  String get markDoneDialogTitle => 'Đóng yêu cầu';
+
+  @override
+  String get markDoneRepairCostLabel => 'Chi phí sửa chữa';
+
+  @override
+  String get markDonePartsCostLabel => 'Chi phí phụ tùng';
+
+  @override
+  String get markDoneCostRequired => 'Nhập số tiền';
+
+  @override
+  String get markDoneCostInvalid => 'Nhập số tiền hợp lệ';
+
+  @override
+  String get markDoneDialogCancel => 'Hủy';
+
+  @override
+  String get markDoneDialogConfirm => 'Đóng yêu cầu';
+
+  @override
+  String get requestCostRepairLabel => 'Sửa chữa';
+
+  @override
+  String get requestCostPartsLabel => 'Phụ tùng';
+
+  @override
+  String get adminHomeStatsTab => 'Thống kê';
+
+  @override
+  String get statsPeriodWeek => 'Tuần';
+
+  @override
+  String get statsPeriodMonth => 'Tháng';
+
+  @override
+  String get statsPeriodYear => 'Năm';
+
+  @override
+  String get statsPeriodCustom => 'Khoảng thời gian tùy chỉnh';
+
+  @override
+  String get statsClosedCount => 'Yêu cầu đã đóng';
+
+  @override
+  String get statsRevenue => 'Doanh thu';
+
+  @override
+  String get statsExpenses => 'Chi phí';
+
+  @override
+  String get statsProfit => 'Lợi nhuận';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Không thể tải thống kê: $error';
+  }
 }

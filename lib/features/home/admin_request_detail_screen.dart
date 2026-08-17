@@ -79,7 +79,17 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
   }
 
   Future<void> _markDone() async {
-    await _runAction(() => _repository.markDone(requestId: _item.request.id));
+    final costs = await showDialog<_MarkDoneCosts>(
+      context: context,
+      builder: (context) => const _MarkDoneDialog(),
+    );
+    if (costs == null) return;
+
+    await _runAction(() => _repository.markDone(
+          requestId: _item.request.id,
+          repairCost: costs.repairCost,
+          partsCost: costs.partsCost,
+        ));
   }
 
   Future<void> _cancel() async {
@@ -269,6 +279,30 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
                 child: Text(context.l10n.saveCommentButton),
               ),
             ),
+            if (request.repairCost != null || request.partsCost != null) ...[
+              const SizedBox(height: 12),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _CostColumn(
+                          label: context.l10n.requestCostRepairLabel,
+                          value: request.repairCost,
+                        ),
+                      ),
+                      Expanded(
+                        child: _CostColumn(
+                          label: context.l10n.requestCostPartsLabel,
+                          value: request.partsCost,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
             if (!isClosed) ...[
               FilledButton(
@@ -306,6 +340,118 @@ class _StatusChip extends StatelessWidget {
       ),
       backgroundColor: status.color,
       side: BorderSide.none,
+    );
+  }
+}
+
+class _CostColumn extends StatelessWidget {
+  const _CostColumn({required this.label, required this.value});
+
+  final String label;
+  final double? value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: Theme.of(context).textTheme.labelMedium),
+        const SizedBox(height: 4),
+        Text(
+          '${(value ?? 0).toStringAsFixed(2)} Kč',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
+    );
+  }
+}
+
+class _MarkDoneCosts {
+  const _MarkDoneCosts({required this.repairCost, required this.partsCost});
+
+  final double repairCost;
+  final double partsCost;
+}
+
+class _MarkDoneDialog extends StatefulWidget {
+  const _MarkDoneDialog();
+
+  @override
+  State<_MarkDoneDialog> createState() => _MarkDoneDialogState();
+}
+
+class _MarkDoneDialogState extends State<_MarkDoneDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _repairController = TextEditingController();
+  final _partsController = TextEditingController();
+
+  @override
+  void dispose() {
+    _repairController.dispose();
+    _partsController.dispose();
+    super.dispose();
+  }
+
+  double? _parse(String value) => double.tryParse(value.trim().replaceAll(',', '.'));
+
+  String? _validate(String? value) {
+    final text = value?.trim() ?? '';
+    if (text.isEmpty) return context.l10n.markDoneCostRequired;
+    if (_parse(text) == null) return context.l10n.markDoneCostInvalid;
+    return null;
+  }
+
+  void _confirm() {
+    if (!_formKey.currentState!.validate()) return;
+    Navigator.of(context).pop(
+      _MarkDoneCosts(
+        repairCost: _parse(_repairController.text)!,
+        partsCost: _parse(_partsController.text)!,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(context.l10n.markDoneDialogTitle),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _repairController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: context.l10n.markDoneRepairCostLabel,
+                suffixText: 'Kč',
+              ),
+              validator: _validate,
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _partsController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: context.l10n.markDonePartsCostLabel,
+                suffixText: 'Kč',
+              ),
+              validator: _validate,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(context.l10n.markDoneDialogCancel),
+        ),
+        FilledButton(
+          onPressed: _confirm,
+          child: Text(context.l10n.markDoneDialogConfirm),
+        ),
+      ],
     );
   }
 }

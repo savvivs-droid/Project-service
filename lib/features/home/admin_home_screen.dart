@@ -16,6 +16,7 @@ import '../../services/push_notification_service.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'admin_request_detail_screen.dart';
+import 'admin_stats_tab.dart';
 import 'establishment_detail_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       l10n.adminHomeActiveTab,
       l10n.adminHomeDoneTab,
       l10n.adminHomeClientsTab,
+      l10n.adminHomeStatsTab,
     ];
 
     return Scaffold(
@@ -83,6 +85,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
           _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
           const _ClientsTab(),
+          const AdminStatsTab(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -115,6 +118,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             icon: const Icon(Icons.storefront_outlined),
             selectedIcon: const Icon(Icons.storefront),
             label: l10n.adminHomeClientsTab,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.bar_chart_outlined),
+            selectedIcon: const Icon(Icons.bar_chart),
+            label: l10n.adminHomeStatsTab,
           ),
         ],
       ),
@@ -382,6 +390,19 @@ class _RequestCard extends StatelessWidget {
                   context.l10n
                       .visitLabel(_formatDateTime(request.scheduledAt!)),
                   style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+              if (request.repairCost != null || request.partsCost != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  '${context.l10n.requestCostRepairLabel}: '
+                  '${(request.repairCost ?? 0).toStringAsFixed(2)} Kč · '
+                  '${context.l10n.requestCostPartsLabel}: '
+                  '${(request.partsCost ?? 0).toStringAsFixed(2)} Kč',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
             ],

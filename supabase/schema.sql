@@ -116,6 +116,12 @@ create table public.service_requests (
   scheduled_at timestamptz,
   completed_at timestamptz,
   technician_comment text,
+  -- Заполняются администратором при закрытии заявки (см.
+  -- lib/features/home/admin_request_detail_screen.dart) — стоимость
+  -- ремонта (доход) и стоимость запчастей (расход), используются для
+  -- вкладки "Статистика" у администратора.
+  repair_cost numeric(10, 2),
+  parts_cost numeric(10, 2),
   created_at timestamptz not null default now()
 );
 

@@ -482,4 +482,63 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get addEstablishmentGenericError =>
       'Failed to add the establishment. Check the details and your internet connection.';
+
+  @override
+  String get markDoneDialogTitle => 'Close request';
+
+  @override
+  String get markDoneRepairCostLabel => 'Repair cost';
+
+  @override
+  String get markDonePartsCostLabel => 'Parts cost';
+
+  @override
+  String get markDoneCostRequired => 'Enter an amount';
+
+  @override
+  String get markDoneCostInvalid => 'Enter a valid amount';
+
+  @override
+  String get markDoneDialogCancel => 'Cancel';
+
+  @override
+  String get markDoneDialogConfirm => 'Close request';
+
+  @override
+  String get requestCostRepairLabel => 'Repair';
+
+  @override
+  String get requestCostPartsLabel => 'Parts';
+
+  @override
+  String get adminHomeStatsTab => 'Statistics';
+
+  @override
+  String get statsPeriodWeek => 'Week';
+
+  @override
+  String get statsPeriodMonth => 'Month';
+
+  @override
+  String get statsPeriodYear => 'Year';
+
+  @override
+  String get statsPeriodCustom => 'Custom period';
+
+  @override
+  String get statsClosedCount => 'Closed requests';
+
+  @override
+  String get statsRevenue => 'Revenue';
+
+  @override
+  String get statsExpenses => 'Expenses';
+
+  @override
+  String get statsProfit => 'Profit';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Failed to load statistics: $error';
+  }
 }

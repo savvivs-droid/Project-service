@@ -480,4 +480,63 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get addEstablishmentGenericError =>
       'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.';
+
+  @override
+  String get markDoneDialogTitle => 'Uzavřít zakázku';
+
+  @override
+  String get markDoneRepairCostLabel => 'Cena opravy';
+
+  @override
+  String get markDonePartsCostLabel => 'Cena náhradních dílů';
+
+  @override
+  String get markDoneCostRequired => 'Zadejte částku';
+
+  @override
+  String get markDoneCostInvalid => 'Zadejte platnou částku';
+
+  @override
+  String get markDoneDialogCancel => 'Zrušit';
+
+  @override
+  String get markDoneDialogConfirm => 'Uzavřít zakázku';
+
+  @override
+  String get requestCostRepairLabel => 'Oprava';
+
+  @override
+  String get requestCostPartsLabel => 'Díly';
+
+  @override
+  String get adminHomeStatsTab => 'Statistika';
+
+  @override
+  String get statsPeriodWeek => 'Týden';
+
+  @override
+  String get statsPeriodMonth => 'Měsíc';
+
+  @override
+  String get statsPeriodYear => 'Rok';
+
+  @override
+  String get statsPeriodCustom => 'Vlastní období';
+
+  @override
+  String get statsClosedCount => 'Uzavřené zakázky';
+
+  @override
+  String get statsRevenue => 'Příjem';
+
+  @override
+  String get statsExpenses => 'Výdaje';
+
+  @override
+  String get statsProfit => 'Zisk';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Nepodařilo se načíst statistiku: $error';
+  }
 }

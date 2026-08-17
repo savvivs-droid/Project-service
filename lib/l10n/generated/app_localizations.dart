@@ -977,6 +977,120 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.'**
   String get addEstablishmentGenericError;
+
+  /// Mark done dialog: title
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřít zakázku'**
+  String get markDoneDialogTitle;
+
+  /// Mark done dialog: repair cost field
+  ///
+  /// In cs, this message translates to:
+  /// **'Cena opravy'**
+  String get markDoneRepairCostLabel;
+
+  /// Mark done dialog: parts cost field
+  ///
+  /// In cs, this message translates to:
+  /// **'Cena náhradních dílů'**
+  String get markDonePartsCostLabel;
+
+  /// Mark done dialog: cost field required
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte částku'**
+  String get markDoneCostRequired;
+
+  /// Mark done dialog: cost field invalid
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte platnou částku'**
+  String get markDoneCostInvalid;
+
+  /// Mark done dialog: cancel action
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get markDoneDialogCancel;
+
+  /// Mark done dialog: confirm action
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřít zakázku'**
+  String get markDoneDialogConfirm;
+
+  /// Request card: repair cost short label
+  ///
+  /// In cs, this message translates to:
+  /// **'Oprava'**
+  String get requestCostRepairLabel;
+
+  /// Request card: parts cost short label
+  ///
+  /// In cs, this message translates to:
+  /// **'Díly'**
+  String get requestCostPartsLabel;
+
+  /// Admin home: statistics tab title
+  ///
+  /// In cs, this message translates to:
+  /// **'Statistika'**
+  String get adminHomeStatsTab;
+
+  /// Statistics: week period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Týden'**
+  String get statsPeriodWeek;
+
+  /// Statistics: month period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Měsíc'**
+  String get statsPeriodMonth;
+
+  /// Statistics: year period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Rok'**
+  String get statsPeriodYear;
+
+  /// Statistics: custom period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Vlastní období'**
+  String get statsPeriodCustom;
+
+  /// Statistics: closed requests count label
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřené zakázky'**
+  String get statsClosedCount;
+
+  /// Statistics: revenue (sum of repair cost) label
+  ///
+  /// In cs, this message translates to:
+  /// **'Příjem'**
+  String get statsRevenue;
+
+  /// Statistics: expenses (sum of parts cost) label
+  ///
+  /// In cs, this message translates to:
+  /// **'Výdaje'**
+  String get statsExpenses;
+
+  /// Statistics: profit label
+  ///
+  /// In cs, this message translates to:
+  /// **'Zisk'**
+  String get statsProfit;
+
+  /// Statistics: load error with details
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se načíst statistiku: {error}'**
+  String statsLoadError(String error);
 }
 
 class _AppLocalizationsDelegate

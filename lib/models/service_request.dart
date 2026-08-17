@@ -17,6 +17,13 @@ class ServiceRequest {
   final DateTime? scheduledAt;
   final DateTime? completedAt;
   final String? technicianComment;
+
+  /// Стоимость ремонта (доход) и стоимость запчастей (расход) —
+  /// заполняются администратором при закрытии заявки, см.
+  /// AdminRequestDetailScreen и вкладку "Статистика".
+  final double? repairCost;
+  final double? partsCost;
+
   final List<String> equipmentIds;
 
   const ServiceRequest({
@@ -30,6 +37,8 @@ class ServiceRequest {
     this.scheduledAt,
     this.completedAt,
     this.technicianComment,
+    this.repairCost,
+    this.partsCost,
     this.equipmentIds = const [],
   });
 
@@ -51,6 +60,8 @@ class ServiceRequest {
           ? null
           : DateTime.parse(json['completed_at'] as String),
       technicianComment: json['technician_comment'] as String?,
+      repairCost: (json['repair_cost'] as num?)?.toDouble(),
+      partsCost: (json['parts_cost'] as num?)?.toDouble(),
     );
   }
 }
