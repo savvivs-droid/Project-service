@@ -88,17 +88,6 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
     }
   }
 
-  void _scrollToBottomSoon() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scrollController.hasClients) return;
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,14 +128,21 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                   );
                 }
 
-                _scrollToBottomSoon();
                 _markReadSoon();
+                // reverse: true — список сам прижимается к низу экрана,
+                // даже когда сообщений мало и они не заполняют весь
+                // экран (обычный ListView в этом случае просто держит
+                // их у верхнего края, а не там, где печатают новое
+                // сообщение). Поэтому и элементы берём с конца — самое
+                // новое (последнее в data, по created_at) должно
+                // оказаться первым в перевёрнутом списке.
                 return ListView.builder(
                   controller: _scrollController,
+                  reverse: true,
                   padding: const EdgeInsets.all(12),
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
-                    final message = messages[index];
+                    final message = messages[messages.length - 1 - index];
                     return _MessageBubble(
                       message: message,
                       isMine: message.senderId == _currentUserId,
