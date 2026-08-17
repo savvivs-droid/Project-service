@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
@@ -274,6 +275,8 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
               TextField(
                 controller: _commentController,
                 maxLines: 3,
+                textCapitalization: TextCapitalization.sentences,
+                inputFormatters: const [CapitalizeFirstLetterFormatter()],
                 decoration: InputDecoration(
                   hintText: context.l10n.technicianCommentHint,
                 ),

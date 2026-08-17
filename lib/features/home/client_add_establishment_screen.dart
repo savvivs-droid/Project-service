@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/establishment.dart';
@@ -88,6 +89,8 @@ class _ClientAddEstablishmentScreenState
                   children: [
                     TextFormField(
                       controller: _nameController,
+                      textCapitalization: TextCapitalization.sentences,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       decoration: InputDecoration(
                         labelText: context.l10n.registerEstablishmentNameLabel,
                         hintText: context.l10n.registerEstablishmentNameHint,
@@ -100,6 +103,8 @@ class _ClientAddEstablishmentScreenState
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _addressController,
+                      textCapitalization: TextCapitalization.sentences,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       decoration: InputDecoration(
                           labelText: context.l10n.registerAddressLabel),
                       validator: (value) => (value == null ||

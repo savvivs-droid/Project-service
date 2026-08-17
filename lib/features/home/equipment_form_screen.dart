@@ -6,6 +6,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
@@ -245,6 +246,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _customTypeController,
+                    textCapitalization: TextCapitalization.sentences,
+                    inputFormatters: const [CapitalizeFirstLetterFormatter()],
                     decoration: InputDecoration(
                       labelText: context.l10n.equipmentTypeCustomLabel,
                     ),
@@ -259,6 +262,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _modelController,
+                  textCapitalization: TextCapitalization.sentences,
+                  inputFormatters: const [CapitalizeFirstLetterFormatter()],
                   decoration: InputDecoration(labelText: context.l10n.modelLabel),
                 ),
                 const SizedBox(height: 20),

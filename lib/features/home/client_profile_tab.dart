@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
 import '../../services/profile_repository.dart';
@@ -120,6 +121,8 @@ class _ClientProfileTabState extends State<ClientProfileTab> {
             children: [
               TextFormField(
                 controller: _fullNameController,
+                textCapitalization: TextCapitalization.words,
+                inputFormatters: const [CapitalizeFirstLetterFormatter()],
                 decoration:
                     InputDecoration(labelText: context.l10n.registerFullNameLabel),
                 validator: (value) => (value == null || value.trim().isEmpty)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
@@ -212,6 +213,8 @@ class _ClientCreateRequestScreenState
                       TextFormField(
                         controller: _descriptionController,
                         maxLines: 4,
+                        textCapitalization: TextCapitalization.sentences,
+                        inputFormatters: const [CapitalizeFirstLetterFormatter()],
                         decoration: InputDecoration(
                           hintText: context.l10n.createRequestDescriptionHint,
                         ),
