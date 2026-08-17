@@ -263,7 +263,7 @@ class _TypeOptionTile extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        width: 92,
+        width: 104,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -281,13 +281,24 @@ class _TypeOptionTile extends StatelessWidget {
               color: selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
             ),
             const SizedBox(height: 6),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: selected ? colorScheme.primary : null,
-                    fontWeight: selected ? FontWeight.w600 : null,
-                  ),
+            // Фиксированная высота под подпись (до двух строк) — иначе
+            // у плиток с короткой ("Плита") и длинной ("Холодильник",
+            // "Посудомоечная машина") подписью получаются рамки разной
+            // высоты, как в _CategoryTile на экране оборудования.
+            SizedBox(
+              height: 32,
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: selected ? colorScheme.primary : null,
+                        fontWeight: selected ? FontWeight.w600 : null,
+                      ),
+                ),
+              ),
             ),
           ],
         ),
