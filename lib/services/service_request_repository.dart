@@ -13,8 +13,14 @@ class ServiceRequestRepository {
   /// дополнительный фильтр поверх этого для клиента с несколькими
   /// заведениями: сузить список до одного выбранного в переключателе.
   Future<List<RequestListItem>> fetchAll({String? establishmentId}) async {
+    // profiles!service_requests_client_id_fkey — с появлением
+    // request_read_state у PostgREST стало два пути от service_requests
+    // к profiles (через client_id и через отметки прочтения), поэтому
+    // нужную связь приходится называть явно, иначе embed падает с
+    // PGRST201 "more than one relationship was found".
     final query = _client.from('service_requests').select(
-          '*, establishments(name, address), profiles(full_name, phone), '
+          '*, establishments(name, address), '
+          'profiles!service_requests_client_id_fkey(full_name, phone), '
           'service_request_equipment(equipment(type, sticker_code))',
         );
 
