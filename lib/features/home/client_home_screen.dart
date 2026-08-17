@@ -35,6 +35,10 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
+  // Не может совпасть с реальным id заведения (uuid) — используется как
+  // значение пункта меню "добавить заведение" в переключателе, см. build().
+  static const _addEstablishmentValue = '__add_establishment__';
+
   // Открываем сразу на "Моё оборудование" — это то, с чем клиент
   // взаимодействует чаще всего, а не список заявок.
   int _tabIndex = 2;
@@ -156,11 +160,16 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             future: _establishmentsFuture,
             builder: (context, snapshot) {
               final establishments = snapshot.data ?? const [];
-              return PopupMenuButton<String?>(
+              // PopupMenuButton считает выбор пункта с value: null тем же
+              // самым, что и закрытие меню без выбора (Flutter вызывает
+              // onCanceled, а не onSelected) — поэтому пункт "добавить
+              // заведение" не мог использовать null как значение, иначе
+              // нажатие на него ничего не делало. Используем сентинел.
+              return PopupMenuButton<String>(
                 icon: const Icon(Icons.storefront_outlined),
                 tooltip: l10n.establishmentSwitcherTooltip,
                 onSelected: (value) {
-                  if (value == null) {
+                  if (value == _addEstablishmentValue) {
                     _openAddEstablishment();
                   } else {
                     _selectEstablishment(value);
@@ -175,7 +184,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                     ),
                   if (establishments.isNotEmpty) const PopupMenuDivider(),
                   PopupMenuItem(
-                    value: null,
+                    value: _addEstablishmentValue,
                     child: Text(l10n.establishmentSwitcherAddNew),
                   ),
                 ],
