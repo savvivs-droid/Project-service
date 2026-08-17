@@ -640,6 +640,37 @@ begin
 end;
 $$;
 
+-- Самостоятельное удаление аккаунта клиентом (см. ClientProfileTab).
+-- Не удаляет саму строку profiles/auth.users — на неё ссылаются
+-- service_requests.client_id (on delete restrict, раздел 3), заявки и
+-- переписка нужны сервисной компании для бухгалтерского учёта уже после
+-- того, как клиент ушёл. Вместо этого обезличиваем профиль (стираем
+-- имя и телефон) и убираем доступ (членство в заведениях, push-токены,
+-- отметки прочтения) — персональные данные уходят, история заявок для
+-- админа остаётся. Логин после этого блокирует сам клиент на стороне
+-- приложения — см. AuthRepository.deleteOwnAccount.
+create or replace function public.delete_own_account()
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'Не авторизован';
+  end if;
+
+  delete from public.device_tokens where profile_id = auth.uid();
+  delete from public.request_read_state where profile_id = auth.uid();
+  delete from public.establishment_members where profile_id = auth.uid();
+
+  update public.profiles
+  set full_name = null,
+      phone = null
+  where id = auth.uid();
+end;
+$$;
+
 -- Запрещаем пользователю (кроме админа) менять себе роль или заведение
 -- через обычный UPDATE — RLS выше это не может ограничить на уровне
 -- колонок, поэтому здесь дополнительная защита триггером.

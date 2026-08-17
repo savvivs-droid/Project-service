@@ -610,4 +610,31 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get privacyPolicyPlaceholder =>
       'Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Xóa tài khoản';
+
+  @override
+  String get deleteAccountHint =>
+      'Dữ liệu cá nhân (họ tên, số điện thoại) sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa. Lịch sử yêu cầu của bạn vẫn được lưu trong hệ thống nhưng không gắn với tên — chúng tôi cần điều này cho mục đích kế toán.';
+
+  @override
+  String get deleteAccountButton => 'Xóa tài khoản';
+
+  @override
+  String get deleteAccountDialogTitle => 'Xóa tài khoản?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Không thể hoàn tác hành động này. Dữ liệu cá nhân sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Hủy';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Xóa';
+
+  @override
+  String get deleteAccountError =>
+      'Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.';
 }

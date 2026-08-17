@@ -609,4 +609,31 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get privacyPolicyPlaceholder =>
       'Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Удаление аккаунта';
+
+  @override
+  String get deleteAccountHint =>
+      'Личные данные (имя, телефон) будут удалены, войти в аккаунт станет невозможно. История ваших заявок останется в системе без привязки к имени — это нужно нам для бухгалтерского учёта.';
+
+  @override
+  String get deleteAccountButton => 'Удалить аккаунт';
+
+  @override
+  String get deleteAccountDialogTitle => 'Удалить аккаунт?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Это действие нельзя отменить. Личные данные будут удалены, войти в аккаунт больше не получится.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Отмена';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Удалить';
+
+  @override
+  String get deleteAccountError =>
+      'Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.';
 }

@@ -608,4 +608,31 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get privacyPolicyPlaceholder =>
       'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Smazání účtu';
+
+  @override
+  String get deleteAccountHint =>
+      'Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.';
+
+  @override
+  String get deleteAccountButton => 'Smazat účet';
+
+  @override
+  String get deleteAccountDialogTitle => 'Smazat účet?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Zrušit';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Smazat';
+
+  @override
+  String get deleteAccountError =>
+      'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.';
 }

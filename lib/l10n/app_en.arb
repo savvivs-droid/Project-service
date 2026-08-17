@@ -803,5 +803,37 @@
   "privacyPolicyPlaceholder": "The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.",
   "@privacyPolicyPlaceholder": {
     "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Delete account",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Your personal data (name, phone) will be deleted and you won't be able to sign in anymore. Your request history stays in the system without a name attached — we need it for bookkeeping.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Delete account",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Delete account?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "This can't be undone. Your personal data will be deleted and you won't be able to sign in anymore.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Cancel",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Delete",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Couldn't delete the account. Try again or contact us.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

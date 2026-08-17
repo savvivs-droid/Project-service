@@ -803,5 +803,37 @@
   "privacyPolicyPlaceholder": "Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.",
   "@privacyPolicyPlaceholder": {
     "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Xóa tài khoản",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Dữ liệu cá nhân (họ tên, số điện thoại) sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa. Lịch sử yêu cầu của bạn vẫn được lưu trong hệ thống nhưng không gắn với tên — chúng tôi cần điều này cho mục đích kế toán.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Xóa tài khoản",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Xóa tài khoản?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Không thể hoàn tác hành động này. Dữ liệu cá nhân sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Hủy",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Xóa",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

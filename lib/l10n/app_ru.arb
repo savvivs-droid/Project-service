@@ -803,5 +803,37 @@
   "privacyPolicyPlaceholder": "Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.",
   "@privacyPolicyPlaceholder": {
     "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Удаление аккаунта",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Личные данные (имя, телефон) будут удалены, войти в аккаунт станет невозможно. История ваших заявок останется в системе без привязки к имени — это нужно нам для бухгалтерского учёта.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Удалить аккаунт",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Удалить аккаунт?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Это действие нельзя отменить. Личные данные будут удалены, войти в аккаунт больше не получится.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Отмена",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Удалить",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

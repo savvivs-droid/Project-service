@@ -611,4 +611,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyPolicyPlaceholder =>
       'The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Delete account';
+
+  @override
+  String get deleteAccountHint =>
+      'Your personal data (name, phone) will be deleted and you won\'t be able to sign in anymore. Your request history stays in the system without a name attached — we need it for bookkeeping.';
+
+  @override
+  String get deleteAccountButton => 'Delete account';
+
+  @override
+  String get deleteAccountDialogTitle => 'Delete account?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'This can\'t be undone. Your personal data will be deleted and you won\'t be able to sign in anymore.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Cancel';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Delete';
+
+  @override
+  String get deleteAccountError =>
+      'Couldn\'t delete the account. Try again or contact us.';
 }

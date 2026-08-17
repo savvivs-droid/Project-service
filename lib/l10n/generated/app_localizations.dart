@@ -1217,6 +1217,54 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.'**
   String get privacyPolicyPlaceholder;
+
+  /// Profile: delete account section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazání účtu'**
+  String get deleteAccountSectionTitle;
+
+  /// Profile: delete account explanation
+  ///
+  /// In cs, this message translates to:
+  /// **'Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.'**
+  String get deleteAccountHint;
+
+  /// Profile: delete account button
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet'**
+  String get deleteAccountButton;
+
+  /// Delete account dialog: title
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet?'**
+  String get deleteAccountDialogTitle;
+
+  /// Delete account dialog: content
+  ///
+  /// In cs, this message translates to:
+  /// **'Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.'**
+  String get deleteAccountDialogContent;
+
+  /// Delete account dialog: cancel
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get deleteAccountDialogCancel;
+
+  /// Delete account dialog: confirm
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat'**
+  String get deleteAccountDialogConfirm;
+
+  /// Delete account: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.'**
+  String get deleteAccountError;
 }
 
 class _AppLocalizationsDelegate

@@ -803,5 +803,37 @@
   "privacyPolicyPlaceholder": "Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.",
   "@privacyPolicyPlaceholder": {
     "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Smazání účtu",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Smazat účet",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Smazat účet?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Zrušit",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Smazat",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }
