@@ -114287,7 +114287,7 @@ zq(a){return this.aEd(a)},
 a63(){return this.zq(null)},
 aEd(a){var s=0,r=A.u(t.bv),q,p=this,o,n,m
 var $async$zq=A.p(function(b,c){if(b===1)return A.q(c,r)
-for(;;)switch(s){case 0:o=p.a.fq("service_requests").wv("*, establishments(name, address), profiles(full_name, phone), service_request_equipment(equipment(type, sticker_code))")
+for(;;)switch(s){case 0:o=p.a.fq("service_requests").wv("*, establishments(name, address), profiles!service_requests_client_id_fkey(full_name, phone), service_request_equipment(equipment(type, sticker_code))")
 m=J
 s=3
 return A.m((a==null?o:o.k7("establishment_id",a)).Ar("created_at",!1),$async$zq)
