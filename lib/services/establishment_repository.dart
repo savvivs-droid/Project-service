@@ -53,13 +53,12 @@ class EstablishmentRepository {
   /// (security definer), потому что обычная insert-политика на
   /// establishments разрешена только администратору.
   Future<Establishment> addForCurrentClient({
-    required String ico,
     required String name,
     required String address,
     required String contactPhone,
   }) async {
     final id = await _client.rpc('add_client_establishment', params: {
-      'p_ico': ico,
+      'p_ico': null,
       'p_name': name,
       'p_address': address,
       'p_contact_phone': contactPhone,
