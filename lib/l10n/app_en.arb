@@ -727,5 +727,9 @@
   "searchNoResults": "No results found",
   "@searchNoResults": {
     "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Call us",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
   }
 }

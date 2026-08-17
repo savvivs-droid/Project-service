@@ -547,4 +547,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchNoResults => 'No results found';
+
+  @override
+  String get callUsTooltip => 'Call us';
 }

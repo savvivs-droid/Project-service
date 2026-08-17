@@ -545,4 +545,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get searchNoResults => 'Nic nenalezeno';
+
+  @override
+  String get callUsTooltip => 'Zavolejte nám';
 }

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/request_status.dart';
+import '../../core/constants/support_contact.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
@@ -127,6 +129,15 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     }
   }
 
+  Future<void> _callSupport() async {
+    final opened = await launchPhoneCall(kSupportPhoneNumber);
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.callError)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -204,12 +215,28 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           ClientProfileTab(profile: widget.profile),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _openCreateRequest,
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.build_outlined),
-        label: Text(l10n.clientCreateRequestButton),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'call-support-fab',
+            onPressed: _callSupport,
+            backgroundColor: Colors.green.shade600,
+            foregroundColor: Colors.white,
+            tooltip: l10n.callUsTooltip,
+            child: const Icon(Icons.call),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: 'create-request-fab',
+            onPressed: _openCreateRequest,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Colors.white,
+            icon: const Icon(Icons.build_outlined),
+            label: Text(l10n.clientCreateRequestButton),
+          ),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,

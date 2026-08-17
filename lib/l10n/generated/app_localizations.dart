@@ -1103,6 +1103,12 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nic nenalezeno'**
   String get searchNoResults;
+
+  /// Client home: floating call-us button tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Zavolejte nám'**
+  String get callUsTooltip;
 }
 
 class _AppLocalizationsDelegate

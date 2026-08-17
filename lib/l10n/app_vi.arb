@@ -727,5 +727,9 @@
   "searchNoResults": "Không tìm thấy kết quả",
   "@searchNoResults": {
     "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Gọi cho chúng tôi",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
   }
 }

@@ -545,4 +545,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get searchNoResults => 'Ничего не найдено';
+
+  @override
+  String get callUsTooltip => 'Позвонить нам';
 }

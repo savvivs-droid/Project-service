@@ -546,4 +546,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get searchNoResults => 'Không tìm thấy kết quả';
+
+  @override
+  String get callUsTooltip => 'Gọi cho chúng tôi';
 }
