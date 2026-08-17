@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/constants/app_urls.dart';
 import 'supabase_service.dart';
 
 /// Работа с авторизацией Supabase Auth.
@@ -47,6 +48,16 @@ class AuthRepository {
   }
 
   Future<void> signOut() => _client.auth.signOut();
+
+  /// Отправляет письмо со ссылкой восстановления пароля. Supabase не
+  /// сообщает, существует ли такой email — ошибку он вернёт только на
+  /// сетевые/конфигурационные проблемы, что и позволяет не раскрывать
+  /// в интерфейсе, зарегистрирован ли адрес. redirectTo должен быть
+  /// заранее добавлен в Supabase Dashboard -> Authentication -> URL
+  /// Configuration -> Redirect URLs.
+  Future<void> resetPasswordForEmail(String email) {
+    return _client.auth.resetPasswordForEmail(email, redirectTo: kAppWebUrl);
+  }
 
   /// Смена email — в зависимости от настроек проекта (Authentication ->
   /// Sign In / Providers -> Email -> "Secure email change") Supabase

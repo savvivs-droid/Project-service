@@ -550,4 +550,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get callUsTooltip => 'Call us';
+
+  @override
+  String get loginForgotPassword => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Password recovery';
+
+  @override
+  String get forgotPasswordHint =>
+      'Enter the email you registered with — we\'ll send a password reset link to it.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Send link';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'If that email is registered, a password reset link has been sent to it. Check your inbox (including Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Back to sign in';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Couldn\'t send the email. Check your internet connection.';
+
+  @override
+  String get resetPasswordTitle => 'New password';
+
+  @override
+  String get resetPasswordHint => 'Set a new password to sign in with.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Repeat password';
+
+  @override
+  String get resetPasswordMismatch => 'Passwords don\'t match';
+
+  @override
+  String get resetPasswordSubmitButton => 'Save password';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Couldn\'t save the password. Try sending the reset link again.';
 }

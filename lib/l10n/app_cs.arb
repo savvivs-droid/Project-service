@@ -731,5 +731,57 @@
   "callUsTooltip": "Zavolejte nám",
   "@callUsTooltip": {
     "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Zapomněli jste heslo?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Obnovení hesla",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Odeslat odkaz",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Zpět na přihlášení",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Nové heslo",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Nastavte nové heslo pro přihlášení.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Zopakujte heslo",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Hesla se neshodují",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Uložit heslo",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
   }
 }

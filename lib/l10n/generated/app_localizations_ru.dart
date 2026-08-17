@@ -548,4 +548,47 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get callUsTooltip => 'Позвонить нам';
+
+  @override
+  String get loginForgotPassword => 'Забыли пароль?';
+
+  @override
+  String get forgotPasswordTitle => 'Восстановление пароля';
+
+  @override
+  String get forgotPasswordHint =>
+      'Введите email, указанный при регистрации — пришлём на него ссылку для сброса пароля.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Отправить ссылку';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Если такой email зарегистрирован, на него отправлена ссылка для восстановления пароля. Проверьте почту (в том числе папку «Спам»).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Вернуться ко входу';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Не удалось отправить письмо. Проверьте подключение к интернету.';
+
+  @override
+  String get resetPasswordTitle => 'Новый пароль';
+
+  @override
+  String get resetPasswordHint => 'Задайте новый пароль для входа.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Повторите пароль';
+
+  @override
+  String get resetPasswordMismatch => 'Пароли не совпадают';
+
+  @override
+  String get resetPasswordSubmitButton => 'Сохранить пароль';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.';
 }

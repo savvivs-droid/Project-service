@@ -549,4 +549,47 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get callUsTooltip => 'Gọi cho chúng tôi';
+
+  @override
+  String get loginForgotPassword => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordTitle => 'Khôi phục mật khẩu';
+
+  @override
+  String get forgotPasswordHint =>
+      'Nhập email bạn đã dùng để đăng ký — chúng tôi sẽ gửi liên kết đặt lại mật khẩu tới đó.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Gửi liên kết';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Nếu email này đã được đăng ký, liên kết đặt lại mật khẩu đã được gửi tới đó. Kiểm tra hộp thư (kể cả mục Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Quay lại đăng nhập';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Không thể gửi email. Kiểm tra kết nối internet.';
+
+  @override
+  String get resetPasswordTitle => 'Mật khẩu mới';
+
+  @override
+  String get resetPasswordHint => 'Đặt mật khẩu mới để đăng nhập.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Nhập lại mật khẩu';
+
+  @override
+  String get resetPasswordMismatch => 'Mật khẩu không khớp';
+
+  @override
+  String get resetPasswordSubmitButton => 'Lưu mật khẩu';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.';
 }

@@ -548,4 +548,47 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get callUsTooltip => 'Zavolejte nám';
+
+  @override
+  String get loginForgotPassword => 'Zapomněli jste heslo?';
+
+  @override
+  String get forgotPasswordTitle => 'Obnovení hesla';
+
+  @override
+  String get forgotPasswordHint =>
+      'Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Odeslat odkaz';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Zpět na přihlášení';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.';
+
+  @override
+  String get resetPasswordTitle => 'Nové heslo';
+
+  @override
+  String get resetPasswordHint => 'Nastavte nové heslo pro přihlášení.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Zopakujte heslo';
+
+  @override
+  String get resetPasswordMismatch => 'Hesla se neshodují';
+
+  @override
+  String get resetPasswordSubmitButton => 'Uložit heslo';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.';
 }

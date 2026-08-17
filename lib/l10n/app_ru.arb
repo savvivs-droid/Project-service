@@ -731,5 +731,57 @@
   "callUsTooltip": "Позвонить нам",
   "@callUsTooltip": {
     "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Забыли пароль?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Восстановление пароля",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Введите email, указанный при регистрации — пришлём на него ссылку для сброса пароля.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Отправить ссылку",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Если такой email зарегистрирован, на него отправлена ссылка для восстановления пароля. Проверьте почту (в том числе папку «Спам»).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Вернуться ко входу",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Не удалось отправить письмо. Проверьте подключение к интернету.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Новый пароль",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Задайте новый пароль для входа.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Повторите пароль",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Пароли не совпадают",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Сохранить пароль",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
   }
 }

@@ -10,6 +10,7 @@ import '../../services/profile_repository.dart';
 import '../../services/push_notification_service.dart';
 import '../home/role_router_screen.dart';
 import 'login_screen.dart';
+import 'reset_password_screen.dart';
 
 /// Корневой виджет: слушает состояние авторизации Supabase и показывает
 /// либо экран входа, либо (если пользователь вошёл) главный экран,
@@ -25,6 +26,30 @@ class _AuthGateState extends State<AuthGate> {
   final _authRepository = AuthRepository();
   final _profileRepository = ProfileRepository();
 
+  // Ссылка из письма восстановления пароля открывает приложение с уже
+  // установленной сессией — но зайти в неё как в обычный логин нельзя,
+  // сперва нужно задать новый пароль. Флаг живёт до успешного
+  // ResetPasswordScreen.onDone, после чего сессия используется как
+  // обычная (второй раз логиниться не нужно).
+  bool _isPasswordRecovery = false;
+  StreamSubscription<AuthState>? _recoverySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _recoverySubscription = _authRepository.authStateChanges.listen((state) {
+      if (state.event == AuthChangeEvent.passwordRecovery && mounted) {
+        setState(() => _isPasswordRecovery = true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _recoverySubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
@@ -34,6 +59,12 @@ class _AuthGateState extends State<AuthGate> {
 
         if (session == null) {
           return const LoginScreen();
+        }
+
+        if (_isPasswordRecovery) {
+          return ResetPasswordScreen(
+            onDone: () => setState(() => _isPasswordRecovery = false),
+          );
         }
 
         return FutureBuilder<Profile?>(

@@ -1109,6 +1109,84 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Zavolejte nám'**
   String get callUsTooltip;
+
+  /// Login: forgot password link
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapomněli jste heslo?'**
+  String get loginForgotPassword;
+
+  /// Forgot password screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Obnovení hesla'**
+  String get forgotPasswordTitle;
+
+  /// Forgot password: explanation text
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.'**
+  String get forgotPasswordHint;
+
+  /// Forgot password: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat odkaz'**
+  String get forgotPasswordSubmitButton;
+
+  /// Forgot password: sent confirmation message
+  ///
+  /// In cs, this message translates to:
+  /// **'Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).'**
+  String get forgotPasswordSentMessage;
+
+  /// Forgot password: back to login button
+  ///
+  /// In cs, this message translates to:
+  /// **'Zpět na přihlášení'**
+  String get forgotPasswordBackToLogin;
+
+  /// Forgot password: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.'**
+  String get forgotPasswordGenericError;
+
+  /// Reset password screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nové heslo'**
+  String get resetPasswordTitle;
+
+  /// Reset password: explanation text
+  ///
+  /// In cs, this message translates to:
+  /// **'Nastavte nové heslo pro přihlášení.'**
+  String get resetPasswordHint;
+
+  /// Reset password: confirm password field
+  ///
+  /// In cs, this message translates to:
+  /// **'Zopakujte heslo'**
+  String get resetPasswordConfirmLabel;
+
+  /// Reset password: confirm mismatch validator
+  ///
+  /// In cs, this message translates to:
+  /// **'Hesla se neshodují'**
+  String get resetPasswordMismatch;
+
+  /// Reset password: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Uložit heslo'**
+  String get resetPasswordSubmitButton;
+
+  /// Reset password: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.'**
+  String get resetPasswordGenericError;
 }
 
 class _AppLocalizationsDelegate

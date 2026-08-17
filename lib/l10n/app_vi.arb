@@ -731,5 +731,57 @@
   "callUsTooltip": "Gọi cho chúng tôi",
   "@callUsTooltip": {
     "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Quên mật khẩu?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Khôi phục mật khẩu",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Nhập email bạn đã dùng để đăng ký — chúng tôi sẽ gửi liên kết đặt lại mật khẩu tới đó.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Gửi liên kết",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Nếu email này đã được đăng ký, liên kết đặt lại mật khẩu đã được gửi tới đó. Kiểm tra hộp thư (kể cả mục Spam).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Quay lại đăng nhập",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Không thể gửi email. Kiểm tra kết nối internet.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Mật khẩu mới",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Đặt mật khẩu mới để đăng nhập.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Nhập lại mật khẩu",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Mật khẩu không khớp",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Lưu mật khẩu",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
   }
 }
