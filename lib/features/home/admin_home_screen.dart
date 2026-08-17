@@ -319,11 +319,10 @@ class _RequestCard extends StatelessWidget {
                           style: const TextStyle(color: Colors.white, fontSize: 11),
                         ),
                       ),
-                      if (request.repairCost != null ||
-                          request.partsCost != null) ...[
+                      if (request.repairCost != null) ...[
                         const SizedBox(height: 4),
                         Text(
-                          '${((request.repairCost ?? 0) + (request.partsCost ?? 0)).toStringAsFixed(2)} Kč',
+                          '${request.repairCost!.toStringAsFixed(2)} Kč',
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 13,
