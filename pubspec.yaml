@@ -54,16 +54,21 @@ flutter:
   assets:
     - .env
     - assets/brand/logo_mark.png
+    - assets/brand/logo_mark_white.png
   fonts:
-    # Golos Text (Google Fonts, OFL) — фирменный шрифт приложения,
-    # заменяет системный Roboto/San Francisco. Файлы — статические
-    # инстансы вариативного шрифта (Regular/Bold), полный набор
-    # кириллицы + латиницы, см. assets/fonts/OFL.txt.
-    - family: Golos Text
+    # Montserrat (Google Fonts, OFL) — шрифт по Brand Book 2026,
+    # см. assets/fonts/OFL.txt. Один вариативный файл покрывает весь
+    # диапазон начертаний по оси wght — не нужны отдельные файлы на
+    # каждый вес.
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/GolosText-Regular.ttf
+        - asset: assets/fonts/Montserrat-VariableFont.ttf
           weight: 400
-        - asset: assets/fonts/GolosText-Bold.ttf
+        - asset: assets/fonts/Montserrat-VariableFont.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat-VariableFont.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat-VariableFont.ttf
           weight: 700
 
 flutter_launcher_icons:
@@ -74,5 +79,5 @@ flutter_launcher_icons:
   web:
     generate: true
     image_path: "assets_icon_source.png"
-    background_color: "#0E5C63"
-    theme_color: "#0E5C63"
+    background_color: "#02445A"
+    theme_color: "#02445A"
