@@ -8,6 +8,7 @@ import '../../core/constants/support_contact.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/equipment_grid_tile.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -22,6 +23,7 @@ import '../../services/service_request_repository.dart';
 import 'client_add_establishment_screen.dart';
 import 'client_create_request_screen.dart';
 import 'client_equipment_category_screen.dart';
+import 'client_equipment_types_screen.dart';
 import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
 
@@ -523,21 +525,31 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
     await future;
   }
 
-  void _openCategory(
-    BuildContext context,
-    EquipmentTypeKey? key,
-    String title,
-    IconData icon,
-  ) {
+  void _openCategory(BuildContext context, EquipmentCategory category) {
     final establishmentId = widget.establishmentId;
     if (establishmentId == null) return;
+
+    if (category == EquipmentCategory.other) {
+      // "Другое" — без фиксированных видов, сразу список оборудования
+      // со свободным типом.
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ClientEquipmentCategoryScreen(
+            establishmentId: establishmentId,
+            typeKey: null,
+            title: category.label(context),
+            icon: category.icon,
+          ),
+        ),
+      );
+      return;
+    }
+
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ClientEquipmentCategoryScreen(
+        builder: (_) => ClientEquipmentTypesScreen(
           establishmentId: establishmentId,
-          typeKey: key,
-          title: title,
-          icon: icon,
+          category: category,
         ),
       ),
     );
@@ -564,10 +576,12 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
         }
 
         final equipment = snapshot.data ?? const [];
-        int countFor(EquipmentTypeKey? key) => equipment
-            .where((item) => equipmentTypeKeyFromStorage(item.type) == key)
+        int countFor(EquipmentCategory category) => equipment
+            .where((item) =>
+                (equipmentTypeKeyFromStorage(item.type)?.category ??
+                    EquipmentCategory.other) ==
+                category)
             .length;
-        final otherCount = countFor(null);
 
         return RefreshIndicator(
           onRefresh: _refresh,
@@ -583,123 +597,19 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
               crossAxisSpacing: 12,
               childAspectRatio: 1,
             ),
-            // Все известные категории показываем всегда; "Другое" —
-            // только если у заведения реально есть такое оборудование.
-            itemCount: EquipmentTypeKey.values.length + (otherCount > 0 ? 1 : 0),
+            itemCount: EquipmentCategory.values.length,
             itemBuilder: (context, index) {
-              if (index < EquipmentTypeKey.values.length) {
-                final key = EquipmentTypeKey.values[index];
-                return _CategoryTile(
-                  icon: key.icon,
-                  label: key.label(context),
-                  count: countFor(key),
-                  onTap: () =>
-                      _openCategory(context, key, key.label(context), key.icon),
-                );
-              }
-              return _CategoryTile(
-                icon: Icons.more_horiz,
-                label: context.l10n.equipmentTypeOther,
-                count: otherCount,
-                onTap: () => _openCategory(
-                  context,
-                  null,
-                  context.l10n.equipmentTypeOther,
-                  Icons.more_horiz,
-                ),
+              final category = EquipmentCategory.values[index];
+              return EquipmentGridTile(
+                icon: category.icon,
+                label: category.label(context),
+                count: countFor(category),
+                onTap: () => _openCategory(context, category),
               );
             },
           ),
         );
       },
-    );
-  }
-}
-
-class _CategoryTile extends StatelessWidget {
-  const _CategoryTile({
-    required this.icon,
-    required this.label,
-    required this.count,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final int count;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: colorScheme.outlineVariant),
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            // Иконка и подпись раскладываются по фиксированным зонам
-            // (а не центрируются как единый блок), иначе у подписей
-            // на одну и две строки центр иконки съезжает по вертикали
-            // и иконки в соседних плитках оказываются не на одном
-            // уровне.
-            Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Icon(icon, size: 30, color: colorScheme.primary),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 32,
-                  child: Center(
-                    child: Text(
-                      label,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (count > 0)
-              Positioned(
-                top: -6,
-                right: -6,
-                child: Container(
-                  constraints: const BoxConstraints(minWidth: 20, minHeight: 20),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                    color: colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: colorScheme.surface, width: 2),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$count',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: colorScheme.onSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      height: 1,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

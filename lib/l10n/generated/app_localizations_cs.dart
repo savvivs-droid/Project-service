@@ -298,6 +298,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Typ vybavení';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Druh vybavení';
+
+  @override
   String get equipmentTypeOther => 'Jiné';
 
   @override
@@ -357,28 +360,133 @@ class AppLocalizationsCs extends AppLocalizations {
   String get equipmentTypeFridge => 'Lednice';
 
   @override
-  String get equipmentTypeFreezer => 'Mraznička';
+  String get equipmentTypeFreezer => 'Mrazničky';
 
   @override
-  String get equipmentTypeCombiOven => 'Konvektomat';
+  String get equipmentTypeCombiOven => 'Konvektomaty';
 
   @override
-  String get equipmentTypeStove => 'Sporák';
+  String get equipmentTypeStove => 'Sporáky';
 
   @override
-  String get equipmentTypeDishwasher => 'Myčka nádobí';
+  String get equipmentTypeDishwasher => 'Myčky nádobí';
 
   @override
-  String get equipmentTypeGrill => 'Gril';
+  String get equipmentTypeGrill => 'Grily';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Kávovar';
+  String get equipmentTypeCoffeeMachine => 'Kávovary';
 
   @override
-  String get equipmentTypeMixer => 'Mixér / tyčový mixér';
+  String get equipmentTypeMixer => 'Mixéry';
 
   @override
   String get equipmentTypeCuttingTable => 'Krájecí stůl';
+
+  @override
+  String get equipmentCategoryThermal => 'Tepelná technika';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Chladicí technika';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Mycí technika';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Příprava potravin';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & pekárna';
+
+  @override
+  String get equipmentCategoryBar => 'Barová technika';
+
+  @override
+  String get equipmentCategoryWater => 'Úprava vody';
+
+  @override
+  String get equipmentTypeOven => 'Pece';
+
+  @override
+  String get equipmentTypeFryer => 'Fritézy';
+
+  @override
+  String get equipmentTypeSalamander => 'Salamandry';
+
+  @override
+  String get equipmentTypeBainMarie => 'Marmity';
+
+  @override
+  String get equipmentTypeMicrowave => 'Mikrovlnky';
+
+  @override
+  String get equipmentTypeColdTable => 'Chladicí stoly';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Vitríny';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Šokery';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Myčky skla';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Kapotové myčky';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Pásové myčky';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Mlýnky na maso';
+
+  @override
+  String get equipmentTypeSlicer => 'Kráječe';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Kráječe zeleniny';
+
+  @override
+  String get equipmentTypeCutter => 'Kutry';
+
+  @override
+  String get equipmentTypeBlender => 'Tyčové mixéry';
+
+  @override
+  String get equipmentTypePizzaOven => 'Pizza pece';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Hnětače těsta';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Válcovačky těsta';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Kynárny';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Mlýnky na kávu';
+
+  @override
+  String get equipmentTypeIceMaker => 'Výrobníky ledu';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Chladiče nápojů';
+
+  @override
+  String get equipmentTypePostMix => 'Postmixy';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Změkčovače vody';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Filtry';
+
+  @override
+  String get equipmentTypePump => 'Čerpadla';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Reverzní osmóza';
 
   @override
   String get clientEquipmentTab => 'Moje vybavení';

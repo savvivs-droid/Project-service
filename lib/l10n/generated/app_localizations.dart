@@ -630,6 +630,12 @@ abstract class AppLocalizations {
   /// **'Typ vybavení'**
   String get equipmentTypeSectionTitle;
 
+  /// Equipment form: subtype section title (shown after picking a category)
+  ///
+  /// In cs, this message translates to:
+  /// **'Druh vybavení'**
+  String get equipmentSubtypeSectionTitle;
+
   /// Equipment type picker: other option
   ///
   /// In cs, this message translates to:
@@ -741,50 +747,260 @@ abstract class AppLocalizations {
   /// Equipment type: freezer
   ///
   /// In cs, this message translates to:
-  /// **'Mraznička'**
+  /// **'Mrazničky'**
   String get equipmentTypeFreezer;
 
   /// Equipment type: combi oven
   ///
   /// In cs, this message translates to:
-  /// **'Konvektomat'**
+  /// **'Konvektomaty'**
   String get equipmentTypeCombiOven;
 
   /// Equipment type: stove
   ///
   /// In cs, this message translates to:
-  /// **'Sporák'**
+  /// **'Sporáky'**
   String get equipmentTypeStove;
 
   /// Equipment type: dishwasher
   ///
   /// In cs, this message translates to:
-  /// **'Myčka nádobí'**
+  /// **'Myčky nádobí'**
   String get equipmentTypeDishwasher;
 
   /// Equipment type: grill
   ///
   /// In cs, this message translates to:
-  /// **'Gril'**
+  /// **'Grily'**
   String get equipmentTypeGrill;
 
   /// Equipment type: coffee machine
   ///
   /// In cs, this message translates to:
-  /// **'Kávovar'**
+  /// **'Kávovary'**
   String get equipmentTypeCoffeeMachine;
 
-  /// Equipment type: mixer/blender
+  /// Equipment type: mixer
   ///
   /// In cs, this message translates to:
-  /// **'Mixér / tyčový mixér'**
+  /// **'Mixéry'**
   String get equipmentTypeMixer;
 
-  /// Equipment type: cutting table
+  /// Equipment type: cutting table (legacy, not offered in the picker anymore)
   ///
   /// In cs, this message translates to:
   /// **'Krájecí stůl'**
   String get equipmentTypeCuttingTable;
+
+  /// Equipment category: thermal
+  ///
+  /// In cs, this message translates to:
+  /// **'Tepelná technika'**
+  String get equipmentCategoryThermal;
+
+  /// Equipment category: refrigeration
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladicí technika'**
+  String get equipmentCategoryRefrigeration;
+
+  /// Equipment category: dishwashing
+  ///
+  /// In cs, this message translates to:
+  /// **'Mycí technika'**
+  String get equipmentCategoryDishwashing;
+
+  /// Equipment category: food prep
+  ///
+  /// In cs, this message translates to:
+  /// **'Příprava potravin'**
+  String get equipmentCategoryFoodPrep;
+
+  /// Equipment category: pizza & bakery
+  ///
+  /// In cs, this message translates to:
+  /// **'Pizza & pekárna'**
+  String get equipmentCategoryPizzaBakery;
+
+  /// Equipment category: bar & drinks
+  ///
+  /// In cs, this message translates to:
+  /// **'Barová technika'**
+  String get equipmentCategoryBar;
+
+  /// Equipment category: water treatment
+  ///
+  /// In cs, this message translates to:
+  /// **'Úprava vody'**
+  String get equipmentCategoryWater;
+
+  /// Equipment type: oven
+  ///
+  /// In cs, this message translates to:
+  /// **'Pece'**
+  String get equipmentTypeOven;
+
+  /// Equipment type: fryer
+  ///
+  /// In cs, this message translates to:
+  /// **'Fritézy'**
+  String get equipmentTypeFryer;
+
+  /// Equipment type: salamander
+  ///
+  /// In cs, this message translates to:
+  /// **'Salamandry'**
+  String get equipmentTypeSalamander;
+
+  /// Equipment type: bain-marie
+  ///
+  /// In cs, this message translates to:
+  /// **'Marmity'**
+  String get equipmentTypeBainMarie;
+
+  /// Equipment type: microwave
+  ///
+  /// In cs, this message translates to:
+  /// **'Mikrovlnky'**
+  String get equipmentTypeMicrowave;
+
+  /// Equipment type: cold table
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladicí stoly'**
+  String get equipmentTypeColdTable;
+
+  /// Equipment type: display case
+  ///
+  /// In cs, this message translates to:
+  /// **'Vitríny'**
+  String get equipmentTypeDisplayCase;
+
+  /// Equipment type: blast chiller
+  ///
+  /// In cs, this message translates to:
+  /// **'Šokery'**
+  String get equipmentTypeBlastChiller;
+
+  /// Equipment type: glasswasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Myčky skla'**
+  String get equipmentTypeGlasswasher;
+
+  /// Equipment type: hood dishwasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Kapotové myčky'**
+  String get equipmentTypeHoodDishwasher;
+
+  /// Equipment type: conveyor dishwasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Pásové myčky'**
+  String get equipmentTypeConveyorDishwasher;
+
+  /// Equipment type: meat grinder
+  ///
+  /// In cs, this message translates to:
+  /// **'Mlýnky na maso'**
+  String get equipmentTypeMeatGrinder;
+
+  /// Equipment type: slicer
+  ///
+  /// In cs, this message translates to:
+  /// **'Kráječe'**
+  String get equipmentTypeSlicer;
+
+  /// Equipment type: vegetable cutter
+  ///
+  /// In cs, this message translates to:
+  /// **'Kráječe zeleniny'**
+  String get equipmentTypeVegetableCutter;
+
+  /// Equipment type: bowl cutter
+  ///
+  /// In cs, this message translates to:
+  /// **'Kutry'**
+  String get equipmentTypeCutter;
+
+  /// Equipment type: blender
+  ///
+  /// In cs, this message translates to:
+  /// **'Tyčové mixéry'**
+  String get equipmentTypeBlender;
+
+  /// Equipment type: pizza oven
+  ///
+  /// In cs, this message translates to:
+  /// **'Pizza pece'**
+  String get equipmentTypePizzaOven;
+
+  /// Equipment type: dough mixer
+  ///
+  /// In cs, this message translates to:
+  /// **'Hnětače těsta'**
+  String get equipmentTypeDoughMixer;
+
+  /// Equipment type: dough sheeter
+  ///
+  /// In cs, this message translates to:
+  /// **'Válcovačky těsta'**
+  String get equipmentTypeDoughSheeter;
+
+  /// Equipment type: proving cabinet
+  ///
+  /// In cs, this message translates to:
+  /// **'Kynárny'**
+  String get equipmentTypeProvingCabinet;
+
+  /// Equipment type: coffee grinder
+  ///
+  /// In cs, this message translates to:
+  /// **'Mlýnky na kávu'**
+  String get equipmentTypeCoffeeGrinder;
+
+  /// Equipment type: ice maker
+  ///
+  /// In cs, this message translates to:
+  /// **'Výrobníky ledu'**
+  String get equipmentTypeIceMaker;
+
+  /// Equipment type: drink cooler
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladiče nápojů'**
+  String get equipmentTypeDrinkCooler;
+
+  /// Equipment type: post-mix dispenser
+  ///
+  /// In cs, this message translates to:
+  /// **'Postmixy'**
+  String get equipmentTypePostMix;
+
+  /// Equipment type: water softener
+  ///
+  /// In cs, this message translates to:
+  /// **'Změkčovače vody'**
+  String get equipmentTypeWaterSoftener;
+
+  /// Equipment type: water filter
+  ///
+  /// In cs, this message translates to:
+  /// **'Filtry'**
+  String get equipmentTypeWaterFilter;
+
+  /// Equipment type: pump
+  ///
+  /// In cs, this message translates to:
+  /// **'Čerpadla'**
+  String get equipmentTypePump;
+
+  /// Equipment type: reverse osmosis
+  ///
+  /// In cs, this message translates to:
+  /// **'Reverzní osmóza'**
+  String get equipmentTypeReverseOsmosis;
 
   /// Client bottom nav: equipment tab
   ///

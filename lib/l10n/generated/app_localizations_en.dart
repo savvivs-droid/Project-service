@@ -300,6 +300,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Equipment type';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Equipment kind';
+
+  @override
   String get equipmentTypeOther => 'Other';
 
   @override
@@ -356,31 +359,136 @@ class AppLocalizationsEn extends AppLocalizations {
   String get systemLanguageOption => 'System language';
 
   @override
-  String get equipmentTypeFridge => 'Fridge';
+  String get equipmentTypeFridge => 'Fridges';
 
   @override
-  String get equipmentTypeFreezer => 'Freezer';
+  String get equipmentTypeFreezer => 'Freezers';
 
   @override
-  String get equipmentTypeCombiOven => 'Combi oven';
+  String get equipmentTypeCombiOven => 'Combi ovens';
 
   @override
-  String get equipmentTypeStove => 'Stove';
+  String get equipmentTypeStove => 'Stoves';
 
   @override
-  String get equipmentTypeDishwasher => 'Dishwasher';
+  String get equipmentTypeDishwasher => 'Dishwashers';
 
   @override
-  String get equipmentTypeGrill => 'Grill';
+  String get equipmentTypeGrill => 'Grills';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Coffee machine';
+  String get equipmentTypeCoffeeMachine => 'Coffee machines';
 
   @override
-  String get equipmentTypeMixer => 'Mixer/blender';
+  String get equipmentTypeMixer => 'Mixers';
 
   @override
   String get equipmentTypeCuttingTable => 'Cutting table';
+
+  @override
+  String get equipmentCategoryThermal => 'Heating equipment';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Refrigeration equipment';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Dishwashing equipment';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Food prep equipment';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & bakery';
+
+  @override
+  String get equipmentCategoryBar => 'Bar & drinks';
+
+  @override
+  String get equipmentCategoryWater => 'Water treatment';
+
+  @override
+  String get equipmentTypeOven => 'Ovens';
+
+  @override
+  String get equipmentTypeFryer => 'Fryers';
+
+  @override
+  String get equipmentTypeSalamander => 'Salamanders';
+
+  @override
+  String get equipmentTypeBainMarie => 'Bain-maries';
+
+  @override
+  String get equipmentTypeMicrowave => 'Microwaves';
+
+  @override
+  String get equipmentTypeColdTable => 'Cold tables';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Display cases';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Blast chillers';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Glasswashers';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Hood dishwashers';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Conveyor dishwashers';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Meat grinders';
+
+  @override
+  String get equipmentTypeSlicer => 'Slicers';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Vegetable cutters';
+
+  @override
+  String get equipmentTypeCutter => 'Bowl cutters';
+
+  @override
+  String get equipmentTypeBlender => 'Blenders';
+
+  @override
+  String get equipmentTypePizzaOven => 'Pizza ovens';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Dough mixers';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Dough sheeters';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Proving cabinets';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Coffee grinders';
+
+  @override
+  String get equipmentTypeIceMaker => 'Ice makers';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Drink coolers';
+
+  @override
+  String get equipmentTypePostMix => 'Post-mix dispensers';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Water softeners';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Filters';
+
+  @override
+  String get equipmentTypePump => 'Pumps';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Reverse osmosis';
 
   @override
   String get clientEquipmentTab => 'My equipment';

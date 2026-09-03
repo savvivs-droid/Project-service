@@ -392,6 +392,10 @@
   "@equipmentTypeSectionTitle": {
     "description": "Equipment form: type section title"
   },
+  "equipmentSubtypeSectionTitle": "Loại thiết bị cụ thể",
+  "@equipmentSubtypeSectionTitle": {
+    "description": "Equipment form: subtype section title (shown after picking a category)"
+  },
   "equipmentTypeOther": "Khác",
   "@equipmentTypeOther": {
     "description": "Equipment type picker: other option"
@@ -486,7 +490,7 @@
   "@equipmentTypeStove": {
     "description": "Equipment type: stove"
   },
-  "equipmentTypeDishwasher": "Máy rửa chén",
+  "equipmentTypeDishwasher": "Máy rửa bát",
   "@equipmentTypeDishwasher": {
     "description": "Equipment type: dishwasher"
   },
@@ -498,13 +502,153 @@
   "@equipmentTypeCoffeeMachine": {
     "description": "Equipment type: coffee machine"
   },
-  "equipmentTypeMixer": "Máy trộn/máy xay",
+  "equipmentTypeMixer": "Máy trộn",
   "@equipmentTypeMixer": {
-    "description": "Equipment type: mixer/blender"
+    "description": "Equipment type: mixer"
   },
   "equipmentTypeCuttingTable": "Bàn sơ chế",
   "@equipmentTypeCuttingTable": {
-    "description": "Equipment type: cutting table"
+    "description": "Equipment type: cutting table (legacy, not offered in the picker anymore)"
+  },
+  "equipmentCategoryThermal": "Thiết bị gia nhiệt",
+  "@equipmentCategoryThermal": {
+    "description": "Equipment category: thermal"
+  },
+  "equipmentCategoryRefrigeration": "Thiết bị làm lạnh",
+  "@equipmentCategoryRefrigeration": {
+    "description": "Equipment category: refrigeration"
+  },
+  "equipmentCategoryDishwashing": "Thiết bị rửa bát",
+  "@equipmentCategoryDishwashing": {
+    "description": "Equipment category: dishwashing"
+  },
+  "equipmentCategoryFoodPrep": "Thiết bị sơ chế thực phẩm",
+  "@equipmentCategoryFoodPrep": {
+    "description": "Equipment category: food prep"
+  },
+  "equipmentCategoryPizzaBakery": "Pizza & lò bánh",
+  "@equipmentCategoryPizzaBakery": {
+    "description": "Equipment category: pizza & bakery"
+  },
+  "equipmentCategoryBar": "Thiết bị pha chế",
+  "@equipmentCategoryBar": {
+    "description": "Equipment category: bar & drinks"
+  },
+  "equipmentCategoryWater": "Xử lý nước",
+  "@equipmentCategoryWater": {
+    "description": "Equipment category: water treatment"
+  },
+  "equipmentTypeOven": "Lò nướng",
+  "@equipmentTypeOven": {
+    "description": "Equipment type: oven"
+  },
+  "equipmentTypeFryer": "Nồi chiên",
+  "@equipmentTypeFryer": {
+    "description": "Equipment type: fryer"
+  },
+  "equipmentTypeSalamander": "Lò salamander",
+  "@equipmentTypeSalamander": {
+    "description": "Equipment type: salamander"
+  },
+  "equipmentTypeBainMarie": "Nồi hâm cách thủy",
+  "@equipmentTypeBainMarie": {
+    "description": "Equipment type: bain-marie"
+  },
+  "equipmentTypeMicrowave": "Lò vi sóng",
+  "@equipmentTypeMicrowave": {
+    "description": "Equipment type: microwave"
+  },
+  "equipmentTypeColdTable": "Bàn lạnh",
+  "@equipmentTypeColdTable": {
+    "description": "Equipment type: cold table"
+  },
+  "equipmentTypeDisplayCase": "Tủ trưng bày",
+  "@equipmentTypeDisplayCase": {
+    "description": "Equipment type: display case"
+  },
+  "equipmentTypeBlastChiller": "Tủ đông nhanh",
+  "@equipmentTypeBlastChiller": {
+    "description": "Equipment type: blast chiller"
+  },
+  "equipmentTypeGlasswasher": "Máy rửa ly",
+  "@equipmentTypeGlasswasher": {
+    "description": "Equipment type: glasswasher"
+  },
+  "equipmentTypeHoodDishwasher": "Máy rửa dạng vòm",
+  "@equipmentTypeHoodDishwasher": {
+    "description": "Equipment type: hood dishwasher"
+  },
+  "equipmentTypeConveyorDishwasher": "Máy rửa băng chuyền",
+  "@equipmentTypeConveyorDishwasher": {
+    "description": "Equipment type: conveyor dishwasher"
+  },
+  "equipmentTypeMeatGrinder": "Máy xay thịt",
+  "@equipmentTypeMeatGrinder": {
+    "description": "Equipment type: meat grinder"
+  },
+  "equipmentTypeSlicer": "Máy thái lát",
+  "@equipmentTypeSlicer": {
+    "description": "Equipment type: slicer"
+  },
+  "equipmentTypeVegetableCutter": "Máy cắt rau củ",
+  "@equipmentTypeVegetableCutter": {
+    "description": "Equipment type: vegetable cutter"
+  },
+  "equipmentTypeCutter": "Máy cắt trộn",
+  "@equipmentTypeCutter": {
+    "description": "Equipment type: bowl cutter"
+  },
+  "equipmentTypeBlender": "Máy xay sinh tố",
+  "@equipmentTypeBlender": {
+    "description": "Equipment type: blender"
+  },
+  "equipmentTypePizzaOven": "Lò pizza",
+  "@equipmentTypePizzaOven": {
+    "description": "Equipment type: pizza oven"
+  },
+  "equipmentTypeDoughMixer": "Máy trộn bột",
+  "@equipmentTypeDoughMixer": {
+    "description": "Equipment type: dough mixer"
+  },
+  "equipmentTypeDoughSheeter": "Máy cán bột",
+  "@equipmentTypeDoughSheeter": {
+    "description": "Equipment type: dough sheeter"
+  },
+  "equipmentTypeProvingCabinet": "Tủ ủ bột",
+  "@equipmentTypeProvingCabinet": {
+    "description": "Equipment type: proving cabinet"
+  },
+  "equipmentTypeCoffeeGrinder": "Máy xay cà phê",
+  "@equipmentTypeCoffeeGrinder": {
+    "description": "Equipment type: coffee grinder"
+  },
+  "equipmentTypeIceMaker": "Máy làm đá",
+  "@equipmentTypeIceMaker": {
+    "description": "Equipment type: ice maker"
+  },
+  "equipmentTypeDrinkCooler": "Tủ làm lạnh đồ uống",
+  "@equipmentTypeDrinkCooler": {
+    "description": "Equipment type: drink cooler"
+  },
+  "equipmentTypePostMix": "Máy pha nước ngọt",
+  "@equipmentTypePostMix": {
+    "description": "Equipment type: post-mix dispenser"
+  },
+  "equipmentTypeWaterSoftener": "Máy làm mềm nước",
+  "@equipmentTypeWaterSoftener": {
+    "description": "Equipment type: water softener"
+  },
+  "equipmentTypeWaterFilter": "Bộ lọc nước",
+  "@equipmentTypeWaterFilter": {
+    "description": "Equipment type: water filter"
+  },
+  "equipmentTypePump": "Máy bơm",
+  "@equipmentTypePump": {
+    "description": "Equipment type: pump"
+  },
+  "equipmentTypeReverseOsmosis": "Thẩm thấu ngược",
+  "@equipmentTypeReverseOsmosis": {
+    "description": "Equipment type: reverse osmosis"
   },
   "clientEquipmentTab": "Thiết bị của tôi",
   "@clientEquipmentTab": {

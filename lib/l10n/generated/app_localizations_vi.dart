@@ -298,6 +298,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Loại thiết bị';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Loại thiết bị cụ thể';
+
+  @override
   String get equipmentTypeOther => 'Khác';
 
   @override
@@ -366,7 +369,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeStove => 'Bếp';
 
   @override
-  String get equipmentTypeDishwasher => 'Máy rửa chén';
+  String get equipmentTypeDishwasher => 'Máy rửa bát';
 
   @override
   String get equipmentTypeGrill => 'Vỉ nướng';
@@ -375,10 +378,115 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeCoffeeMachine => 'Máy pha cà phê';
 
   @override
-  String get equipmentTypeMixer => 'Máy trộn/máy xay';
+  String get equipmentTypeMixer => 'Máy trộn';
 
   @override
   String get equipmentTypeCuttingTable => 'Bàn sơ chế';
+
+  @override
+  String get equipmentCategoryThermal => 'Thiết bị gia nhiệt';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Thiết bị làm lạnh';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Thiết bị rửa bát';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Thiết bị sơ chế thực phẩm';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & lò bánh';
+
+  @override
+  String get equipmentCategoryBar => 'Thiết bị pha chế';
+
+  @override
+  String get equipmentCategoryWater => 'Xử lý nước';
+
+  @override
+  String get equipmentTypeOven => 'Lò nướng';
+
+  @override
+  String get equipmentTypeFryer => 'Nồi chiên';
+
+  @override
+  String get equipmentTypeSalamander => 'Lò salamander';
+
+  @override
+  String get equipmentTypeBainMarie => 'Nồi hâm cách thủy';
+
+  @override
+  String get equipmentTypeMicrowave => 'Lò vi sóng';
+
+  @override
+  String get equipmentTypeColdTable => 'Bàn lạnh';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Tủ trưng bày';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Tủ đông nhanh';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Máy rửa ly';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Máy rửa dạng vòm';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Máy rửa băng chuyền';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Máy xay thịt';
+
+  @override
+  String get equipmentTypeSlicer => 'Máy thái lát';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Máy cắt rau củ';
+
+  @override
+  String get equipmentTypeCutter => 'Máy cắt trộn';
+
+  @override
+  String get equipmentTypeBlender => 'Máy xay sinh tố';
+
+  @override
+  String get equipmentTypePizzaOven => 'Lò pizza';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Máy trộn bột';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Máy cán bột';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Tủ ủ bột';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Máy xay cà phê';
+
+  @override
+  String get equipmentTypeIceMaker => 'Máy làm đá';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Tủ làm lạnh đồ uống';
+
+  @override
+  String get equipmentTypePostMix => 'Máy pha nước ngọt';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Máy làm mềm nước';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Bộ lọc nước';
+
+  @override
+  String get equipmentTypePump => 'Máy bơm';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Thẩm thấu ngược';
 
   @override
   String get clientEquipmentTab => 'Thiết bị của tôi';

@@ -49,6 +49,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   late final TextEditingController _customTypeController;
   late final TextEditingController _modelController;
 
+  EquipmentCategory? _selectedCategory;
   String? _selectedType;
   bool _showTypeError = false;
   late EquipmentStatus _status;
@@ -70,13 +71,16 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         existingType == null ? null : equipmentTypeKeyFromStorage(existingType);
     if (existingType == null) {
       _selectedType = null;
+      _selectedCategory = null;
     } else if (existingKey != null) {
       // Нормализуем: если тип хранился в старом (русском) формате,
       // выбор в форме всё равно попадает на нужную плитку, а при
       // сохранении запишется уже стабильный ключ.
       _selectedType = existingKey.storageValue;
+      _selectedCategory = existingKey.category;
     } else {
       _selectedType = _otherTypeSentinel;
+      _selectedCategory = EquipmentCategory.other;
     }
 
     _customTypeController = TextEditingController(
@@ -100,6 +104,25 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     _customTypeController.dispose();
     _modelController.dispose();
     super.dispose();
+  }
+
+  void _selectCategory(EquipmentCategory category) {
+    setState(() {
+      _selectedCategory = category;
+      _showTypeError = false;
+      if (category == EquipmentCategory.other) {
+        _selectedType = _otherTypeSentinel;
+        return;
+      }
+      // Сбрасываем выбранный вид, если он относился к другой
+      // категории — плитки видов ниже перестраиваются под новую.
+      final currentKey = _selectedType == null || _selectedType == _otherTypeSentinel
+          ? null
+          : equipmentTypeKeyFromStorage(_selectedType!);
+      if (currentKey == null || currentKey.category != category) {
+        _selectedType = null;
+      }
+    });
   }
 
   void _selectType(String value) {
@@ -139,7 +162,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   }
 
   Future<void> _submit() async {
-    if (_selectedType == null) {
+    if (_selectedCategory == null || _selectedType == null) {
       setState(() => _showTypeError = true);
       return;
     }
@@ -217,21 +240,36 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    for (final key in EquipmentTypeKey.values)
+                    for (final category in EquipmentCategory.values)
                       _TypeOptionTile(
-                        icon: key.icon,
-                        label: key.label(context),
-                        selected: _selectedType == key.storageValue,
-                        onTap: () => _selectType(key.storageValue),
+                        icon: category.icon,
+                        label: category.label(context),
+                        selected: _selectedCategory == category,
+                        onTap: () => _selectCategory(category),
                       ),
-                    _TypeOptionTile(
-                      icon: Icons.more_horiz,
-                      label: context.l10n.equipmentTypeOther,
-                      selected: _selectedType == _otherTypeSentinel,
-                      onTap: () => _selectType(_otherTypeSentinel),
-                    ),
                   ],
                 ),
+                if (_selectedCategory != null &&
+                    _selectedCategory != EquipmentCategory.other) ...[
+                  const SizedBox(height: 20),
+                  Text(context.l10n.equipmentSubtypeSectionTitle,
+                      style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      for (final key
+                          in equipmentTypesForCategory(_selectedCategory!))
+                        _TypeOptionTile(
+                          icon: key.icon,
+                          label: key.label(context),
+                          selected: _selectedType == key.storageValue,
+                          onTap: () => _selectType(key.storageValue),
+                        ),
+                    ],
+                  ),
+                ],
                 if (_showTypeError) ...[
                   const SizedBox(height: 8),
                   Text(

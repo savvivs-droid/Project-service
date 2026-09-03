@@ -298,6 +298,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Тип оборудования';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Вид оборудования';
+
+  @override
   String get equipmentTypeOther => 'Другое';
 
   @override
@@ -354,31 +357,137 @@ class AppLocalizationsRu extends AppLocalizations {
   String get systemLanguageOption => 'Как в системе';
 
   @override
-  String get equipmentTypeFridge => 'Холодильник';
+  String get equipmentTypeFridge => 'Холодильники';
 
   @override
-  String get equipmentTypeFreezer => 'Морозильная камера';
+  String get equipmentTypeFreezer => 'Морозильники';
 
   @override
-  String get equipmentTypeCombiOven => 'Пароконвектомат';
+  String get equipmentTypeCombiOven => 'Конвектоматы';
 
   @override
-  String get equipmentTypeStove => 'Плита';
+  String get equipmentTypeStove => 'Плиты';
 
   @override
-  String get equipmentTypeDishwasher => 'Посудомоечная машина';
+  String get equipmentTypeDishwasher => 'Посудомойки';
 
   @override
-  String get equipmentTypeGrill => 'Гриль';
+  String get equipmentTypeGrill => 'Грили';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Кофемашина';
+  String get equipmentTypeCoffeeMachine => 'Кофемашины';
 
   @override
-  String get equipmentTypeMixer => 'Миксер/блендер';
+  String get equipmentTypeMixer => 'Миксеры';
 
   @override
   String get equipmentTypeCuttingTable => 'Разделочный стол';
+
+  @override
+  String get equipmentCategoryThermal => 'Тепловое оборудование';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Холодильное оборудование';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Посудомоечное оборудование';
+
+  @override
+  String get equipmentCategoryFoodPrep =>
+      'Оборудование для обработки продуктов';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Пицца и пекарня';
+
+  @override
+  String get equipmentCategoryBar => 'Бар и напитки';
+
+  @override
+  String get equipmentCategoryWater => 'Вода и водоподготовка';
+
+  @override
+  String get equipmentTypeOven => 'Печи';
+
+  @override
+  String get equipmentTypeFryer => 'Фритюрницы';
+
+  @override
+  String get equipmentTypeSalamander => 'Саламандры';
+
+  @override
+  String get equipmentTypeBainMarie => 'Мармиты';
+
+  @override
+  String get equipmentTypeMicrowave => 'Микроволновки';
+
+  @override
+  String get equipmentTypeColdTable => 'Холодильные столы';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Витрины';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Шокеры';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Стаканомойки';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Купольные машины';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Конвейерные машины';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Мясорубки';
+
+  @override
+  String get equipmentTypeSlicer => 'Слайсеры';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Овощерезки';
+
+  @override
+  String get equipmentTypeCutter => 'Куттеры';
+
+  @override
+  String get equipmentTypeBlender => 'Блендеры';
+
+  @override
+  String get equipmentTypePizzaOven => 'Пицца-печи';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Тестомесы';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Тестораскатки';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Расстоечные шкафы';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Кофемолки';
+
+  @override
+  String get equipmentTypeIceMaker => 'Льдогенераторы';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Охладители напитков';
+
+  @override
+  String get equipmentTypePostMix => 'Постмиксы';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Умягчители';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Фильтры';
+
+  @override
+  String get equipmentTypePump => 'Насосы';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Обратный осмос';
 
   @override
   String get clientEquipmentTab => 'Моё оборудование';
