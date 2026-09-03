@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Плитка с иконкой, подписью и счётчиком — категория оборудования,
-/// вид внутри категории. Общий виджет для ClientHomeScreen (сетка
-/// категорий) и ClientEquipmentTypesScreen (сетка видов внутри
-/// категории), чтобы обе сетки выглядели одинаково.
+/// Плитка с иконкой-иллюстрацией, подписью и счётчиком — категория
+/// оборудования, вид внутри категории. Общий виджет для ClientHomeScreen
+/// (сетка категорий) и ClientEquipmentTypesScreen (сетка видов внутри
+/// категории), чтобы обе сетки выглядели одинаково. Сетки используют
+/// 2 колонки — крупные плитки с "иллюстрацией" (иконка на цветной
+/// подложке-градиенте) вместо мелких иконок на белом фоне.
 class EquipmentGridTile extends StatelessWidget {
   const EquipmentGridTile({
     super.key,
@@ -24,12 +26,20 @@ class EquipmentGridTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: colorScheme.outlineVariant),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.primary.withValues(alpha: 0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Stack(
           clipBehavior: Clip.none,
@@ -43,19 +53,43 @@ class EquipmentGridTile extends StatelessWidget {
               children: [
                 Expanded(
                   child: Center(
-                    child: Icon(icon, size: 30, color: colorScheme.primary),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colorScheme.primary.withValues(alpha: 0.14),
+                              colorScheme.secondary.withValues(alpha: 0.16),
+                            ],
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            icon,
+                            size: 44,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 SizedBox(
-                  height: 32,
+                  height: 36,
                   child: Center(
                     child: Text(
                       label,
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                   ),
                 ),
@@ -66,8 +100,8 @@ class EquipmentGridTile extends StatelessWidget {
                 top: -6,
                 right: -6,
                 child: Container(
-                  constraints: const BoxConstraints(minWidth: 20, minHeight: 20),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,
                     borderRadius: BorderRadius.circular(999),
@@ -79,7 +113,7 @@ class EquipmentGridTile extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: colorScheme.onSecondary,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700,
                       height: 1,
                     ),

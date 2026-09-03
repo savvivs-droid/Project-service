@@ -587,15 +587,11 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
           onRefresh: _refresh,
           child: GridView.builder(
             padding: const EdgeInsets.all(16),
-            // Фиксированный максимальный размер плитки вместо
-            // фиксированного числа колонок — на широком экране (планшет)
-            // плитки остаются компактными квадратами, а не растягиваются
-            // на всю ширину.
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 120,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 14,
+              crossAxisSpacing: 14,
+              childAspectRatio: 0.92,
             ),
             itemCount: EquipmentCategory.values.length,
             itemBuilder: (context, index) {
