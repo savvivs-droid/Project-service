@@ -9,6 +9,7 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/equipment_grid_tile.dart';
+import '../../core/widgets/equipment_illustrations.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -598,6 +599,7 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
               final category = EquipmentCategory.values[index];
               return EquipmentGridTile(
                 icon: category.icon,
+                illustration: equipmentIllustrationFor(category),
                 label: category.label(context),
                 count: countFor(category),
                 onTap: () => _openCategory(context, category),

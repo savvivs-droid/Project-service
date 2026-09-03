@@ -13,12 +13,18 @@ class EquipmentGridTile extends StatelessWidget {
     required this.label,
     required this.count,
     required this.onTap,
+    this.illustration,
   });
 
   final IconData icon;
   final String label;
   final int count;
   final VoidCallback onTap;
+
+  /// Нарисованная от руки иллюстрация (см. equipment_illustrations.dart)
+  /// — если задана, показывается вместо [icon]. Пока есть только для
+  /// категорий верхнего уровня.
+  final CustomPainter? illustration;
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +73,21 @@ class EquipmentGridTile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        child: Center(
-                          child: Icon(
-                            icon,
-                            size: 44,
-                            color: colorScheme.primary,
-                          ),
-                        ),
+                        child: illustration != null
+                            ? Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: CustomPaint(
+                                  painter: illustration,
+                                  child: const SizedBox.expand(),
+                                ),
+                              )
+                            : Center(
+                                child: Icon(
+                                  icon,
+                                  size: 44,
+                                  color: colorScheme.primary,
+                                ),
+                              ),
                       ),
                     ),
                   ),
