@@ -30,6 +30,23 @@ extension EquipmentCategoryX on EquipmentCategory {
         EquipmentCategory.other => Icons.more_horiz,
       };
 
+  /// Настоящее фото прибора для плитки категории — если задано,
+  /// показывается вместо нарисованной иллюстрации (см.
+  /// equipment_illustrations.dart). Пока есть не для всех категорий —
+  /// остальные показывают иллюстрацию, пока не появится фото.
+  String? get photoAsset => switch (this) {
+        EquipmentCategory.thermal =>
+          'assets/equipment_categories/thermal.jpg',
+        EquipmentCategory.refrigeration => null,
+        EquipmentCategory.dishwashing => null,
+        EquipmentCategory.foodPrep =>
+          'assets/equipment_categories/food_prep.jpg',
+        EquipmentCategory.pizzaBakery => null,
+        EquipmentCategory.bar => 'assets/equipment_categories/bar.jpg',
+        EquipmentCategory.water => 'assets/equipment_categories/water.jpg',
+        EquipmentCategory.other => 'assets/equipment_categories/other.jpg',
+      };
+
   String label(BuildContext context) => switch (this) {
         EquipmentCategory.thermal => context.l10n.equipmentCategoryThermal,
         EquipmentCategory.refrigeration =>

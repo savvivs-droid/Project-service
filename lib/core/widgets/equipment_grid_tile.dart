@@ -14,6 +14,7 @@ class EquipmentGridTile extends StatelessWidget {
     required this.count,
     required this.onTap,
     this.illustration,
+    this.photoAsset,
   });
 
   final IconData icon;
@@ -22,9 +23,13 @@ class EquipmentGridTile extends StatelessWidget {
   final VoidCallback onTap;
 
   /// Нарисованная от руки иллюстрация (см. equipment_illustrations.dart)
-  /// — если задана, показывается вместо [icon]. Пока есть только для
-  /// категорий верхнего уровня.
+  /// — если задана и [photoAsset] не задан, показывается вместо [icon].
   final CustomPainter? illustration;
+
+  /// Путь к настоящему фото прибора (assets/equipment_categories/…) —
+  /// если задан, показывается вместо иллюстрации/иконки. Приоритет:
+  /// фото > иллюстрация > иконка.
+  final String? photoAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -61,32 +66,36 @@ class EquipmentGridTile extends StatelessWidget {
                   child: Center(
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              colorScheme.primary.withValues(alpha: 0.14),
-                              colorScheme.secondary.withValues(alpha: 0.16),
-                            ],
-                          ),
-                        ),
-                        child: illustration != null
-                            ? Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: CustomPaint(
-                                  painter: illustration,
-                                  child: const SizedBox.expand(),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: photoAsset != null
+                            ? Image.asset(photoAsset!, fit: BoxFit.cover)
+                            : DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      colorScheme.primary.withValues(alpha: 0.14),
+                                      colorScheme.secondary.withValues(alpha: 0.16),
+                                    ],
+                                  ),
                                 ),
-                              )
-                            : Center(
-                                child: Icon(
-                                  icon,
-                                  size: 44,
-                                  color: colorScheme.primary,
-                                ),
+                                child: illustration != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: CustomPaint(
+                                          painter: illustration,
+                                          child: const SizedBox.expand(),
+                                        ),
+                                      )
+                                    : Center(
+                                        child: Icon(
+                                          icon,
+                                          size: 44,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
                               ),
                       ),
                     ),

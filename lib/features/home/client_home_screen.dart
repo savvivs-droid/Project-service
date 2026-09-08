@@ -600,6 +600,7 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
               return EquipmentGridTile(
                 icon: category.icon,
                 illustration: equipmentIllustrationFor(category),
+                photoAsset: category.photoAsset,
                 label: category.label(context),
                 count: countFor(category),
                 onTap: () => _openCategory(context, category),

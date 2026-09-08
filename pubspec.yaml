@@ -59,6 +59,7 @@ flutter:
     - assets/brand/logo_mark.png
     - assets/brand/logo_mark_white.png
     - assets/video/splash_intro.mp4
+    - assets/equipment_categories/
   fonts:
     # Montserrat (Google Fonts, OFL) — шрифт по Brand Book 2026,
     # см. assets/fonts/OFL.txt. Один вариативный файл покрывает весь
