@@ -288,6 +288,17 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
           'assets/equipment_types/hood_dishwasher.jpg',
         EquipmentTypeKey.conveyorDishwasher =>
           'assets/equipment_types/conveyor_dishwasher.jpg',
+        // Тот же снимок, что и на плитке категории "Оборудование для
+        // обработки продуктов" — отдельного фото для миксера не
+        // присылали.
+        EquipmentTypeKey.mixer => 'assets/equipment_categories/food_prep.jpg',
+        EquipmentTypeKey.meatGrinder =>
+          'assets/equipment_types/meat_grinder.jpg',
+        EquipmentTypeKey.slicer => 'assets/equipment_types/slicer.jpg',
+        EquipmentTypeKey.vegetableCutter =>
+          'assets/equipment_types/vegetable_cutter.jpg',
+        EquipmentTypeKey.cutter => 'assets/equipment_types/cutter.jpg',
+        EquipmentTypeKey.blender => 'assets/equipment_types/blender.jpg',
         _ => null,
       };
 
