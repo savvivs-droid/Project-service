@@ -319,6 +319,13 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.drinkCooler =>
           'assets/equipment_types/drink_cooler.jpg',
         EquipmentTypeKey.postMix => 'assets/equipment_types/post_mix.jpg',
+        EquipmentTypeKey.waterSoftener =>
+          'assets/equipment_types/water_softener.jpg',
+        EquipmentTypeKey.waterFilter =>
+          'assets/equipment_types/water_filter.jpg',
+        EquipmentTypeKey.pump => 'assets/equipment_types/pump.jpg',
+        EquipmentTypeKey.reverseOsmosis =>
+          'assets/equipment_types/reverse_osmosis.jpg',
         _ => null,
       };
 
