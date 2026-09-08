@@ -141,7 +141,11 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.freezer ||
         EquipmentTypeKey.coldTable ||
         EquipmentTypeKey.displayCase ||
-        EquipmentTypeKey.blastChiller =>
+        EquipmentTypeKey.blastChiller ||
+        // Тоже холодильное оборудование по сути — сгруппированы здесь
+        // по просьбе, хотя раньше числились в "Бар и напитки".
+        EquipmentTypeKey.iceMaker ||
+        EquipmentTypeKey.drinkCooler =>
           EquipmentCategory.refrigeration,
         EquipmentTypeKey.dishwasher ||
         EquipmentTypeKey.glasswasher ||
@@ -165,8 +169,6 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
           EquipmentCategory.pizzaBakery,
         EquipmentTypeKey.coffeeMachine ||
         EquipmentTypeKey.coffeeGrinder ||
-        EquipmentTypeKey.iceMaker ||
-        EquipmentTypeKey.drinkCooler ||
         EquipmentTypeKey.postMix =>
           EquipmentCategory.bar,
         EquipmentTypeKey.waterSoftener ||
@@ -308,6 +310,15 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
           'assets/equipment_types/dough_sheeter.jpg',
         EquipmentTypeKey.provingCabinet =>
           'assets/equipment_types/proving_cabinet.jpg',
+        // Тот же снимок, что и на плитке категории "Бар и напитки" —
+        // отдельного фото для кофемашины не присылали.
+        EquipmentTypeKey.coffeeMachine => 'assets/equipment_categories/bar.jpg',
+        EquipmentTypeKey.coffeeGrinder =>
+          'assets/equipment_types/coffee_grinder.jpg',
+        EquipmentTypeKey.iceMaker => 'assets/equipment_types/ice_maker.jpg',
+        EquipmentTypeKey.drinkCooler =>
+          'assets/equipment_types/drink_cooler.jpg',
+        EquipmentTypeKey.postMix => 'assets/equipment_types/post_mix.jpg',
         _ => null,
       };
 
