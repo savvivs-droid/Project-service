@@ -299,6 +299,15 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
           'assets/equipment_types/vegetable_cutter.jpg',
         EquipmentTypeKey.cutter => 'assets/equipment_types/cutter.jpg',
         EquipmentTypeKey.blender => 'assets/equipment_types/blender.jpg',
+        // Тот же снимок, что и на плитке категории "Пицца и пекарня"
+        // — отдельного фото для пиццы-печи не присылали.
+        EquipmentTypeKey.pizzaOven =>
+          'assets/equipment_categories/pizza_bakery.jpg',
+        EquipmentTypeKey.doughMixer => 'assets/equipment_types/dough_mixer.jpg',
+        EquipmentTypeKey.doughSheeter =>
+          'assets/equipment_types/dough_sheeter.jpg',
+        EquipmentTypeKey.provingCabinet =>
+          'assets/equipment_types/proving_cabinet.jpg',
         _ => null,
       };
 
