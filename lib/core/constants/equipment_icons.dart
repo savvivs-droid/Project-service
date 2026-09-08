@@ -43,7 +43,8 @@ extension EquipmentCategoryX on EquipmentCategory {
           'assets/equipment_categories/dishwashing.jpg',
         EquipmentCategory.foodPrep =>
           'assets/equipment_categories/food_prep.jpg',
-        EquipmentCategory.pizzaBakery => null,
+        EquipmentCategory.pizzaBakery =>
+          'assets/equipment_categories/pizza_bakery.jpg',
         EquipmentCategory.bar => 'assets/equipment_categories/bar.jpg',
         EquipmentCategory.water => 'assets/equipment_categories/water.jpg',
         EquipmentCategory.other => 'assets/equipment_categories/other.jpg',
