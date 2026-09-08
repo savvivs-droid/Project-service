@@ -37,8 +37,10 @@ extension EquipmentCategoryX on EquipmentCategory {
   String? get photoAsset => switch (this) {
         EquipmentCategory.thermal =>
           'assets/equipment_categories/thermal.jpg',
-        EquipmentCategory.refrigeration => null,
-        EquipmentCategory.dishwashing => null,
+        EquipmentCategory.refrigeration =>
+          'assets/equipment_categories/refrigeration.jpg',
+        EquipmentCategory.dishwashing =>
+          'assets/equipment_categories/dishwashing.jpg',
         EquipmentCategory.foodPrep =>
           'assets/equipment_categories/food_prep.jpg',
         EquipmentCategory.pizzaBakery => null,
