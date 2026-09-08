@@ -4,6 +4,7 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../services/equipment_repository.dart';
@@ -378,13 +379,17 @@ class _EquipmentOptionTile extends StatelessWidget {
                   color: colorScheme.primary,
                 ),
               )
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  equipment.photos.first,
-                  width: 44,
-                  height: 44,
-                  fit: BoxFit.cover,
+            : GestureDetector(
+                onTap: () =>
+                    openFullscreenPhoto(context, equipment.photos.first),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    equipment.photos.first,
+                    width: 56,
+                    height: 56,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
         title: Text(
