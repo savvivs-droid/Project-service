@@ -174,6 +174,8 @@ class _ClientCreateRequestScreenState
                         for (final key in types)
                           _TypeOptionTile(
                             icon: key?.icon ?? Icons.more_horiz,
+                            photoAsset: key?.photoAsset ??
+                                EquipmentCategory.other.photoAsset,
                             label: key?.label(context) ??
                                 context.l10n.equipmentTypeOther,
                             selected: key == null
@@ -252,12 +254,18 @@ class _TypeOptionTile extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    this.photoAsset,
   });
 
   final IconData icon;
   final String label;
   final bool selected;
   final VoidCallback onTap;
+
+  /// Настоящее фото прибора — то же, что на плитках категорий/видов
+  /// на вкладке "Моё оборудование" (см. EquipmentGridTile). Если не
+  /// задано, показывается иконка на цветной подложке-градиенте.
+  final String? photoAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -279,9 +287,35 @@ class _TypeOptionTile extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                width: 56,
+                height: 56,
+                child: photoAsset != null
+                    ? Image.asset(photoAsset!, fit: BoxFit.cover)
+                    : DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colorScheme.primary.withValues(alpha: 0.14),
+                              colorScheme.secondary.withValues(alpha: 0.16),
+                            ],
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            icon,
+                            size: 28,
+                            color: selected
+                                ? colorScheme.primary
+                                : colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+              ),
             ),
             const SizedBox(height: 6),
             // Фиксированная высота под подпись (до двух строк) — иначе
