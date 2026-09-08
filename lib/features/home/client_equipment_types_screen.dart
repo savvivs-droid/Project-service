@@ -111,6 +111,7 @@ class _ClientEquipmentTypesScreenState
                 final key = types[index];
                 return EquipmentGridTile(
                   icon: key.icon,
+                  photoAsset: key.photoAsset,
                   label: key.label(context),
                   count: countFor(key),
                   onTap: () => _openType(key),

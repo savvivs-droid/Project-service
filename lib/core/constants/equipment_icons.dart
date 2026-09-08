@@ -256,6 +256,21 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.cuttingTable => Icons.countertops_outlined,
       };
 
+  /// Настоящее фото прибора для плитки вида оборудования — если
+  /// задано, показывается вместо иконки (см. EquipmentGridTile). Пока
+  /// есть не для всех видов — остальные показывают иконку.
+  String? get photoAsset => switch (this) {
+        // Тот же снимок, что и на плитке категории "Тепловое
+        // оборудование" — отдельного фото для конвектомата не было.
+        EquipmentTypeKey.combiOven => 'assets/equipment_categories/thermal.jpg',
+        EquipmentTypeKey.oven => 'assets/equipment_types/oven.jpg',
+        EquipmentTypeKey.stove => 'assets/equipment_types/stove.jpg',
+        EquipmentTypeKey.fryer => 'assets/equipment_types/fryer.jpg',
+        EquipmentTypeKey.grill => 'assets/equipment_types/grill.jpg',
+        EquipmentTypeKey.salamander => 'assets/equipment_types/salamander.jpg',
+        _ => null,
+      };
+
   String label(BuildContext context) => switch (this) {
         EquipmentTypeKey.combiOven => context.l10n.equipmentTypeCombiOven,
         EquipmentTypeKey.oven => context.l10n.equipmentTypeOven,
