@@ -383,11 +383,11 @@ class _EquipmentOptionTile extends StatelessWidget {
                 onTap: () =>
                     openFullscreenPhoto(context, equipment.photos.first),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     equipment.photos.first,
-                    width: 56,
-                    height: 56,
+                    width: 72,
+                    height: 72,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -365,11 +365,11 @@ class _EquipmentTile extends StatelessWidget {
             : GestureDetector(
                 onTap: () => openFullscreenPhoto(context, photoUrl),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     photoUrl,
-                    width: 56,
-                    height: 56,
+                    width: 72,
+                    height: 72,
                     fit: BoxFit.cover,
                   ),
                 ),
