@@ -32983,7 +32983,7 @@ break
 case 7:s=B.ve
 break
 default:s=null}return s},
-bfp(a){var s=null
+bfp(a){var s
 switch(a.a){case 0:s="assets/equipment_categories/thermal.jpg"
 break
 case 1:s="assets/equipment_categories/refrigeration.jpg"
@@ -32992,13 +32992,15 @@ case 2:s="assets/equipment_categories/dishwashing.jpg"
 break
 case 3:s="assets/equipment_categories/food_prep.jpg"
 break
-case 4:break
+case 4:s="assets/equipment_categories/pizza_bakery.jpg"
+break
 case 5:s="assets/equipment_categories/bar.jpg"
 break
 case 6:s="assets/equipment_categories/water.jpg"
 break
 case 7:s="assets/equipment_categories/other.jpg"
-break}return s},
+break
+default:s=null}return s},
 akr(a,b){var s
 switch(a.a){case 0:s=A.v(b,B.e,t.J)
 s.toString
