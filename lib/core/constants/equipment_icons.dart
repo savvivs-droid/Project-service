@@ -278,6 +278,16 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.displayCase => 'assets/equipment_types/display_case.jpg',
         EquipmentTypeKey.blastChiller =>
           'assets/equipment_types/blast_chiller.jpg',
+        // Тот же снимок, что и на плитке категории "Посудомоечное
+        // оборудование" — отдельного фото для обычной посудомойки не
+        // присылали.
+        EquipmentTypeKey.dishwasher =>
+          'assets/equipment_categories/dishwashing.jpg',
+        EquipmentTypeKey.glasswasher => 'assets/equipment_types/glasswasher.jpg',
+        EquipmentTypeKey.hoodDishwasher =>
+          'assets/equipment_types/hood_dishwasher.jpg',
+        EquipmentTypeKey.conveyorDishwasher =>
+          'assets/equipment_types/conveyor_dishwasher.jpg',
         _ => null,
       };
 
