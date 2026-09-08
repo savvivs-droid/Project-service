@@ -63,6 +63,9 @@ class SupportActionButtons extends StatelessWidget {
           // экранах стека навигации одновременно (во время перехода) —
           // без heroTag: null Flutter падает на дублирующемся теге.
           heroTag: null,
+          // Явный CircleBorder — иначе Material 3 по умолчанию рисует
+          // скруглённый квадрат ("сквиркл"), а не круг.
+          shape: const CircleBorder(),
           onPressed: () => _callSupport(context),
           backgroundColor: Colors.green.shade600,
           foregroundColor: Colors.white,
@@ -72,6 +75,9 @@ class SupportActionButtons extends StatelessWidget {
         const SizedBox(height: 12),
         FloatingActionButton.extended(
           heroTag: null,
+          // Явный StadiumBorder — полностью скруглённая "таблетка"
+          // вместо квадратных углов по умолчанию в Material 3.
+          shape: const StadiumBorder(),
           onPressed: () => _openCreateRequest(context),
           backgroundColor: Theme.of(context).colorScheme.secondary,
           foregroundColor: Colors.white,
