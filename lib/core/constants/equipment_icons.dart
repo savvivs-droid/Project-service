@@ -268,6 +268,8 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.fryer => 'assets/equipment_types/fryer.jpg',
         EquipmentTypeKey.grill => 'assets/equipment_types/grill.jpg',
         EquipmentTypeKey.salamander => 'assets/equipment_types/salamander.jpg',
+        EquipmentTypeKey.bainMarie => 'assets/equipment_types/bain_marie.jpg',
+        EquipmentTypeKey.microwave => 'assets/equipment_types/microwave.jpg',
         _ => null,
       };
 
