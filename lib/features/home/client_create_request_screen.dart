@@ -371,6 +371,7 @@ class _EquipmentOptionTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
         leading: equipment.photos.isEmpty
             ? CircleAvatar(
                 backgroundColor: colorScheme.primary.withValues(alpha: 0.1),

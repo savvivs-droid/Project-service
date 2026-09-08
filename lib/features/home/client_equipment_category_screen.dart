@@ -139,6 +139,7 @@ class _EquipmentCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
         leading: photoUrl == null
             ? CircleAvatar(
                 backgroundColor: _statusColor(context),
