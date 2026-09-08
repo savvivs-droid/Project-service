@@ -270,6 +270,14 @@ extension EquipmentTypeKeyX on EquipmentTypeKey {
         EquipmentTypeKey.salamander => 'assets/equipment_types/salamander.jpg',
         EquipmentTypeKey.bainMarie => 'assets/equipment_types/bain_marie.jpg',
         EquipmentTypeKey.microwave => 'assets/equipment_types/microwave.jpg',
+        // Тот же снимок, что и на плитке категории "Холодильное
+        // оборудование" — отдельного фото для холодильника не было.
+        EquipmentTypeKey.fridge => 'assets/equipment_categories/refrigeration.jpg',
+        EquipmentTypeKey.freezer => 'assets/equipment_types/freezer.jpg',
+        EquipmentTypeKey.coldTable => 'assets/equipment_types/cold_table.jpg',
+        EquipmentTypeKey.displayCase => 'assets/equipment_types/display_case.jpg',
+        EquipmentTypeKey.blastChiller =>
+          'assets/equipment_types/blast_chiller.jpg',
         _ => null,
       };
 
