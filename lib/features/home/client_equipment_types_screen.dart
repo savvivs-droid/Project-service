@@ -8,6 +8,7 @@ import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../services/equipment_repository.dart';
 import 'client_equipment_category_screen.dart';
+import 'support_action_buttons.dart';
 
 /// Виды оборудования внутри одной категории (например, в "Тепловое
 /// оборудование" — конвектоматы, печи, плиты и т. д., см.
@@ -19,10 +20,12 @@ class ClientEquipmentTypesScreen extends StatefulWidget {
   const ClientEquipmentTypesScreen({
     super.key,
     required this.establishmentId,
+    required this.clientId,
     required this.category,
   });
 
   final String establishmentId;
+  final String clientId;
   final EquipmentCategory category;
 
   @override
@@ -56,6 +59,7 @@ class _ClientEquipmentTypesScreenState
       MaterialPageRoute(
         builder: (_) => ClientEquipmentCategoryScreen(
           establishmentId: widget.establishmentId,
+          clientId: widget.clientId,
           typeKey: key,
           title: key.label(context),
           icon: key.icon,
@@ -72,6 +76,10 @@ class _ClientEquipmentTypesScreenState
       appBar: AppBar(
         title: AppBrandAppBarTitle(subtitle: widget.category.label(context)),
         actions: const [LanguageSwitcher()],
+      ),
+      floatingActionButton: SupportActionButtons(
+        establishmentId: widget.establishmentId,
+        clientId: widget.clientId,
       ),
       body: FutureBuilder<List<Equipment>>(
         future: _equipmentFuture,

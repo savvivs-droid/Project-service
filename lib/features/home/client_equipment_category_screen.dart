@@ -8,6 +8,7 @@ import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../services/equipment_repository.dart';
+import 'support_action_buttons.dart';
 
 /// Оборудование одной категории (например, все холодильники заведения).
 /// Только чтение — добавляет и меняет оборудование только администратор,
@@ -16,12 +17,14 @@ class ClientEquipmentCategoryScreen extends StatefulWidget {
   const ClientEquipmentCategoryScreen({
     super.key,
     required this.establishmentId,
+    required this.clientId,
     required this.typeKey,
     required this.title,
     required this.icon,
   });
 
   final String establishmentId;
+  final String clientId;
 
   /// null — категория "Другое": оборудование со свободным типом, не
   /// попавшим ни в один из известных ключей.
@@ -65,6 +68,10 @@ class _ClientEquipmentCategoryScreenState
       appBar: AppBar(
         title: AppBrandAppBarTitle(subtitle: widget.title),
         actions: const [LanguageSwitcher()],
+      ),
+      floatingActionButton: SupportActionButtons(
+        establishmentId: widget.establishmentId,
+        clientId: widget.clientId,
       ),
       body: FutureBuilder<List<Equipment>>(
         future: _equipmentFuture,

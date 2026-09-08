@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/request_status.dart';
-import '../../core/constants/support_contact.dart';
 import '../../core/l10n/l10n_extension.dart';
-import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/equipment_grid_tile.dart';
 import '../../core/widgets/equipment_illustrations.dart';
@@ -22,11 +20,11 @@ import '../../services/push_notification_service.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
 import 'client_add_establishment_screen.dart';
-import 'client_create_request_screen.dart';
 import 'client_equipment_category_screen.dart';
 import 'client_equipment_types_screen.dart';
 import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
+import 'support_action_buttons.dart';
 
 class ClientHomeScreen extends StatefulWidget {
   const ClientHomeScreen({super.key, required this.profile});
@@ -117,32 +115,11 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
     });
   }
 
-  Future<void> _openCreateRequest() async {
-    final establishmentId = _selectedEstablishmentId;
-    if (establishmentId == null) return;
-    final created = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => ClientCreateRequestScreen(
-          establishmentId: establishmentId,
-          clientId: widget.profile.id,
-        ),
-      ),
-    );
-    if (created == true) {
-      setState(() {
-        _tabIndex = 0;
-        _refreshTick++;
-      });
-    }
-  }
-
-  Future<void> _callSupport() async {
-    final opened = await launchPhoneCall(kSupportPhoneNumber);
-    if (!opened && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.callError)),
-      );
-    }
+  void _onRequestCreatedFromFab() {
+    setState(() {
+      _tabIndex = 0;
+      _refreshTick++;
+    });
   }
 
   @override
@@ -223,32 +200,15 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           _ClientEquipmentTab(
             key: ValueKey(_selectedEstablishmentId),
             establishmentId: _selectedEstablishmentId,
+            clientId: widget.profile.id,
           ),
           ClientProfileTab(profile: widget.profile),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: 'call-support-fab',
-            onPressed: _callSupport,
-            backgroundColor: Colors.green.shade600,
-            foregroundColor: Colors.white,
-            tooltip: l10n.callUsTooltip,
-            child: const Icon(Icons.call),
-          ),
-          const SizedBox(height: 12),
-          FloatingActionButton.extended(
-            heroTag: 'create-request-fab',
-            onPressed: _openCreateRequest,
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            foregroundColor: Colors.white,
-            icon: const Icon(Icons.build_outlined),
-            label: Text(l10n.clientCreateRequestButton),
-          ),
-        ],
+      floatingActionButton: SupportActionButtons(
+        establishmentId: _selectedEstablishmentId,
+        clientId: widget.profile.id,
+        onRequestCreated: _onRequestCreatedFromFab,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
@@ -496,9 +456,14 @@ class _ClientRequestCard extends StatelessWidget {
 /// плитку открывает список конкретных единиц этой категории. Добавляет
 /// и меняет оборудование только администратор, см. EstablishmentDetailScreen.
 class _ClientEquipmentTab extends StatefulWidget {
-  const _ClientEquipmentTab({super.key, required this.establishmentId});
+  const _ClientEquipmentTab({
+    super.key,
+    required this.establishmentId,
+    required this.clientId,
+  });
 
   final String? establishmentId;
+  final String clientId;
 
   @override
   State<_ClientEquipmentTab> createState() => _ClientEquipmentTabState();
@@ -537,6 +502,7 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
         MaterialPageRoute(
           builder: (_) => ClientEquipmentCategoryScreen(
             establishmentId: establishmentId,
+            clientId: widget.clientId,
             typeKey: null,
             title: category.label(context),
             icon: category.icon,
@@ -550,6 +516,7 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
       MaterialPageRoute(
         builder: (_) => ClientEquipmentTypesScreen(
           establishmentId: establishmentId,
+          clientId: widget.clientId,
           category: category,
         ),
       ),
