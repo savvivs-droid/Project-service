@@ -32986,8 +32986,10 @@ default:s=null}return s},
 bfp(a){var s=null
 switch(a.a){case 0:s="assets/equipment_categories/thermal.jpg"
 break
-case 1:break
-case 2:break
+case 1:s="assets/equipment_categories/refrigeration.jpg"
+break
+case 2:s="assets/equipment_categories/dishwashing.jpg"
+break
 case 3:s="assets/equipment_categories/food_prep.jpg"
 break
 case 4:break
