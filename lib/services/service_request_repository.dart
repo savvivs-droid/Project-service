@@ -22,7 +22,7 @@ class ServiceRequestRepository {
     final query = _client.from('service_requests').select(
           '*, establishments(name, address), '
           'profiles!service_requests_client_id_fkey(full_name, phone), '
-          'service_request_equipment(equipment(type, sticker_code))',
+          'service_request_equipment(equipment(type, model, photos, sticker_code))',
         );
 
     final filtered = establishmentId == null

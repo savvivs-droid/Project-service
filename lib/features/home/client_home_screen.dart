@@ -8,6 +8,7 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/equipment_grid_tile.dart';
 import '../../core/widgets/equipment_illustrations.dart';
+import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -372,6 +373,15 @@ class _ClientRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = item.request;
+    final refs = item.equipmentRefs;
+    final primary = refs.isEmpty ? null : refs.first;
+    final photoUrl = primary?.photoUrl;
+
+    final nameText = primary == null
+        ? context.l10n.requestFallbackTitle
+        : refs.length > 1
+            ? refs.map((e) => e.name(context)).join(', ')
+            : primary.name(context);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -388,45 +398,108 @@ class _ClientRequestCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (hasUnread) ...[
+                  if (photoUrl == null)
                     Container(
-                      width: 8,
-                      height: 8,
+                      width: 52,
+                      height: 52,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.error,
-                        shape: BoxShape.circle,
+                        color: request.status.color,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        primary == null
+                            ? Icons.build_outlined
+                            : equipmentTypeIcon(primary.type),
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    )
+                  else
+                    GestureDetector(
+                      onTap: () => openFullscreenPhoto(context, photoUrl),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          photoUrl,
+                          width: 52,
+                          height: 52,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 6),
-                  ],
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                      item.equipmentRefs.isEmpty
-                          ? context.l10n.requestFallbackTitle
-                          : item.equipmentRefs
-                              .map((e) => e.label(context))
-                              .join(', '),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: request.status.color,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      request.status.label(context),
-                      style: const TextStyle(color: Colors.white, fontSize: 11),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            if (hasUnread) ...[
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.error,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                            ],
+                            if (primary != null)
+                              Expanded(
+                                child: Text(
+                                  primary.label(context),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                nameText,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: request.status.color,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Text(
+                                request.status.label(context),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 request.description,
                 maxLines: 2,
