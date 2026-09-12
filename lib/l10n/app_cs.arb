@@ -88,14 +88,6 @@
   "@registerAddressRequired": {
     "description": "Register: address validator"
   },
-  "registerEstablishmentPhoneLabel": "Kontaktní telefon podniku",
-  "@registerEstablishmentPhoneLabel": {
-    "description": "Register: establishment phone field"
-  },
-  "registerEstablishmentPhoneRequired": "Zadejte kontaktní telefon",
-  "@registerEstablishmentPhoneRequired": {
-    "description": "Register: establishment phone validator"
-  },
   "registerSubmitButton": "Zaregistrovat se",
   "@registerSubmitButton": {
     "description": "Register: submit button"
@@ -400,6 +392,10 @@
   "@equipmentTypeSectionTitle": {
     "description": "Equipment form: type section title"
   },
+  "equipmentSubtypeSectionTitle": "Druh vybavení",
+  "@equipmentSubtypeSectionTitle": {
+    "description": "Equipment form: subtype section title (shown after picking a category)"
+  },
   "equipmentTypeOther": "Jiné",
   "@equipmentTypeOther": {
     "description": "Equipment type picker: other option"
@@ -482,37 +478,177 @@
   "@equipmentTypeFridge": {
     "description": "Equipment type: fridge"
   },
-  "equipmentTypeFreezer": "Mraznička",
+  "equipmentTypeFreezer": "Mrazničky",
   "@equipmentTypeFreezer": {
     "description": "Equipment type: freezer"
   },
-  "equipmentTypeCombiOven": "Konvektomat",
+  "equipmentTypeCombiOven": "Konvektomaty",
   "@equipmentTypeCombiOven": {
     "description": "Equipment type: combi oven"
   },
-  "equipmentTypeStove": "Sporák",
+  "equipmentTypeStove": "Sporáky",
   "@equipmentTypeStove": {
     "description": "Equipment type: stove"
   },
-  "equipmentTypeDishwasher": "Myčka nádobí",
+  "equipmentTypeDishwasher": "Myčky nádobí",
   "@equipmentTypeDishwasher": {
     "description": "Equipment type: dishwasher"
   },
-  "equipmentTypeGrill": "Gril",
+  "equipmentTypeGrill": "Grily",
   "@equipmentTypeGrill": {
     "description": "Equipment type: grill"
   },
-  "equipmentTypeCoffeeMachine": "Kávovar",
+  "equipmentTypeCoffeeMachine": "Kávovary",
   "@equipmentTypeCoffeeMachine": {
     "description": "Equipment type: coffee machine"
   },
-  "equipmentTypeMixer": "Mixér / tyčový mixér",
+  "equipmentTypeMixer": "Mixéry",
   "@equipmentTypeMixer": {
-    "description": "Equipment type: mixer/blender"
+    "description": "Equipment type: mixer"
   },
   "equipmentTypeCuttingTable": "Krájecí stůl",
   "@equipmentTypeCuttingTable": {
-    "description": "Equipment type: cutting table"
+    "description": "Equipment type: cutting table (legacy, not offered in the picker anymore)"
+  },
+  "equipmentCategoryThermal": "Tepelná technika",
+  "@equipmentCategoryThermal": {
+    "description": "Equipment category: thermal"
+  },
+  "equipmentCategoryRefrigeration": "Chladicí technika",
+  "@equipmentCategoryRefrigeration": {
+    "description": "Equipment category: refrigeration"
+  },
+  "equipmentCategoryDishwashing": "Mycí technika",
+  "@equipmentCategoryDishwashing": {
+    "description": "Equipment category: dishwashing"
+  },
+  "equipmentCategoryFoodPrep": "Příprava potravin",
+  "@equipmentCategoryFoodPrep": {
+    "description": "Equipment category: food prep"
+  },
+  "equipmentCategoryPizzaBakery": "Pizza & pekárna",
+  "@equipmentCategoryPizzaBakery": {
+    "description": "Equipment category: pizza & bakery"
+  },
+  "equipmentCategoryBar": "Barová technika",
+  "@equipmentCategoryBar": {
+    "description": "Equipment category: bar & drinks"
+  },
+  "equipmentCategoryWater": "Úprava vody",
+  "@equipmentCategoryWater": {
+    "description": "Equipment category: water treatment"
+  },
+  "equipmentTypeOven": "Pece",
+  "@equipmentTypeOven": {
+    "description": "Equipment type: oven"
+  },
+  "equipmentTypeFryer": "Fritézy",
+  "@equipmentTypeFryer": {
+    "description": "Equipment type: fryer"
+  },
+  "equipmentTypeSalamander": "Salamandry",
+  "@equipmentTypeSalamander": {
+    "description": "Equipment type: salamander"
+  },
+  "equipmentTypeBainMarie": "Marmity",
+  "@equipmentTypeBainMarie": {
+    "description": "Equipment type: bain-marie"
+  },
+  "equipmentTypeMicrowave": "Mikrovlnky",
+  "@equipmentTypeMicrowave": {
+    "description": "Equipment type: microwave"
+  },
+  "equipmentTypeColdTable": "Chladicí stoly",
+  "@equipmentTypeColdTable": {
+    "description": "Equipment type: cold table"
+  },
+  "equipmentTypeDisplayCase": "Vitríny",
+  "@equipmentTypeDisplayCase": {
+    "description": "Equipment type: display case"
+  },
+  "equipmentTypeBlastChiller": "Šokery",
+  "@equipmentTypeBlastChiller": {
+    "description": "Equipment type: blast chiller"
+  },
+  "equipmentTypeGlasswasher": "Myčky skla",
+  "@equipmentTypeGlasswasher": {
+    "description": "Equipment type: glasswasher"
+  },
+  "equipmentTypeHoodDishwasher": "Kapotové myčky",
+  "@equipmentTypeHoodDishwasher": {
+    "description": "Equipment type: hood dishwasher"
+  },
+  "equipmentTypeConveyorDishwasher": "Pásové myčky",
+  "@equipmentTypeConveyorDishwasher": {
+    "description": "Equipment type: conveyor dishwasher"
+  },
+  "equipmentTypeMeatGrinder": "Mlýnky na maso",
+  "@equipmentTypeMeatGrinder": {
+    "description": "Equipment type: meat grinder"
+  },
+  "equipmentTypeSlicer": "Kráječe",
+  "@equipmentTypeSlicer": {
+    "description": "Equipment type: slicer"
+  },
+  "equipmentTypeVegetableCutter": "Kráječe zeleniny",
+  "@equipmentTypeVegetableCutter": {
+    "description": "Equipment type: vegetable cutter"
+  },
+  "equipmentTypeCutter": "Kutry",
+  "@equipmentTypeCutter": {
+    "description": "Equipment type: bowl cutter"
+  },
+  "equipmentTypeBlender": "Tyčové mixéry",
+  "@equipmentTypeBlender": {
+    "description": "Equipment type: blender"
+  },
+  "equipmentTypePizzaOven": "Pizza pece",
+  "@equipmentTypePizzaOven": {
+    "description": "Equipment type: pizza oven"
+  },
+  "equipmentTypeDoughMixer": "Hnětače těsta",
+  "@equipmentTypeDoughMixer": {
+    "description": "Equipment type: dough mixer"
+  },
+  "equipmentTypeDoughSheeter": "Válcovačky těsta",
+  "@equipmentTypeDoughSheeter": {
+    "description": "Equipment type: dough sheeter"
+  },
+  "equipmentTypeProvingCabinet": "Kynárny",
+  "@equipmentTypeProvingCabinet": {
+    "description": "Equipment type: proving cabinet"
+  },
+  "equipmentTypeCoffeeGrinder": "Mlýnky na kávu",
+  "@equipmentTypeCoffeeGrinder": {
+    "description": "Equipment type: coffee grinder"
+  },
+  "equipmentTypeIceMaker": "Výrobníky ledu",
+  "@equipmentTypeIceMaker": {
+    "description": "Equipment type: ice maker"
+  },
+  "equipmentTypeDrinkCooler": "Chladiče nápojů",
+  "@equipmentTypeDrinkCooler": {
+    "description": "Equipment type: drink cooler"
+  },
+  "equipmentTypePostMix": "Postmixy",
+  "@equipmentTypePostMix": {
+    "description": "Equipment type: post-mix dispenser"
+  },
+  "equipmentTypeWaterSoftener": "Změkčovače vody",
+  "@equipmentTypeWaterSoftener": {
+    "description": "Equipment type: water softener"
+  },
+  "equipmentTypeWaterFilter": "Filtry",
+  "@equipmentTypeWaterFilter": {
+    "description": "Equipment type: water filter"
+  },
+  "equipmentTypePump": "Čerpadla",
+  "@equipmentTypePump": {
+    "description": "Equipment type: pump"
+  },
+  "equipmentTypeReverseOsmosis": "Reverzní osmóza",
+  "@equipmentTypeReverseOsmosis": {
+    "description": "Equipment type: reverse osmosis"
   },
   "clientEquipmentTab": "Moje vybavení",
   "@clientEquipmentTab": {
@@ -573,5 +709,275 @@
   "passwordChangeError": "Nepodařilo se změnit heslo",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Vytvořit žádost o opravu",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "Nová žádost",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Typ vybavení",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Vybavení",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Vyberte vybavení",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Popište problém",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Stručně popište, co se stalo",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Přidejte popis problému",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Odeslat žádost",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Nepodařilo se vytvořit žádost: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentSwitcherTooltip": "Přepnout podnik",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Přidat podnik",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Nový podnik",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Kontaktní telefon podniku",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Zadejte kontaktní telefon",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Přidat",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
+  },
+  "markDoneDialogTitle": "Uzavřít zakázku",
+  "@markDoneDialogTitle": {
+    "description": "Mark done dialog: title"
+  },
+  "markDoneRepairCostLabel": "Cena opravy",
+  "@markDoneRepairCostLabel": {
+    "description": "Mark done dialog: repair cost field"
+  },
+  "markDonePartsCostLabel": "Cena náhradních dílů",
+  "@markDonePartsCostLabel": {
+    "description": "Mark done dialog: parts cost field"
+  },
+  "markDoneCostRequired": "Zadejte částku",
+  "@markDoneCostRequired": {
+    "description": "Mark done dialog: cost field required"
+  },
+  "markDoneCostInvalid": "Zadejte platnou částku",
+  "@markDoneCostInvalid": {
+    "description": "Mark done dialog: cost field invalid"
+  },
+  "markDoneDialogCancel": "Zrušit",
+  "@markDoneDialogCancel": {
+    "description": "Mark done dialog: cancel action"
+  },
+  "markDoneDialogConfirm": "Uzavřít zakázku",
+  "@markDoneDialogConfirm": {
+    "description": "Mark done dialog: confirm action"
+  },
+  "requestCostRepairLabel": "Oprava",
+  "@requestCostRepairLabel": {
+    "description": "Request card: repair cost short label"
+  },
+  "requestCostPartsLabel": "Díly",
+  "@requestCostPartsLabel": {
+    "description": "Request card: parts cost short label"
+  },
+  "adminHomeStatsTab": "Statistika",
+  "@adminHomeStatsTab": {
+    "description": "Admin home: statistics tab title"
+  },
+  "statsPeriodWeek": "Týden",
+  "@statsPeriodWeek": {
+    "description": "Statistics: week period preset"
+  },
+  "statsPeriodMonth": "Měsíc",
+  "@statsPeriodMonth": {
+    "description": "Statistics: month period preset"
+  },
+  "statsPeriodYear": "Rok",
+  "@statsPeriodYear": {
+    "description": "Statistics: year period preset"
+  },
+  "statsPeriodCustom": "Vlastní období",
+  "@statsPeriodCustom": {
+    "description": "Statistics: custom period preset"
+  },
+  "statsClosedCount": "Uzavřené zakázky",
+  "@statsClosedCount": {
+    "description": "Statistics: closed requests count label"
+  },
+  "statsRevenue": "Příjem",
+  "@statsRevenue": {
+    "description": "Statistics: revenue (sum of repair cost) label"
+  },
+  "statsExpenses": "Výdaje",
+  "@statsExpenses": {
+    "description": "Statistics: expenses (sum of parts cost) label"
+  },
+  "statsProfit": "Zisk",
+  "@statsProfit": {
+    "description": "Statistics: profit label"
+  },
+  "statsLoadError": "Nepodařilo se načíst statistiku: {error}",
+  "@statsLoadError": {
+    "description": "Statistics: load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByAddressOrPhoneHint": "Hledat podle adresy nebo telefonu",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Nic nenalezeno",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Zavolejte nám",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Zapomněli jste heslo?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Obnovení hesla",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Odeslat odkaz",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Zpět na přihlášení",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Nové heslo",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Nastavte nové heslo pro přihlášení.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Zopakujte heslo",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Hesla se neshodují",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Uložit heslo",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Souhlasím se",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "zpracováním osobních údajů",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Je třeba potvrdit souhlas se zpracováním osobních údajů",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Zásady ochrany osobních údajů",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Smazání účtu",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Smazat účet",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Smazat účet?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Zrušit",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Smazat",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

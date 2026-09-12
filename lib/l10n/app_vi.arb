@@ -88,14 +88,6 @@
   "@registerAddressRequired": {
     "description": "Register: address validator"
   },
-  "registerEstablishmentPhoneLabel": "Số điện thoại liên hệ của cơ sở",
-  "@registerEstablishmentPhoneLabel": {
-    "description": "Register: establishment phone field"
-  },
-  "registerEstablishmentPhoneRequired": "Nhập số điện thoại liên hệ",
-  "@registerEstablishmentPhoneRequired": {
-    "description": "Register: establishment phone validator"
-  },
   "registerSubmitButton": "Đăng ký",
   "@registerSubmitButton": {
     "description": "Register: submit button"
@@ -400,6 +392,10 @@
   "@equipmentTypeSectionTitle": {
     "description": "Equipment form: type section title"
   },
+  "equipmentSubtypeSectionTitle": "Loại thiết bị cụ thể",
+  "@equipmentSubtypeSectionTitle": {
+    "description": "Equipment form: subtype section title (shown after picking a category)"
+  },
   "equipmentTypeOther": "Khác",
   "@equipmentTypeOther": {
     "description": "Equipment type picker: other option"
@@ -494,7 +490,7 @@
   "@equipmentTypeStove": {
     "description": "Equipment type: stove"
   },
-  "equipmentTypeDishwasher": "Máy rửa chén",
+  "equipmentTypeDishwasher": "Máy rửa bát",
   "@equipmentTypeDishwasher": {
     "description": "Equipment type: dishwasher"
   },
@@ -506,13 +502,153 @@
   "@equipmentTypeCoffeeMachine": {
     "description": "Equipment type: coffee machine"
   },
-  "equipmentTypeMixer": "Máy trộn/máy xay",
+  "equipmentTypeMixer": "Máy trộn",
   "@equipmentTypeMixer": {
-    "description": "Equipment type: mixer/blender"
+    "description": "Equipment type: mixer"
   },
   "equipmentTypeCuttingTable": "Bàn sơ chế",
   "@equipmentTypeCuttingTable": {
-    "description": "Equipment type: cutting table"
+    "description": "Equipment type: cutting table (legacy, not offered in the picker anymore)"
+  },
+  "equipmentCategoryThermal": "Thiết bị gia nhiệt",
+  "@equipmentCategoryThermal": {
+    "description": "Equipment category: thermal"
+  },
+  "equipmentCategoryRefrigeration": "Thiết bị làm lạnh",
+  "@equipmentCategoryRefrigeration": {
+    "description": "Equipment category: refrigeration"
+  },
+  "equipmentCategoryDishwashing": "Thiết bị rửa bát",
+  "@equipmentCategoryDishwashing": {
+    "description": "Equipment category: dishwashing"
+  },
+  "equipmentCategoryFoodPrep": "Thiết bị sơ chế thực phẩm",
+  "@equipmentCategoryFoodPrep": {
+    "description": "Equipment category: food prep"
+  },
+  "equipmentCategoryPizzaBakery": "Pizza & lò bánh",
+  "@equipmentCategoryPizzaBakery": {
+    "description": "Equipment category: pizza & bakery"
+  },
+  "equipmentCategoryBar": "Thiết bị pha chế",
+  "@equipmentCategoryBar": {
+    "description": "Equipment category: bar & drinks"
+  },
+  "equipmentCategoryWater": "Xử lý nước",
+  "@equipmentCategoryWater": {
+    "description": "Equipment category: water treatment"
+  },
+  "equipmentTypeOven": "Lò nướng",
+  "@equipmentTypeOven": {
+    "description": "Equipment type: oven"
+  },
+  "equipmentTypeFryer": "Nồi chiên",
+  "@equipmentTypeFryer": {
+    "description": "Equipment type: fryer"
+  },
+  "equipmentTypeSalamander": "Lò salamander",
+  "@equipmentTypeSalamander": {
+    "description": "Equipment type: salamander"
+  },
+  "equipmentTypeBainMarie": "Nồi hâm cách thủy",
+  "@equipmentTypeBainMarie": {
+    "description": "Equipment type: bain-marie"
+  },
+  "equipmentTypeMicrowave": "Lò vi sóng",
+  "@equipmentTypeMicrowave": {
+    "description": "Equipment type: microwave"
+  },
+  "equipmentTypeColdTable": "Bàn lạnh",
+  "@equipmentTypeColdTable": {
+    "description": "Equipment type: cold table"
+  },
+  "equipmentTypeDisplayCase": "Tủ trưng bày",
+  "@equipmentTypeDisplayCase": {
+    "description": "Equipment type: display case"
+  },
+  "equipmentTypeBlastChiller": "Tủ đông nhanh",
+  "@equipmentTypeBlastChiller": {
+    "description": "Equipment type: blast chiller"
+  },
+  "equipmentTypeGlasswasher": "Máy rửa ly",
+  "@equipmentTypeGlasswasher": {
+    "description": "Equipment type: glasswasher"
+  },
+  "equipmentTypeHoodDishwasher": "Máy rửa dạng vòm",
+  "@equipmentTypeHoodDishwasher": {
+    "description": "Equipment type: hood dishwasher"
+  },
+  "equipmentTypeConveyorDishwasher": "Máy rửa băng chuyền",
+  "@equipmentTypeConveyorDishwasher": {
+    "description": "Equipment type: conveyor dishwasher"
+  },
+  "equipmentTypeMeatGrinder": "Máy xay thịt",
+  "@equipmentTypeMeatGrinder": {
+    "description": "Equipment type: meat grinder"
+  },
+  "equipmentTypeSlicer": "Máy thái lát",
+  "@equipmentTypeSlicer": {
+    "description": "Equipment type: slicer"
+  },
+  "equipmentTypeVegetableCutter": "Máy cắt rau củ",
+  "@equipmentTypeVegetableCutter": {
+    "description": "Equipment type: vegetable cutter"
+  },
+  "equipmentTypeCutter": "Máy cắt trộn",
+  "@equipmentTypeCutter": {
+    "description": "Equipment type: bowl cutter"
+  },
+  "equipmentTypeBlender": "Máy xay sinh tố",
+  "@equipmentTypeBlender": {
+    "description": "Equipment type: blender"
+  },
+  "equipmentTypePizzaOven": "Lò pizza",
+  "@equipmentTypePizzaOven": {
+    "description": "Equipment type: pizza oven"
+  },
+  "equipmentTypeDoughMixer": "Máy trộn bột",
+  "@equipmentTypeDoughMixer": {
+    "description": "Equipment type: dough mixer"
+  },
+  "equipmentTypeDoughSheeter": "Máy cán bột",
+  "@equipmentTypeDoughSheeter": {
+    "description": "Equipment type: dough sheeter"
+  },
+  "equipmentTypeProvingCabinet": "Tủ ủ bột",
+  "@equipmentTypeProvingCabinet": {
+    "description": "Equipment type: proving cabinet"
+  },
+  "equipmentTypeCoffeeGrinder": "Máy xay cà phê",
+  "@equipmentTypeCoffeeGrinder": {
+    "description": "Equipment type: coffee grinder"
+  },
+  "equipmentTypeIceMaker": "Máy làm đá",
+  "@equipmentTypeIceMaker": {
+    "description": "Equipment type: ice maker"
+  },
+  "equipmentTypeDrinkCooler": "Tủ làm lạnh đồ uống",
+  "@equipmentTypeDrinkCooler": {
+    "description": "Equipment type: drink cooler"
+  },
+  "equipmentTypePostMix": "Máy pha nước ngọt",
+  "@equipmentTypePostMix": {
+    "description": "Equipment type: post-mix dispenser"
+  },
+  "equipmentTypeWaterSoftener": "Máy làm mềm nước",
+  "@equipmentTypeWaterSoftener": {
+    "description": "Equipment type: water softener"
+  },
+  "equipmentTypeWaterFilter": "Bộ lọc nước",
+  "@equipmentTypeWaterFilter": {
+    "description": "Equipment type: water filter"
+  },
+  "equipmentTypePump": "Máy bơm",
+  "@equipmentTypePump": {
+    "description": "Equipment type: pump"
+  },
+  "equipmentTypeReverseOsmosis": "Thẩm thấu ngược",
+  "@equipmentTypeReverseOsmosis": {
+    "description": "Equipment type: reverse osmosis"
   },
   "clientEquipmentTab": "Thiết bị của tôi",
   "@clientEquipmentTab": {
@@ -573,5 +709,275 @@
   "passwordChangeError": "Không thể đổi mật khẩu",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Tạo yêu cầu sửa chữa",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "Yêu cầu mới",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Loại thiết bị",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Thiết bị",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Chọn thiết bị",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Mô tả sự cố",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Mô tả ngắn gọn điều đã xảy ra",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Thêm mô tả sự cố",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Gửi yêu cầu",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Không thể tạo yêu cầu: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentSwitcherTooltip": "Chuyển cơ sở",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Thêm cơ sở",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Cơ sở mới",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Số điện thoại liên hệ của cơ sở",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Nhập số điện thoại liên hệ",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Thêm",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Không thể thêm cơ sở. Kiểm tra thông tin đã nhập và kết nối internet.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
+  },
+  "markDoneDialogTitle": "Đóng yêu cầu",
+  "@markDoneDialogTitle": {
+    "description": "Mark done dialog: title"
+  },
+  "markDoneRepairCostLabel": "Chi phí sửa chữa",
+  "@markDoneRepairCostLabel": {
+    "description": "Mark done dialog: repair cost field"
+  },
+  "markDonePartsCostLabel": "Chi phí phụ tùng",
+  "@markDonePartsCostLabel": {
+    "description": "Mark done dialog: parts cost field"
+  },
+  "markDoneCostRequired": "Nhập số tiền",
+  "@markDoneCostRequired": {
+    "description": "Mark done dialog: cost field required"
+  },
+  "markDoneCostInvalid": "Nhập số tiền hợp lệ",
+  "@markDoneCostInvalid": {
+    "description": "Mark done dialog: cost field invalid"
+  },
+  "markDoneDialogCancel": "Hủy",
+  "@markDoneDialogCancel": {
+    "description": "Mark done dialog: cancel action"
+  },
+  "markDoneDialogConfirm": "Đóng yêu cầu",
+  "@markDoneDialogConfirm": {
+    "description": "Mark done dialog: confirm action"
+  },
+  "requestCostRepairLabel": "Sửa chữa",
+  "@requestCostRepairLabel": {
+    "description": "Request card: repair cost short label"
+  },
+  "requestCostPartsLabel": "Phụ tùng",
+  "@requestCostPartsLabel": {
+    "description": "Request card: parts cost short label"
+  },
+  "adminHomeStatsTab": "Thống kê",
+  "@adminHomeStatsTab": {
+    "description": "Admin home: statistics tab title"
+  },
+  "statsPeriodWeek": "Tuần",
+  "@statsPeriodWeek": {
+    "description": "Statistics: week period preset"
+  },
+  "statsPeriodMonth": "Tháng",
+  "@statsPeriodMonth": {
+    "description": "Statistics: month period preset"
+  },
+  "statsPeriodYear": "Năm",
+  "@statsPeriodYear": {
+    "description": "Statistics: year period preset"
+  },
+  "statsPeriodCustom": "Khoảng thời gian tùy chỉnh",
+  "@statsPeriodCustom": {
+    "description": "Statistics: custom period preset"
+  },
+  "statsClosedCount": "Yêu cầu đã đóng",
+  "@statsClosedCount": {
+    "description": "Statistics: closed requests count label"
+  },
+  "statsRevenue": "Doanh thu",
+  "@statsRevenue": {
+    "description": "Statistics: revenue (sum of repair cost) label"
+  },
+  "statsExpenses": "Chi phí",
+  "@statsExpenses": {
+    "description": "Statistics: expenses (sum of parts cost) label"
+  },
+  "statsProfit": "Lợi nhuận",
+  "@statsProfit": {
+    "description": "Statistics: profit label"
+  },
+  "statsLoadError": "Không thể tải thống kê: {error}",
+  "@statsLoadError": {
+    "description": "Statistics: load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByAddressOrPhoneHint": "Tìm theo địa chỉ hoặc số điện thoại",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Không tìm thấy kết quả",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Gọi cho chúng tôi",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Quên mật khẩu?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Khôi phục mật khẩu",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Nhập email bạn đã dùng để đăng ký — chúng tôi sẽ gửi liên kết đặt lại mật khẩu tới đó.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Gửi liên kết",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Nếu email này đã được đăng ký, liên kết đặt lại mật khẩu đã được gửi tới đó. Kiểm tra hộp thư (kể cả mục Spam).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Quay lại đăng nhập",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Không thể gửi email. Kiểm tra kết nối internet.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Mật khẩu mới",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Đặt mật khẩu mới để đăng nhập.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Nhập lại mật khẩu",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Mật khẩu không khớp",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Lưu mật khẩu",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Tôi đồng ý với",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "chính sách xử lý dữ liệu cá nhân",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Vui lòng xác nhận đồng ý với chính sách xử lý dữ liệu cá nhân",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Chính sách bảo mật",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Xóa tài khoản",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Dữ liệu cá nhân (họ tên, số điện thoại) sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa. Lịch sử yêu cầu của bạn vẫn được lưu trong hệ thống nhưng không gắn với tên — chúng tôi cần điều này cho mục đích kế toán.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Xóa tài khoản",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Xóa tài khoản?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Không thể hoàn tác hành động này. Dữ liệu cá nhân sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Hủy",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Xóa",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

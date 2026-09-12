@@ -77,12 +77,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get registerAddressRequired => 'Zadejte adresu podniku';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Kontaktní telefon podniku';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Zadejte kontaktní telefon';
-
-  @override
   String get registerSubmitButton => 'Zaregistrovat se';
 
   @override
@@ -304,6 +298,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Typ vybavení';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Druh vybavení';
+
+  @override
   String get equipmentTypeOther => 'Jiné';
 
   @override
@@ -363,28 +360,133 @@ class AppLocalizationsCs extends AppLocalizations {
   String get equipmentTypeFridge => 'Lednice';
 
   @override
-  String get equipmentTypeFreezer => 'Mraznička';
+  String get equipmentTypeFreezer => 'Mrazničky';
 
   @override
-  String get equipmentTypeCombiOven => 'Konvektomat';
+  String get equipmentTypeCombiOven => 'Konvektomaty';
 
   @override
-  String get equipmentTypeStove => 'Sporák';
+  String get equipmentTypeStove => 'Sporáky';
 
   @override
-  String get equipmentTypeDishwasher => 'Myčka nádobí';
+  String get equipmentTypeDishwasher => 'Myčky nádobí';
 
   @override
-  String get equipmentTypeGrill => 'Gril';
+  String get equipmentTypeGrill => 'Grily';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Kávovar';
+  String get equipmentTypeCoffeeMachine => 'Kávovary';
 
   @override
-  String get equipmentTypeMixer => 'Mixér / tyčový mixér';
+  String get equipmentTypeMixer => 'Mixéry';
 
   @override
   String get equipmentTypeCuttingTable => 'Krájecí stůl';
+
+  @override
+  String get equipmentCategoryThermal => 'Tepelná technika';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Chladicí technika';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Mycí technika';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Příprava potravin';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & pekárna';
+
+  @override
+  String get equipmentCategoryBar => 'Barová technika';
+
+  @override
+  String get equipmentCategoryWater => 'Úprava vody';
+
+  @override
+  String get equipmentTypeOven => 'Pece';
+
+  @override
+  String get equipmentTypeFryer => 'Fritézy';
+
+  @override
+  String get equipmentTypeSalamander => 'Salamandry';
+
+  @override
+  String get equipmentTypeBainMarie => 'Marmity';
+
+  @override
+  String get equipmentTypeMicrowave => 'Mikrovlnky';
+
+  @override
+  String get equipmentTypeColdTable => 'Chladicí stoly';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Vitríny';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Šokery';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Myčky skla';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Kapotové myčky';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Pásové myčky';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Mlýnky na maso';
+
+  @override
+  String get equipmentTypeSlicer => 'Kráječe';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Kráječe zeleniny';
+
+  @override
+  String get equipmentTypeCutter => 'Kutry';
+
+  @override
+  String get equipmentTypeBlender => 'Tyčové mixéry';
+
+  @override
+  String get equipmentTypePizzaOven => 'Pizza pece';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Hnětače těsta';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Válcovačky těsta';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Kynárny';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Mlýnky na kávu';
+
+  @override
+  String get equipmentTypeIceMaker => 'Výrobníky ledu';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Chladiče nápojů';
+
+  @override
+  String get equipmentTypePostMix => 'Postmixy';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Změkčovače vody';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Filtry';
+
+  @override
+  String get equipmentTypePump => 'Čerpadla';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Reverzní osmóza';
 
   @override
   String get clientEquipmentTab => 'Moje vybavení';
@@ -432,4 +534,213 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Nepodařilo se změnit heslo';
+
+  @override
+  String get clientCreateRequestButton => 'Vytvořit žádost o opravu';
+
+  @override
+  String get createRequestTitle => 'Nová žádost';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Typ vybavení';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Vybavení';
+
+  @override
+  String get createRequestEquipmentRequired => 'Vyberte vybavení';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Popište problém';
+
+  @override
+  String get createRequestDescriptionHint => 'Stručně popište, co se stalo';
+
+  @override
+  String get createRequestDescriptionRequired => 'Přidejte popis problému';
+
+  @override
+  String get createRequestSubmitButton => 'Odeslat žádost';
+
+  @override
+  String createRequestError(String error) {
+    return 'Nepodařilo se vytvořit žádost: $error';
+  }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Přepnout podnik';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Přidat podnik';
+
+  @override
+  String get addEstablishmentTitle => 'Nový podnik';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Kontaktní telefon podniku';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Zadejte kontaktní telefon';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Přidat';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.';
+
+  @override
+  String get markDoneDialogTitle => 'Uzavřít zakázku';
+
+  @override
+  String get markDoneRepairCostLabel => 'Cena opravy';
+
+  @override
+  String get markDonePartsCostLabel => 'Cena náhradních dílů';
+
+  @override
+  String get markDoneCostRequired => 'Zadejte částku';
+
+  @override
+  String get markDoneCostInvalid => 'Zadejte platnou částku';
+
+  @override
+  String get markDoneDialogCancel => 'Zrušit';
+
+  @override
+  String get markDoneDialogConfirm => 'Uzavřít zakázku';
+
+  @override
+  String get requestCostRepairLabel => 'Oprava';
+
+  @override
+  String get requestCostPartsLabel => 'Díly';
+
+  @override
+  String get adminHomeStatsTab => 'Statistika';
+
+  @override
+  String get statsPeriodWeek => 'Týden';
+
+  @override
+  String get statsPeriodMonth => 'Měsíc';
+
+  @override
+  String get statsPeriodYear => 'Rok';
+
+  @override
+  String get statsPeriodCustom => 'Vlastní období';
+
+  @override
+  String get statsClosedCount => 'Uzavřené zakázky';
+
+  @override
+  String get statsRevenue => 'Příjem';
+
+  @override
+  String get statsExpenses => 'Výdaje';
+
+  @override
+  String get statsProfit => 'Zisk';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Nepodařilo se načíst statistiku: $error';
+  }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Hledat podle adresy nebo telefonu';
+
+  @override
+  String get searchNoResults => 'Nic nenalezeno';
+
+  @override
+  String get callUsTooltip => 'Zavolejte nám';
+
+  @override
+  String get loginForgotPassword => 'Zapomněli jste heslo?';
+
+  @override
+  String get forgotPasswordTitle => 'Obnovení hesla';
+
+  @override
+  String get forgotPasswordHint =>
+      'Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Odeslat odkaz';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Zpět na přihlášení';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.';
+
+  @override
+  String get resetPasswordTitle => 'Nové heslo';
+
+  @override
+  String get resetPasswordHint => 'Nastavte nové heslo pro přihlášení.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Zopakujte heslo';
+
+  @override
+  String get resetPasswordMismatch => 'Hesla se neshodují';
+
+  @override
+  String get resetPasswordSubmitButton => 'Uložit heslo';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Souhlasím se';
+
+  @override
+  String get registerPrivacyConsentLinkText => 'zpracováním osobních údajů';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Je třeba potvrdit souhlas se zpracováním osobních údajů';
+
+  @override
+  String get privacyPolicyTitle => 'Zásady ochrany osobních údajů';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Smazání účtu';
+
+  @override
+  String get deleteAccountHint =>
+      'Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.';
+
+  @override
+  String get deleteAccountButton => 'Smazat účet';
+
+  @override
+  String get deleteAccountDialogTitle => 'Smazat účet?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Zrušit';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Smazat';
+
+  @override
+  String get deleteAccountError =>
+      'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.';
 }

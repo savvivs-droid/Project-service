@@ -1,19 +1,31 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/equipment_grid_tile.dart';
+import '../../core/widgets/equipment_illustrations.dart';
+import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
+import '../../models/establishment.dart';
 import '../../models/profile.dart';
 import '../../models/request_list_item.dart';
 import '../../services/auth_repository.dart';
 import '../../services/equipment_repository.dart';
+import '../../services/establishment_repository.dart';
+import '../../services/push_notification_service.dart';
+import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'client_add_establishment_screen.dart';
 import 'client_equipment_category_screen.dart';
+import 'client_equipment_types_screen.dart';
 import 'client_profile_tab.dart';
 import 'client_request_detail_screen.dart';
+import 'support_action_buttons.dart';
 
 class ClientHomeScreen extends StatefulWidget {
   const ClientHomeScreen({super.key, required this.profile});
@@ -25,9 +37,91 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
+  // Не может совпасть с реальным id заведения (uuid) — используется как
+  // значение пункта меню "добавить заведение" в переключателе, см. build().
+  static const _addEstablishmentValue = '__add_establishment__';
+
   // Открываем сразу на "Моё оборудование" — это то, с чем клиент
   // взаимодействует чаще всего, а не список заявок.
   int _tabIndex = 2;
+
+  // Меняется при каждой успешно созданной заявке или смене заведения,
+  // чтобы пересоздать вкладки с новым ключом — иначе IndexedStack держит
+  // их состояние и не подхватывает ни новую заявку, ни данные другого
+  // заведения.
+  int _refreshTick = 0;
+
+  final _establishmentRepository = EstablishmentRepository();
+  late Future<List<Establishment>> _establishmentsFuture;
+
+  // Заведение "по умолчанию" из профиля — то, что заведено при
+  // регистрации, — пока список остальных заведений клиента ещё не
+  // загрузился (или клиент состоит только в одном).
+  String? _selectedEstablishmentId;
+
+  // Id заявок с непрочитанными сообщениями в чате — общий для всех
+  // вкладок список, живой (обновляется через Realtime), см.
+  // RequestMessageRepository.watchUnreadRequestIds.
+  final _messageRepository = RequestMessageRepository();
+  Set<String> _unreadRequestIds = const {};
+  StreamSubscription<Set<String>>? _unreadSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedEstablishmentId = widget.profile.establishmentId;
+    _establishmentsFuture = _loadEstablishments();
+    _unreadSubscription = _messageRepository.watchUnreadRequestIds().listen(
+      (ids) {
+        if (mounted) setState(() => _unreadRequestIds = ids);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _unreadSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<List<Establishment>> _loadEstablishments() async {
+    final list = await _establishmentRepository.fetchForCurrentClient();
+    if (!mounted) return list;
+    if (list.isNotEmpty &&
+        !list.any((e) => e.id == _selectedEstablishmentId)) {
+      setState(() => _selectedEstablishmentId = list.first.id);
+    }
+    return list;
+  }
+
+  void _selectEstablishment(String id) {
+    if (id == _selectedEstablishmentId) return;
+    setState(() {
+      _selectedEstablishmentId = id;
+      _refreshTick++;
+    });
+  }
+
+  Future<void> _openAddEstablishment() async {
+    final added = await Navigator.of(context).push<Establishment>(
+      MaterialPageRoute(
+        builder: (_) => const ClientAddEstablishmentScreen(),
+      ),
+    );
+    if (added == null) return;
+    setState(() {
+      _selectedEstablishmentId = added.id;
+      _refreshTick++;
+      _establishmentsFuture = _loadEstablishments();
+    });
+  }
+
+  void _onRequestCreatedFromFab() {
+    setState(() {
+      _tabIndex = 0;
+      _refreshTick++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +135,49 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const AppBrandIcon(size: 22),
-            const SizedBox(width: 10),
-            Text(titles[_tabIndex]),
-          ],
-        ),
+        title: AppBrandAppBarTitle(subtitle: titles[_tabIndex]),
         actions: [
+          FutureBuilder<List<Establishment>>(
+            future: _establishmentsFuture,
+            builder: (context, snapshot) {
+              final establishments = snapshot.data ?? const [];
+              // PopupMenuButton считает выбор пункта с value: null тем же
+              // самым, что и закрытие меню без выбора (Flutter вызывает
+              // onCanceled, а не onSelected) — поэтому пункт "добавить
+              // заведение" не мог использовать null как значение, иначе
+              // нажатие на него ничего не делало. Используем сентинел.
+              return PopupMenuButton<String>(
+                icon: const Icon(Icons.storefront_outlined),
+                tooltip: l10n.establishmentSwitcherTooltip,
+                onSelected: (value) {
+                  if (value == _addEstablishmentValue) {
+                    _openAddEstablishment();
+                  } else {
+                    _selectEstablishment(value);
+                  }
+                },
+                itemBuilder: (context) => [
+                  for (final establishment in establishments)
+                    CheckedPopupMenuItem(
+                      value: establishment.id,
+                      checked: establishment.id == _selectedEstablishmentId,
+                      child: Text(establishment.name),
+                    ),
+                  if (establishments.isNotEmpty) const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: _addEstablishmentValue,
+                    child: Text(l10n.establishmentSwitcherAddNew),
+                  ),
+                ],
+              );
+            },
+          ),
           const LanguageSwitcher(),
           IconButton(
-            onPressed: () => AuthRepository().signOut(),
+            onPressed: () async {
+              await PushNotificationService.instance.unregisterCurrentDevice();
+              await AuthRepository().signOut();
+            },
             icon: const Icon(Icons.logout),
             tooltip: l10n.signOutTooltip,
           ),
@@ -61,24 +186,55 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       body: IndexedStack(
         index: _tabIndex,
         children: [
-          const _ClientRequestsTab(showActive: true),
-          const _ClientRequestsTab(showActive: false),
-          _ClientEquipmentTab(establishmentId: widget.profile.establishmentId),
+          _ClientRequestsTab(
+            key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
+            showActive: true,
+            establishmentId: _selectedEstablishmentId,
+            unreadRequestIds: _unreadRequestIds,
+          ),
+          _ClientRequestsTab(
+            key: ValueKey('done-$_selectedEstablishmentId'),
+            showActive: false,
+            establishmentId: _selectedEstablishmentId,
+            unreadRequestIds: _unreadRequestIds,
+          ),
+          _ClientEquipmentTab(
+            key: ValueKey(_selectedEstablishmentId),
+            establishmentId: _selectedEstablishmentId,
+            clientId: widget.profile.id,
+          ),
           ClientProfileTab(profile: widget.profile),
         ],
+      ),
+      floatingActionButton: SupportActionButtons(
+        establishmentId: _selectedEstablishmentId,
+        clientId: widget.profile.id,
+        onRequestCreated: _onRequestCreatedFromFab,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.assignment_outlined),
-            selectedIcon: const Icon(Icons.assignment),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.assignment),
+            ),
             label: l10n.navActive,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.task_alt_outlined),
-            selectedIcon: const Icon(Icons.task_alt),
+            icon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt_outlined),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              child: const Icon(Icons.task_alt),
+            ),
             label: l10n.navDone,
           ),
           NavigationDestination(
@@ -99,11 +255,20 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
 /// Заявки текущего клиента. Запрос тот же, что и на экране администратора
 /// (ServiceRequestRepository.fetchAll()) — какие строки вернутся, решает
-/// RLS в базе: клиенту видны только заявки его собственного заведения.
+/// RLS в базе: клиенту видны только заявки заведений, где он состоит.
+/// [establishmentId] дополнительно сужает список до одного выбранного в
+/// переключателе заведения (см. _ClientHomeScreenState).
 class _ClientRequestsTab extends StatefulWidget {
-  const _ClientRequestsTab({required this.showActive});
+  const _ClientRequestsTab({
+    super.key,
+    required this.showActive,
+    required this.establishmentId,
+    required this.unreadRequestIds,
+  });
 
   final bool showActive;
+  final String? establishmentId;
+  final Set<String> unreadRequestIds;
 
   @override
   State<_ClientRequestsTab> createState() => _ClientRequestsTabState();
@@ -116,11 +281,15 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
   @override
   void initState() {
     super.initState();
-    _requestsFuture = _repository.fetchAll();
+    _requestsFuture = _fetch();
+  }
+
+  Future<List<RequestListItem>> _fetch() {
+    return _repository.fetchAll(establishmentId: widget.establishmentId);
   }
 
   Future<void> _refresh() async {
-    final future = _repository.fetchAll();
+    final future = _fetch();
     setState(() => _requestsFuture = future);
     await future;
   }
@@ -176,6 +345,7 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
             itemCount: items.length,
             itemBuilder: (context, index) => _ClientRequestCard(
               item: items[index],
+              hasUnread: widget.unreadRequestIds.contains(items[index].request.id),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => ClientRequestDetailScreen(item: items[index]),
@@ -190,14 +360,28 @@ class _ClientRequestsTabState extends State<_ClientRequestsTab> {
 }
 
 class _ClientRequestCard extends StatelessWidget {
-  const _ClientRequestCard({required this.item, required this.onTap});
+  const _ClientRequestCard({
+    required this.item,
+    required this.hasUnread,
+    required this.onTap,
+  });
 
   final RequestListItem item;
+  final bool hasUnread;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final request = item.request;
+    final refs = item.equipmentRefs;
+    final primary = refs.isEmpty ? null : refs.first;
+    final photoUrl = primary?.photoUrl;
+
+    final nameText = primary == null
+        ? context.l10n.requestFallbackTitle
+        : refs.length > 1
+            ? refs.map((e) => e.name(context)).join(', ')
+            : primary.name(context);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -214,34 +398,108 @@ class _ClientRequestCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (photoUrl == null)
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: request.status.color,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        primary == null
+                            ? Icons.build_outlined
+                            : equipmentTypeIcon(primary.type),
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    )
+                  else
+                    GestureDetector(
+                      onTap: () => openFullscreenPhoto(context, photoUrl),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          photoUrl,
+                          width: 52,
+                          height: 52,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                      item.equipmentRefs.isEmpty
-                          ? context.l10n.requestFallbackTitle
-                          : item.equipmentRefs
-                              .map((e) => e.label(context))
-                              .join(', '),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: request.status.color,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      request.status.label(context),
-                      style: const TextStyle(color: Colors.white, fontSize: 11),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            if (hasUnread) ...[
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.error,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                            ],
+                            if (primary != null)
+                              Expanded(
+                                child: Text(
+                                  primary.label(context),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                nameText,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: request.status.color,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Text(
+                                request.status.label(context),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 11),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 request.description,
                 maxLines: 2,
@@ -271,9 +529,14 @@ class _ClientRequestCard extends StatelessWidget {
 /// плитку открывает список конкретных единиц этой категории. Добавляет
 /// и меняет оборудование только администратор, см. EstablishmentDetailScreen.
 class _ClientEquipmentTab extends StatefulWidget {
-  const _ClientEquipmentTab({required this.establishmentId});
+  const _ClientEquipmentTab({
+    super.key,
+    required this.establishmentId,
+    required this.clientId,
+  });
 
   final String? establishmentId;
+  final String clientId;
 
   @override
   State<_ClientEquipmentTab> createState() => _ClientEquipmentTabState();
@@ -301,21 +564,33 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
     await future;
   }
 
-  void _openCategory(
-    BuildContext context,
-    EquipmentTypeKey? key,
-    String title,
-    IconData icon,
-  ) {
+  void _openCategory(BuildContext context, EquipmentCategory category) {
     final establishmentId = widget.establishmentId;
     if (establishmentId == null) return;
+
+    if (category == EquipmentCategory.other) {
+      // "Другое" — без фиксированных видов, сразу список оборудования
+      // со свободным типом.
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ClientEquipmentCategoryScreen(
+            establishmentId: establishmentId,
+            clientId: widget.clientId,
+            typeKey: null,
+            title: category.label(context),
+            icon: category.icon,
+          ),
+        ),
+      );
+      return;
+    }
+
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ClientEquipmentCategoryScreen(
+        builder: (_) => ClientEquipmentTypesScreen(
           establishmentId: establishmentId,
-          typeKey: key,
-          title: title,
-          icon: icon,
+          clientId: widget.clientId,
+          category: category,
         ),
       ),
     );
@@ -342,123 +617,38 @@ class _ClientEquipmentTabState extends State<_ClientEquipmentTab> {
         }
 
         final equipment = snapshot.data ?? const [];
-        int countFor(EquipmentTypeKey? key) => equipment
-            .where((item) => equipmentTypeKeyFromStorage(item.type) == key)
+        int countFor(EquipmentCategory category) => equipment
+            .where((item) =>
+                (equipmentTypeKeyFromStorage(item.type)?.category ??
+                    EquipmentCategory.other) ==
+                category)
             .length;
-        final otherCount = countFor(null);
 
         return RefreshIndicator(
           onRefresh: _refresh,
           child: GridView.builder(
             padding: const EdgeInsets.all(16),
-            // Фиксированный максимальный размер плитки вместо
-            // фиксированного числа колонок — на широком экране (планшет)
-            // плитки остаются компактными квадратами, а не растягиваются
-            // на всю ширину.
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 120,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 14,
+              crossAxisSpacing: 14,
+              childAspectRatio: 0.92,
             ),
-            // Все известные категории показываем всегда; "Другое" —
-            // только если у заведения реально есть такое оборудование.
-            itemCount: EquipmentTypeKey.values.length + (otherCount > 0 ? 1 : 0),
+            itemCount: EquipmentCategory.values.length,
             itemBuilder: (context, index) {
-              if (index < EquipmentTypeKey.values.length) {
-                final key = EquipmentTypeKey.values[index];
-                return _CategoryTile(
-                  icon: key.icon,
-                  label: key.label(context),
-                  count: countFor(key),
-                  onTap: () =>
-                      _openCategory(context, key, key.label(context), key.icon),
-                );
-              }
-              return _CategoryTile(
-                icon: Icons.more_horiz,
-                label: context.l10n.equipmentTypeOther,
-                count: otherCount,
-                onTap: () => _openCategory(
-                  context,
-                  null,
-                  context.l10n.equipmentTypeOther,
-                  Icons.more_horiz,
-                ),
+              final category = EquipmentCategory.values[index];
+              return EquipmentGridTile(
+                icon: category.icon,
+                illustration: equipmentIllustrationFor(category),
+                photoAsset: category.photoAsset,
+                label: category.label(context),
+                count: countFor(category),
+                onTap: () => _openCategory(context, category),
               );
             },
           ),
         );
       },
-    );
-  }
-}
-
-class _CategoryTile extends StatelessWidget {
-  const _CategoryTile({
-    required this.icon,
-    required this.label,
-    required this.count,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final int count;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: colorScheme.outlineVariant),
-        ),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, size: 30, color: colorScheme.primary),
-                const SizedBox(height: 8),
-                Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-            if (count > 0)
-              Positioned(
-                top: -4,
-                right: -4,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    '$count',
-                    style: TextStyle(
-                      color: colorScheme.onSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

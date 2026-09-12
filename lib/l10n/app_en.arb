@@ -88,14 +88,6 @@
   "@registerAddressRequired": {
     "description": "Register: address validator"
   },
-  "registerEstablishmentPhoneLabel": "Establishment contact phone",
-  "@registerEstablishmentPhoneLabel": {
-    "description": "Register: establishment phone field"
-  },
-  "registerEstablishmentPhoneRequired": "Enter a contact phone number",
-  "@registerEstablishmentPhoneRequired": {
-    "description": "Register: establishment phone validator"
-  },
   "registerSubmitButton": "Sign up",
   "@registerSubmitButton": {
     "description": "Register: submit button"
@@ -400,6 +392,10 @@
   "@equipmentTypeSectionTitle": {
     "description": "Equipment form: type section title"
   },
+  "equipmentSubtypeSectionTitle": "Equipment kind",
+  "@equipmentSubtypeSectionTitle": {
+    "description": "Equipment form: subtype section title (shown after picking a category)"
+  },
   "equipmentTypeOther": "Other",
   "@equipmentTypeOther": {
     "description": "Equipment type picker: other option"
@@ -478,41 +474,181 @@
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
   },
-  "equipmentTypeFridge": "Fridge",
+  "equipmentTypeFridge": "Fridges",
   "@equipmentTypeFridge": {
     "description": "Equipment type: fridge"
   },
-  "equipmentTypeFreezer": "Freezer",
+  "equipmentTypeFreezer": "Freezers",
   "@equipmentTypeFreezer": {
     "description": "Equipment type: freezer"
   },
-  "equipmentTypeCombiOven": "Combi oven",
+  "equipmentTypeCombiOven": "Combi ovens",
   "@equipmentTypeCombiOven": {
     "description": "Equipment type: combi oven"
   },
-  "equipmentTypeStove": "Stove",
+  "equipmentTypeStove": "Stoves",
   "@equipmentTypeStove": {
     "description": "Equipment type: stove"
   },
-  "equipmentTypeDishwasher": "Dishwasher",
+  "equipmentTypeDishwasher": "Dishwashers",
   "@equipmentTypeDishwasher": {
     "description": "Equipment type: dishwasher"
   },
-  "equipmentTypeGrill": "Grill",
+  "equipmentTypeGrill": "Grills",
   "@equipmentTypeGrill": {
     "description": "Equipment type: grill"
   },
-  "equipmentTypeCoffeeMachine": "Coffee machine",
+  "equipmentTypeCoffeeMachine": "Coffee machines",
   "@equipmentTypeCoffeeMachine": {
     "description": "Equipment type: coffee machine"
   },
-  "equipmentTypeMixer": "Mixer/blender",
+  "equipmentTypeMixer": "Mixers",
   "@equipmentTypeMixer": {
-    "description": "Equipment type: mixer/blender"
+    "description": "Equipment type: mixer"
   },
   "equipmentTypeCuttingTable": "Cutting table",
   "@equipmentTypeCuttingTable": {
-    "description": "Equipment type: cutting table"
+    "description": "Equipment type: cutting table (legacy, not offered in the picker anymore)"
+  },
+  "equipmentCategoryThermal": "Heating equipment",
+  "@equipmentCategoryThermal": {
+    "description": "Equipment category: thermal"
+  },
+  "equipmentCategoryRefrigeration": "Refrigeration equipment",
+  "@equipmentCategoryRefrigeration": {
+    "description": "Equipment category: refrigeration"
+  },
+  "equipmentCategoryDishwashing": "Dishwashing equipment",
+  "@equipmentCategoryDishwashing": {
+    "description": "Equipment category: dishwashing"
+  },
+  "equipmentCategoryFoodPrep": "Food prep equipment",
+  "@equipmentCategoryFoodPrep": {
+    "description": "Equipment category: food prep"
+  },
+  "equipmentCategoryPizzaBakery": "Pizza & bakery",
+  "@equipmentCategoryPizzaBakery": {
+    "description": "Equipment category: pizza & bakery"
+  },
+  "equipmentCategoryBar": "Bar & drinks",
+  "@equipmentCategoryBar": {
+    "description": "Equipment category: bar & drinks"
+  },
+  "equipmentCategoryWater": "Water treatment",
+  "@equipmentCategoryWater": {
+    "description": "Equipment category: water treatment"
+  },
+  "equipmentTypeOven": "Ovens",
+  "@equipmentTypeOven": {
+    "description": "Equipment type: oven"
+  },
+  "equipmentTypeFryer": "Fryers",
+  "@equipmentTypeFryer": {
+    "description": "Equipment type: fryer"
+  },
+  "equipmentTypeSalamander": "Salamanders",
+  "@equipmentTypeSalamander": {
+    "description": "Equipment type: salamander"
+  },
+  "equipmentTypeBainMarie": "Bain-maries",
+  "@equipmentTypeBainMarie": {
+    "description": "Equipment type: bain-marie"
+  },
+  "equipmentTypeMicrowave": "Microwaves",
+  "@equipmentTypeMicrowave": {
+    "description": "Equipment type: microwave"
+  },
+  "equipmentTypeColdTable": "Cold tables",
+  "@equipmentTypeColdTable": {
+    "description": "Equipment type: cold table"
+  },
+  "equipmentTypeDisplayCase": "Display cases",
+  "@equipmentTypeDisplayCase": {
+    "description": "Equipment type: display case"
+  },
+  "equipmentTypeBlastChiller": "Blast chillers",
+  "@equipmentTypeBlastChiller": {
+    "description": "Equipment type: blast chiller"
+  },
+  "equipmentTypeGlasswasher": "Glasswashers",
+  "@equipmentTypeGlasswasher": {
+    "description": "Equipment type: glasswasher"
+  },
+  "equipmentTypeHoodDishwasher": "Hood dishwashers",
+  "@equipmentTypeHoodDishwasher": {
+    "description": "Equipment type: hood dishwasher"
+  },
+  "equipmentTypeConveyorDishwasher": "Conveyor dishwashers",
+  "@equipmentTypeConveyorDishwasher": {
+    "description": "Equipment type: conveyor dishwasher"
+  },
+  "equipmentTypeMeatGrinder": "Meat grinders",
+  "@equipmentTypeMeatGrinder": {
+    "description": "Equipment type: meat grinder"
+  },
+  "equipmentTypeSlicer": "Slicers",
+  "@equipmentTypeSlicer": {
+    "description": "Equipment type: slicer"
+  },
+  "equipmentTypeVegetableCutter": "Vegetable cutters",
+  "@equipmentTypeVegetableCutter": {
+    "description": "Equipment type: vegetable cutter"
+  },
+  "equipmentTypeCutter": "Bowl cutters",
+  "@equipmentTypeCutter": {
+    "description": "Equipment type: bowl cutter"
+  },
+  "equipmentTypeBlender": "Blenders",
+  "@equipmentTypeBlender": {
+    "description": "Equipment type: blender"
+  },
+  "equipmentTypePizzaOven": "Pizza ovens",
+  "@equipmentTypePizzaOven": {
+    "description": "Equipment type: pizza oven"
+  },
+  "equipmentTypeDoughMixer": "Dough mixers",
+  "@equipmentTypeDoughMixer": {
+    "description": "Equipment type: dough mixer"
+  },
+  "equipmentTypeDoughSheeter": "Dough sheeters",
+  "@equipmentTypeDoughSheeter": {
+    "description": "Equipment type: dough sheeter"
+  },
+  "equipmentTypeProvingCabinet": "Proving cabinets",
+  "@equipmentTypeProvingCabinet": {
+    "description": "Equipment type: proving cabinet"
+  },
+  "equipmentTypeCoffeeGrinder": "Coffee grinders",
+  "@equipmentTypeCoffeeGrinder": {
+    "description": "Equipment type: coffee grinder"
+  },
+  "equipmentTypeIceMaker": "Ice makers",
+  "@equipmentTypeIceMaker": {
+    "description": "Equipment type: ice maker"
+  },
+  "equipmentTypeDrinkCooler": "Drink coolers",
+  "@equipmentTypeDrinkCooler": {
+    "description": "Equipment type: drink cooler"
+  },
+  "equipmentTypePostMix": "Post-mix dispensers",
+  "@equipmentTypePostMix": {
+    "description": "Equipment type: post-mix dispenser"
+  },
+  "equipmentTypeWaterSoftener": "Water softeners",
+  "@equipmentTypeWaterSoftener": {
+    "description": "Equipment type: water softener"
+  },
+  "equipmentTypeWaterFilter": "Filters",
+  "@equipmentTypeWaterFilter": {
+    "description": "Equipment type: water filter"
+  },
+  "equipmentTypePump": "Pumps",
+  "@equipmentTypePump": {
+    "description": "Equipment type: pump"
+  },
+  "equipmentTypeReverseOsmosis": "Reverse osmosis",
+  "@equipmentTypeReverseOsmosis": {
+    "description": "Equipment type: reverse osmosis"
   },
   "clientEquipmentTab": "My equipment",
   "@clientEquipmentTab": {
@@ -573,5 +709,275 @@
   "passwordChangeError": "Couldn't change the password",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Create repair request",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "New request",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Equipment type",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Equipment",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Select equipment",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Describe the problem",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Briefly describe what happened",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Add a problem description",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Submit request",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Failed to create request: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentSwitcherTooltip": "Switch establishment",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Add establishment",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "New establishment",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Establishment contact phone",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Enter a contact phone number",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Add",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Failed to add the establishment. Check the details and your internet connection.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
+  },
+  "markDoneDialogTitle": "Close request",
+  "@markDoneDialogTitle": {
+    "description": "Mark done dialog: title"
+  },
+  "markDoneRepairCostLabel": "Repair cost",
+  "@markDoneRepairCostLabel": {
+    "description": "Mark done dialog: repair cost field"
+  },
+  "markDonePartsCostLabel": "Parts cost",
+  "@markDonePartsCostLabel": {
+    "description": "Mark done dialog: parts cost field"
+  },
+  "markDoneCostRequired": "Enter an amount",
+  "@markDoneCostRequired": {
+    "description": "Mark done dialog: cost field required"
+  },
+  "markDoneCostInvalid": "Enter a valid amount",
+  "@markDoneCostInvalid": {
+    "description": "Mark done dialog: cost field invalid"
+  },
+  "markDoneDialogCancel": "Cancel",
+  "@markDoneDialogCancel": {
+    "description": "Mark done dialog: cancel action"
+  },
+  "markDoneDialogConfirm": "Close request",
+  "@markDoneDialogConfirm": {
+    "description": "Mark done dialog: confirm action"
+  },
+  "requestCostRepairLabel": "Repair",
+  "@requestCostRepairLabel": {
+    "description": "Request card: repair cost short label"
+  },
+  "requestCostPartsLabel": "Parts",
+  "@requestCostPartsLabel": {
+    "description": "Request card: parts cost short label"
+  },
+  "adminHomeStatsTab": "Statistics",
+  "@adminHomeStatsTab": {
+    "description": "Admin home: statistics tab title"
+  },
+  "statsPeriodWeek": "Week",
+  "@statsPeriodWeek": {
+    "description": "Statistics: week period preset"
+  },
+  "statsPeriodMonth": "Month",
+  "@statsPeriodMonth": {
+    "description": "Statistics: month period preset"
+  },
+  "statsPeriodYear": "Year",
+  "@statsPeriodYear": {
+    "description": "Statistics: year period preset"
+  },
+  "statsPeriodCustom": "Custom period",
+  "@statsPeriodCustom": {
+    "description": "Statistics: custom period preset"
+  },
+  "statsClosedCount": "Closed requests",
+  "@statsClosedCount": {
+    "description": "Statistics: closed requests count label"
+  },
+  "statsRevenue": "Revenue",
+  "@statsRevenue": {
+    "description": "Statistics: revenue (sum of repair cost) label"
+  },
+  "statsExpenses": "Expenses",
+  "@statsExpenses": {
+    "description": "Statistics: expenses (sum of parts cost) label"
+  },
+  "statsProfit": "Profit",
+  "@statsProfit": {
+    "description": "Statistics: profit label"
+  },
+  "statsLoadError": "Failed to load statistics: {error}",
+  "@statsLoadError": {
+    "description": "Statistics: load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByAddressOrPhoneHint": "Search by address or phone",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "No results found",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Call us",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Forgot password?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Password recovery",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Enter the email you registered with — we'll send a password reset link to it.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Send link",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "If that email is registered, a password reset link has been sent to it. Check your inbox (including Spam).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Back to sign in",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Couldn't send the email. Check your internet connection.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "New password",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Set a new password to sign in with.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Repeat password",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Passwords don't match",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Save password",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Couldn't save the password. Try sending the reset link again.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "I agree to the",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "personal data processing policy",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Please confirm you agree to the personal data processing policy",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Delete account",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Your personal data (name, phone) will be deleted and you won't be able to sign in anymore. Your request history stays in the system without a name attached — we need it for bookkeeping.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Delete account",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Delete account?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "This can't be undone. Your personal data will be deleted and you won't be able to sign in anymore.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Cancel",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Delete",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Couldn't delete the account. Try again or contact us.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }

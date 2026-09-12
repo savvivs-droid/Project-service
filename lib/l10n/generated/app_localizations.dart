@@ -234,18 +234,6 @@ abstract class AppLocalizations {
   /// **'Zadejte adresu podniku'**
   String get registerAddressRequired;
 
-  /// Register: establishment phone field
-  ///
-  /// In cs, this message translates to:
-  /// **'Kontaktní telefon podniku'**
-  String get registerEstablishmentPhoneLabel;
-
-  /// Register: establishment phone validator
-  ///
-  /// In cs, this message translates to:
-  /// **'Zadejte kontaktní telefon'**
-  String get registerEstablishmentPhoneRequired;
-
   /// Register: submit button
   ///
   /// In cs, this message translates to:
@@ -642,6 +630,12 @@ abstract class AppLocalizations {
   /// **'Typ vybavení'**
   String get equipmentTypeSectionTitle;
 
+  /// Equipment form: subtype section title (shown after picking a category)
+  ///
+  /// In cs, this message translates to:
+  /// **'Druh vybavení'**
+  String get equipmentSubtypeSectionTitle;
+
   /// Equipment type picker: other option
   ///
   /// In cs, this message translates to:
@@ -753,50 +747,260 @@ abstract class AppLocalizations {
   /// Equipment type: freezer
   ///
   /// In cs, this message translates to:
-  /// **'Mraznička'**
+  /// **'Mrazničky'**
   String get equipmentTypeFreezer;
 
   /// Equipment type: combi oven
   ///
   /// In cs, this message translates to:
-  /// **'Konvektomat'**
+  /// **'Konvektomaty'**
   String get equipmentTypeCombiOven;
 
   /// Equipment type: stove
   ///
   /// In cs, this message translates to:
-  /// **'Sporák'**
+  /// **'Sporáky'**
   String get equipmentTypeStove;
 
   /// Equipment type: dishwasher
   ///
   /// In cs, this message translates to:
-  /// **'Myčka nádobí'**
+  /// **'Myčky nádobí'**
   String get equipmentTypeDishwasher;
 
   /// Equipment type: grill
   ///
   /// In cs, this message translates to:
-  /// **'Gril'**
+  /// **'Grily'**
   String get equipmentTypeGrill;
 
   /// Equipment type: coffee machine
   ///
   /// In cs, this message translates to:
-  /// **'Kávovar'**
+  /// **'Kávovary'**
   String get equipmentTypeCoffeeMachine;
 
-  /// Equipment type: mixer/blender
+  /// Equipment type: mixer
   ///
   /// In cs, this message translates to:
-  /// **'Mixér / tyčový mixér'**
+  /// **'Mixéry'**
   String get equipmentTypeMixer;
 
-  /// Equipment type: cutting table
+  /// Equipment type: cutting table (legacy, not offered in the picker anymore)
   ///
   /// In cs, this message translates to:
   /// **'Krájecí stůl'**
   String get equipmentTypeCuttingTable;
+
+  /// Equipment category: thermal
+  ///
+  /// In cs, this message translates to:
+  /// **'Tepelná technika'**
+  String get equipmentCategoryThermal;
+
+  /// Equipment category: refrigeration
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladicí technika'**
+  String get equipmentCategoryRefrigeration;
+
+  /// Equipment category: dishwashing
+  ///
+  /// In cs, this message translates to:
+  /// **'Mycí technika'**
+  String get equipmentCategoryDishwashing;
+
+  /// Equipment category: food prep
+  ///
+  /// In cs, this message translates to:
+  /// **'Příprava potravin'**
+  String get equipmentCategoryFoodPrep;
+
+  /// Equipment category: pizza & bakery
+  ///
+  /// In cs, this message translates to:
+  /// **'Pizza & pekárna'**
+  String get equipmentCategoryPizzaBakery;
+
+  /// Equipment category: bar & drinks
+  ///
+  /// In cs, this message translates to:
+  /// **'Barová technika'**
+  String get equipmentCategoryBar;
+
+  /// Equipment category: water treatment
+  ///
+  /// In cs, this message translates to:
+  /// **'Úprava vody'**
+  String get equipmentCategoryWater;
+
+  /// Equipment type: oven
+  ///
+  /// In cs, this message translates to:
+  /// **'Pece'**
+  String get equipmentTypeOven;
+
+  /// Equipment type: fryer
+  ///
+  /// In cs, this message translates to:
+  /// **'Fritézy'**
+  String get equipmentTypeFryer;
+
+  /// Equipment type: salamander
+  ///
+  /// In cs, this message translates to:
+  /// **'Salamandry'**
+  String get equipmentTypeSalamander;
+
+  /// Equipment type: bain-marie
+  ///
+  /// In cs, this message translates to:
+  /// **'Marmity'**
+  String get equipmentTypeBainMarie;
+
+  /// Equipment type: microwave
+  ///
+  /// In cs, this message translates to:
+  /// **'Mikrovlnky'**
+  String get equipmentTypeMicrowave;
+
+  /// Equipment type: cold table
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladicí stoly'**
+  String get equipmentTypeColdTable;
+
+  /// Equipment type: display case
+  ///
+  /// In cs, this message translates to:
+  /// **'Vitríny'**
+  String get equipmentTypeDisplayCase;
+
+  /// Equipment type: blast chiller
+  ///
+  /// In cs, this message translates to:
+  /// **'Šokery'**
+  String get equipmentTypeBlastChiller;
+
+  /// Equipment type: glasswasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Myčky skla'**
+  String get equipmentTypeGlasswasher;
+
+  /// Equipment type: hood dishwasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Kapotové myčky'**
+  String get equipmentTypeHoodDishwasher;
+
+  /// Equipment type: conveyor dishwasher
+  ///
+  /// In cs, this message translates to:
+  /// **'Pásové myčky'**
+  String get equipmentTypeConveyorDishwasher;
+
+  /// Equipment type: meat grinder
+  ///
+  /// In cs, this message translates to:
+  /// **'Mlýnky na maso'**
+  String get equipmentTypeMeatGrinder;
+
+  /// Equipment type: slicer
+  ///
+  /// In cs, this message translates to:
+  /// **'Kráječe'**
+  String get equipmentTypeSlicer;
+
+  /// Equipment type: vegetable cutter
+  ///
+  /// In cs, this message translates to:
+  /// **'Kráječe zeleniny'**
+  String get equipmentTypeVegetableCutter;
+
+  /// Equipment type: bowl cutter
+  ///
+  /// In cs, this message translates to:
+  /// **'Kutry'**
+  String get equipmentTypeCutter;
+
+  /// Equipment type: blender
+  ///
+  /// In cs, this message translates to:
+  /// **'Tyčové mixéry'**
+  String get equipmentTypeBlender;
+
+  /// Equipment type: pizza oven
+  ///
+  /// In cs, this message translates to:
+  /// **'Pizza pece'**
+  String get equipmentTypePizzaOven;
+
+  /// Equipment type: dough mixer
+  ///
+  /// In cs, this message translates to:
+  /// **'Hnětače těsta'**
+  String get equipmentTypeDoughMixer;
+
+  /// Equipment type: dough sheeter
+  ///
+  /// In cs, this message translates to:
+  /// **'Válcovačky těsta'**
+  String get equipmentTypeDoughSheeter;
+
+  /// Equipment type: proving cabinet
+  ///
+  /// In cs, this message translates to:
+  /// **'Kynárny'**
+  String get equipmentTypeProvingCabinet;
+
+  /// Equipment type: coffee grinder
+  ///
+  /// In cs, this message translates to:
+  /// **'Mlýnky na kávu'**
+  String get equipmentTypeCoffeeGrinder;
+
+  /// Equipment type: ice maker
+  ///
+  /// In cs, this message translates to:
+  /// **'Výrobníky ledu'**
+  String get equipmentTypeIceMaker;
+
+  /// Equipment type: drink cooler
+  ///
+  /// In cs, this message translates to:
+  /// **'Chladiče nápojů'**
+  String get equipmentTypeDrinkCooler;
+
+  /// Equipment type: post-mix dispenser
+  ///
+  /// In cs, this message translates to:
+  /// **'Postmixy'**
+  String get equipmentTypePostMix;
+
+  /// Equipment type: water softener
+  ///
+  /// In cs, this message translates to:
+  /// **'Změkčovače vody'**
+  String get equipmentTypeWaterSoftener;
+
+  /// Equipment type: water filter
+  ///
+  /// In cs, this message translates to:
+  /// **'Filtry'**
+  String get equipmentTypeWaterFilter;
+
+  /// Equipment type: pump
+  ///
+  /// In cs, this message translates to:
+  /// **'Čerpadla'**
+  String get equipmentTypePump;
+
+  /// Equipment type: reverse osmosis
+  ///
+  /// In cs, this message translates to:
+  /// **'Reverzní osmóza'**
+  String get equipmentTypeReverseOsmosis;
 
   /// Client bottom nav: equipment tab
   ///
@@ -887,6 +1091,396 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Nepodařilo se změnit heslo'**
   String get passwordChangeError;
+
+  /// Client home: FAB label to create a repair request
+  ///
+  /// In cs, this message translates to:
+  /// **'Vytvořit žádost o opravu'**
+  String get clientCreateRequestButton;
+
+  /// Create request screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nová žádost'**
+  String get createRequestTitle;
+
+  /// Create request: equipment type section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Typ vybavení'**
+  String get createRequestTypeSectionTitle;
+
+  /// Create request: specific equipment section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Vybavení'**
+  String get createRequestEquipmentSectionTitle;
+
+  /// Create request: equipment not selected error
+  ///
+  /// In cs, this message translates to:
+  /// **'Vyberte vybavení'**
+  String get createRequestEquipmentRequired;
+
+  /// Create request: description section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Popište problém'**
+  String get createRequestDescriptionSectionTitle;
+
+  /// Create request: description field hint
+  ///
+  /// In cs, this message translates to:
+  /// **'Stručně popište, co se stalo'**
+  String get createRequestDescriptionHint;
+
+  /// Create request: description required error
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidejte popis problému'**
+  String get createRequestDescriptionRequired;
+
+  /// Create request: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat žádost'**
+  String get createRequestSubmitButton;
+
+  /// Create request: submission error with details
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se vytvořit žádost: {error}'**
+  String createRequestError(String error);
+
+  /// Establishment switcher: button tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Přepnout podnik'**
+  String get establishmentSwitcherTooltip;
+
+  /// Establishment switcher: menu item to add another establishment
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat podnik'**
+  String get establishmentSwitcherAddNew;
+
+  /// Add establishment: screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nový podnik'**
+  String get addEstablishmentTitle;
+
+  /// Add establishment: contact phone field
+  ///
+  /// In cs, this message translates to:
+  /// **'Kontaktní telefon podniku'**
+  String get addEstablishmentPhoneLabel;
+
+  /// Add establishment: contact phone validator
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte kontaktní telefon'**
+  String get addEstablishmentPhoneRequired;
+
+  /// Add establishment: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat'**
+  String get addEstablishmentSubmitButton;
+
+  /// Add establishment: generic submission error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se přidat podnik. Zkontrolujte zadané údaje a připojení k internetu.'**
+  String get addEstablishmentGenericError;
+
+  /// Mark done dialog: title
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřít zakázku'**
+  String get markDoneDialogTitle;
+
+  /// Mark done dialog: repair cost field
+  ///
+  /// In cs, this message translates to:
+  /// **'Cena opravy'**
+  String get markDoneRepairCostLabel;
+
+  /// Mark done dialog: parts cost field
+  ///
+  /// In cs, this message translates to:
+  /// **'Cena náhradních dílů'**
+  String get markDonePartsCostLabel;
+
+  /// Mark done dialog: cost field required
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte částku'**
+  String get markDoneCostRequired;
+
+  /// Mark done dialog: cost field invalid
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte platnou částku'**
+  String get markDoneCostInvalid;
+
+  /// Mark done dialog: cancel action
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get markDoneDialogCancel;
+
+  /// Mark done dialog: confirm action
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřít zakázku'**
+  String get markDoneDialogConfirm;
+
+  /// Request card: repair cost short label
+  ///
+  /// In cs, this message translates to:
+  /// **'Oprava'**
+  String get requestCostRepairLabel;
+
+  /// Request card: parts cost short label
+  ///
+  /// In cs, this message translates to:
+  /// **'Díly'**
+  String get requestCostPartsLabel;
+
+  /// Admin home: statistics tab title
+  ///
+  /// In cs, this message translates to:
+  /// **'Statistika'**
+  String get adminHomeStatsTab;
+
+  /// Statistics: week period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Týden'**
+  String get statsPeriodWeek;
+
+  /// Statistics: month period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Měsíc'**
+  String get statsPeriodMonth;
+
+  /// Statistics: year period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Rok'**
+  String get statsPeriodYear;
+
+  /// Statistics: custom period preset
+  ///
+  /// In cs, this message translates to:
+  /// **'Vlastní období'**
+  String get statsPeriodCustom;
+
+  /// Statistics: closed requests count label
+  ///
+  /// In cs, this message translates to:
+  /// **'Uzavřené zakázky'**
+  String get statsClosedCount;
+
+  /// Statistics: revenue (sum of repair cost) label
+  ///
+  /// In cs, this message translates to:
+  /// **'Příjem'**
+  String get statsRevenue;
+
+  /// Statistics: expenses (sum of parts cost) label
+  ///
+  /// In cs, this message translates to:
+  /// **'Výdaje'**
+  String get statsExpenses;
+
+  /// Statistics: profit label
+  ///
+  /// In cs, this message translates to:
+  /// **'Zisk'**
+  String get statsProfit;
+
+  /// Statistics: load error with details
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se načíst statistiku: {error}'**
+  String statsLoadError(String error);
+
+  /// Admin: requests/clients search field hint
+  ///
+  /// In cs, this message translates to:
+  /// **'Hledat podle adresy nebo telefonu'**
+  String get searchByAddressOrPhoneHint;
+
+  /// Admin: search returned no results
+  ///
+  /// In cs, this message translates to:
+  /// **'Nic nenalezeno'**
+  String get searchNoResults;
+
+  /// Client home: floating call-us button tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Zavolejte nám'**
+  String get callUsTooltip;
+
+  /// Login: forgot password link
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapomněli jste heslo?'**
+  String get loginForgotPassword;
+
+  /// Forgot password screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Obnovení hesla'**
+  String get forgotPasswordTitle;
+
+  /// Forgot password: explanation text
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte email, se kterým jste se zaregistrovali — pošleme na něj odkaz pro obnovení hesla.'**
+  String get forgotPasswordHint;
+
+  /// Forgot password: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Odeslat odkaz'**
+  String get forgotPasswordSubmitButton;
+
+  /// Forgot password: sent confirmation message
+  ///
+  /// In cs, this message translates to:
+  /// **'Pokud je tento email zaregistrován, byl na něj odeslán odkaz pro obnovení hesla. Zkontrolujte poštu (i složku Spam).'**
+  String get forgotPasswordSentMessage;
+
+  /// Forgot password: back to login button
+  ///
+  /// In cs, this message translates to:
+  /// **'Zpět na přihlášení'**
+  String get forgotPasswordBackToLogin;
+
+  /// Forgot password: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se odeslat email. Zkontrolujte připojení k internetu.'**
+  String get forgotPasswordGenericError;
+
+  /// Reset password screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Nové heslo'**
+  String get resetPasswordTitle;
+
+  /// Reset password: explanation text
+  ///
+  /// In cs, this message translates to:
+  /// **'Nastavte nové heslo pro přihlášení.'**
+  String get resetPasswordHint;
+
+  /// Reset password: confirm password field
+  ///
+  /// In cs, this message translates to:
+  /// **'Zopakujte heslo'**
+  String get resetPasswordConfirmLabel;
+
+  /// Reset password: confirm mismatch validator
+  ///
+  /// In cs, this message translates to:
+  /// **'Hesla se neshodují'**
+  String get resetPasswordMismatch;
+
+  /// Reset password: submit button
+  ///
+  /// In cs, this message translates to:
+  /// **'Uložit heslo'**
+  String get resetPasswordSubmitButton;
+
+  /// Reset password: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Nepodařilo se uložit heslo. Zkuste odkaz pro obnovení odeslat znovu.'**
+  String get resetPasswordGenericError;
+
+  /// Register: privacy consent checkbox text before the link
+  ///
+  /// In cs, this message translates to:
+  /// **'Souhlasím se'**
+  String get registerPrivacyConsentPrefix;
+
+  /// Register: privacy consent checkbox link text
+  ///
+  /// In cs, this message translates to:
+  /// **'zpracováním osobních údajů'**
+  String get registerPrivacyConsentLinkText;
+
+  /// Register: privacy consent not checked error
+  ///
+  /// In cs, this message translates to:
+  /// **'Je třeba potvrdit souhlas se zpracováním osobních údajů'**
+  String get registerPrivacyConsentRequired;
+
+  /// Privacy policy screen title
+  ///
+  /// In cs, this message translates to:
+  /// **'Zásady ochrany osobních údajů'**
+  String get privacyPolicyTitle;
+
+  /// Privacy policy screen placeholder text
+  ///
+  /// In cs, this message translates to:
+  /// **'Text zásad zpracování osobních údajů bude doplněn později. S dotazy ohledně zpracování údajů se obraťte na administrátora služby.'**
+  String get privacyPolicyPlaceholder;
+
+  /// Profile: delete account section title
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazání účtu'**
+  String get deleteAccountSectionTitle;
+
+  /// Profile: delete account explanation
+  ///
+  /// In cs, this message translates to:
+  /// **'Osobní údaje (jméno, telefon) budou smazány a přihlášení už nebude možné. Historie vašich zakázek zůstane v systému bez vazby na jméno — potřebujeme ji pro účetnictví.'**
+  String get deleteAccountHint;
+
+  /// Profile: delete account button
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet'**
+  String get deleteAccountButton;
+
+  /// Delete account dialog: title
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat účet?'**
+  String get deleteAccountDialogTitle;
+
+  /// Delete account dialog: content
+  ///
+  /// In cs, this message translates to:
+  /// **'Tuto akci nelze vrátit zpět. Osobní údaje budou smazány a přihlášení už nebude možné.'**
+  String get deleteAccountDialogContent;
+
+  /// Delete account dialog: cancel
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get deleteAccountDialogCancel;
+
+  /// Delete account dialog: confirm
+  ///
+  /// In cs, this message translates to:
+  /// **'Smazat'**
+  String get deleteAccountDialogConfirm;
+
+  /// Delete account: generic error
+  ///
+  /// In cs, this message translates to:
+  /// **'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.'**
+  String get deleteAccountError;
 }
 
 class _AppLocalizationsDelegate

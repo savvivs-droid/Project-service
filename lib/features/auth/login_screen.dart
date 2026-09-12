@@ -5,6 +5,7 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../services/auth_repository.dart';
+import 'forgot_password_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -58,7 +59,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: const [LanguageSwitcher()]),
+      appBar: AppBar(
+        title: const AppBrandAppBarTitle(),
+        actions: const [LanguageSwitcher()],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -94,7 +98,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? context.l10n.loginPasswordTooShort
                               : null,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: _isLoading
+                            ? null
+                            : () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const ForgotPasswordScreen(),
+                                  ),
+                                ),
+                        child: Text(context.l10n.loginForgotPassword),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     FilledButton(
                       onPressed: _isLoading ? null : _submit,
                       child: _isLoading

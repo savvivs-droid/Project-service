@@ -5,14 +5,40 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/ico_validator.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../services/ares_service.dart';
 import '../../services/auth_repository.dart';
+import 'privacy_policy_screen.dart';
+
+class _CountryDialCode {
+  const _CountryDialCode(this.flag, this.dialCode);
+
+  final String flag;
+  final String dialCode;
+}
+
+// Чехия по умолчанию — сервис работает с чешскими заведениями (регистрация
+// требует чешский IČO), остальные коды — для клиентов и персонала из
+// соседних и целевых по локализации приложения стран.
+const _dialCodes = [
+  _CountryDialCode('🇨🇿', '+420'),
+  _CountryDialCode('🇸🇰', '+421'),
+  _CountryDialCode('🇩🇪', '+49'),
+  _CountryDialCode('🇷🇺', '+7'),
+  _CountryDialCode('🇺🇦', '+380'),
+  _CountryDialCode('🇻🇳', '+84'),
+];
 
 /// Регистрация клиента. Это единственный способ создать аккаунт через
 /// приложение — клиент сразу заводит своё заведение. Администраторов
 /// заводят вручную сотрудники сервисной компании (см. supabase/schema.sql).
+///
+/// Контактный телефон вводится один раз (личный телефон клиента) и
+/// используется и как телефон профиля, и как контактный телефон
+/// заведения — отдельного поля для второго раньше не было смысла
+/// заполнять дважды одним и тем же номером.
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -31,9 +57,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _icoController = TextEditingController();
   final _establishmentNameController = TextEditingController();
   final _establishmentAddressController = TextEditingController();
-  final _establishmentPhoneController = TextEditingController();
+
+  _CountryDialCode _dialCode = _dialCodes.first;
 
   bool _isLoading = false;
+  bool _agreedToPrivacyPolicy = false;
 
   Timer? _icoDebounce;
   bool _isLookingUpIco = false;
@@ -49,7 +77,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _icoController.dispose();
     _establishmentNameController.dispose();
     _establishmentAddressController.dispose();
-    _establishmentPhoneController.dispose();
     super.dispose();
   }
 
@@ -85,6 +112,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    if (!_agreedToPrivacyPolicy) {
+      _showMessage(context.l10n.registerPrivacyConsentRequired);
+      return;
+    }
+
+    final phone = '${_dialCode.dialCode} ${_phoneController.text.trim()}';
 
     setState(() => _isLoading = true);
     try {
@@ -92,11 +125,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
         fullName: _fullNameController.text,
-        phone: _phoneController.text,
+        phone: phone,
         establishmentIco: _icoController.text,
         establishmentName: _establishmentNameController.text,
         establishmentAddress: _establishmentAddressController.text,
-        establishmentContactPhone: _establishmentPhoneController.text,
+        establishmentContactPhone: phone,
       );
 
       if (!mounted) return;
@@ -136,14 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const AppBrandIcon(size: 22),
-            const SizedBox(width: 10),
-            Text(context.l10n.registerTitle),
-          ],
-        ),
+        title: AppBrandAppBarTitle(subtitle: context.l10n.registerTitle),
         actions: const [LanguageSwitcher()],
       ),
       body: SafeArea(
@@ -164,6 +190,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _fullNameController,
+                      textCapitalization: TextCapitalization.words,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       decoration: InputDecoration(
                           labelText: context.l10n.registerFullNameLabel),
                       validator: (value) => (value == null ||
@@ -172,15 +200,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : null,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          labelText: context.l10n.registerPhoneLabel),
-                      validator: (value) => (value == null ||
-                              value.trim().isEmpty)
-                          ? context.l10n.registerPhoneRequired
-                          : null,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 110,
+                          child: DropdownButtonFormField<_CountryDialCode>(
+                            initialValue: _dialCode,
+                            decoration: const InputDecoration(),
+                            items: [
+                              for (final code in _dialCodes)
+                                DropdownMenuItem(
+                                  value: code,
+                                  child: Text('${code.flag} ${code.dialCode}'),
+                                ),
+                            ],
+                            onChanged: (value) =>
+                                setState(() => _dialCode = value!),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                                labelText: context.l10n.registerPhoneLabel),
+                            validator: (value) => (value == null ||
+                                    value.trim().isEmpty)
+                                ? context.l10n.registerPhoneRequired
+                                : null,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -238,6 +290,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _establishmentNameController,
+                      textCapitalization: TextCapitalization.sentences,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       decoration: InputDecoration(
                         labelText: context.l10n.registerEstablishmentNameLabel,
                         hintText: context.l10n.registerEstablishmentNameHint,
@@ -250,6 +304,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _establishmentAddressController,
+                      textCapitalization: TextCapitalization.sentences,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       decoration: InputDecoration(
                           labelText: context.l10n.registerAddressLabel),
                       validator: (value) => (value == null ||
@@ -257,19 +313,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? context.l10n.registerAddressRequired
                           : null,
                     ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _establishmentPhoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.registerEstablishmentPhoneLabel,
+                    const SizedBox(height: 12),
+                    CheckboxListTile(
+                      value: _agreedToPrivacyPolicy,
+                      onChanged: (value) =>
+                          setState(() => _agreedToPrivacyPolicy = value ?? false),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(context.l10n.registerPrivacyConsentPrefix),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PrivacyPolicyScreen(),
+                              ),
+                            ),
+                            child: Text(
+                              context.l10n.registerPrivacyConsentLinkText,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      validator: (value) => (value == null ||
-                              value.trim().isEmpty)
-                          ? context.l10n.registerEstablishmentPhoneRequired
-                          : null,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     FilledButton(
                       onPressed: _isLoading ? null : _submit,
                       child: _isLoading

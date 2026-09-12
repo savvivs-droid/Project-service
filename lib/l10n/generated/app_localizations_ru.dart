@@ -77,12 +77,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registerAddressRequired => 'Введите адрес заведения';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Контактный телефон заведения';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Введите контактный телефон';
-
-  @override
   String get registerSubmitButton => 'Зарегистрироваться';
 
   @override
@@ -304,6 +298,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Тип оборудования';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Вид оборудования';
+
+  @override
   String get equipmentTypeOther => 'Другое';
 
   @override
@@ -360,31 +357,137 @@ class AppLocalizationsRu extends AppLocalizations {
   String get systemLanguageOption => 'Как в системе';
 
   @override
-  String get equipmentTypeFridge => 'Холодильник';
+  String get equipmentTypeFridge => 'Холодильники';
 
   @override
-  String get equipmentTypeFreezer => 'Морозильная камера';
+  String get equipmentTypeFreezer => 'Морозильники';
 
   @override
-  String get equipmentTypeCombiOven => 'Пароконвектомат';
+  String get equipmentTypeCombiOven => 'Конвектоматы';
 
   @override
-  String get equipmentTypeStove => 'Плита';
+  String get equipmentTypeStove => 'Плиты';
 
   @override
-  String get equipmentTypeDishwasher => 'Посудомоечная машина';
+  String get equipmentTypeDishwasher => 'Посудомойки';
 
   @override
-  String get equipmentTypeGrill => 'Гриль';
+  String get equipmentTypeGrill => 'Грили';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Кофемашина';
+  String get equipmentTypeCoffeeMachine => 'Кофемашины';
 
   @override
-  String get equipmentTypeMixer => 'Миксер/блендер';
+  String get equipmentTypeMixer => 'Миксеры';
 
   @override
   String get equipmentTypeCuttingTable => 'Разделочный стол';
+
+  @override
+  String get equipmentCategoryThermal => 'Тепловое оборудование';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Холодильное оборудование';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Посудомоечное оборудование';
+
+  @override
+  String get equipmentCategoryFoodPrep =>
+      'Оборудование для обработки продуктов';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Пицца и пекарня';
+
+  @override
+  String get equipmentCategoryBar => 'Бар и напитки';
+
+  @override
+  String get equipmentCategoryWater => 'Вода и водоподготовка';
+
+  @override
+  String get equipmentTypeOven => 'Печи';
+
+  @override
+  String get equipmentTypeFryer => 'Фритюрницы';
+
+  @override
+  String get equipmentTypeSalamander => 'Саламандры';
+
+  @override
+  String get equipmentTypeBainMarie => 'Мармиты';
+
+  @override
+  String get equipmentTypeMicrowave => 'Микроволновки';
+
+  @override
+  String get equipmentTypeColdTable => 'Холодильные столы';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Витрины';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Шокеры';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Стаканомойки';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Купольные машины';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Конвейерные машины';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Мясорубки';
+
+  @override
+  String get equipmentTypeSlicer => 'Слайсеры';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Овощерезки';
+
+  @override
+  String get equipmentTypeCutter => 'Куттеры';
+
+  @override
+  String get equipmentTypeBlender => 'Блендеры';
+
+  @override
+  String get equipmentTypePizzaOven => 'Пицца-печи';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Тестомесы';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Тестораскатки';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Расстоечные шкафы';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Кофемолки';
+
+  @override
+  String get equipmentTypeIceMaker => 'Льдогенераторы';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Охладители напитков';
+
+  @override
+  String get equipmentTypePostMix => 'Постмиксы';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Умягчители';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Фильтры';
+
+  @override
+  String get equipmentTypePump => 'Насосы';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Обратный осмос';
 
   @override
   String get clientEquipmentTab => 'Моё оборудование';
@@ -432,4 +535,214 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Не удалось изменить пароль';
+
+  @override
+  String get clientCreateRequestButton => 'Создать заявку на ремонт';
+
+  @override
+  String get createRequestTitle => 'Новая заявка';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Вид техники';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Оборудование';
+
+  @override
+  String get createRequestEquipmentRequired => 'Выберите оборудование';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Опишите проблему';
+
+  @override
+  String get createRequestDescriptionHint => 'Кратко расскажите, что случилось';
+
+  @override
+  String get createRequestDescriptionRequired => 'Добавьте описание проблемы';
+
+  @override
+  String get createRequestSubmitButton => 'Отправить заявку';
+
+  @override
+  String createRequestError(String error) {
+    return 'Не удалось создать заявку: $error';
+  }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Сменить заведение';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Добавить заведение';
+
+  @override
+  String get addEstablishmentTitle => 'Новое заведение';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Контактный телефон заведения';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Введите контактный телефон';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Добавить';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Не удалось добавить заведение. Проверьте введённые данные и подключение к интернету.';
+
+  @override
+  String get markDoneDialogTitle => 'Закрыть заявку';
+
+  @override
+  String get markDoneRepairCostLabel => 'Стоимость ремонта';
+
+  @override
+  String get markDonePartsCostLabel => 'Стоимость запчастей';
+
+  @override
+  String get markDoneCostRequired => 'Введите сумму';
+
+  @override
+  String get markDoneCostInvalid => 'Введите корректную сумму';
+
+  @override
+  String get markDoneDialogCancel => 'Отмена';
+
+  @override
+  String get markDoneDialogConfirm => 'Закрыть заявку';
+
+  @override
+  String get requestCostRepairLabel => 'Ремонт';
+
+  @override
+  String get requestCostPartsLabel => 'Запчасти';
+
+  @override
+  String get adminHomeStatsTab => 'Статистика';
+
+  @override
+  String get statsPeriodWeek => 'Неделя';
+
+  @override
+  String get statsPeriodMonth => 'Месяц';
+
+  @override
+  String get statsPeriodYear => 'Год';
+
+  @override
+  String get statsPeriodCustom => 'Свой период';
+
+  @override
+  String get statsClosedCount => 'Закрыто заявок';
+
+  @override
+  String get statsRevenue => 'Доход';
+
+  @override
+  String get statsExpenses => 'Расход';
+
+  @override
+  String get statsProfit => 'Прибыль';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Не удалось загрузить статистику: $error';
+  }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Поиск по адресу или телефону';
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
+
+  @override
+  String get callUsTooltip => 'Позвонить нам';
+
+  @override
+  String get loginForgotPassword => 'Забыли пароль?';
+
+  @override
+  String get forgotPasswordTitle => 'Восстановление пароля';
+
+  @override
+  String get forgotPasswordHint =>
+      'Введите email, указанный при регистрации — пришлём на него ссылку для сброса пароля.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Отправить ссылку';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Если такой email зарегистрирован, на него отправлена ссылка для восстановления пароля. Проверьте почту (в том числе папку «Спам»).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Вернуться ко входу';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Не удалось отправить письмо. Проверьте подключение к интернету.';
+
+  @override
+  String get resetPasswordTitle => 'Новый пароль';
+
+  @override
+  String get resetPasswordHint => 'Задайте новый пароль для входа.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Повторите пароль';
+
+  @override
+  String get resetPasswordMismatch => 'Пароли не совпадают';
+
+  @override
+  String get resetPasswordSubmitButton => 'Сохранить пароль';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Я согласен(на) с';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'политикой обработки персональных данных';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Нужно подтвердить согласие с обработкой персональных данных';
+
+  @override
+  String get privacyPolicyTitle => 'Политика конфиденциальности';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Удаление аккаунта';
+
+  @override
+  String get deleteAccountHint =>
+      'Личные данные (имя, телефон) будут удалены, войти в аккаунт станет невозможно. История ваших заявок останется в системе без привязки к имени — это нужно нам для бухгалтерского учёта.';
+
+  @override
+  String get deleteAccountButton => 'Удалить аккаунт';
+
+  @override
+  String get deleteAccountDialogTitle => 'Удалить аккаунт?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Это действие нельзя отменить. Личные данные будут удалены, войти в аккаунт больше не получится.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Отмена';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Удалить';
+
+  @override
+  String get deleteAccountError =>
+      'Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.';
 }

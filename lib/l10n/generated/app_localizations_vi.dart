@@ -77,13 +77,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get registerAddressRequired => 'Nhập địa chỉ cơ sở';
 
   @override
-  String get registerEstablishmentPhoneLabel =>
-      'Số điện thoại liên hệ của cơ sở';
-
-  @override
-  String get registerEstablishmentPhoneRequired => 'Nhập số điện thoại liên hệ';
-
-  @override
   String get registerSubmitButton => 'Đăng ký';
 
   @override
@@ -305,6 +298,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Loại thiết bị';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Loại thiết bị cụ thể';
+
+  @override
   String get equipmentTypeOther => 'Khác';
 
   @override
@@ -373,7 +369,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeStove => 'Bếp';
 
   @override
-  String get equipmentTypeDishwasher => 'Máy rửa chén';
+  String get equipmentTypeDishwasher => 'Máy rửa bát';
 
   @override
   String get equipmentTypeGrill => 'Vỉ nướng';
@@ -382,10 +378,115 @@ class AppLocalizationsVi extends AppLocalizations {
   String get equipmentTypeCoffeeMachine => 'Máy pha cà phê';
 
   @override
-  String get equipmentTypeMixer => 'Máy trộn/máy xay';
+  String get equipmentTypeMixer => 'Máy trộn';
 
   @override
   String get equipmentTypeCuttingTable => 'Bàn sơ chế';
+
+  @override
+  String get equipmentCategoryThermal => 'Thiết bị gia nhiệt';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Thiết bị làm lạnh';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Thiết bị rửa bát';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Thiết bị sơ chế thực phẩm';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & lò bánh';
+
+  @override
+  String get equipmentCategoryBar => 'Thiết bị pha chế';
+
+  @override
+  String get equipmentCategoryWater => 'Xử lý nước';
+
+  @override
+  String get equipmentTypeOven => 'Lò nướng';
+
+  @override
+  String get equipmentTypeFryer => 'Nồi chiên';
+
+  @override
+  String get equipmentTypeSalamander => 'Lò salamander';
+
+  @override
+  String get equipmentTypeBainMarie => 'Nồi hâm cách thủy';
+
+  @override
+  String get equipmentTypeMicrowave => 'Lò vi sóng';
+
+  @override
+  String get equipmentTypeColdTable => 'Bàn lạnh';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Tủ trưng bày';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Tủ đông nhanh';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Máy rửa ly';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Máy rửa dạng vòm';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Máy rửa băng chuyền';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Máy xay thịt';
+
+  @override
+  String get equipmentTypeSlicer => 'Máy thái lát';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Máy cắt rau củ';
+
+  @override
+  String get equipmentTypeCutter => 'Máy cắt trộn';
+
+  @override
+  String get equipmentTypeBlender => 'Máy xay sinh tố';
+
+  @override
+  String get equipmentTypePizzaOven => 'Lò pizza';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Máy trộn bột';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Máy cán bột';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Tủ ủ bột';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Máy xay cà phê';
+
+  @override
+  String get equipmentTypeIceMaker => 'Máy làm đá';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Tủ làm lạnh đồ uống';
+
+  @override
+  String get equipmentTypePostMix => 'Máy pha nước ngọt';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Máy làm mềm nước';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Bộ lọc nước';
+
+  @override
+  String get equipmentTypePump => 'Máy bơm';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Thẩm thấu ngược';
 
   @override
   String get clientEquipmentTab => 'Thiết bị của tôi';
@@ -433,4 +534,215 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Không thể đổi mật khẩu';
+
+  @override
+  String get clientCreateRequestButton => 'Tạo yêu cầu sửa chữa';
+
+  @override
+  String get createRequestTitle => 'Yêu cầu mới';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Loại thiết bị';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Thiết bị';
+
+  @override
+  String get createRequestEquipmentRequired => 'Chọn thiết bị';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Mô tả sự cố';
+
+  @override
+  String get createRequestDescriptionHint => 'Mô tả ngắn gọn điều đã xảy ra';
+
+  @override
+  String get createRequestDescriptionRequired => 'Thêm mô tả sự cố';
+
+  @override
+  String get createRequestSubmitButton => 'Gửi yêu cầu';
+
+  @override
+  String createRequestError(String error) {
+    return 'Không thể tạo yêu cầu: $error';
+  }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Chuyển cơ sở';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Thêm cơ sở';
+
+  @override
+  String get addEstablishmentTitle => 'Cơ sở mới';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Số điện thoại liên hệ của cơ sở';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Nhập số điện thoại liên hệ';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Thêm';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Không thể thêm cơ sở. Kiểm tra thông tin đã nhập và kết nối internet.';
+
+  @override
+  String get markDoneDialogTitle => 'Đóng yêu cầu';
+
+  @override
+  String get markDoneRepairCostLabel => 'Chi phí sửa chữa';
+
+  @override
+  String get markDonePartsCostLabel => 'Chi phí phụ tùng';
+
+  @override
+  String get markDoneCostRequired => 'Nhập số tiền';
+
+  @override
+  String get markDoneCostInvalid => 'Nhập số tiền hợp lệ';
+
+  @override
+  String get markDoneDialogCancel => 'Hủy';
+
+  @override
+  String get markDoneDialogConfirm => 'Đóng yêu cầu';
+
+  @override
+  String get requestCostRepairLabel => 'Sửa chữa';
+
+  @override
+  String get requestCostPartsLabel => 'Phụ tùng';
+
+  @override
+  String get adminHomeStatsTab => 'Thống kê';
+
+  @override
+  String get statsPeriodWeek => 'Tuần';
+
+  @override
+  String get statsPeriodMonth => 'Tháng';
+
+  @override
+  String get statsPeriodYear => 'Năm';
+
+  @override
+  String get statsPeriodCustom => 'Khoảng thời gian tùy chỉnh';
+
+  @override
+  String get statsClosedCount => 'Yêu cầu đã đóng';
+
+  @override
+  String get statsRevenue => 'Doanh thu';
+
+  @override
+  String get statsExpenses => 'Chi phí';
+
+  @override
+  String get statsProfit => 'Lợi nhuận';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Không thể tải thống kê: $error';
+  }
+
+  @override
+  String get searchByAddressOrPhoneHint =>
+      'Tìm theo địa chỉ hoặc số điện thoại';
+
+  @override
+  String get searchNoResults => 'Không tìm thấy kết quả';
+
+  @override
+  String get callUsTooltip => 'Gọi cho chúng tôi';
+
+  @override
+  String get loginForgotPassword => 'Quên mật khẩu?';
+
+  @override
+  String get forgotPasswordTitle => 'Khôi phục mật khẩu';
+
+  @override
+  String get forgotPasswordHint =>
+      'Nhập email bạn đã dùng để đăng ký — chúng tôi sẽ gửi liên kết đặt lại mật khẩu tới đó.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Gửi liên kết';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'Nếu email này đã được đăng ký, liên kết đặt lại mật khẩu đã được gửi tới đó. Kiểm tra hộp thư (kể cả mục Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Quay lại đăng nhập';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Không thể gửi email. Kiểm tra kết nối internet.';
+
+  @override
+  String get resetPasswordTitle => 'Mật khẩu mới';
+
+  @override
+  String get resetPasswordHint => 'Đặt mật khẩu mới để đăng nhập.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Nhập lại mật khẩu';
+
+  @override
+  String get resetPasswordMismatch => 'Mật khẩu không khớp';
+
+  @override
+  String get resetPasswordSubmitButton => 'Lưu mật khẩu';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Không thể lưu mật khẩu. Hãy thử gửi lại liên kết khôi phục.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'Tôi đồng ý với';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'chính sách xử lý dữ liệu cá nhân';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Vui lòng xác nhận đồng ý với chính sách xử lý dữ liệu cá nhân';
+
+  @override
+  String get privacyPolicyTitle => 'Chính sách bảo mật';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'Nội dung chính sách xử lý dữ liệu cá nhân sẽ được bổ sung sau. Nếu có thắc mắc về việc xử lý dữ liệu, hãy liên hệ quản trị viên dịch vụ.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Xóa tài khoản';
+
+  @override
+  String get deleteAccountHint =>
+      'Dữ liệu cá nhân (họ tên, số điện thoại) sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa. Lịch sử yêu cầu của bạn vẫn được lưu trong hệ thống nhưng không gắn với tên — chúng tôi cần điều này cho mục đích kế toán.';
+
+  @override
+  String get deleteAccountButton => 'Xóa tài khoản';
+
+  @override
+  String get deleteAccountDialogTitle => 'Xóa tài khoản?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'Không thể hoàn tác hành động này. Dữ liệu cá nhân sẽ bị xóa và bạn sẽ không thể đăng nhập được nữa.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Hủy';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Xóa';
+
+  @override
+  String get deleteAccountError =>
+      'Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.';
 }

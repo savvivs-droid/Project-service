@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
 import '../../models/profile.dart';
 import '../../services/auth_repository.dart';
 import '../../services/profile_repository.dart';
@@ -34,6 +35,7 @@ class _ClientProfileTabState extends State<ClientProfileTab> {
   bool _isSavingProfile = false;
   bool _isSavingEmail = false;
   bool _isSavingPassword = false;
+  bool _isDeletingAccount = false;
 
   @override
   void initState() {
@@ -105,6 +107,43 @@ class _ClientProfileTabState extends State<ClientProfileTab> {
     }
   }
 
+  Future<void> _deleteAccount() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.deleteAccountDialogTitle),
+        content: Text(context.l10n.deleteAccountDialogContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(context.l10n.deleteAccountDialogCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(context.l10n.deleteAccountDialogConfirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    setState(() => _isDeletingAccount = true);
+    try {
+      await _authRepository.deleteOwnAccount();
+      // AuthRepository.deleteOwnAccount уже завершает сессию сам —
+      // AuthGate заметит это и покажет экран входа, дополнительная
+      // навигация отсюда не нужна.
+    } catch (_) {
+      if (mounted) {
+        setState(() => _isDeletingAccount = false);
+        _showMessage(context.l10n.deleteAccountError);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -120,6 +159,8 @@ class _ClientProfileTabState extends State<ClientProfileTab> {
             children: [
               TextFormField(
                 controller: _fullNameController,
+                textCapitalization: TextCapitalization.words,
+                inputFormatters: const [CapitalizeFirstLetterFormatter()],
                 decoration:
                     InputDecoration(labelText: context.l10n.registerFullNameLabel),
                 validator: (value) => (value == null || value.trim().isEmpty)
@@ -228,6 +269,32 @@ class _ClientProfileTabState extends State<ClientProfileTab> {
                 ),
               ),
             ],
+          ),
+        ),
+        const SizedBox(height: 28),
+        const Divider(),
+        const SizedBox(height: 12),
+        Text(context.l10n.deleteAccountSectionTitle,
+            style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 4),
+        Text(context.l10n.deleteAccountHint,
+            style: Theme.of(context).textTheme.bodySmall),
+        const SizedBox(height: 12),
+        Align(
+          alignment: Alignment.centerRight,
+          child: OutlinedButton(
+            onPressed: _isDeletingAccount ? null : _deleteAccount,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+              side: BorderSide(color: Theme.of(context).colorScheme.error),
+            ),
+            child: _isDeletingAccount
+                ? const SizedBox(
+                    height: 18,
+                    width: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(context.l10n.deleteAccountButton),
           ),
         ),
       ],

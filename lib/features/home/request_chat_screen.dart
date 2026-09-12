@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/utils/text_formatters.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/request_message.dart';
 import '../../services/request_message_repository.dart';
@@ -45,6 +49,18 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
   void initState() {
     super.initState();
     _messagesStream = _repository.watchMessages(widget.requestId);
+    _markReadSoon();
+  }
+
+  /// Отмечает чат прочитанным — сразу при открытии экрана и затем каждый
+  /// раз, как приходит новое сообщение, пока экран открыт (иначе сообщение,
+  /// пришедшее во время просмотра, так и останется "непрочитанным" после
+  /// выхода). addPostFrameCallback — чтобы не дёргать сеть прямо из build.
+  void _markReadSoon() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      unawaited(_repository.markRead(widget.requestId));
+    });
   }
 
   @override
@@ -73,22 +89,13 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
     }
   }
 
-  void _scrollToBottomSoon() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scrollController.hasClients) return;
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.chatTitle(widget.title)),
+        title: AppBrandAppBarTitle(
+          subtitle: context.l10n.chatTitle(widget.title),
+        ),
         actions: const [LanguageSwitcher()],
       ),
       body: Column(
@@ -122,13 +129,21 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                   );
                 }
 
-                _scrollToBottomSoon();
+                _markReadSoon();
+                // reverse: true — список сам прижимается к низу экрана,
+                // даже когда сообщений мало и они не заполняют весь
+                // экран (обычный ListView в этом случае просто держит
+                // их у верхнего края, а не там, где печатают новое
+                // сообщение). Поэтому и элементы берём с конца — самое
+                // новое (последнее в data, по created_at) должно
+                // оказаться первым в перевёрнутом списке.
                 return ListView.builder(
                   controller: _scrollController,
+                  reverse: true,
                   padding: const EdgeInsets.all(12),
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
-                    final message = messages[index];
+                    final message = messages[messages.length - 1 - index];
                     return _MessageBubble(
                       message: message,
                       isMine: message.senderId == _currentUserId,
@@ -151,6 +166,8 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
                       minLines: 1,
                       maxLines: 4,
                       textInputAction: TextInputAction.send,
+                      textCapitalization: TextCapitalization.sentences,
+                      inputFormatters: const [CapitalizeFirstLetterFormatter()],
                       onSubmitted: (_) => _send(),
                       decoration: InputDecoration(
                         hintText: context.l10n.chatMessageHint,

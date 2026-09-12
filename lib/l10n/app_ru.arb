@@ -88,14 +88,6 @@
   "@registerAddressRequired": {
     "description": "Register: address validator"
   },
-  "registerEstablishmentPhoneLabel": "Контактный телефон заведения",
-  "@registerEstablishmentPhoneLabel": {
-    "description": "Register: establishment phone field"
-  },
-  "registerEstablishmentPhoneRequired": "Введите контактный телефон",
-  "@registerEstablishmentPhoneRequired": {
-    "description": "Register: establishment phone validator"
-  },
   "registerSubmitButton": "Зарегистрироваться",
   "@registerSubmitButton": {
     "description": "Register: submit button"
@@ -400,6 +392,10 @@
   "@equipmentTypeSectionTitle": {
     "description": "Equipment form: type section title"
   },
+  "equipmentSubtypeSectionTitle": "Вид оборудования",
+  "@equipmentSubtypeSectionTitle": {
+    "description": "Equipment form: subtype section title (shown after picking a category)"
+  },
   "equipmentTypeOther": "Другое",
   "@equipmentTypeOther": {
     "description": "Equipment type picker: other option"
@@ -478,41 +474,181 @@
   "@systemLanguageOption": {
     "description": "Language switcher: follow system language option"
   },
-  "equipmentTypeFridge": "Холодильник",
+  "equipmentTypeFridge": "Холодильники",
   "@equipmentTypeFridge": {
     "description": "Equipment type: fridge"
   },
-  "equipmentTypeFreezer": "Морозильная камера",
+  "equipmentTypeFreezer": "Морозильники",
   "@equipmentTypeFreezer": {
     "description": "Equipment type: freezer"
   },
-  "equipmentTypeCombiOven": "Пароконвектомат",
+  "equipmentTypeCombiOven": "Конвектоматы",
   "@equipmentTypeCombiOven": {
     "description": "Equipment type: combi oven"
   },
-  "equipmentTypeStove": "Плита",
+  "equipmentTypeStove": "Плиты",
   "@equipmentTypeStove": {
     "description": "Equipment type: stove"
   },
-  "equipmentTypeDishwasher": "Посудомоечная машина",
+  "equipmentTypeDishwasher": "Посудомойки",
   "@equipmentTypeDishwasher": {
     "description": "Equipment type: dishwasher"
   },
-  "equipmentTypeGrill": "Гриль",
+  "equipmentTypeGrill": "Грили",
   "@equipmentTypeGrill": {
     "description": "Equipment type: grill"
   },
-  "equipmentTypeCoffeeMachine": "Кофемашина",
+  "equipmentTypeCoffeeMachine": "Кофемашины",
   "@equipmentTypeCoffeeMachine": {
     "description": "Equipment type: coffee machine"
   },
-  "equipmentTypeMixer": "Миксер/блендер",
+  "equipmentTypeMixer": "Миксеры",
   "@equipmentTypeMixer": {
-    "description": "Equipment type: mixer/blender"
+    "description": "Equipment type: mixer"
   },
   "equipmentTypeCuttingTable": "Разделочный стол",
   "@equipmentTypeCuttingTable": {
-    "description": "Equipment type: cutting table"
+    "description": "Equipment type: cutting table (legacy, not offered in the picker anymore)"
+  },
+  "equipmentCategoryThermal": "Тепловое оборудование",
+  "@equipmentCategoryThermal": {
+    "description": "Equipment category: thermal"
+  },
+  "equipmentCategoryRefrigeration": "Холодильное оборудование",
+  "@equipmentCategoryRefrigeration": {
+    "description": "Equipment category: refrigeration"
+  },
+  "equipmentCategoryDishwashing": "Посудомоечное оборудование",
+  "@equipmentCategoryDishwashing": {
+    "description": "Equipment category: dishwashing"
+  },
+  "equipmentCategoryFoodPrep": "Оборудование для обработки продуктов",
+  "@equipmentCategoryFoodPrep": {
+    "description": "Equipment category: food prep"
+  },
+  "equipmentCategoryPizzaBakery": "Пицца и пекарня",
+  "@equipmentCategoryPizzaBakery": {
+    "description": "Equipment category: pizza & bakery"
+  },
+  "equipmentCategoryBar": "Бар и напитки",
+  "@equipmentCategoryBar": {
+    "description": "Equipment category: bar & drinks"
+  },
+  "equipmentCategoryWater": "Вода и водоподготовка",
+  "@equipmentCategoryWater": {
+    "description": "Equipment category: water treatment"
+  },
+  "equipmentTypeOven": "Печи",
+  "@equipmentTypeOven": {
+    "description": "Equipment type: oven"
+  },
+  "equipmentTypeFryer": "Фритюрницы",
+  "@equipmentTypeFryer": {
+    "description": "Equipment type: fryer"
+  },
+  "equipmentTypeSalamander": "Саламандры",
+  "@equipmentTypeSalamander": {
+    "description": "Equipment type: salamander"
+  },
+  "equipmentTypeBainMarie": "Мармиты",
+  "@equipmentTypeBainMarie": {
+    "description": "Equipment type: bain-marie"
+  },
+  "equipmentTypeMicrowave": "Микроволновки",
+  "@equipmentTypeMicrowave": {
+    "description": "Equipment type: microwave"
+  },
+  "equipmentTypeColdTable": "Холодильные столы",
+  "@equipmentTypeColdTable": {
+    "description": "Equipment type: cold table"
+  },
+  "equipmentTypeDisplayCase": "Витрины",
+  "@equipmentTypeDisplayCase": {
+    "description": "Equipment type: display case"
+  },
+  "equipmentTypeBlastChiller": "Шокеры",
+  "@equipmentTypeBlastChiller": {
+    "description": "Equipment type: blast chiller"
+  },
+  "equipmentTypeGlasswasher": "Стаканомойки",
+  "@equipmentTypeGlasswasher": {
+    "description": "Equipment type: glasswasher"
+  },
+  "equipmentTypeHoodDishwasher": "Купольные машины",
+  "@equipmentTypeHoodDishwasher": {
+    "description": "Equipment type: hood dishwasher"
+  },
+  "equipmentTypeConveyorDishwasher": "Конвейерные машины",
+  "@equipmentTypeConveyorDishwasher": {
+    "description": "Equipment type: conveyor dishwasher"
+  },
+  "equipmentTypeMeatGrinder": "Мясорубки",
+  "@equipmentTypeMeatGrinder": {
+    "description": "Equipment type: meat grinder"
+  },
+  "equipmentTypeSlicer": "Слайсеры",
+  "@equipmentTypeSlicer": {
+    "description": "Equipment type: slicer"
+  },
+  "equipmentTypeVegetableCutter": "Овощерезки",
+  "@equipmentTypeVegetableCutter": {
+    "description": "Equipment type: vegetable cutter"
+  },
+  "equipmentTypeCutter": "Куттеры",
+  "@equipmentTypeCutter": {
+    "description": "Equipment type: bowl cutter"
+  },
+  "equipmentTypeBlender": "Блендеры",
+  "@equipmentTypeBlender": {
+    "description": "Equipment type: blender"
+  },
+  "equipmentTypePizzaOven": "Пицца-печи",
+  "@equipmentTypePizzaOven": {
+    "description": "Equipment type: pizza oven"
+  },
+  "equipmentTypeDoughMixer": "Тестомесы",
+  "@equipmentTypeDoughMixer": {
+    "description": "Equipment type: dough mixer"
+  },
+  "equipmentTypeDoughSheeter": "Тестораскатки",
+  "@equipmentTypeDoughSheeter": {
+    "description": "Equipment type: dough sheeter"
+  },
+  "equipmentTypeProvingCabinet": "Расстоечные шкафы",
+  "@equipmentTypeProvingCabinet": {
+    "description": "Equipment type: proving cabinet"
+  },
+  "equipmentTypeCoffeeGrinder": "Кофемолки",
+  "@equipmentTypeCoffeeGrinder": {
+    "description": "Equipment type: coffee grinder"
+  },
+  "equipmentTypeIceMaker": "Льдогенераторы",
+  "@equipmentTypeIceMaker": {
+    "description": "Equipment type: ice maker"
+  },
+  "equipmentTypeDrinkCooler": "Охладители напитков",
+  "@equipmentTypeDrinkCooler": {
+    "description": "Equipment type: drink cooler"
+  },
+  "equipmentTypePostMix": "Постмиксы",
+  "@equipmentTypePostMix": {
+    "description": "Equipment type: post-mix dispenser"
+  },
+  "equipmentTypeWaterSoftener": "Умягчители",
+  "@equipmentTypeWaterSoftener": {
+    "description": "Equipment type: water softener"
+  },
+  "equipmentTypeWaterFilter": "Фильтры",
+  "@equipmentTypeWaterFilter": {
+    "description": "Equipment type: water filter"
+  },
+  "equipmentTypePump": "Насосы",
+  "@equipmentTypePump": {
+    "description": "Equipment type: pump"
+  },
+  "equipmentTypeReverseOsmosis": "Обратный осмос",
+  "@equipmentTypeReverseOsmosis": {
+    "description": "Equipment type: reverse osmosis"
   },
   "clientEquipmentTab": "Моё оборудование",
   "@clientEquipmentTab": {
@@ -573,5 +709,275 @@
   "passwordChangeError": "Не удалось изменить пароль",
   "@passwordChangeError": {
     "description": "Profile: password change error"
+  },
+  "clientCreateRequestButton": "Создать заявку на ремонт",
+  "@clientCreateRequestButton": {
+    "description": "Client home: FAB label to create a repair request"
+  },
+  "createRequestTitle": "Новая заявка",
+  "@createRequestTitle": {
+    "description": "Create request screen title"
+  },
+  "createRequestTypeSectionTitle": "Вид техники",
+  "@createRequestTypeSectionTitle": {
+    "description": "Create request: equipment type section title"
+  },
+  "createRequestEquipmentSectionTitle": "Оборудование",
+  "@createRequestEquipmentSectionTitle": {
+    "description": "Create request: specific equipment section title"
+  },
+  "createRequestEquipmentRequired": "Выберите оборудование",
+  "@createRequestEquipmentRequired": {
+    "description": "Create request: equipment not selected error"
+  },
+  "createRequestDescriptionSectionTitle": "Опишите проблему",
+  "@createRequestDescriptionSectionTitle": {
+    "description": "Create request: description section title"
+  },
+  "createRequestDescriptionHint": "Кратко расскажите, что случилось",
+  "@createRequestDescriptionHint": {
+    "description": "Create request: description field hint"
+  },
+  "createRequestDescriptionRequired": "Добавьте описание проблемы",
+  "@createRequestDescriptionRequired": {
+    "description": "Create request: description required error"
+  },
+  "createRequestSubmitButton": "Отправить заявку",
+  "@createRequestSubmitButton": {
+    "description": "Create request: submit button"
+  },
+  "createRequestError": "Не удалось создать заявку: {error}",
+  "@createRequestError": {
+    "description": "Create request: submission error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "establishmentSwitcherTooltip": "Сменить заведение",
+  "@establishmentSwitcherTooltip": {
+    "description": "Establishment switcher: button tooltip"
+  },
+  "establishmentSwitcherAddNew": "Добавить заведение",
+  "@establishmentSwitcherAddNew": {
+    "description": "Establishment switcher: menu item to add another establishment"
+  },
+  "addEstablishmentTitle": "Новое заведение",
+  "@addEstablishmentTitle": {
+    "description": "Add establishment: screen title"
+  },
+  "addEstablishmentPhoneLabel": "Контактный телефон заведения",
+  "@addEstablishmentPhoneLabel": {
+    "description": "Add establishment: contact phone field"
+  },
+  "addEstablishmentPhoneRequired": "Введите контактный телефон",
+  "@addEstablishmentPhoneRequired": {
+    "description": "Add establishment: contact phone validator"
+  },
+  "addEstablishmentSubmitButton": "Добавить",
+  "@addEstablishmentSubmitButton": {
+    "description": "Add establishment: submit button"
+  },
+  "addEstablishmentGenericError": "Не удалось добавить заведение. Проверьте введённые данные и подключение к интернету.",
+  "@addEstablishmentGenericError": {
+    "description": "Add establishment: generic submission error"
+  },
+  "markDoneDialogTitle": "Закрыть заявку",
+  "@markDoneDialogTitle": {
+    "description": "Mark done dialog: title"
+  },
+  "markDoneRepairCostLabel": "Стоимость ремонта",
+  "@markDoneRepairCostLabel": {
+    "description": "Mark done dialog: repair cost field"
+  },
+  "markDonePartsCostLabel": "Стоимость запчастей",
+  "@markDonePartsCostLabel": {
+    "description": "Mark done dialog: parts cost field"
+  },
+  "markDoneCostRequired": "Введите сумму",
+  "@markDoneCostRequired": {
+    "description": "Mark done dialog: cost field required"
+  },
+  "markDoneCostInvalid": "Введите корректную сумму",
+  "@markDoneCostInvalid": {
+    "description": "Mark done dialog: cost field invalid"
+  },
+  "markDoneDialogCancel": "Отмена",
+  "@markDoneDialogCancel": {
+    "description": "Mark done dialog: cancel action"
+  },
+  "markDoneDialogConfirm": "Закрыть заявку",
+  "@markDoneDialogConfirm": {
+    "description": "Mark done dialog: confirm action"
+  },
+  "requestCostRepairLabel": "Ремонт",
+  "@requestCostRepairLabel": {
+    "description": "Request card: repair cost short label"
+  },
+  "requestCostPartsLabel": "Запчасти",
+  "@requestCostPartsLabel": {
+    "description": "Request card: parts cost short label"
+  },
+  "adminHomeStatsTab": "Статистика",
+  "@adminHomeStatsTab": {
+    "description": "Admin home: statistics tab title"
+  },
+  "statsPeriodWeek": "Неделя",
+  "@statsPeriodWeek": {
+    "description": "Statistics: week period preset"
+  },
+  "statsPeriodMonth": "Месяц",
+  "@statsPeriodMonth": {
+    "description": "Statistics: month period preset"
+  },
+  "statsPeriodYear": "Год",
+  "@statsPeriodYear": {
+    "description": "Statistics: year period preset"
+  },
+  "statsPeriodCustom": "Свой период",
+  "@statsPeriodCustom": {
+    "description": "Statistics: custom period preset"
+  },
+  "statsClosedCount": "Закрыто заявок",
+  "@statsClosedCount": {
+    "description": "Statistics: closed requests count label"
+  },
+  "statsRevenue": "Доход",
+  "@statsRevenue": {
+    "description": "Statistics: revenue (sum of repair cost) label"
+  },
+  "statsExpenses": "Расход",
+  "@statsExpenses": {
+    "description": "Statistics: expenses (sum of parts cost) label"
+  },
+  "statsProfit": "Прибыль",
+  "@statsProfit": {
+    "description": "Statistics: profit label"
+  },
+  "statsLoadError": "Не удалось загрузить статистику: {error}",
+  "@statsLoadError": {
+    "description": "Statistics: load error with details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "searchByAddressOrPhoneHint": "Поиск по адресу или телефону",
+  "@searchByAddressOrPhoneHint": {
+    "description": "Admin: requests/clients search field hint"
+  },
+  "searchNoResults": "Ничего не найдено",
+  "@searchNoResults": {
+    "description": "Admin: search returned no results"
+  },
+  "callUsTooltip": "Позвонить нам",
+  "@callUsTooltip": {
+    "description": "Client home: floating call-us button tooltip"
+  },
+  "loginForgotPassword": "Забыли пароль?",
+  "@loginForgotPassword": {
+    "description": "Login: forgot password link"
+  },
+  "forgotPasswordTitle": "Восстановление пароля",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordHint": "Введите email, указанный при регистрации — пришлём на него ссылку для сброса пароля.",
+  "@forgotPasswordHint": {
+    "description": "Forgot password: explanation text"
+  },
+  "forgotPasswordSubmitButton": "Отправить ссылку",
+  "@forgotPasswordSubmitButton": {
+    "description": "Forgot password: submit button"
+  },
+  "forgotPasswordSentMessage": "Если такой email зарегистрирован, на него отправлена ссылка для восстановления пароля. Проверьте почту (в том числе папку «Спам»).",
+  "@forgotPasswordSentMessage": {
+    "description": "Forgot password: sent confirmation message"
+  },
+  "forgotPasswordBackToLogin": "Вернуться ко входу",
+  "@forgotPasswordBackToLogin": {
+    "description": "Forgot password: back to login button"
+  },
+  "forgotPasswordGenericError": "Не удалось отправить письмо. Проверьте подключение к интернету.",
+  "@forgotPasswordGenericError": {
+    "description": "Forgot password: generic error"
+  },
+  "resetPasswordTitle": "Новый пароль",
+  "@resetPasswordTitle": {
+    "description": "Reset password screen title"
+  },
+  "resetPasswordHint": "Задайте новый пароль для входа.",
+  "@resetPasswordHint": {
+    "description": "Reset password: explanation text"
+  },
+  "resetPasswordConfirmLabel": "Повторите пароль",
+  "@resetPasswordConfirmLabel": {
+    "description": "Reset password: confirm password field"
+  },
+  "resetPasswordMismatch": "Пароли не совпадают",
+  "@resetPasswordMismatch": {
+    "description": "Reset password: confirm mismatch validator"
+  },
+  "resetPasswordSubmitButton": "Сохранить пароль",
+  "@resetPasswordSubmitButton": {
+    "description": "Reset password: submit button"
+  },
+  "resetPasswordGenericError": "Не удалось сохранить пароль. Попробуйте отправить ссылку восстановления ещё раз.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password: generic error"
+  },
+  "registerPrivacyConsentPrefix": "Я согласен(на) с",
+  "@registerPrivacyConsentPrefix": {
+    "description": "Register: privacy consent checkbox text before the link"
+  },
+  "registerPrivacyConsentLinkText": "политикой обработки персональных данных",
+  "@registerPrivacyConsentLinkText": {
+    "description": "Register: privacy consent checkbox link text"
+  },
+  "registerPrivacyConsentRequired": "Нужно подтвердить согласие с обработкой персональных данных",
+  "@registerPrivacyConsentRequired": {
+    "description": "Register: privacy consent not checked error"
+  },
+  "privacyPolicyTitle": "Политика конфиденциальности",
+  "@privacyPolicyTitle": {
+    "description": "Privacy policy screen title"
+  },
+  "privacyPolicyPlaceholder": "Текст политики обработки персональных данных будет добавлен позже. По вопросам обработки данных обращайтесь к администратору сервиса.",
+  "@privacyPolicyPlaceholder": {
+    "description": "Privacy policy screen placeholder text"
+  },
+  "deleteAccountSectionTitle": "Удаление аккаунта",
+  "@deleteAccountSectionTitle": {
+    "description": "Profile: delete account section title"
+  },
+  "deleteAccountHint": "Личные данные (имя, телефон) будут удалены, войти в аккаунт станет невозможно. История ваших заявок останется в системе без привязки к имени — это нужно нам для бухгалтерского учёта.",
+  "@deleteAccountHint": {
+    "description": "Profile: delete account explanation"
+  },
+  "deleteAccountButton": "Удалить аккаунт",
+  "@deleteAccountButton": {
+    "description": "Profile: delete account button"
+  },
+  "deleteAccountDialogTitle": "Удалить аккаунт?",
+  "@deleteAccountDialogTitle": {
+    "description": "Delete account dialog: title"
+  },
+  "deleteAccountDialogContent": "Это действие нельзя отменить. Личные данные будут удалены, войти в аккаунт больше не получится.",
+  "@deleteAccountDialogContent": {
+    "description": "Delete account dialog: content"
+  },
+  "deleteAccountDialogCancel": "Отмена",
+  "@deleteAccountDialogCancel": {
+    "description": "Delete account dialog: cancel"
+  },
+  "deleteAccountDialogConfirm": "Удалить",
+  "@deleteAccountDialogConfirm": {
+    "description": "Delete account dialog: confirm"
+  },
+  "deleteAccountError": "Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.",
+  "@deleteAccountError": {
+    "description": "Delete account: generic error"
   }
 }
