@@ -22,6 +22,7 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="FixMyGastro">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -41,6 +42,8 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
+  <!-- Push-уведомления веб-версии (window.fmgPush), см. lib/services/web_push_bridge_web.dart -->
+  <script src="push.js"></script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
