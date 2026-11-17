@@ -18,8 +18,170 @@
 // Edge Function автоматически — задавать вручную не нужно.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { cert, getApps, initializeApp } from "npm:firebase-admin@12/app";
-import { getMessaging } from "npm:firebase-admin@12/messaging";
+// ---------------------------------------------------------------------------
+// FCM HTTP v1 на чистом fetch + WebCrypto — без firebase-admin: его
+// Node-зависимости (http2 и т. п.) в Deno Edge Functions падают с
+// "event loop error: ERR_NOT_IMPLEMENTED: callTimeout" и роняют функцию.
+// Секрет: FIREBASE_SERVICE_ACCOUNT_KEY — JSON сервисного аккаунта Firebase.
+// ---------------------------------------------------------------------------
+
+interface ServiceAccount {
+  project_id: string;
+  client_email: string;
+  private_key: string;
+}
+
+let serviceAccount: ServiceAccount | null = null;
+function getServiceAccount(): ServiceAccount | null {
+  if (serviceAccount) return serviceAccount;
+  const json = Deno.env.get("FIREBASE_SERVICE_ACCOUNT_KEY");
+  if (!json) return null;
+  serviceAccount = JSON.parse(json) as ServiceAccount;
+  return serviceAccount;
+}
+
+function base64UrlFromBytes(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function base64UrlFromString(text: string): string {
+  return base64UrlFromBytes(new TextEncoder().encode(text));
+}
+
+let cachedAccessToken: { token: string; expiresAt: number } | null = null;
+
+async function getFcmAccessToken(account: ServiceAccount): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  if (cachedAccessToken && cachedAccessToken.expiresAt - 60 > now) {
+    return cachedAccessToken.token;
+  }
+
+  const pem = account.private_key
+    .replace(/-----BEGIN PRIVATE KEY-----/, "")
+    .replace(/-----END PRIVATE KEY-----/, "")
+    .replace(/\s+/g, "");
+  const der = Uint8Array.from(atob(pem), (c) => c.charCodeAt(0));
+  const key = await crypto.subtle.importKey(
+    "pkcs8",
+    der as BufferSource,
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+
+  const unsigned = `${base64UrlFromString(JSON.stringify({ alg: "RS256", typ: "JWT" }))}.${
+    base64UrlFromString(JSON.stringify({
+      iss: account.client_email,
+      scope: "https://www.googleapis.com/auth/firebase.messaging",
+      aud: "https://oauth2.googleapis.com/token",
+      iat: now,
+      exp: now + 3600,
+    }))
+  }`;
+  const signature = new Uint8Array(await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5", key, new TextEncoder().encode(unsigned) as BufferSource,
+  ));
+
+  const response = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion: `${unsigned}.${base64UrlFromBytes(signature)}`,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`FCM token request failed: ${response.status} ${await response.text()}`);
+  }
+  const json = await response.json() as { access_token: string; expires_in: number };
+  cachedAccessToken = { token: json.access_token, expiresAt: now + json.expires_in };
+  return json.access_token;
+}
+
+interface FcmResult {
+  success: boolean;
+  error?: { code: string };
+}
+
+/// Шлёт одно и то же уведомление на несколько FCM-токенов (Android/iOS).
+/// Ответ в той же форме, что был у firebase-admin sendEachForMulticast.
+async function sendFcmMulticast(message: {
+  tokens: string[];
+  notification: { title: string; body: string };
+  data: Record<string, string>;
+}): Promise<{ successCount: number; failureCount: number; responses: FcmResult[] }> {
+  const account = getServiceAccount();
+  if (!account) {
+    console.error("FIREBASE_SERVICE_ACCOUNT_KEY secret is not set");
+    return {
+      successCount: 0,
+      failureCount: message.tokens.length,
+      responses: message.tokens.map(() => ({ success: false, error: { code: "no-credentials" } })),
+    };
+  }
+
+  let accessToken: string;
+  try {
+    accessToken = await getFcmAccessToken(account);
+  } catch (error) {
+    console.error("FCM auth error", error);
+    return {
+      successCount: 0,
+      failureCount: message.tokens.length,
+      responses: message.tokens.map(() => ({ success: false, error: { code: "auth-failed" } })),
+    };
+  }
+
+  const responses: FcmResult[] = [];
+  for (const token of message.tokens) {
+    try {
+      const response = await fetch(
+        `https://fcm.googleapis.com/v1/projects/${account.project_id}/messages:send`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: {
+              token,
+              notification: message.notification,
+              data: message.data,
+              android: { priority: "high" },
+              apns: { payload: { aps: { sound: "default" } } },
+            },
+          }),
+        },
+      );
+      if (response.ok) {
+        responses.push({ success: true });
+        continue;
+      }
+      const text = await response.text();
+      // Токен больше не действует (приложение удалено, выход и т. п.).
+      const unregistered = response.status === 404 || text.includes("UNREGISTERED");
+      if (!unregistered) console.error("FCM send failed", response.status, text);
+      responses.push({
+        success: false,
+        error: {
+          code: unregistered
+            ? "messaging/registration-token-not-registered"
+            : `http-${response.status}`,
+        },
+      });
+    } catch (error) {
+      console.error("FCM send error", error);
+      responses.push({ success: false, error: { code: "network" } });
+    }
+  }
+
+  const successCount = responses.filter((r) => r.success).length;
+  return { successCount, failureCount: responses.length - successCount, responses };
+}
+
 
 // ---------------------------------------------------------------------------
 // Web Push (RFC 8291 шифрование + RFC 8292 VAPID) на чистом WebCrypto — без
@@ -196,16 +358,6 @@ async function sendWebPush(
 }
 
 
-const serviceAccountJson = Deno.env.get("FIREBASE_SERVICE_ACCOUNT_KEY");
-if (!serviceAccountJson) {
-  throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY secret is not set");
-}
-
-// getApps() — чтобы не переинициализировать Firebase Admin SDK на каждый
-// вызов: Edge Function может переиспользовать "тёплый" инстанс.
-if (getApps().length === 0) {
-  initializeApp({ credential: cert(JSON.parse(serviceAccountJson)) });
-}
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -309,7 +461,7 @@ Deno.serve(async (req) => {
   let failed = 0;
 
   if (tokens.length > 0) {
-    const response = await getMessaging().sendEachForMulticast({
+    const response = await sendFcmMulticast({
       tokens,
       notification: { title: establishmentName, body },
       data: {
