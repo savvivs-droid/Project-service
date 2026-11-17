@@ -9,7 +9,7 @@ class DeviceTokenRepository {
   /// вызывается при входе и при каждом обновлении токена (FCM время от
   /// времени ротирует токены сам). См. device_tokens в supabase/schema.sql.
   /// [locale] — язык приложения на этом устройстве: на нём сервер пишет
-  /// текст push о смене статуса заявки (send-status-notification).
+  /// текст push о смене статуса заявки (send-request-notification).
   Future<void> upsert({
     required String token,
     required String platform,

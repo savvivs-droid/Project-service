@@ -41,8 +41,8 @@ class PushNotificationService {
   /// или запущено этим нажатием). Два вида data-payload:
   ///   - новое сообщение чата — requestId/title/otherPartyName
   ///     (send-push-notification);
-  ///   - смена статуса заявки — type: 'status', requestId
-  ///     (send-status-notification). Слушает main.dart, чтобы открыть
+  ///   - заявки — type: 'new_request' (администратору) или 'status'
+  ///     (клиенту) + requestId (send-request-notification). Слушает main.dart, чтобы открыть
   /// нужный экран поверх текущего.
   Stream<RemoteMessage> get onNotificationTap => _tapController.stream;
 

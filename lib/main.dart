@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/l10n/locale_controller.dart';
 import 'core/theme/app_theme.dart';
+import 'features/home/admin_request_detail_screen.dart';
 import 'features/home/client_request_detail_screen.dart';
 import 'features/home/request_chat_screen.dart';
 import 'features/splash/splash_video_screen.dart';
@@ -36,14 +37,17 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
   void initState() {
     super.initState();
     // Нажатие на push-уведомление: о новом сообщении чата — открыть этот
-    // чат, о смене статуса заявки — карточку заявки, поверх текущего
-    // экрана. Работает и на холодном старте (когда
+    // чат, о новой заявке или смене статуса — карточку заявки, поверх
+    // текущего экрана. Работает и на холодном старте (когда
     // именно нажатие на уведомление запустило приложение), и когда
     // приложение уже было открыто в фоне.
     PushNotificationService.instance.onNotificationTap.listen((message) {
-      if (message.data['type'] == 'status') {
+      final type = message.data['type'];
+      if (type == 'status' || type == 'new_request') {
         final requestId = message.data['requestId'];
-        if (requestId != null) _openRequestDetail(requestId);
+        if (requestId != null) {
+          _openRequestDetail(requestId, asAdmin: type == 'new_request');
+        }
         return;
       }
       final requestId = message.data['requestId'];
@@ -64,15 +68,21 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
     });
   }
 
-  /// Нажатие на push о смене статуса заявки (визит назначен, ремонт
-  /// выполнен...) — открыть карточку этой заявки.
-  Future<void> _openRequestDetail(String requestId) async {
+  /// Нажатие на push по заявке — открыть её карточку: администратору
+  /// (новая заявка) — экран администратора, клиенту (смена статуса) —
+  /// клиентский.
+  Future<void> _openRequestDetail(
+    String requestId, {
+    required bool asAdmin,
+  }) async {
     try {
       final item = await ServiceRequestRepository().fetchById(requestId);
       if (item == null) return;
       _navigatorKey.currentState?.push(
         MaterialPageRoute(
-          builder: (_) => ClientRequestDetailScreen(item: item),
+          builder: (_) => asAdmin
+              ? AdminRequestDetailScreen(item: item)
+              : ClientRequestDetailScreen(item: item),
         ),
       );
     } catch (error) {

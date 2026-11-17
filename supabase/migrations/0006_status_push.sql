@@ -6,7 +6,7 @@
 -- New query -> вставить весь файл -> Run. Один раз.
 --
 -- После этого ещё нужно (см. README, раздел "Push-уведомления"):
---   1. Задеплоить Edge Function send-status-notification.
+--   1. Задеплоить Edge Function send-request-notification.
 --   2. Создать Database Webhook: UPDATE на public.service_requests ->
 --      вызов этой функции.
 -- =============================================================================

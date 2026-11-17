@@ -124,7 +124,7 @@ create table public.service_requests (
   parts_cost numeric(10, 2),
   -- Кто последним поменял статус/время визита (ставит триггер
   -- trg_set_status_changed_by) — чтобы не слать клиенту push об
-  -- отмене, которую он сделал сам. См. send-status-notification.
+  -- отмене, которую он сделал сам. См. send-request-notification.
   status_changed_by uuid references public.profiles (id) on delete set null,
   created_at timestamptz not null default now()
 );
@@ -770,7 +770,7 @@ create policy "Только админ удаляет фото оборудов�
 
 -- =============================================================================
 -- Кто поменял статус заявки (для push о смене статуса, см.
--- supabase/functions/send-status-notification)
+-- supabase/functions/send-request-notification)
 -- =============================================================================
 
 create or replace function public.set_status_changed_by()
