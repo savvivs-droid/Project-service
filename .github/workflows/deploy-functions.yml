@@ -37,13 +37,12 @@ jobs:
             exit 1
           fi
 
-      # GITHUB_TOKEN — чтобы запрос "какая версия CLI последняя" не упирался
-      # в лимит анонимных запросов к GitHub API.
-      - uses: supabase/setup-cli@v1
+      # Supabase CLI из npm: supabase/setup-cli упирался в лимит GitHub API
+      # при поиске последней версии.
+      - uses: actions/setup-node@v5
         with:
-          version: latest
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          node-version: '22'
+      - run: npm install -g supabase@latest && supabase --version
 
       # Функции вызываются вебхуками базы (с ключом service_role), поэтому
       # проверку JWT оставляем включённой — как при создании в Dashboard.
