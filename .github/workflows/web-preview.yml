@@ -1,0 +1,60 @@
+# Собирает веб-версию приложения и публикует её в ветку web-preview
+# (оттуда её раздаёт GitHub Pages: https://savvivs-droid.github.io/Project-service/).
+# Запускается сам при каждом пуше в рабочую ветку, или вручную:
+# GitHub -> Actions -> "Web preview" -> Run workflow.
+name: Web preview
+
+on:
+  push:
+    branches: [claude/nothing-appeared-dty6dt]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: web-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Текущая опубликованная версия — из неё берём .env (адрес Supabase
+      # и публичный anon-ключ; в основной ветке .env нет — он в .gitignore)
+      # и в неё же публикуем новую сборку.
+      - uses: actions/checkout@v4
+        with:
+          ref: web-preview
+          path: _preview
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Подготовить .env
+        run: cp _preview/assets/.env .env
+
+      - run: flutter pub get
+
+      # --no-web-resources-cdn и .nojekyll — без них GitHub Pages
+      # показывает белый экран (см. README).
+      - name: Собрать веб-версию
+        run: flutter build web --release --base-href /Project-service/ --no-web-resources-cdn
+
+      - name: Опубликовать в web-preview
+        run: |
+          # Service worker, который снимает старый кэш браузера — как в
+          # прошлых сборках ("кэш всегда мешал").
+          cp _preview/flutter_service_worker.js build/web/flutter_service_worker.js
+          touch build/web/.nojekyll
+          cd _preview
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r ../build/web/. .
+          git add -A
+          git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" \
+            commit -m "Обновить веб-предпросмотр: ${GITHUB_SHA::7}" || { echo "Без изменений"; exit 0; }
+          git push origin HEAD:web-preview
