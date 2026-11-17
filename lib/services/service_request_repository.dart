@@ -9,7 +9,7 @@ class ServiceRequestRepository {
 
   static const _listItemSelect = '*, establishments(name, address), '
       'profiles!service_requests_client_id_fkey(full_name, phone), '
-      'service_request_equipment(equipment(type, model, photos, sticker_code))';
+      'service_request_equipment(equipment(*))';
 
   /// Одна заявка со всем, что нужно экрану детали — для перехода по
   /// нажатию на push о смене статуса. null — заявки нет или она не

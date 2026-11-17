@@ -11,6 +11,7 @@ import '../../models/technician.dart';
 import '../../services/service_request_repository.dart';
 import '../../services/technician_repository.dart';
 import 'assign_visit_sheet.dart';
+import 'request_equipment_list.dart';
 import 'request_chat_screen.dart';
 
 class AdminRequestDetailScreen extends StatefulWidget {
@@ -212,30 +213,7 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
               label: Text(context.l10n.chatWithClient),
             ),
             const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(context.l10n.equipmentLabel,
-                        style: Theme.of(context).textTheme.labelMedium),
-                    const SizedBox(height: 8),
-                    if (_item.equipmentRefs.isEmpty)
-                      Text(context.l10n.notSpecified)
-                    else
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          for (final ref in _item.equipmentRefs)
-                            Chip(label: Text(ref.label(context))),
-                        ],
-                      ),
-                  ],
-                ),
-              ),
-            ),
+            RequestEquipmentList(refs: _item.equipmentRefs),
             const SizedBox(height: 12),
             Card(
               child: Padding(
