@@ -37,9 +37,13 @@ jobs:
             exit 1
           fi
 
+      # GITHUB_TOKEN — чтобы запрос "какая версия CLI последняя" не упирался
+      # в лимит анонимных запросов к GitHub API.
       - uses: supabase/setup-cli@v1
         with:
           version: latest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       # Функции вызываются вебхуками базы (с ключом service_role), поэтому
       # проверку JWT оставляем включённой — как при создании в Dashboard.
