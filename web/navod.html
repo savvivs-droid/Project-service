@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jak si přidat FixMyGastro na plochu</title>
+  <meta name="description" content="Návod, jak si přidat aplikaci FixMyGastro na plochu iPhonu nebo Androidu.">
+  <meta name="theme-color" content="#02445A">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    @font-face {
+      font-family: "Montserrat";
+      src: url("assets/assets/fonts/Montserrat-VariableFont.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    :root {
+      --teal: #02445A;
+      --teal-soft: #E6EEF1;
+      --orange: #F37012;
+      --orange-soft: #FDEBDD;
+      --bg: #F5F7F8;
+      --ink: #14232B;
+      --muted: #5B6B73;
+      --card: #FFFFFF;
+      --line: #E1E7EA;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ---------- Hlavička ---------- */
+    .hero {
+      background: var(--teal);
+      color: #fff;
+      padding: calc(28px + env(safe-area-inset-top)) 22px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 340px; height: 340px;
+      right: -120px; top: -160px;
+      border-radius: 50%;
+      background: rgba(243, 112, 18, 0.18);
+    }
+    .hero .logo {
+      width: 76px; height: 76px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      position: relative; z-index: 1;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 6vw, 34px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 18px auto 10px;
+      max-width: 560px;
+      position: relative; z-index: 1;
+    }
+    .hero p {
+      margin: 0 auto;
+      max-width: 520px;
+      opacity: 0.88;
+      font-size: 16px;
+      position: relative; z-index: 1;
+    }
+
+    main {
+      max-width: 640px;
+      margin: -40px auto 0;
+      padding: 0 16px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ---------- Výhody ---------- */
+    .perks {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(2, 68, 90, 0.10);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+    .perk svg { width: 28px; height: 28px; color: var(--orange); }
+    .perk span {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* ---------- Přepínač zařízení ---------- */
+    .switch {
+      margin: 26px 0 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--teal-soft);
+      border-radius: 999px;
+      padding: 5px;
+    }
+    .switch button {
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--teal);
+      padding: 12px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .switch button svg { width: 18px; height: 18px; }
+    .switch button[aria-selected="true"] {
+      background: var(--teal);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(2, 68, 90, 0.25);
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .note {
+      background: var(--orange-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .note svg { flex: none; width: 20px; height: 20px; color: var(--orange); margin-top: 1px; }
+
+    /* ---------- Kroky ---------- */
+    ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    ol.steps li {
+      counter-increment: step;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 16px 16px 66px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    ol.steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 16px; top: 16px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      font-weight: 800;
+      display: grid; place-items: center;
+    }
+    ol.steps li.final::before { background: var(--orange); }
+    ol.steps h3 { margin: 6px 0 4px; font-size: 16.5px; font-weight: 700; }
+    ol.steps p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+    .key {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 3px 9px;
+      border-radius: 8px;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    .key svg { width: 16px; height: 16px; }
+
+    /* ---------- Tlačítka ---------- */
+    .cta {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      margin-top: 8px;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--orange);
+      color: #fff;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(243, 112, 18, 0.30);
+    }
+    .cta svg { width: 20px; height: 20px; }
+    .cta.secondary {
+      background: var(--teal);
+      box-shadow: 0 8px 20px rgba(2, 68, 90, 0.25);
+    }
+    #installBtn { display: none; margin-bottom: 14px; }
+
+    /* ---------- Otázky ---------- */
+    h2 { font-size: 20px; font-weight: 800; color: var(--teal); margin: 34px 4px 12px; }
+    details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--orange); font-size: 20px; line-height: 1; }
+    details[open] summary::after { content: "–"; }
+    details p { margin: 10px 0 0; color: var(--muted); font-size: 14.5px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px 16px 36px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <img class="logo" src="icons/Icon-192.png" alt="FixMyGastro">
+    <h1>Jak si přidat FixMyGastro na plochu telefonu</h1>
+    <p>Aplikaci nemusíte stahovat z obchodu. Stačí ji jednou přidat na plochu — pak se otevírá jako běžná aplikace.</p>
+  </header>
+
+  <main>
+    <section class="perks" aria-label="Výhody">
+      <div class="perk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        <span>Ikona na ploše</span>
+      </div>
+      <div class="perk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span>Oznámení o&nbsp;požadavcích</span>
+      </div>
+      <div class="perk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+        <span>Na celou obrazovku</span>
+      </div>
+    </section>
+
+    <div class="switch" role="tablist" aria-label="Vyberte telefon">
+      <button role="tab" id="tab-ios" aria-controls="panel-ios" aria-selected="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.28-1.6 2.78-.41 6.9 1.15 9.15.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.78.74 3 .72 1.24-.02 2.02-1.12 2.78-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.41-3.68zM14.1 5.85c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.09 1.75-.96 2.79 1.02.08 2.05-.52 2.68-1.27z"/></svg>
+        iPhone
+      </button>
+      <button role="tab" id="tab-android" aria-controls="panel-android" aria-selected="false">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22A11.4 11.4 0 0 0 12 8.12c-1.76 0-3.42.38-4.92 1.02L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48C3.3 11.18 1.2 14.32 1 18h22c-.2-3.68-2.3-6.82-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+        Android
+      </button>
+    </div>
+
+    <!-- ===================== iPhone ===================== -->
+    <section class="panel active" id="panel-ios" role="tabpanel" aria-labelledby="tab-ios">
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div>Nejlépe v prohlížeči <b>Safari</b>. Oznámení na iPhonu fungují jen tehdy, když aplikaci otevíráte <b>z ikony na ploše</b> (iOS 16.4 a novější).</div>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <h3>Otevřete aplikaci v Safari</h3>
+          <p>Klepněte na tlačítko <b>Otevřít aplikaci</b> dole na této stránce. Pokud vám přišel odkaz, otevřete ho v Safari.</p>
+        </li>
+        <li>
+          <h3>Klepněte na „Sdílet“</h3>
+          <p>
+            Najdete ho na liště dole
+            <span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Sdílet</span>.
+            Pokud ho nevidíte, klepněte nejdřív na <span class="key">•••</span> a potom na Sdílet.
+          </p>
+        </li>
+        <li>
+          <h3>Vyberte „Přidat na plochu“</h3>
+          <p>
+            Sjeďte v nabídce níž a klepněte na
+            <span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>Přidat na plochu</span>.
+            Někdy je schovaná pod „Zobrazit více“.
+          </p>
+        </li>
+        <li>
+          <h3>Potvrďte „Přidat“</h3>
+          <p>Pokud vidíte přepínač <b>Otevřít jako webovou aplikaci</b>, nechte ho zapnutý. Pak klepněte na <span class="key">Přidat</span> vpravo nahoře.</p>
+        </li>
+        <li class="final">
+          <h3>Otevřete FixMyGastro z plochy</h3>
+          <p>Na ploše se objeví ikona FixMyGastro. Otevřete ji, přihlaste se a nahoře klepněte na <span class="key">Zapnout</span> — budete dostávat oznámení o svých požadavcích.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===================== Android ===================== -->
+    <section class="panel" id="panel-android" role="tabpanel" aria-labelledby="tab-android">
+      <button class="cta secondary" id="installBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        Nainstalovat jedním klepnutím
+      </button>
+
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div>Nejlépe v prohlížeči <b>Google Chrome</b>. V prohlížeči Samsung Internet: <b>≡ → Přidat stránku do → Domovská obrazovka</b>.</div>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <h3>Otevřete aplikaci v Chrome</h3>
+          <p>Klepněte na tlačítko <b>Otevřít aplikaci</b> dole na této stránce. Pokud vám přišel odkaz, otevřete ho v Chrome.</p>
+        </li>
+        <li>
+          <h3>Otevřete nabídku</h3>
+          <p>Klepněte na tři tečky vpravo nahoře <span class="key"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>Nabídka</span>.</p>
+        </li>
+        <li>
+          <h3>Vyberte „Přidat na plochu“</h3>
+          <p>
+            Klepněte na
+            <span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 8v6"/><path d="M9 11h6"/></svg>Přidat na plochu</span>
+            nebo <span class="key">Instalovat aplikaci</span> — podle verze telefonu.
+          </p>
+        </li>
+        <li>
+          <h3>Potvrďte instalaci</h3>
+          <p>V okně klepněte na <span class="key">Instalovat</span> (případně <span class="key">Přidat</span>). Ikona se objeví na ploše nebo mezi aplikacemi.</p>
+        </li>
+        <li class="final">
+          <h3>Otevřete FixMyGastro z plochy</h3>
+          <p>Otevřete aplikaci, přihlaste se a nahoře klepněte na <span class="key">Zapnout</span> — budete dostávat oznámení o svých požadavcích.</p>
+        </li>
+      </ol>
+    </section>
+
+    <a class="cta" href="./">
+      Otevřít aplikaci
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <h2>Časté otázky</h2>
+
+    <details>
+      <summary>Nechodí mi oznámení na iPhonu</summary>
+      <p>Zkontrolujte, že aplikaci otevíráte z ikony na ploše (ne ze Safari) a máte iOS 16.4 nebo novější. Oznámení můžete povolit také v Nastavení → Oznámení → FixMyGastro.</p>
+    </details>
+
+    <details>
+      <summary>Nechodí mi oznámení na Androidu</summary>
+      <p>Otevřete Nastavení telefonu → Aplikace → FixMyGastro (případně Chrome) → Oznámení a povolte je. Pak v aplikaci znovu klepněte na „Zapnout“.</p>
+    </details>
+
+    <details>
+      <summary>Nevidím „Přidat na plochu“</summary>
+      <p>Na iPhonu použijte Safari a v nabídce Sdílet sjeďte až dolů nebo klepněte na „Zobrazit více“. Na Androidu použijte Chrome — v jiných prohlížečích může volba chybět.</p>
+    </details>
+
+    <details>
+      <summary>Je to bezpečné? Zabírá to místo?</summary>
+      <p>Ano, je to bezpečné — jde o stejnou aplikaci, kterou otevíráte v prohlížeči, jen s ikonou na ploše. V telefonu nezabírá téměř žádné místo a aktualizuje se sama.</p>
+    </details>
+
+    <details>
+      <summary>Jak aplikaci odstranit?</summary>
+      <p>Stejně jako jakoukoli jinou: podržte prst na ikoně a zvolte „Odstranit“ (iPhone) nebo „Odinstalovat“ (Android).</p>
+    </details>
+  </main>
+
+  <footer>FixMyGastro · servis gastro zařízení</footer>
+
+  <script>
+    (function () {
+      var tabs = {
+        ios: document.getElementById('tab-ios'),
+        android: document.getElementById('tab-android'),
+      };
+      var panels = {
+        ios: document.getElementById('panel-ios'),
+        android: document.getElementById('panel-android'),
+      };
+
+      function show(name) {
+        Object.keys(tabs).forEach(function (key) {
+          var active = key === name;
+          tabs[key].setAttribute('aria-selected', active ? 'true' : 'false');
+          panels[key].classList.toggle('active', active);
+        });
+      }
+
+      tabs.ios.addEventListener('click', function () { show('ios'); });
+      tabs.android.addEventListener('click', function () { show('android'); });
+
+      // Ukázat rovnou návod pro telefon, na kterém stránku čtete.
+      if (/Android/i.test(navigator.userAgent)) show('android');
+
+      // Android/Chrome umí nabídnout instalaci přímo — jedním tlačítkem.
+      var deferredPrompt = null;
+      var installBtn = document.getElementById('installBtn');
+      window.addEventListener('beforeinstallprompt', function (event) {
+        event.preventDefault();
+        deferredPrompt = event;
+        installBtn.style.display = 'flex';
+      });
+      installBtn.addEventListener('click', function () {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.finally(function () {
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
