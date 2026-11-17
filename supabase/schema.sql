@@ -106,6 +106,21 @@ create table public.equipment (
 );
 
 -- Заявки на ремонт
+-- Техники сервиса. Своего входа в приложение у них пока нет — это просто
+-- список, который ведёт администратор (вкладка "Планировщик" -> "Техники").
+-- Техника не удаляют, а скрывают (is_active = false), чтобы старые
+-- визиты в планировщике не потеряли исполнителя.
+create table public.technicians (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  phone text,
+  -- Цвет блоков визитов в планировщике, '#RRGGBB'.
+  color text not null default '#2F9E63',
+  is_active boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
 create table public.service_requests (
   id uuid primary key default gen_random_uuid(),
   establishment_id uuid not null references public.establishments (id) on delete cascade,
@@ -126,6 +141,10 @@ create table public.service_requests (
   -- trg_set_status_changed_by) — чтобы не слать клиенту push об
   -- отмене, которую он сделал сам. См. send-request-notification.
   status_changed_by uuid references public.profiles (id) on delete set null,
+  -- Планировщик: кто едет и сколько часов займёт визит (начало —
+  -- scheduled_at, ровный час с 8:00 до 21:00).
+  technician_id uuid references public.technicians (id) on delete set null,
+  duration_hours smallint check (duration_hours between 1 and 14),
   created_at timestamptz not null default now()
 );
 
@@ -198,6 +217,8 @@ create index idx_device_tokens_profile on public.device_tokens (profile_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
 create index idx_request_messages_request on public.request_messages (request_id, created_at);
 create index idx_request_read_state_profile on public.request_read_state (profile_id);
+create index idx_service_requests_technician_schedule
+  on public.service_requests (technician_id, scheduled_at);
 
 
 -- -----------------------------------------------------------------------------
@@ -385,6 +406,22 @@ create policy "Админ меняет любые заявки, клиент —
 create policy "Только админ удаляет заявки"
   on public.service_requests for delete
   using (public.is_staff());
+
+-- === technicians (только администратор; клиенты техников не видят) ===
+alter table public.technicians enable row level security;
+
+create policy "Только админ видит техников"
+  on public.technicians for select
+  using (public.is_staff());
+
+create policy "Только админ добавляет техников"
+  on public.technicians for insert
+  with check (public.is_staff());
+
+create policy "Только админ редактирует техников"
+  on public.technicians for update
+  using (public.is_staff())
+  with check (public.is_staff());
 
 -- === service_request_equipment (связующая таблица) ===
 create policy "Видимость связки как у самой заявки"

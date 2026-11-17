@@ -979,5 +979,134 @@
   "deleteAccountError": "Couldn't delete the account. Try again or contact us.",
   "@deleteAccountError": {
     "description": "Delete account: generic error"
+  },
+  "plannerTitle": "Planner",
+  "@plannerTitle": {
+    "description": "Admin: planner tab/title"
+  },
+  "plannerToday": "Today",
+  "@plannerToday": {
+    "description": "Planner: jump to today"
+  },
+  "plannerUnassignedTitle": "Awaiting assignment",
+  "@plannerUnassignedTitle": {
+    "description": "Planner: strip of requests without technician"
+  },
+  "plannerUnassignedEmpty": "All requests are assigned",
+  "@plannerUnassignedEmpty": {
+    "description": "Planner: no unassigned requests"
+  },
+  "plannerNoTechnicians": "No technicians yet. Add them to see the schedule.",
+  "@plannerNoTechnicians": {
+    "description": "Planner: empty state without technicians"
+  },
+  "plannerLoadError": "Couldn't load the schedule",
+  "@plannerLoadError": {
+    "description": "Planner: load error"
+  },
+  "plannerRetry": "Try again",
+  "@plannerRetry": {
+    "description": "Planner: retry button"
+  },
+  "plannerPickRequestTitle": "Which request to schedule?",
+  "@plannerPickRequestTitle": {
+    "description": "Planner: bottom sheet to pick a request for a free slot"
+  },
+  "techniciansTitle": "Technicians",
+  "@techniciansTitle": {
+    "description": "Technicians management screen title / tooltip"
+  },
+  "technicianAddButton": "Add technician",
+  "@technicianAddButton": {
+    "description": "Technicians: add button"
+  },
+  "technicianLabel": "Technician",
+  "@technicianLabel": {
+    "description": "Technician field label"
+  },
+  "technicianNameLabel": "Name",
+  "@technicianNameLabel": {
+    "description": "Technician form: name"
+  },
+  "technicianNameRequired": "Enter a name",
+  "@technicianNameRequired": {
+    "description": "Technician form: name required"
+  },
+  "technicianPhoneLabel": "Phone",
+  "@technicianPhoneLabel": {
+    "description": "Technician form: phone"
+  },
+  "technicianColorLabel": "Color in the planner",
+  "@technicianColorLabel": {
+    "description": "Technician form: color in planner"
+  },
+  "technicianActiveLabel": "Show in the planner",
+  "@technicianActiveLabel": {
+    "description": "Technician form: show in planner switch"
+  },
+  "technicianHidden": "Hidden",
+  "@technicianHidden": {
+    "description": "Technicians list: hidden marker"
+  },
+  "technicianSaveButton": "Save",
+  "@technicianSaveButton": {
+    "description": "Technician form: save"
+  },
+  "technicianCancelButton": "Cancel",
+  "@technicianCancelButton": {
+    "description": "Technician form / visit sheet: cancel"
+  },
+  "techniciansEmpty": "The list is empty",
+  "@techniciansEmpty": {
+    "description": "Technicians list empty"
+  },
+  "visitSectionTitle": "Technician visit",
+  "@visitSectionTitle": {
+    "description": "Admin request detail: visit section"
+  },
+  "visitNotAssigned": "Not assigned yet",
+  "@visitNotAssigned": {
+    "description": "Admin request detail: visit not assigned"
+  },
+  "visitAssignButton": "Assign technician and time",
+  "@visitAssignButton": {
+    "description": "Admin request detail: assign visit"
+  },
+  "visitChangeButton": "Change",
+  "@visitChangeButton": {
+    "description": "Admin request detail: change visit"
+  },
+  "visitDateLabel": "Date",
+  "@visitDateLabel": {
+    "description": "Visit sheet: date"
+  },
+  "visitStartLabel": "Start",
+  "@visitStartLabel": {
+    "description": "Visit sheet: start hour"
+  },
+  "visitDurationLabel": "Duration",
+  "@visitDurationLabel": {
+    "description": "Visit sheet: duration"
+  },
+  "visitHoursShort": "{count} h",
+  "@visitHoursShort": {
+    "description": "Duration in hours, short",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "visitConflict": "The technician has another visit at this time",
+  "@visitConflict": {
+    "description": "Visit sheet: technician busy"
+  },
+  "visitNoTechnicians": "Add technicians in the planner first",
+  "@visitNoTechnicians": {
+    "description": "Visit sheet: no technicians"
+  },
+  "visitSaveButton": "Schedule",
+  "@visitSaveButton": {
+    "description": "Visit sheet: save"
   }
 }

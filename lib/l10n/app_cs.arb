@@ -979,5 +979,134 @@
   "deleteAccountError": "Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.",
   "@deleteAccountError": {
     "description": "Delete account: generic error"
+  },
+  "plannerTitle": "Plánovač",
+  "@plannerTitle": {
+    "description": "Admin: planner tab/title"
+  },
+  "plannerToday": "Dnes",
+  "@plannerToday": {
+    "description": "Planner: jump to today"
+  },
+  "plannerUnassignedTitle": "Čeká na přiřazení",
+  "@plannerUnassignedTitle": {
+    "description": "Planner: strip of requests without technician"
+  },
+  "plannerUnassignedEmpty": "Všechny požadavky jsou rozdělené",
+  "@plannerUnassignedEmpty": {
+    "description": "Planner: no unassigned requests"
+  },
+  "plannerNoTechnicians": "Zatím nemáte žádné techniky. Přidejte je, aby se zobrazil plán.",
+  "@plannerNoTechnicians": {
+    "description": "Planner: empty state without technicians"
+  },
+  "plannerLoadError": "Plán se nepodařilo načíst",
+  "@plannerLoadError": {
+    "description": "Planner: load error"
+  },
+  "plannerRetry": "Zkusit znovu",
+  "@plannerRetry": {
+    "description": "Planner: retry button"
+  },
+  "plannerPickRequestTitle": "Který požadavek naplánovat?",
+  "@plannerPickRequestTitle": {
+    "description": "Planner: bottom sheet to pick a request for a free slot"
+  },
+  "techniciansTitle": "Technici",
+  "@techniciansTitle": {
+    "description": "Technicians management screen title / tooltip"
+  },
+  "technicianAddButton": "Přidat technika",
+  "@technicianAddButton": {
+    "description": "Technicians: add button"
+  },
+  "technicianLabel": "Technik",
+  "@technicianLabel": {
+    "description": "Technician field label"
+  },
+  "technicianNameLabel": "Jméno",
+  "@technicianNameLabel": {
+    "description": "Technician form: name"
+  },
+  "technicianNameRequired": "Zadejte jméno",
+  "@technicianNameRequired": {
+    "description": "Technician form: name required"
+  },
+  "technicianPhoneLabel": "Telefon",
+  "@technicianPhoneLabel": {
+    "description": "Technician form: phone"
+  },
+  "technicianColorLabel": "Barva v plánovači",
+  "@technicianColorLabel": {
+    "description": "Technician form: color in planner"
+  },
+  "technicianActiveLabel": "Zobrazovat v plánovači",
+  "@technicianActiveLabel": {
+    "description": "Technician form: show in planner switch"
+  },
+  "technicianHidden": "Skrytý",
+  "@technicianHidden": {
+    "description": "Technicians list: hidden marker"
+  },
+  "technicianSaveButton": "Uložit",
+  "@technicianSaveButton": {
+    "description": "Technician form: save"
+  },
+  "technicianCancelButton": "Zrušit",
+  "@technicianCancelButton": {
+    "description": "Technician form / visit sheet: cancel"
+  },
+  "techniciansEmpty": "Seznam je prázdný",
+  "@techniciansEmpty": {
+    "description": "Technicians list empty"
+  },
+  "visitSectionTitle": "Návštěva technika",
+  "@visitSectionTitle": {
+    "description": "Admin request detail: visit section"
+  },
+  "visitNotAssigned": "Zatím nepřiřazeno",
+  "@visitNotAssigned": {
+    "description": "Admin request detail: visit not assigned"
+  },
+  "visitAssignButton": "Přiřadit technika a čas",
+  "@visitAssignButton": {
+    "description": "Admin request detail: assign visit"
+  },
+  "visitChangeButton": "Změnit",
+  "@visitChangeButton": {
+    "description": "Admin request detail: change visit"
+  },
+  "visitDateLabel": "Datum",
+  "@visitDateLabel": {
+    "description": "Visit sheet: date"
+  },
+  "visitStartLabel": "Začátek",
+  "@visitStartLabel": {
+    "description": "Visit sheet: start hour"
+  },
+  "visitDurationLabel": "Délka",
+  "@visitDurationLabel": {
+    "description": "Visit sheet: duration"
+  },
+  "visitHoursShort": "{count} h",
+  "@visitHoursShort": {
+    "description": "Duration in hours, short",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "visitConflict": "Technik má v tuto dobu jinou návštěvu",
+  "@visitConflict": {
+    "description": "Visit sheet: technician busy"
+  },
+  "visitNoTechnicians": "Nejdřív přidejte techniky v plánovači",
+  "@visitNoTechnicians": {
+    "description": "Visit sheet: no technicians"
+  },
+  "visitSaveButton": "Naplánovat",
+  "@visitSaveButton": {
+    "description": "Visit sheet: save"
   }
 }

@@ -15,6 +15,7 @@ import '../../services/establishment_repository.dart';
 import '../../services/push_notification_service.dart';
 import '../../services/request_message_repository.dart';
 import '../../services/service_request_repository.dart';
+import 'admin_planner_tab.dart';
 import 'admin_request_detail_screen.dart';
 import 'admin_stats_tab.dart';
 import 'establishment_detail_screen.dart';
@@ -30,6 +31,11 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   int _tabIndex = 0;
+
+  // Индекс вкладки "Планировщик" — при переходе на неё перезагружаем
+  // данные (вкладки живут в IndexedStack и сами не обновляются).
+  static const _plannerTabIndex = 1;
+  final _plannerKey = GlobalKey<AdminPlannerTabState>();
 
   // Id заявок с непрочитанными сообщениями в чате — общий для всех
   // вкладок, живой (Realtime), см.
@@ -59,6 +65,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     final l10n = context.l10n;
     final titles = [
       l10n.adminHomeActiveTab,
+      l10n.plannerTitle,
       l10n.adminHomeDoneTab,
       l10n.adminHomeClientsTab,
       l10n.adminHomeStatsTab,
@@ -83,6 +90,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         index: _tabIndex,
         children: [
           _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
+          AdminPlannerTab(key: _plannerKey),
           _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
           const _ClientsTab(),
           const AdminStatsTab(),
@@ -90,7 +98,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
-        onDestinationSelected: (index) => setState(() => _tabIndex = index),
+        onDestinationSelected: (index) {
+          if (index == _plannerTabIndex && index != _tabIndex) {
+            _plannerKey.currentState?.reload();
+          }
+          setState(() => _tabIndex = index);
+        },
         destinations: [
           NavigationDestination(
             icon: Badge(
@@ -102,6 +115,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               child: const Icon(Icons.assignment),
             ),
             label: l10n.navActive,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.calendar_view_day_outlined),
+            selectedIcon: const Icon(Icons.calendar_view_day),
+            label: l10n.plannerTitle,
           ),
           NavigationDestination(
             icon: Badge(

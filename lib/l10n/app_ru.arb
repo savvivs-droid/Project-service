@@ -979,5 +979,134 @@
   "deleteAccountError": "Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.",
   "@deleteAccountError": {
     "description": "Delete account: generic error"
+  },
+  "plannerTitle": "Планировщик",
+  "@plannerTitle": {
+    "description": "Admin: planner tab/title"
+  },
+  "plannerToday": "Сегодня",
+  "@plannerToday": {
+    "description": "Planner: jump to today"
+  },
+  "plannerUnassignedTitle": "Ждут назначения",
+  "@plannerUnassignedTitle": {
+    "description": "Planner: strip of requests without technician"
+  },
+  "plannerUnassignedEmpty": "Все заявки распределены",
+  "@plannerUnassignedEmpty": {
+    "description": "Planner: no unassigned requests"
+  },
+  "plannerNoTechnicians": "Техников пока нет. Добавьте их, чтобы увидеть расписание.",
+  "@plannerNoTechnicians": {
+    "description": "Planner: empty state without technicians"
+  },
+  "plannerLoadError": "Не удалось загрузить расписание",
+  "@plannerLoadError": {
+    "description": "Planner: load error"
+  },
+  "plannerRetry": "Повторить",
+  "@plannerRetry": {
+    "description": "Planner: retry button"
+  },
+  "plannerPickRequestTitle": "Какую заявку поставить?",
+  "@plannerPickRequestTitle": {
+    "description": "Planner: bottom sheet to pick a request for a free slot"
+  },
+  "techniciansTitle": "Техники",
+  "@techniciansTitle": {
+    "description": "Technicians management screen title / tooltip"
+  },
+  "technicianAddButton": "Добавить техника",
+  "@technicianAddButton": {
+    "description": "Technicians: add button"
+  },
+  "technicianLabel": "Техник",
+  "@technicianLabel": {
+    "description": "Technician field label"
+  },
+  "technicianNameLabel": "Имя",
+  "@technicianNameLabel": {
+    "description": "Technician form: name"
+  },
+  "technicianNameRequired": "Введите имя",
+  "@technicianNameRequired": {
+    "description": "Technician form: name required"
+  },
+  "technicianPhoneLabel": "Телефон",
+  "@technicianPhoneLabel": {
+    "description": "Technician form: phone"
+  },
+  "technicianColorLabel": "Цвет в планировщике",
+  "@technicianColorLabel": {
+    "description": "Technician form: color in planner"
+  },
+  "technicianActiveLabel": "Показывать в планировщике",
+  "@technicianActiveLabel": {
+    "description": "Technician form: show in planner switch"
+  },
+  "technicianHidden": "Скрыт",
+  "@technicianHidden": {
+    "description": "Technicians list: hidden marker"
+  },
+  "technicianSaveButton": "Сохранить",
+  "@technicianSaveButton": {
+    "description": "Technician form: save"
+  },
+  "technicianCancelButton": "Отмена",
+  "@technicianCancelButton": {
+    "description": "Technician form / visit sheet: cancel"
+  },
+  "techniciansEmpty": "Список пуст",
+  "@techniciansEmpty": {
+    "description": "Technicians list empty"
+  },
+  "visitSectionTitle": "Визит техника",
+  "@visitSectionTitle": {
+    "description": "Admin request detail: visit section"
+  },
+  "visitNotAssigned": "Пока не назначен",
+  "@visitNotAssigned": {
+    "description": "Admin request detail: visit not assigned"
+  },
+  "visitAssignButton": "Назначить техника и время",
+  "@visitAssignButton": {
+    "description": "Admin request detail: assign visit"
+  },
+  "visitChangeButton": "Изменить",
+  "@visitChangeButton": {
+    "description": "Admin request detail: change visit"
+  },
+  "visitDateLabel": "Дата",
+  "@visitDateLabel": {
+    "description": "Visit sheet: date"
+  },
+  "visitStartLabel": "Начало",
+  "@visitStartLabel": {
+    "description": "Visit sheet: start hour"
+  },
+  "visitDurationLabel": "Длительность",
+  "@visitDurationLabel": {
+    "description": "Visit sheet: duration"
+  },
+  "visitHoursShort": "{count} ч",
+  "@visitHoursShort": {
+    "description": "Duration in hours, short",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "visitConflict": "У техника в это время другой визит",
+  "@visitConflict": {
+    "description": "Visit sheet: technician busy"
+  },
+  "visitNoTechnicians": "Сначала добавьте техников в планировщике",
+  "@visitNoTechnicians": {
+    "description": "Visit sheet: no technicians"
+  },
+  "visitSaveButton": "Назначить",
+  "@visitSaveButton": {
+    "description": "Visit sheet: save"
   }
 }

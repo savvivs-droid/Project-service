@@ -6,7 +6,11 @@ import '../../core/utils/text_formatters.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
+import '../../models/service_request.dart';
+import '../../models/technician.dart';
 import '../../services/service_request_repository.dart';
+import '../../services/technician_repository.dart';
+import 'assign_visit_sheet.dart';
 import 'request_chat_screen.dart';
 
 class AdminRequestDetailScreen extends StatefulWidget {
@@ -27,11 +31,32 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
 
   RequestListItem get _item => widget.item;
 
+  // Назначенный техник — для подписи в блоке "Визит техника".
+  Technician? _technician;
+
   @override
   void initState() {
     super.initState();
     _commentController =
         TextEditingController(text: _item.request.technicianComment ?? '');
+    _loadTechnician();
+  }
+
+  Future<void> _loadTechnician() async {
+    final technicianId = _item.request.technicianId;
+    if (technicianId == null) return;
+    try {
+      final technicians =
+          await TechnicianRepository().fetchAll(includeHidden: true);
+      if (!mounted) return;
+      setState(() {
+        for (final technician in technicians) {
+          if (technician.id == technicianId) _technician = technician;
+        }
+      });
+    } catch (_) {
+      // Подпись техника не критична — без неё карточка всё равно работает.
+    }
   }
 
   @override
@@ -40,36 +65,12 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
     super.dispose();
   }
 
-  Future<void> _pickSchedule() async {
-    final now = DateTime.now();
-    final date = await showDatePicker(
-      context: context,
-      initialDate: _item.request.scheduledAt ?? now,
-      firstDate: now.subtract(const Duration(days: 1)),
-      lastDate: now.add(const Duration(days: 365)),
-    );
-    if (date == null || !mounted) return;
-
-    final time = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(
-        _item.request.scheduledAt ?? now.add(const Duration(hours: 1)),
-      ),
-    );
-    if (time == null || !mounted) return;
-
-    final scheduledAt = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-    );
-
-    await _runAction(() => _repository.assignSchedule(
-          requestId: _item.request.id,
-          scheduledAt: scheduledAt,
-        ));
+  /// Техник и время визита — общая форма с планировщиком. После
+  /// назначения закрываем карточку с true, как и после других действий,
+  /// чтобы список/планировщик перезагрузились.
+  Future<void> _assignVisit() async {
+    final saved = await showAssignVisitSheet(context, item: _item);
+    if (saved && mounted) Navigator.of(context).pop(true);
   }
 
   Future<void> _saveComment() async {
@@ -251,15 +252,10 @@ class _AdminRequestDetailScreenState extends State<AdminRequestDetailScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            OutlinedButton.icon(
-              onPressed: _pickSchedule,
-              icon: const Icon(Icons.event_outlined),
-              label: Text(
-                request.scheduledAt == null
-                    ? context.l10n.assignTimeButton
-                    : context.l10n
-                        .changeTimeButton(_formatDateTime(request.scheduledAt!)),
-              ),
+            _VisitCard(
+              request: request,
+              technician: _technician,
+              onAssign: isClosed ? null : _assignVisit,
             ),
             const SizedBox(height: 20),
             Text(context.l10n.technicianCommentTitle,
@@ -467,11 +463,66 @@ class _MarkDoneDialogState extends State<_MarkDoneDialog> {
   }
 }
 
-String _formatDateTime(DateTime dateTime) {
-  final local = dateTime.toLocal();
-  final day = local.day.toString().padLeft(2, '0');
-  final month = local.month.toString().padLeft(2, '0');
-  final hour = local.hour.toString().padLeft(2, '0');
-  final minute = local.minute.toString().padLeft(2, '0');
-  return '$day.$month, $hour:$minute';
+/// Блок "Визит техника": кто едет, когда и на сколько часов, и кнопка
+/// назначить/изменить (для закрытых заявок — только просмотр).
+class _VisitCard extends StatelessWidget {
+  const _VisitCard({
+    required this.request,
+    required this.technician,
+    required this.onAssign,
+  });
+
+  final ServiceRequest request;
+  final Technician? technician;
+  final VoidCallback? onAssign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final start = request.scheduledAt?.toLocal();
+    final duration =
+        request.durationHours ?? ServiceRequest.defaultDurationHours;
+    final isAssigned = start != null && request.technicianId != null;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.visitSectionTitle, style: theme.textTheme.labelMedium),
+            const SizedBox(height: 8),
+            if (start == null)
+              Text(l10n.visitNotAssigned)
+            else ...[
+              if (technician != null)
+                Row(
+                  children: [
+                    CircleAvatar(radius: 6, backgroundColor: technician!.color),
+                    const SizedBox(width: 8),
+                    Text(technician!.name, style: theme.textTheme.titleSmall),
+                  ],
+                ),
+              const SizedBox(height: 4),
+              Text(
+                '${MaterialLocalizations.of(context).formatMediumDate(start)}, '
+                '${formatVisitHours(start, duration)}',
+              ),
+            ],
+            if (onAssign != null) ...[
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: onAssign,
+                icon: const Icon(Icons.event_available_outlined),
+                label: Text(
+                  isAssigned ? l10n.visitChangeButton : l10n.visitAssignButton,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
 }

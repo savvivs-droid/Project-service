@@ -746,4 +746,99 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteAccountError =>
       'Couldn\'t delete the account. Try again or contact us.';
+
+  @override
+  String get plannerTitle => 'Planner';
+
+  @override
+  String get plannerToday => 'Today';
+
+  @override
+  String get plannerUnassignedTitle => 'Awaiting assignment';
+
+  @override
+  String get plannerUnassignedEmpty => 'All requests are assigned';
+
+  @override
+  String get plannerNoTechnicians => 'No technicians yet. Add them to see the schedule.';
+
+  @override
+  String get plannerLoadError => 'Couldn\'t load the schedule';
+
+  @override
+  String get plannerRetry => 'Try again';
+
+  @override
+  String get plannerPickRequestTitle => 'Which request to schedule?';
+
+  @override
+  String get techniciansTitle => 'Technicians';
+
+  @override
+  String get technicianAddButton => 'Add technician';
+
+  @override
+  String get technicianLabel => 'Technician';
+
+  @override
+  String get technicianNameLabel => 'Name';
+
+  @override
+  String get technicianNameRequired => 'Enter a name';
+
+  @override
+  String get technicianPhoneLabel => 'Phone';
+
+  @override
+  String get technicianColorLabel => 'Color in the planner';
+
+  @override
+  String get technicianActiveLabel => 'Show in the planner';
+
+  @override
+  String get technicianHidden => 'Hidden';
+
+  @override
+  String get technicianSaveButton => 'Save';
+
+  @override
+  String get technicianCancelButton => 'Cancel';
+
+  @override
+  String get techniciansEmpty => 'The list is empty';
+
+  @override
+  String get visitSectionTitle => 'Technician visit';
+
+  @override
+  String get visitNotAssigned => 'Not assigned yet';
+
+  @override
+  String get visitAssignButton => 'Assign technician and time';
+
+  @override
+  String get visitChangeButton => 'Change';
+
+  @override
+  String get visitDateLabel => 'Date';
+
+  @override
+  String get visitStartLabel => 'Start';
+
+  @override
+  String get visitDurationLabel => 'Duration';
+
+  @override
+  String visitHoursShort(int count) {
+    return '$count h';
+  }
+
+  @override
+  String get visitConflict => 'The technician has another visit at this time';
+
+  @override
+  String get visitNoTechnicians => 'Add technicians in the planner first';
+
+  @override
+  String get visitSaveButton => 'Schedule';
 }

@@ -73,14 +73,52 @@ class ServiceRequestRepository {
     ]);
   }
 
-  Future<void> assignSchedule({
+  /// Назначает визит: техник, начало (ровный час) и длительность.
+  /// Время уходит в базу в UTC — иначе timestamptz принял бы "голое"
+  /// локальное время за UTC и визит сдвинулся бы на час-два.
+  Future<void> assignVisit({
     required String requestId,
-    required DateTime scheduledAt,
+    required String technicianId,
+    required DateTime start,
+    required int durationHours,
   }) {
     return _client.from('service_requests').update({
       'status': 'scheduled',
-      'scheduled_at': scheduledAt.toIso8601String(),
+      'scheduled_at': start.toUtc().toIso8601String(),
+      'technician_id': technicianId,
+      'duration_hours': durationHours,
     }).eq('id', requestId);
+  }
+
+  /// Визиты (запланированные и уже выполненные), которые начинаются в
+  /// промежутке [from, to) — для сетки планировщика на день.
+  Future<List<RequestListItem>> fetchVisitsBetween({
+    required DateTime from,
+    required DateTime to,
+  }) async {
+    final data = await _client
+        .from('service_requests')
+        .select(_listItemSelect)
+        .inFilter('status', ['scheduled', 'done'])
+        .gte('scheduled_at', from.toUtc().toIso8601String())
+        .lt('scheduled_at', to.toUtc().toIso8601String())
+        .order('scheduled_at');
+    return (data as List<dynamic>)
+        .map((row) => RequestListItem.fromJson(row as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// Заявки, которым ещё не назначен техник: новые и те, кому время
+  /// назначили до появления планировщика (без техника).
+  Future<List<RequestListItem>> fetchUnassigned() async {
+    final data = await _client
+        .from('service_requests')
+        .select(_listItemSelect)
+        .or('status.eq.new,and(status.eq.scheduled,technician_id.is.null)')
+        .order('created_at');
+    return (data as List<dynamic>)
+        .map((row) => RequestListItem.fromJson(row as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> saveTechnicianComment({

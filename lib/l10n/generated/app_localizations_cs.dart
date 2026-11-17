@@ -743,4 +743,99 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get deleteAccountError =>
       'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.';
+
+  @override
+  String get plannerTitle => 'Plánovač';
+
+  @override
+  String get plannerToday => 'Dnes';
+
+  @override
+  String get plannerUnassignedTitle => 'Čeká na přiřazení';
+
+  @override
+  String get plannerUnassignedEmpty => 'Všechny požadavky jsou rozdělené';
+
+  @override
+  String get plannerNoTechnicians => 'Zatím nemáte žádné techniky. Přidejte je, aby se zobrazil plán.';
+
+  @override
+  String get plannerLoadError => 'Plán se nepodařilo načíst';
+
+  @override
+  String get plannerRetry => 'Zkusit znovu';
+
+  @override
+  String get plannerPickRequestTitle => 'Který požadavek naplánovat?';
+
+  @override
+  String get techniciansTitle => 'Technici';
+
+  @override
+  String get technicianAddButton => 'Přidat technika';
+
+  @override
+  String get technicianLabel => 'Technik';
+
+  @override
+  String get technicianNameLabel => 'Jméno';
+
+  @override
+  String get technicianNameRequired => 'Zadejte jméno';
+
+  @override
+  String get technicianPhoneLabel => 'Telefon';
+
+  @override
+  String get technicianColorLabel => 'Barva v plánovači';
+
+  @override
+  String get technicianActiveLabel => 'Zobrazovat v plánovači';
+
+  @override
+  String get technicianHidden => 'Skrytý';
+
+  @override
+  String get technicianSaveButton => 'Uložit';
+
+  @override
+  String get technicianCancelButton => 'Zrušit';
+
+  @override
+  String get techniciansEmpty => 'Seznam je prázdný';
+
+  @override
+  String get visitSectionTitle => 'Návštěva technika';
+
+  @override
+  String get visitNotAssigned => 'Zatím nepřiřazeno';
+
+  @override
+  String get visitAssignButton => 'Přiřadit technika a čas';
+
+  @override
+  String get visitChangeButton => 'Změnit';
+
+  @override
+  String get visitDateLabel => 'Datum';
+
+  @override
+  String get visitStartLabel => 'Začátek';
+
+  @override
+  String get visitDurationLabel => 'Délka';
+
+  @override
+  String visitHoursShort(int count) {
+    return '$count h';
+  }
+
+  @override
+  String get visitConflict => 'Technik má v tuto dobu jinou návštěvu';
+
+  @override
+  String get visitNoTechnicians => 'Nejdřív přidejte techniky v plánovači';
+
+  @override
+  String get visitSaveButton => 'Naplánovat';
 }

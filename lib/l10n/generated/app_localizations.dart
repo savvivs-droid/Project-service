@@ -1481,6 +1481,192 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Účet se nepodařilo smazat. Zkuste to znovu nebo nás kontaktujte.'**
   String get deleteAccountError;
+
+  /// Admin: planner tab/title
+  ///
+  /// In cs, this message translates to:
+  /// **'Plánovač'**
+  String get plannerTitle;
+
+  /// Planner: jump to today
+  ///
+  /// In cs, this message translates to:
+  /// **'Dnes'**
+  String get plannerToday;
+
+  /// Planner: strip of requests without technician
+  ///
+  /// In cs, this message translates to:
+  /// **'Čeká na přiřazení'**
+  String get plannerUnassignedTitle;
+
+  /// Planner: no unassigned requests
+  ///
+  /// In cs, this message translates to:
+  /// **'Všechny požadavky jsou rozdělené'**
+  String get plannerUnassignedEmpty;
+
+  /// Planner: empty state without technicians
+  ///
+  /// In cs, this message translates to:
+  /// **'Zatím nemáte žádné techniky. Přidejte je, aby se zobrazil plán.'**
+  String get plannerNoTechnicians;
+
+  /// Planner: load error
+  ///
+  /// In cs, this message translates to:
+  /// **'Plán se nepodařilo načíst'**
+  String get plannerLoadError;
+
+  /// Planner: retry button
+  ///
+  /// In cs, this message translates to:
+  /// **'Zkusit znovu'**
+  String get plannerRetry;
+
+  /// Planner: bottom sheet to pick a request for a free slot
+  ///
+  /// In cs, this message translates to:
+  /// **'Který požadavek naplánovat?'**
+  String get plannerPickRequestTitle;
+
+  /// Technicians management screen title / tooltip
+  ///
+  /// In cs, this message translates to:
+  /// **'Technici'**
+  String get techniciansTitle;
+
+  /// Technicians: add button
+  ///
+  /// In cs, this message translates to:
+  /// **'Přidat technika'**
+  String get technicianAddButton;
+
+  /// Technician field label
+  ///
+  /// In cs, this message translates to:
+  /// **'Technik'**
+  String get technicianLabel;
+
+  /// Technician form: name
+  ///
+  /// In cs, this message translates to:
+  /// **'Jméno'**
+  String get technicianNameLabel;
+
+  /// Technician form: name required
+  ///
+  /// In cs, this message translates to:
+  /// **'Zadejte jméno'**
+  String get technicianNameRequired;
+
+  /// Technician form: phone
+  ///
+  /// In cs, this message translates to:
+  /// **'Telefon'**
+  String get technicianPhoneLabel;
+
+  /// Technician form: color in planner
+  ///
+  /// In cs, this message translates to:
+  /// **'Barva v plánovači'**
+  String get technicianColorLabel;
+
+  /// Technician form: show in planner switch
+  ///
+  /// In cs, this message translates to:
+  /// **'Zobrazovat v plánovači'**
+  String get technicianActiveLabel;
+
+  /// Technicians list: hidden marker
+  ///
+  /// In cs, this message translates to:
+  /// **'Skrytý'**
+  String get technicianHidden;
+
+  /// Technician form: save
+  ///
+  /// In cs, this message translates to:
+  /// **'Uložit'**
+  String get technicianSaveButton;
+
+  /// Technician form / visit sheet: cancel
+  ///
+  /// In cs, this message translates to:
+  /// **'Zrušit'**
+  String get technicianCancelButton;
+
+  /// Technicians list empty
+  ///
+  /// In cs, this message translates to:
+  /// **'Seznam je prázdný'**
+  String get techniciansEmpty;
+
+  /// Admin request detail: visit section
+  ///
+  /// In cs, this message translates to:
+  /// **'Návštěva technika'**
+  String get visitSectionTitle;
+
+  /// Admin request detail: visit not assigned
+  ///
+  /// In cs, this message translates to:
+  /// **'Zatím nepřiřazeno'**
+  String get visitNotAssigned;
+
+  /// Admin request detail: assign visit
+  ///
+  /// In cs, this message translates to:
+  /// **'Přiřadit technika a čas'**
+  String get visitAssignButton;
+
+  /// Admin request detail: change visit
+  ///
+  /// In cs, this message translates to:
+  /// **'Změnit'**
+  String get visitChangeButton;
+
+  /// Visit sheet: date
+  ///
+  /// In cs, this message translates to:
+  /// **'Datum'**
+  String get visitDateLabel;
+
+  /// Visit sheet: start hour
+  ///
+  /// In cs, this message translates to:
+  /// **'Začátek'**
+  String get visitStartLabel;
+
+  /// Visit sheet: duration
+  ///
+  /// In cs, this message translates to:
+  /// **'Délka'**
+  String get visitDurationLabel;
+
+  /// Duration in hours, short
+  ///
+  /// In cs, this message translates to:
+  /// **'{count} h'**
+  String visitHoursShort(int count);
+
+  /// Visit sheet: technician busy
+  ///
+  /// In cs, this message translates to:
+  /// **'Technik má v tuto dobu jinou návštěvu'**
+  String get visitConflict;
+
+  /// Visit sheet: no technicians
+  ///
+  /// In cs, this message translates to:
+  /// **'Nejdřív přidejte techniky v plánovači'**
+  String get visitNoTechnicians;
+
+  /// Visit sheet: save
+  ///
+  /// In cs, this message translates to:
+  /// **'Naplánovat'**
+  String get visitSaveButton;
 }
 
 class _AppLocalizationsDelegate

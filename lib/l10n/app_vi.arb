@@ -979,5 +979,134 @@
   "deleteAccountError": "Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.",
   "@deleteAccountError": {
     "description": "Delete account: generic error"
+  },
+  "plannerTitle": "Lịch",
+  "@plannerTitle": {
+    "description": "Admin: planner tab/title"
+  },
+  "plannerToday": "Hôm nay",
+  "@plannerToday": {
+    "description": "Planner: jump to today"
+  },
+  "plannerUnassignedTitle": "Chờ phân công",
+  "@plannerUnassignedTitle": {
+    "description": "Planner: strip of requests without technician"
+  },
+  "plannerUnassignedEmpty": "Tất cả yêu cầu đã được phân công",
+  "@plannerUnassignedEmpty": {
+    "description": "Planner: no unassigned requests"
+  },
+  "plannerNoTechnicians": "Chưa có kỹ thuật viên. Hãy thêm để xem lịch.",
+  "@plannerNoTechnicians": {
+    "description": "Planner: empty state without technicians"
+  },
+  "plannerLoadError": "Không tải được lịch",
+  "@plannerLoadError": {
+    "description": "Planner: load error"
+  },
+  "plannerRetry": "Thử lại",
+  "@plannerRetry": {
+    "description": "Planner: retry button"
+  },
+  "plannerPickRequestTitle": "Lên lịch yêu cầu nào?",
+  "@plannerPickRequestTitle": {
+    "description": "Planner: bottom sheet to pick a request for a free slot"
+  },
+  "techniciansTitle": "Kỹ thuật viên",
+  "@techniciansTitle": {
+    "description": "Technicians management screen title / tooltip"
+  },
+  "technicianAddButton": "Thêm kỹ thuật viên",
+  "@technicianAddButton": {
+    "description": "Technicians: add button"
+  },
+  "technicianLabel": "Kỹ thuật viên",
+  "@technicianLabel": {
+    "description": "Technician field label"
+  },
+  "technicianNameLabel": "Tên",
+  "@technicianNameLabel": {
+    "description": "Technician form: name"
+  },
+  "technicianNameRequired": "Nhập tên",
+  "@technicianNameRequired": {
+    "description": "Technician form: name required"
+  },
+  "technicianPhoneLabel": "Số điện thoại",
+  "@technicianPhoneLabel": {
+    "description": "Technician form: phone"
+  },
+  "technicianColorLabel": "Màu trong lịch",
+  "@technicianColorLabel": {
+    "description": "Technician form: color in planner"
+  },
+  "technicianActiveLabel": "Hiển thị trong lịch",
+  "@technicianActiveLabel": {
+    "description": "Technician form: show in planner switch"
+  },
+  "technicianHidden": "Đã ẩn",
+  "@technicianHidden": {
+    "description": "Technicians list: hidden marker"
+  },
+  "technicianSaveButton": "Lưu",
+  "@technicianSaveButton": {
+    "description": "Technician form: save"
+  },
+  "technicianCancelButton": "Hủy",
+  "@technicianCancelButton": {
+    "description": "Technician form / visit sheet: cancel"
+  },
+  "techniciansEmpty": "Danh sách trống",
+  "@techniciansEmpty": {
+    "description": "Technicians list empty"
+  },
+  "visitSectionTitle": "Lịch hẹn kỹ thuật viên",
+  "@visitSectionTitle": {
+    "description": "Admin request detail: visit section"
+  },
+  "visitNotAssigned": "Chưa phân công",
+  "@visitNotAssigned": {
+    "description": "Admin request detail: visit not assigned"
+  },
+  "visitAssignButton": "Phân công kỹ thuật viên và giờ",
+  "@visitAssignButton": {
+    "description": "Admin request detail: assign visit"
+  },
+  "visitChangeButton": "Thay đổi",
+  "@visitChangeButton": {
+    "description": "Admin request detail: change visit"
+  },
+  "visitDateLabel": "Ngày",
+  "@visitDateLabel": {
+    "description": "Visit sheet: date"
+  },
+  "visitStartLabel": "Bắt đầu",
+  "@visitStartLabel": {
+    "description": "Visit sheet: start hour"
+  },
+  "visitDurationLabel": "Thời lượng",
+  "@visitDurationLabel": {
+    "description": "Visit sheet: duration"
+  },
+  "visitHoursShort": "{count} giờ",
+  "@visitHoursShort": {
+    "description": "Duration in hours, short",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "visitConflict": "Kỹ thuật viên đã có lịch khác vào giờ này",
+  "@visitConflict": {
+    "description": "Visit sheet: technician busy"
+  },
+  "visitNoTechnicians": "Hãy thêm kỹ thuật viên trong Lịch trước",
+  "@visitNoTechnicians": {
+    "description": "Visit sheet: no technicians"
+  },
+  "visitSaveButton": "Lên lịch",
+  "@visitSaveButton": {
+    "description": "Visit sheet: save"
   }
 }

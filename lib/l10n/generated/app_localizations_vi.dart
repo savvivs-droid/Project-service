@@ -745,4 +745,99 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get deleteAccountError =>
       'Không thể xóa tài khoản. Hãy thử lại hoặc liên hệ với chúng tôi.';
+
+  @override
+  String get plannerTitle => 'Lịch';
+
+  @override
+  String get plannerToday => 'Hôm nay';
+
+  @override
+  String get plannerUnassignedTitle => 'Chờ phân công';
+
+  @override
+  String get plannerUnassignedEmpty => 'Tất cả yêu cầu đã được phân công';
+
+  @override
+  String get plannerNoTechnicians => 'Chưa có kỹ thuật viên. Hãy thêm để xem lịch.';
+
+  @override
+  String get plannerLoadError => 'Không tải được lịch';
+
+  @override
+  String get plannerRetry => 'Thử lại';
+
+  @override
+  String get plannerPickRequestTitle => 'Lên lịch yêu cầu nào?';
+
+  @override
+  String get techniciansTitle => 'Kỹ thuật viên';
+
+  @override
+  String get technicianAddButton => 'Thêm kỹ thuật viên';
+
+  @override
+  String get technicianLabel => 'Kỹ thuật viên';
+
+  @override
+  String get technicianNameLabel => 'Tên';
+
+  @override
+  String get technicianNameRequired => 'Nhập tên';
+
+  @override
+  String get technicianPhoneLabel => 'Số điện thoại';
+
+  @override
+  String get technicianColorLabel => 'Màu trong lịch';
+
+  @override
+  String get technicianActiveLabel => 'Hiển thị trong lịch';
+
+  @override
+  String get technicianHidden => 'Đã ẩn';
+
+  @override
+  String get technicianSaveButton => 'Lưu';
+
+  @override
+  String get technicianCancelButton => 'Hủy';
+
+  @override
+  String get techniciansEmpty => 'Danh sách trống';
+
+  @override
+  String get visitSectionTitle => 'Lịch hẹn kỹ thuật viên';
+
+  @override
+  String get visitNotAssigned => 'Chưa phân công';
+
+  @override
+  String get visitAssignButton => 'Phân công kỹ thuật viên và giờ';
+
+  @override
+  String get visitChangeButton => 'Thay đổi';
+
+  @override
+  String get visitDateLabel => 'Ngày';
+
+  @override
+  String get visitStartLabel => 'Bắt đầu';
+
+  @override
+  String get visitDurationLabel => 'Thời lượng';
+
+  @override
+  String visitHoursShort(int count) {
+    return '$count giờ';
+  }
+
+  @override
+  String get visitConflict => 'Kỹ thuật viên đã có lịch khác vào giờ này';
+
+  @override
+  String get visitNoTechnicians => 'Hãy thêm kỹ thuật viên trong Lịch trước';
+
+  @override
+  String get visitSaveButton => 'Lên lịch';
 }

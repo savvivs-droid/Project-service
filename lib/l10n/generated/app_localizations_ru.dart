@@ -745,4 +745,99 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get deleteAccountError =>
       'Не удалось удалить аккаунт. Попробуйте ещё раз или напишите нам.';
+
+  @override
+  String get plannerTitle => 'Планировщик';
+
+  @override
+  String get plannerToday => 'Сегодня';
+
+  @override
+  String get plannerUnassignedTitle => 'Ждут назначения';
+
+  @override
+  String get plannerUnassignedEmpty => 'Все заявки распределены';
+
+  @override
+  String get plannerNoTechnicians => 'Техников пока нет. Добавьте их, чтобы увидеть расписание.';
+
+  @override
+  String get plannerLoadError => 'Не удалось загрузить расписание';
+
+  @override
+  String get plannerRetry => 'Повторить';
+
+  @override
+  String get plannerPickRequestTitle => 'Какую заявку поставить?';
+
+  @override
+  String get techniciansTitle => 'Техники';
+
+  @override
+  String get technicianAddButton => 'Добавить техника';
+
+  @override
+  String get technicianLabel => 'Техник';
+
+  @override
+  String get technicianNameLabel => 'Имя';
+
+  @override
+  String get technicianNameRequired => 'Введите имя';
+
+  @override
+  String get technicianPhoneLabel => 'Телефон';
+
+  @override
+  String get technicianColorLabel => 'Цвет в планировщике';
+
+  @override
+  String get technicianActiveLabel => 'Показывать в планировщике';
+
+  @override
+  String get technicianHidden => 'Скрыт';
+
+  @override
+  String get technicianSaveButton => 'Сохранить';
+
+  @override
+  String get technicianCancelButton => 'Отмена';
+
+  @override
+  String get techniciansEmpty => 'Список пуст';
+
+  @override
+  String get visitSectionTitle => 'Визит техника';
+
+  @override
+  String get visitNotAssigned => 'Пока не назначен';
+
+  @override
+  String get visitAssignButton => 'Назначить техника и время';
+
+  @override
+  String get visitChangeButton => 'Изменить';
+
+  @override
+  String get visitDateLabel => 'Дата';
+
+  @override
+  String get visitStartLabel => 'Начало';
+
+  @override
+  String get visitDurationLabel => 'Длительность';
+
+  @override
+  String visitHoursShort(int count) {
+    return '$count ч';
+  }
+
+  @override
+  String get visitConflict => 'У техника в это время другой визит';
+
+  @override
+  String get visitNoTechnicians => 'Сначала добавьте техников в планировщике';
+
+  @override
+  String get visitSaveButton => 'Назначить';
 }
