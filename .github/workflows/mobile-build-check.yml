@@ -16,8 +16,8 @@ jobs:
   ios:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           ref: web-preview
           path: _preview
@@ -27,24 +27,42 @@ jobs:
           cache: true
       - run: cp _preview/assets/.env .env && rm -rf _preview
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
+      - run: flutter build ios --release --no-codesign 2>&1 | tee build.log; exit ${PIPESTATUS[0]}
+        shell: bash
+
+      # При ошибке — хвост лога в аннотацию, чтобы причину было видно
+      # прямо на странице проверки.
+      - name: Показать ошибку сборки
+        if: failure()
+        run: |
+          tail -n 60 build.log | sed 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
+          echo "::error title=Build failed::$(cat tail.txt)"
 
   android:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           ref: web-preview
           path: _preview
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
       - run: cp _preview/assets/.env .env && rm -rf _preview
       - run: flutter pub get
-      - run: flutter build appbundle --release
+      - run: flutter build appbundle --release 2>&1 | tee build.log; exit ${PIPESTATUS[0]}
+        shell: bash
+
+      # При ошибке — хвост лога в аннотацию, чтобы причину было видно
+      # прямо на странице проверки.
+      - name: Показать ошибку сборки
+        if: failure()
+        run: |
+          tail -n 60 build.log | sed 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' > tail.txt
+          echo "::error title=Build failed::$(cat tail.txt)"
