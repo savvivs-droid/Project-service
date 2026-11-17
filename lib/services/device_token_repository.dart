@@ -8,12 +8,19 @@ class DeviceTokenRepository {
   /// Регистрирует (или обновляет) токен устройства текущего пользователя —
   /// вызывается при входе и при каждом обновлении токена (FCM время от
   /// времени ротирует токены сам). См. device_tokens в supabase/schema.sql.
-  Future<void> upsert({required String token, required String platform}) {
+  /// [locale] — язык приложения на этом устройстве: на нём сервер пишет
+  /// текст push о смене статуса заявки (send-status-notification).
+  Future<void> upsert({
+    required String token,
+    required String platform,
+    required String locale,
+  }) {
     final profileId = _client.auth.currentUser!.id;
     return _client.from('device_tokens').upsert({
       'token': token,
       'profile_id': profileId,
       'platform': platform,
+      'locale': locale,
       'updated_at': DateTime.now().toIso8601String(),
     });
   }

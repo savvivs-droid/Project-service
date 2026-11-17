@@ -4,10 +4,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/l10n/locale_controller.dart';
 import 'core/theme/app_theme.dart';
+import 'features/home/client_request_detail_screen.dart';
 import 'features/home/request_chat_screen.dart';
 import 'features/splash/splash_video_screen.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'services/push_notification_service.dart';
+import 'services/service_request_repository.dart';
 import 'services/supabase_service.dart';
 
 Future<void> main() async {
@@ -33,11 +35,17 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
   @override
   void initState() {
     super.initState();
-    // Нажатие на push-уведомление о новом сообщении чата — открыть этот
-    // чат поверх текущего экрана. Работает и на холодном старте (когда
+    // Нажатие на push-уведомление: о новом сообщении чата — открыть этот
+    // чат, о смене статуса заявки — карточку заявки, поверх текущего
+    // экрана. Работает и на холодном старте (когда
     // именно нажатие на уведомление запустило приложение), и когда
     // приложение уже было открыто в фоне.
     PushNotificationService.instance.onNotificationTap.listen((message) {
+      if (message.data['type'] == 'status') {
+        final requestId = message.data['requestId'];
+        if (requestId != null) _openRequestDetail(requestId);
+        return;
+      }
       final requestId = message.data['requestId'];
       final title = message.data['title'];
       final otherPartyName = message.data['otherPartyName'];
@@ -54,6 +62,22 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
         ),
       );
     });
+  }
+
+  /// Нажатие на push о смене статуса заявки (визит назначен, ремонт
+  /// выполнен...) — открыть карточку этой заявки.
+  Future<void> _openRequestDetail(String requestId) async {
+    try {
+      final item = await ServiceRequestRepository().fetchById(requestId);
+      if (item == null) return;
+      _navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (_) => ClientRequestDetailScreen(item: item),
+        ),
+      );
+    } catch (error) {
+      debugPrint('Не удалось открыть заявку из уведомления: $error');
+    }
   }
 
   @override

@@ -7,6 +7,22 @@ import 'supabase_service.dart';
 class ServiceRequestRepository {
   final SupabaseClient _client = SupabaseService.client;
 
+  static const _listItemSelect = '*, establishments(name, address), '
+      'profiles!service_requests_client_id_fkey(full_name, phone), '
+      'service_request_equipment(equipment(type, model, photos, sticker_code))';
+
+  /// Одна заявка со всем, что нужно экрану детали — для перехода по
+  /// нажатию на push о смене статуса. null — заявки нет или она не
+  /// видна текущему пользователю (RLS).
+  Future<RequestListItem?> fetchById(String requestId) async {
+    final row = await _client
+        .from('service_requests')
+        .select(_listItemSelect)
+        .eq('id', requestId)
+        .maybeSingle();
+    return row == null ? null : RequestListItem.fromJson(row);
+  }
+
   /// Заявки, видимые текущему пользователю. Один и тот же запрос — RLS
   /// на уровне базы сам решает, что вернуть: администратору видны все
   /// заявки, клиенту — заявки заведений, где он состоит (см.
@@ -19,11 +35,7 @@ class ServiceRequestRepository {
     // к profiles (через client_id и через отметки прочтения), поэтому
     // нужную связь приходится называть явно, иначе embed падает с
     // PGRST201 "more than one relationship was found".
-    final query = _client.from('service_requests').select(
-          '*, establishments(name, address), '
-          'profiles!service_requests_client_id_fkey(full_name, phone), '
-          'service_request_equipment(equipment(type, model, photos, sticker_code))',
-        );
+    final query = _client.from('service_requests').select(_listItemSelect);
 
     final filtered = establishmentId == null
         ? query

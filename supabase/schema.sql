@@ -122,6 +122,10 @@ create table public.service_requests (
   -- вкладки "Статистика" у администратора.
   repair_cost numeric(10, 2),
   parts_cost numeric(10, 2),
+  -- Кто последним поменял статус/время визита (ставит триггер
+  -- trg_set_status_changed_by) — чтобы не слать клиенту push об
+  -- отмене, которую он сделал сам. См. send-status-notification.
+  status_changed_by uuid references public.profiles (id) on delete set null,
   created_at timestamptz not null default now()
 );
 
@@ -178,6 +182,9 @@ create table public.device_tokens (
   token text primary key,
   profile_id uuid not null references public.profiles (id) on delete cascade,
   platform text not null,
+  -- Язык приложения на этом устройстве (cs/en/ru/vi) — на нём сервер
+  -- пишет текст push о смене статуса заявки. null -> чешский.
+  locale text,
   updated_at timestamptz not null default now()
 );
 
@@ -760,3 +767,25 @@ create policy "Только админ изменяет фото оборудо�
 create policy "Только админ удаляет фото оборудования"
   on storage.objects for delete
   using (bucket_id = 'equipment-photos' and public.is_staff());
+
+-- =============================================================================
+-- Кто поменял статус заявки (для push о смене статуса, см.
+-- supabase/functions/send-status-notification)
+-- =============================================================================
+
+create or replace function public.set_status_changed_by()
+returns trigger
+language plpgsql
+as $$
+begin
+  if new.status is distinct from old.status
+     or new.scheduled_at is distinct from old.scheduled_at then
+    new.status_changed_by := auth.uid();
+  end if;
+  return new;
+end;
+$$;
+
+create trigger trg_set_status_changed_by
+  before update on public.service_requests
+  for each row execute function public.set_status_changed_by();

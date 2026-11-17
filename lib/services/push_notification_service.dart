@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
+import '../core/l10n/locale_controller.dart';
 import '../firebase_options.dart';
 import 'device_token_repository.dart';
 
@@ -36,9 +38,12 @@ class PushNotificationService {
   String? _registeredToken;
 
   /// Данные уведомления, по которому нажали (и приложение было открыто
-  /// или запущено этим нажатием) — requestId/title/otherPartyName в
-  /// data-payload, см. Edge Function. Слушает main.dart, чтобы открыть
-  /// нужный чат поверх текущего экрана.
+  /// или запущено этим нажатием). Два вида data-payload:
+  ///   - новое сообщение чата — requestId/title/otherPartyName
+  ///     (send-push-notification);
+  ///   - смена статуса заявки — type: 'status', requestId
+  ///     (send-status-notification). Слушает main.dart, чтобы открыть
+  /// нужный экран поверх текущего.
   Stream<RemoteMessage> get onNotificationTap => _tapController.stream;
 
   Future<void> initializeApp() async {
@@ -61,11 +66,41 @@ class PushNotificationService {
     if (token != null) await _register(token);
 
     messaging.onTokenRefresh.listen(_register);
+
+    // Сменили язык в приложении — сообщаем серверу, чтобы следующие
+    // уведомления о статусе заявки пришли уже на новом языке.
+    if (!_listeningToLocale) {
+      _listeningToLocale = true;
+      localeController.addListener(_onLocaleChanged);
+    }
+  }
+
+  bool _listeningToLocale = false;
+
+  void _onLocaleChanged() {
+    final token = _registeredToken;
+    if (token != null) unawaited(_register(token));
   }
 
   Future<void> _register(String token) async {
     _registeredToken = token;
-    await _tokenRepository.upsert(token: token, platform: _platformName());
+    await _tokenRepository.upsert(
+      token: token,
+      platform: _platformName(),
+      locale: _currentLocaleCode(),
+    );
+  }
+
+  /// Выбранный в приложении язык, а если "как в системе" — язык
+  /// устройства, если он среди поддерживаемых (иначе чешский — так же,
+  /// как выбирает Flutter по supportedLocales в main.dart).
+  String _currentLocaleCode() {
+    final chosen = localeController.value;
+    if (chosen != null) return chosen.languageCode;
+    final system = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    final supported = LocaleController.supportedLocales
+        .any((locale) => locale.languageCode == system);
+    return supported ? system : LocaleController.supportedLocales.first.languageCode;
   }
 
   String _platformName() =>
