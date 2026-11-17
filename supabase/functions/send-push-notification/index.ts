@@ -17,7 +17,9 @@
 // SUPABASE_URL и SUPABASE_SERVICE_ROLE_KEY Supabase подставляет каждой
 // Edge Function автоматически — задавать вручную не нужно.
 
-import { createClient } from "npm:@supabase/supabase-js@2";
+// jsr-версия — нативная для Deno; npm-версия тянет Node-полифилы, на
+// которых Edge Runtime падал с "ERR_NOT_IMPLEMENTED: callTimeout".
+import { createClient } from "jsr:@supabase/supabase-js@2";
 // ---------------------------------------------------------------------------
 // FCM HTTP v1 на чистом fetch + WebCrypto — без firebase-admin: его
 // Node-зависимости (http2 и т. п.) в Deno Edge Functions падают с
@@ -345,11 +347,15 @@ async function sendWebPush(
       },
       body: body as BodyInit,
     });
-    if (response.status === 404 || response.status === 410) return "gone";
+    if (response.status === 404 || response.status === 410) {
+      console.log("web push: subscription gone", response.status);
+      return "gone";
+    }
     if (!response.ok) {
       console.error("web push failed", response.status, await response.text());
       return "failed";
     }
+    console.log("web push sent", response.status, new URL(subscription.endpoint).host);
     return "ok";
   } catch (error) {
     console.error("web push error", error);
@@ -362,6 +368,7 @@ async function sendWebPush(
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  { auth: { persistSession: false, autoRefreshToken: false } },
 );
 
 interface RequestMessageRow {
@@ -500,6 +507,7 @@ Deno.serve(async (req) => {
     await supabase.from("device_tokens").delete().in("token", staleTokens);
   }
 
+  console.log("chat push result", { recipients: rows.length, sent, failed });
   return new Response(
     JSON.stringify({ sent, failed }),
     { status: 200, headers: { "Content-Type": "application/json" } },
