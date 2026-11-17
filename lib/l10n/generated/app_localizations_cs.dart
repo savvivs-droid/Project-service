@@ -838,4 +838,22 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get visitSaveButton => 'Naplánovat';
+
+  @override
+  String get webPushBannerText => 'Zapněte si oznámení, ať hned víte o nových zprávách a změnách v požadavcích.';
+
+  @override
+  String get webPushEnableButton => 'Zapnout';
+
+  @override
+  String get webPushInstallHint => 'Chcete-li dostávat oznámení na iPhonu, přidejte si aplikaci na plochu: tlačítko Sdílet → Přidat na plochu, a otevírejte ji odtamtud.';
+
+  @override
+  String get webPushEnabled => 'Oznámení jsou zapnutá';
+
+  @override
+  String get webPushFailed => 'Oznámení se nepodařilo zapnout. Zkontrolujte povolení v nastavení prohlížeče.';
+
+  @override
+  String get webPushDismissTooltip => 'Skrýt';
 }

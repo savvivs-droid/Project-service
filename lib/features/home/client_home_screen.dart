@@ -10,6 +10,7 @@ import '../../core/widgets/equipment_grid_tile.dart';
 import '../../core/widgets/equipment_illustrations.dart';
 import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
+import '../../core/widgets/web_push_banner.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
@@ -183,27 +184,34 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _tabIndex,
+      body: Column(
         children: [
-          _ClientRequestsTab(
-            key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
-            showActive: true,
-            establishmentId: _selectedEstablishmentId,
-            unreadRequestIds: _unreadRequestIds,
+          const WebPushBanner(),
+          Expanded(
+            child: IndexedStack(
+              index: _tabIndex,
+              children: [
+                _ClientRequestsTab(
+                  key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
+                  showActive: true,
+                  establishmentId: _selectedEstablishmentId,
+                  unreadRequestIds: _unreadRequestIds,
+                ),
+                _ClientRequestsTab(
+                  key: ValueKey('done-$_selectedEstablishmentId'),
+                  showActive: false,
+                  establishmentId: _selectedEstablishmentId,
+                  unreadRequestIds: _unreadRequestIds,
+                ),
+                _ClientEquipmentTab(
+                  key: ValueKey(_selectedEstablishmentId),
+                  establishmentId: _selectedEstablishmentId,
+                  clientId: widget.profile.id,
+                ),
+                ClientProfileTab(profile: widget.profile),
+              ],
+            ),
           ),
-          _ClientRequestsTab(
-            key: ValueKey('done-$_selectedEstablishmentId'),
-            showActive: false,
-            establishmentId: _selectedEstablishmentId,
-            unreadRequestIds: _unreadRequestIds,
-          ),
-          _ClientEquipmentTab(
-            key: ValueKey(_selectedEstablishmentId),
-            establishmentId: _selectedEstablishmentId,
-            clientId: widget.profile.id,
-          ),
-          ClientProfileTab(profile: widget.profile),
         ],
       ),
       floatingActionButton: SupportActionButtons(

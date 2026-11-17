@@ -1667,6 +1667,42 @@ abstract class AppLocalizations {
   /// In cs, this message translates to:
   /// **'Naplánovat'**
   String get visitSaveButton;
+
+  /// Web push banner: invite to enable notifications
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapněte si oznámení, ať hned víte o nových zprávách a změnách v požadavcích.'**
+  String get webPushBannerText;
+
+  /// Web push banner: enable button
+  ///
+  /// In cs, this message translates to:
+  /// **'Zapnout'**
+  String get webPushEnableButton;
+
+  /// Web push banner on iPhone Safari: add to home screen first
+  ///
+  /// In cs, this message translates to:
+  /// **'Chcete-li dostávat oznámení na iPhonu, přidejte si aplikaci na plochu: tlačítko Sdílet → Přidat na plochu, a otevírejte ji odtamtud.'**
+  String get webPushInstallHint;
+
+  /// Web push: enabled confirmation
+  ///
+  /// In cs, this message translates to:
+  /// **'Oznámení jsou zapnutá'**
+  String get webPushEnabled;
+
+  /// Web push: could not enable
+  ///
+  /// In cs, this message translates to:
+  /// **'Oznámení se nepodařilo zapnout. Zkontrolujte povolení v nastavení prohlížeče.'**
+  String get webPushFailed;
+
+  /// Web push banner: hide
+  ///
+  /// In cs, this message translates to:
+  /// **'Skrýt'**
+  String get webPushDismissTooltip;
 }
 
 class _AppLocalizationsDelegate

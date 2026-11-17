@@ -7,6 +7,7 @@ import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/launch_helpers.dart';
 import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
+import '../../core/widgets/web_push_banner.dart';
 import '../../models/request_list_item.dart';
 import '../../models/establishment.dart';
 import '../../models/profile.dart';
@@ -86,14 +87,21 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _tabIndex,
+      body: Column(
         children: [
-          _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
-          AdminPlannerTab(key: _plannerKey),
-          _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
-          const _ClientsTab(),
-          const AdminStatsTab(),
+          const WebPushBanner(),
+          Expanded(
+            child: IndexedStack(
+              index: _tabIndex,
+              children: [
+                _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
+                AdminPlannerTab(key: _plannerKey),
+                _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
+                const _ClientsTab(),
+                const AdminStatsTab(),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(

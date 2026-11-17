@@ -840,4 +840,22 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get visitSaveButton => 'Lên lịch';
+
+  @override
+  String get webPushBannerText => 'Bật thông báo để biết ngay tin nhắn mới và thay đổi của yêu cầu.';
+
+  @override
+  String get webPushEnableButton => 'Bật';
+
+  @override
+  String get webPushInstallHint => 'Để nhận thông báo trên iPhone, hãy thêm ứng dụng vào Màn hình chính: nút Chia sẻ → Thêm vào MH chính, rồi mở ứng dụng từ đó.';
+
+  @override
+  String get webPushEnabled => 'Đã bật thông báo';
+
+  @override
+  String get webPushFailed => 'Không bật được thông báo. Hãy kiểm tra quyền trong cài đặt trình duyệt.';
+
+  @override
+  String get webPushDismissTooltip => 'Ẩn';
 }

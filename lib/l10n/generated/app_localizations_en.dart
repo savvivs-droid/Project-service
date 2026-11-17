@@ -841,4 +841,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get visitSaveButton => 'Schedule';
+
+  @override
+  String get webPushBannerText => 'Turn on notifications to hear right away about new messages and request updates.';
+
+  @override
+  String get webPushEnableButton => 'Turn on';
+
+  @override
+  String get webPushInstallHint => 'To get notifications on iPhone, add the app to your Home Screen: Share button → Add to Home Screen, and open it from there.';
+
+  @override
+  String get webPushEnabled => 'Notifications are on';
+
+  @override
+  String get webPushFailed => 'Couldn\'t turn on notifications. Check the permission in your browser settings.';
+
+  @override
+  String get webPushDismissTooltip => 'Hide';
 }

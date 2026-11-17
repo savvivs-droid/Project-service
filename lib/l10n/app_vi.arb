@@ -1108,5 +1108,29 @@
   "visitSaveButton": "Lên lịch",
   "@visitSaveButton": {
     "description": "Visit sheet: save"
+  },
+  "webPushBannerText": "Bật thông báo để biết ngay tin nhắn mới và thay đổi của yêu cầu.",
+  "@webPushBannerText": {
+    "description": "Web push banner: invite to enable notifications"
+  },
+  "webPushEnableButton": "Bật",
+  "@webPushEnableButton": {
+    "description": "Web push banner: enable button"
+  },
+  "webPushInstallHint": "Để nhận thông báo trên iPhone, hãy thêm ứng dụng vào Màn hình chính: nút Chia sẻ → Thêm vào MH chính, rồi mở ứng dụng từ đó.",
+  "@webPushInstallHint": {
+    "description": "Web push banner on iPhone Safari: add to home screen first"
+  },
+  "webPushEnabled": "Đã bật thông báo",
+  "@webPushEnabled": {
+    "description": "Web push: enabled confirmation"
+  },
+  "webPushFailed": "Không bật được thông báo. Hãy kiểm tra quyền trong cài đặt trình duyệt.",
+  "@webPushFailed": {
+    "description": "Web push: could not enable"
+  },
+  "webPushDismissTooltip": "Ẩn",
+  "@webPushDismissTooltip": {
+    "description": "Web push banner: hide"
   }
 }

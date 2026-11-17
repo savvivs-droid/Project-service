@@ -5,9 +5,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+import '../core/config/web_push_config.dart';
 import '../core/l10n/locale_controller.dart';
 import '../firebase_options.dart';
 import 'device_token_repository.dart';
+import 'web_push_bridge.dart';
 
 /// Push-уведомления (Firebase Cloud Messaging). Сама отправка — на
 /// стороне сервера (Edge Function send-push-notification, вызывается
@@ -15,18 +17,12 @@ import 'device_token_repository.dart';
 /// только приём: инициализация Firebase, регистрация токена устройства
 /// и обработка нажатия на уведомление (открыть нужный чат).
 ///
-/// Только Android/iOS — сознательно не трогаем веб:
-///   - firebase_core_web подгружает JS SDK Firebase с gstatic.com прямо
-///     во время инициализации; если этот домен недоступен (блокировка
-///     сети/оператора — см. похожую оговорку про CanvasKit в README),
-///     приложение зависает на пустом экране ещё до входа. Это касалось
-///     бы вообще всех, кто открывает веб-версию, не только тех, кому
-///     нужны пуши.
-///   - фоновый push в браузере в принципе требует отдельный Service
-///     Worker (firebase-messaging-sw.js), а он у веб-сборки специально
-///     отключён (см. историю веб-превью — "кэш всегда мешал").
-///   - веб — это превью для стейкхолдеров (см. README), а не целевая
-///     платформа приложения (iOS/Android).
+/// Android/iOS — через Firebase. В браузере (веб-версия) Firebase
+/// сознательно не используем: firebase_core_web грузит JS SDK с
+/// gstatic.com, и при блокировке этого домена приложение зависало бы на
+/// белом экране. Вместо этого — стандартный Web Push (web/push.js,
+/// web/push-sw.js), подписка хранится в device_tokens с platform = 'web',
+/// отправляют те же Edge Functions.
 class PushNotificationService {
   PushNotificationService._();
 
@@ -56,7 +52,15 @@ class PushNotificationService {
   /// устройства. Молча ничего не делает при отказе — push-уведомления
   /// необязательны для работы приложения.
   Future<void> registerForCurrentUser() async {
-    if (kIsWeb) return;
+    if (kIsWeb) {
+      // В браузере разрешение спрашиваем только по кнопке (баннер
+      // WebPushBanner) — здесь лишь обновляем уже выданную подписку
+      // (новый вход, другой пользователь на том же устройстве, язык).
+      final subscription = await WebPushBridge.currentSubscription();
+      if (subscription != null) await _register(subscription);
+      _listenToLocale();
+      return;
+    }
 
     final messaging = FirebaseMessaging.instance;
     final settings = await messaging.requestPermission();
@@ -67,12 +71,30 @@ class PushNotificationService {
 
     messaging.onTokenRefresh.listen(_register);
 
-    // Сменили язык в приложении — сообщаем серверу, чтобы следующие
-    // уведомления о статусе заявки пришли уже на новом языке.
-    if (!_listeningToLocale) {
-      _listeningToLocale = true;
-      localeController.addListener(_onLocaleChanged);
-    }
+    _listenToLocale();
+  }
+
+  /// Состояние push в браузере: 'unsupported' | 'needs-install' |
+  /// 'default' | 'granted' | 'denied' (см. web/push.js).
+  String get webPushStatus => kIsWeb ? WebPushBridge.status() : 'unsupported';
+
+  /// Включить push в веб-версии — вызывать по нажатию кнопки. true, если
+  /// разрешение дано и подписка сохранена.
+  Future<bool> enableWebPush() async {
+    if (!kIsWeb) return false;
+    final subscription = await WebPushBridge.subscribe(webPushVapidPublicKey);
+    if (subscription == null) return false;
+    await _register(subscription);
+    _listenToLocale();
+    return true;
+  }
+
+  // Сменили язык в приложении — сообщаем серверу, чтобы следующие
+  // уведомления о статусе заявки пришли уже на новом языке.
+  void _listenToLocale() {
+    if (_listeningToLocale) return;
+    _listeningToLocale = true;
+    localeController.addListener(_onLocaleChanged);
   }
 
   bool _listeningToLocale = false;
@@ -103,8 +125,10 @@ class PushNotificationService {
     return supported ? system : LocaleController.supportedLocales.first.languageCode;
   }
 
-  String _platformName() =>
-      defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android';
+  String _platformName() {
+    if (kIsWeb) return 'web';
+    return defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android';
+  }
 
   /// При выходе из аккаунта — иначе следующий, кто войдёт на этом же
   /// устройстве, продолжил бы получать чужие уведомления.

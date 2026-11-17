@@ -1108,5 +1108,29 @@
   "visitSaveButton": "Назначить",
   "@visitSaveButton": {
     "description": "Visit sheet: save"
+  },
+  "webPushBannerText": "Включите уведомления, чтобы сразу узнавать о новых сообщениях и изменениях по заявкам.",
+  "@webPushBannerText": {
+    "description": "Web push banner: invite to enable notifications"
+  },
+  "webPushEnableButton": "Включить",
+  "@webPushEnableButton": {
+    "description": "Web push banner: enable button"
+  },
+  "webPushInstallHint": "Чтобы получать уведомления на iPhone, добавьте приложение на экран «Домой»: кнопка «Поделиться» → «На экран „Домой“», и открывайте его оттуда.",
+  "@webPushInstallHint": {
+    "description": "Web push banner on iPhone Safari: add to home screen first"
+  },
+  "webPushEnabled": "Уведомления включены",
+  "@webPushEnabled": {
+    "description": "Web push: enabled confirmation"
+  },
+  "webPushFailed": "Не удалось включить уведомления. Проверьте разрешение в настройках браузера.",
+  "@webPushFailed": {
+    "description": "Web push: could not enable"
+  },
+  "webPushDismissTooltip": "Скрыть",
+  "@webPushDismissTooltip": {
+    "description": "Web push banner: hide"
   }
 }

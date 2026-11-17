@@ -840,4 +840,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get visitSaveButton => 'Назначить';
+
+  @override
+  String get webPushBannerText => 'Включите уведомления, чтобы сразу узнавать о новых сообщениях и изменениях по заявкам.';
+
+  @override
+  String get webPushEnableButton => 'Включить';
+
+  @override
+  String get webPushInstallHint => 'Чтобы получать уведомления на iPhone, добавьте приложение на экран «Домой»: кнопка «Поделиться» → «На экран „Домой“», и открывайте его оттуда.';
+
+  @override
+  String get webPushEnabled => 'Уведомления включены';
+
+  @override
+  String get webPushFailed => 'Не удалось включить уведомления. Проверьте разрешение в настройках браузера.';
+
+  @override
+  String get webPushDismissTooltip => 'Скрыть';
 }

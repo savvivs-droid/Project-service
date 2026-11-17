@@ -1108,5 +1108,29 @@
   "visitSaveButton": "Naplánovat",
   "@visitSaveButton": {
     "description": "Visit sheet: save"
+  },
+  "webPushBannerText": "Zapněte si oznámení, ať hned víte o nových zprávách a změnách v požadavcích.",
+  "@webPushBannerText": {
+    "description": "Web push banner: invite to enable notifications"
+  },
+  "webPushEnableButton": "Zapnout",
+  "@webPushEnableButton": {
+    "description": "Web push banner: enable button"
+  },
+  "webPushInstallHint": "Chcete-li dostávat oznámení na iPhonu, přidejte si aplikaci na plochu: tlačítko Sdílet → Přidat na plochu, a otevírejte ji odtamtud.",
+  "@webPushInstallHint": {
+    "description": "Web push banner on iPhone Safari: add to home screen first"
+  },
+  "webPushEnabled": "Oznámení jsou zapnutá",
+  "@webPushEnabled": {
+    "description": "Web push: enabled confirmation"
+  },
+  "webPushFailed": "Oznámení se nepodařilo zapnout. Zkontrolujte povolení v nastavení prohlížeče.",
+  "@webPushFailed": {
+    "description": "Web push: could not enable"
+  },
+  "webPushDismissTooltip": "Skrýt",
+  "@webPushDismissTooltip": {
+    "description": "Web push banner: hide"
   }
 }
