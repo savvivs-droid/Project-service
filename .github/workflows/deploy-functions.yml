@@ -4,7 +4,7 @@
 # Нужен один секрет репозитория (один раз): SUPABASE_ACCESS_TOKEN —
 # личный токен Supabase (supabase.com/dashboard/account/tokens),
 # добавить в GitHub -> Settings -> Secrets and variables -> Actions.
-# Запустить вручную: GitHub -> Actions -> "Deploy Edge Functions" -> Run workflow.
+# Запуск вручную: GitHub -> Actions -> "Deploy Edge Functions" -> Run workflow.
 name: Deploy Edge Functions
 
 on:
