@@ -1,0 +1,3 @@
+/* Тексты запросов разрешений iOS — язык "cs" */
+NSCameraUsageDescription = "Slouží k vyfocení zařízení a jeho štítku při přidávání do aplikace.";
+NSPhotoLibraryUsageDescription = "Slouží k přiložení fotek zařízení a jeho štítku z galerie.";

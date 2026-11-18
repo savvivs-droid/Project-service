@@ -74,6 +74,19 @@ create table public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Связь клиентов с заведениями — многие ко многим: один клиент может
+-- состоять в нескольких заведениях (например, управляет сетью из
+-- нескольких точек), в одном заведении может быть больше одного клиента.
+-- profiles.establishment_id при этом остаётся — как заведение "по
+-- умолчанию", выбранное при регистрации, но доступ (RLS) определяется
+-- только через эту таблицу, см. is_establishment_member() ниже.
+create table public.establishment_members (
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  establishment_id uuid not null references public.establishments (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (profile_id, establishment_id)
+);
+
 -- Оборудование, установленное в заведении
 create table public.equipment (
   id uuid primary key default gen_random_uuid(),
@@ -93,6 +106,21 @@ create table public.equipment (
 );
 
 -- Заявки на ремонт
+-- Техники сервиса. Своего входа в приложение у них пока нет — это просто
+-- список, который ведёт администратор (вкладка "Планировщик" -> "Техники").
+-- Техника не удаляют, а скрывают (is_active = false), чтобы старые
+-- визиты в планировщике не потеряли исполнителя.
+create table public.technicians (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  phone text,
+  -- Цвет блоков визитов в планировщике, '#RRGGBB'.
+  color text not null default '#2F9E63',
+  is_active boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
 create table public.service_requests (
   id uuid primary key default gen_random_uuid(),
   establishment_id uuid not null references public.establishments (id) on delete cascade,
@@ -103,6 +131,20 @@ create table public.service_requests (
   scheduled_at timestamptz,
   completed_at timestamptz,
   technician_comment text,
+  -- Заполняются администратором при закрытии заявки (см.
+  -- lib/features/home/admin_request_detail_screen.dart) — стоимость
+  -- ремонта (доход) и стоимость запчастей (расход), используются для
+  -- вкладки "Статистика" у администратора.
+  repair_cost numeric(10, 2),
+  parts_cost numeric(10, 2),
+  -- Кто последним поменял статус/время визита (ставит триггер
+  -- trg_set_status_changed_by) — чтобы не слать клиенту push об
+  -- отмене, которую он сделал сам. См. send-request-notification.
+  status_changed_by uuid references public.profiles (id) on delete set null,
+  -- Планировщик: кто едет и сколько часов займёт визит (начало —
+  -- scheduled_at, ровный час с 8:00 до 21:00).
+  technician_id uuid references public.technicians (id) on delete set null,
+  duration_hours smallint check (duration_hours between 1 and 14),
   created_at timestamptz not null default now()
 );
 
@@ -136,13 +178,47 @@ create table public.request_messages (
   created_at timestamptz not null default now()
 );
 
+-- Отметка "прочитано до какого момента" по заявке — своя у каждого
+-- участника переписки (клиент и админ читают чат независимо друг от
+-- друга). Используется, чтобы посчитать непрочитанные сообщения (см.
+-- unread_message_request_ids() ниже) и показать индикатор на вкладках
+-- и карточках заявок, см. lib/services/request_message_repository.dart.
+create table public.request_read_state (
+  request_id uuid not null references public.service_requests (id) on delete cascade,
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  last_read_at timestamptz not null default now(),
+  primary key (request_id, profile_id)
+);
+
+-- Токены устройств для push-уведомлений (Firebase Cloud Messaging) — один
+-- пользователь может быть залогинен на нескольких устройствах, у каждого
+-- свой токен, поэтому это отдельная таблица, а не колонка в profiles.
+-- Заполняется приложением при входе (см.
+-- lib/services/device_token_repository.dart), читается только серверной
+-- частью (Edge Function send-push-notification, service role — в обход
+-- RLS) при отправке пуша на новое сообщение чата.
+create table public.device_tokens (
+  token text primary key,
+  profile_id uuid not null references public.profiles (id) on delete cascade,
+  platform text not null,
+  -- Язык приложения на этом устройстве (cs/en/ru/vi) — на нём сервер
+  -- пишет текст push о смене статуса заявки. null -> чешский.
+  locale text,
+  updated_at timestamptz not null default now()
+);
+
 -- Индексы для внешних ключей, по которым мы часто фильтруем
 create index idx_profiles_establishment on public.profiles (establishment_id);
+create index idx_establishment_members_establishment on public.establishment_members (establishment_id);
 create index idx_equipment_establishment on public.equipment (establishment_id);
 create index idx_service_requests_establishment on public.service_requests (establishment_id);
 create index idx_service_requests_client on public.service_requests (client_id);
+create index idx_device_tokens_profile on public.device_tokens (profile_id);
 create index idx_repair_history_equipment on public.repair_history (equipment_id);
 create index idx_request_messages_request on public.request_messages (request_id, created_at);
+create index idx_request_read_state_profile on public.request_read_state (profile_id);
+create index idx_service_requests_technician_schedule
+  on public.service_requests (technician_id, scheduled_at);
 
 
 -- -----------------------------------------------------------------------------
@@ -165,6 +241,10 @@ as $$
   select role from public.profiles where id = auth.uid();
 $$;
 
+-- Заведение "по умолчанию" (то, что указано в профиле — обычно первое,
+-- заведённое при регистрации). Доступ (RLS) через эту функцию больше не
+-- проверяется — только is_establishment_member() ниже; здесь она осталась
+-- как значение для интерфейса (какое заведение выбрать при входе).
 create or replace function public.current_user_establishment()
 returns uuid
 language sql
@@ -173,6 +253,22 @@ stable
 set search_path = public
 as $$
   select establishment_id from public.profiles where id = auth.uid();
+$$;
+
+-- Состоит ли текущий пользователь в заведении p_establishment_id — на
+-- этом строится доступ клиента к заведению, его оборудованию, заявкам и
+-- истории ремонта (клиент может состоять в нескольких заведениях сразу).
+create or replace function public.is_establishment_member(p_establishment_id uuid)
+returns boolean
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.establishment_members
+    where establishment_id = p_establishment_id and profile_id = auth.uid()
+  );
 $$;
 
 create or replace function public.is_staff()
@@ -194,10 +290,12 @@ $$;
 -- -----------------------------------------------------------------------------
 -- Общий принцип:
 --   - Администратор (is_staff()) видит и может менять всё.
---   - Клиент видит только своё заведение, его оборудование, заявки и
---     историю ремонта — определяется через current_user_establishment().
+--   - Клиент видит заведения, где он состоит (может быть несколько), их
+--     оборудование, заявки и историю ремонта — определяется через
+--     is_establishment_member().
 
 alter table public.establishments enable row level security;
+alter table public.establishment_members enable row level security;
 alter table public.profiles enable row level security;
 alter table public.equipment enable row level security;
 alter table public.service_requests enable row level security;
@@ -206,9 +304,9 @@ alter table public.repair_history enable row level security;
 alter table public.request_messages enable row level security;
 
 -- === establishments ===
-create policy "Админ видит все заведения, клиент — только своё"
+create policy "Админ видит все заведения, клиент — только свои"
   on public.establishments for select
-  using (public.is_staff() or id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(id));
 
 create policy "Только админ меняет заведения вручную"
   on public.establishments for insert
@@ -244,10 +342,30 @@ create policy "Пользователь может обновить свой п�
 -- защищено триггером trg_protect_profile_privileges ниже, потому что
 -- Row Level Security не умеет ограничивать доступ к отдельным колонкам.
 
+-- === establishment_members ===
+create policy "Клиент видит свои связки с заведениями, админ — все"
+  on public.establishment_members for select
+  using (profile_id = auth.uid() or public.is_staff());
+
+-- Прямая вставка/удаление из приложения не предусмотрены для клиента —
+-- первая связка создаётся триггером handle_new_user при регистрации,
+-- последующие — функцией add_client_establishment (раздел 6), обе
+-- security definer и не подчиняются этим политикам. Явных insert/delete
+-- политик для клиента нет, поэтому обычным пользователям через
+-- обычный insert/delete это недоступно; администратору оставляем эту
+-- возможность на будущее.
+create policy "Только админ добавляет связки вручную"
+  on public.establishment_members for insert
+  with check (public.is_staff());
+
+create policy "Только админ удаляет связки"
+  on public.establishment_members for delete
+  using (public.is_staff());
+
 -- === equipment ===
-create policy "Админ видит всё оборудование, клиент — своего заведения"
+create policy "Админ видит всё оборудование, клиент — своих заведений"
   on public.equipment for select
-  using (public.is_staff() or establishment_id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(establishment_id));
 
 create policy "Только админ добавляет оборудование"
   on public.equipment for insert
@@ -263,15 +381,15 @@ create policy "Только админ удаляет оборудование"
   using (public.is_staff());
 
 -- === service_requests ===
-create policy "Админ видит все заявки, клиент — заявки своего заведения"
+create policy "Админ видит все заявки, клиент — заявки своих заведений"
   on public.service_requests for select
-  using (public.is_staff() or establishment_id = public.current_user_establishment());
+  using (public.is_staff() or public.is_establishment_member(establishment_id));
 
 create policy "Клиент создаёт заявку от своего имени и заведения"
   on public.service_requests for insert
   with check (
     public.is_staff()
-    or (client_id = auth.uid() and establishment_id = public.current_user_establishment())
+    or (client_id = auth.uid() and public.is_establishment_member(establishment_id))
   );
 
 create policy "Админ меняет любые заявки, клиент — только новую свою"
@@ -289,6 +407,22 @@ create policy "Только админ удаляет заявки"
   on public.service_requests for delete
   using (public.is_staff());
 
+-- === technicians (только администратор; клиенты техников не видят) ===
+alter table public.technicians enable row level security;
+
+create policy "Только админ видит техников"
+  on public.technicians for select
+  using (public.is_staff());
+
+create policy "Только админ добавляет техников"
+  on public.technicians for insert
+  with check (public.is_staff());
+
+create policy "Только админ редактирует техников"
+  on public.technicians for update
+  using (public.is_staff())
+  with check (public.is_staff());
+
 -- === service_request_equipment (связующая таблица) ===
 create policy "Видимость связки как у самой заявки"
   on public.service_request_equipment for select
@@ -296,7 +430,7 @@ create policy "Видимость связки как у самой заявки
     exists (
       select 1 from public.service_requests sr
       where sr.id = request_id
-        and (public.is_staff() or sr.establishment_id = public.current_user_establishment())
+        and (public.is_staff() or public.is_establishment_member(sr.establishment_id))
     )
   );
 
@@ -321,7 +455,7 @@ create policy "Админ видит всю историю, клиент — и�
     public.is_staff()
     or exists (
       select 1 from public.equipment e
-      where e.id = equipment_id and e.establishment_id = public.current_user_establishment()
+      where e.id = equipment_id and public.is_establishment_member(e.establishment_id)
     )
   );
 
@@ -339,18 +473,18 @@ create policy "Только админ удаляет историю ремон�
   using (public.is_staff());
 
 -- === request_messages (чат по заявке) ===
-create policy "Сообщения видит админ и клиент своего заведения"
+create policy "Сообщения видит админ и клиент своих заведений"
   on public.request_messages for select
   using (
     public.is_staff()
     or exists (
       select 1 from public.service_requests sr
       where sr.id = request_id
-        and sr.establishment_id = public.current_user_establishment()
+        and public.is_establishment_member(sr.establishment_id)
     )
   );
 
-create policy "Писать может админ или клиент своего заведения, только от своего имени"
+create policy "Писать может админ или клиент своих заведений, только от своего имени"
   on public.request_messages for insert
   with check (
     sender_id = auth.uid()
@@ -359,7 +493,7 @@ create policy "Писать может админ или клиент своег
       or exists (
         select 1 from public.service_requests sr
         where sr.id = request_id
-          and sr.establishment_id = public.current_user_establishment()
+          and public.is_establishment_member(sr.establishment_id)
       )
     )
   );
@@ -367,9 +501,72 @@ create policy "Писать может админ или клиент своег
 -- Сообщения не редактируются и не удаляются — политик update/delete
 -- нет намеренно, RLS по умолчанию запрещает всё, что не разрешено явно.
 
+-- === request_read_state (отметки прочтения чата) ===
+alter table public.request_read_state enable row level security;
+
+create policy "Каждый видит свою отметку прочтения, админ — все"
+  on public.request_read_state for select
+  using (profile_id = auth.uid() or public.is_staff());
+
+create policy "Отмечает прочтение только от своего имени"
+  on public.request_read_state for insert
+  with check (profile_id = auth.uid());
+
+create policy "Обновляет только свою отметку прочтения"
+  on public.request_read_state for update
+  using (profile_id = auth.uid())
+  with check (profile_id = auth.uid());
+
+-- === device_tokens (push-уведомления) ===
+alter table public.device_tokens enable row level security;
+
+-- Читать чужие токены изнутри приложения не нужно никому, даже
+-- администратору — их читает только Edge Function по service role
+-- (в обход RLS), поэтому select-политика разрешает видеть только свои.
+create policy "Каждый видит только свои токены устройств"
+  on public.device_tokens for select
+  using (profile_id = auth.uid());
+
+create policy "Заводит токен только от своего имени"
+  on public.device_tokens for insert
+  with check (profile_id = auth.uid());
+
+create policy "Обновляет только свой токен"
+  on public.device_tokens for update
+  using (profile_id = auth.uid())
+  with check (profile_id = auth.uid());
+
+create policy "Удаляет только свой токен"
+  on public.device_tokens for delete
+  using (profile_id = auth.uid());
+
 -- Включаем Realtime для чата — без этого supabase_flutter .stream(...)
 -- не будет получать новые сообщения без ручного обновления экрана.
+-- request_read_state — для живого обновления индикатора непрочитанного
+-- на всех вкладках (см. RequestMessageRepository.watchUnreadRequestIds).
 alter publication supabase_realtime add table public.request_messages;
+alter publication supabase_realtime add table public.request_read_state;
+
+-- Заявки (их id), где есть хоть одно сообщение от другой стороны,
+-- написанное позже последней отметки прочтения текущего пользователя
+-- (или вообще без отметки — тогда читаем "непрочитано с самого начала").
+-- Используется для индикатора непрочитанного в интерфейсе.
+create or replace function public.unread_message_request_ids()
+returns setof uuid
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select distinct rm.request_id
+  from public.request_messages rm
+  join public.service_requests sr on sr.id = rm.request_id
+  left join public.request_read_state rrs
+    on rrs.request_id = rm.request_id and rrs.profile_id = auth.uid()
+  where rm.sender_id <> auth.uid()
+    and rm.created_at > coalesce(rrs.last_read_at, '-infinity'::timestamptz)
+    and (public.is_staff() or public.is_establishment_member(sr.establishment_id));
+$$;
 
 
 -- -----------------------------------------------------------------------------
@@ -428,6 +625,9 @@ begin
     v_establishment_id
   );
 
+  insert into public.establishment_members (profile_id, establishment_id)
+  values (new.id, v_establishment_id);
+
   return new;
 end;
 $$;
@@ -435,6 +635,85 @@ $$;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- Клиент добавляет себе ещё одно заведение (после регистрации, когда у
+-- него уже есть аккаунт) — тот же принцип, что и в handle_new_user выше:
+-- создаёт заведение и сразу привязывает текущего пользователя к нему
+-- через establishment_members. security definer нужен, потому что
+-- обычная insert-политика на establishments разрешена только админу
+-- (раздел 5) — это единственная контролируемая лазейка для клиента.
+create or replace function public.add_client_establishment(
+  p_ico text,
+  p_name text,
+  p_address text,
+  p_contact_phone text
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_establishment_id uuid;
+  v_ico text;
+begin
+  if public.current_user_role() is distinct from 'client' then
+    raise exception 'Добавлять заведение может только клиент';
+  end if;
+
+  if p_name is null or btrim(p_name) = '' then
+    raise exception 'Не указано название заведения';
+  end if;
+
+  v_ico := nullif(p_ico, '');
+
+  if v_ico is not null
+     and exists (select 1 from public.establishments where ico = v_ico)
+  then
+    raise exception 'Заведение с таким IČO уже зарегистрировано в системе';
+  end if;
+
+  insert into public.establishments (name, address, contact_phone, ico)
+  values (p_name, p_address, p_contact_phone, v_ico)
+  returning id into v_establishment_id;
+
+  insert into public.establishment_members (profile_id, establishment_id)
+  values (auth.uid(), v_establishment_id);
+
+  return v_establishment_id;
+end;
+$$;
+
+-- Самостоятельное удаление аккаунта клиентом (см. ClientProfileTab).
+-- Не удаляет саму строку profiles/auth.users — на неё ссылаются
+-- service_requests.client_id (on delete restrict, раздел 3), заявки и
+-- переписка нужны сервисной компании для бухгалтерского учёта уже после
+-- того, как клиент ушёл. Вместо этого обезличиваем профиль (стираем
+-- имя и телефон) и убираем доступ (членство в заведениях, push-токены,
+-- отметки прочтения) — персональные данные уходят, история заявок для
+-- админа остаётся. Логин после этого блокирует сам клиент на стороне
+-- приложения — см. AuthRepository.deleteOwnAccount.
+create or replace function public.delete_own_account()
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'Не авторизован';
+  end if;
+
+  delete from public.device_tokens where profile_id = auth.uid();
+  delete from public.request_read_state where profile_id = auth.uid();
+  delete from public.establishment_members where profile_id = auth.uid();
+
+  update public.profiles
+  set full_name = null,
+      phone = null
+  where id = auth.uid();
+end;
+$$;
 
 -- Запрещаем пользователю (кроме админа) менять себе роль или заведение
 -- через обычный UPDATE — RLS выше это не может ограничить на уровне
@@ -525,3 +804,25 @@ create policy "Только админ изменяет фото оборудо�
 create policy "Только админ удаляет фото оборудования"
   on storage.objects for delete
   using (bucket_id = 'equipment-photos' and public.is_staff());
+
+-- =============================================================================
+-- Кто поменял статус заявки (для push о смене статуса, см.
+-- supabase/functions/send-request-notification)
+-- =============================================================================
+
+create or replace function public.set_status_changed_by()
+returns trigger
+language plpgsql
+as $$
+begin
+  if new.status is distinct from old.status
+     or new.scheduled_at is distinct from old.scheduled_at then
+    new.status_changed_by := auth.uid();
+  end if;
+  return new;
+end;
+$$;
+
+create trigger trg_set_status_changed_by
+  before update on public.service_requests
+  for each row execute function public.set_status_changed_by();

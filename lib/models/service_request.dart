@@ -17,7 +17,28 @@ class ServiceRequest {
   final DateTime? scheduledAt;
   final DateTime? completedAt;
   final String? technicianComment;
+
+  /// Стоимость ремонта (доход) и стоимость запчастей (расход) —
+  /// заполняются администратором при закрытии заявки, см.
+  /// AdminRequestDetailScreen и вкладку "Статистика".
+  final double? repairCost;
+  final double? partsCost;
+
+  /// Планировщик: кто едет (null — техник ещё не назначен) и сколько
+  /// часов займёт визит. Начало визита — [scheduledAt].
+  final String? technicianId;
+  final int? durationHours;
+
   final List<String> equipmentIds;
+
+  /// Длительность визита по умолчанию — для заявок, которым время
+  /// назначили ещё до появления планировщика.
+  static const defaultDurationHours = 2;
+
+  /// Конец визита (для проверки пересечений и блока в планировщике).
+  DateTime? get scheduledEnd => scheduledAt?.add(
+        Duration(hours: durationHours ?? defaultDurationHours),
+      );
 
   const ServiceRequest({
     required this.id,
@@ -30,6 +51,10 @@ class ServiceRequest {
     this.scheduledAt,
     this.completedAt,
     this.technicianComment,
+    this.repairCost,
+    this.partsCost,
+    this.technicianId,
+    this.durationHours,
     this.equipmentIds = const [],
   });
 
@@ -51,6 +76,10 @@ class ServiceRequest {
           ? null
           : DateTime.parse(json['completed_at'] as String),
       technicianComment: json['technician_comment'] as String?,
+      repairCost: (json['repair_cost'] as num?)?.toDouble(),
+      partsCost: (json['parts_cost'] as num?)?.toDouble(),
+      technicianId: json['technician_id'] as String?,
+      durationHours: json['duration_hours'] as int?,
     );
   }
 }

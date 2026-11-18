@@ -26,10 +26,23 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>cs</string>
+		<string>en</string>
+		<string>ru</string>
+		<string>vi</string>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>Нужно для съёмки фото стикера и оборудования при добавлении в приложение</string>
+	<string>Used to take photos of equipment and its label when adding it to the app.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Нужно, чтобы прикрепить фото стикера и оборудования из галереи</string>
+	<string>Used to attach photos of equipment and its label from your gallery.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

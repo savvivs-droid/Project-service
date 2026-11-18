@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../core/constants/equipment_icons.dart';
+import 'equipment.dart';
 import 'service_request.dart';
 
 /// Единица оборудования, привязанная к заявке — храним сырые данные
@@ -9,14 +10,35 @@ import 'service_request.dart';
 class EquipmentRef {
   final String type;
   final String? stickerCode;
+  final String? model;
+  final List<String> photos;
 
-  const EquipmentRef({required this.type, this.stickerCode});
+  /// Полная запись оборудования — для карточки оборудования по тапу в
+  /// заявке (EquipmentDetailScreen). null, если оборудование удалено
+  /// или скрыто от пользователя.
+  final Equipment? details;
+
+  const EquipmentRef({
+    required this.type,
+    this.stickerCode,
+    this.model,
+    this.photos = const [],
+    this.details,
+  });
 
   /// Локализованное название типа, с кодом стикера через " · ", если он есть.
   String label(BuildContext context) {
     final typeLabel = equipmentTypeLabel(context, type);
     return stickerCode == null ? typeLabel : '$typeLabel · $stickerCode';
   }
+
+  /// Название конкретного прибора (модель), если её указали при
+  /// добавлении оборудования — иначе просто локализованный тип, чтобы
+  /// карточке заявки всегда было что показать в качестве названия.
+  String name(BuildContext context) =>
+      model?.isNotEmpty == true ? model! : equipmentTypeLabel(context, type);
+
+  String? get photoUrl => photos.isEmpty ? null : photos.first;
 }
 
 /// Заявка вместе с данными, которые обычной модели ServiceRequest не
@@ -65,6 +87,11 @@ class RequestListItem {
         return EquipmentRef(
           type: equipment?['type'] as String? ?? '—',
           stickerCode: equipment?['sticker_code'] as String?,
+          model: equipment?['model'] as String?,
+          photos: (equipment?['photos'] as List<dynamic>? ?? const [])
+              .map((e) => e as String)
+              .toList(),
+          details: equipment == null ? null : Equipment.fromJson(equipment),
         );
       }).toList(),
     );

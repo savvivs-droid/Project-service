@@ -4,6 +4,8 @@ import '../../core/constants/equipment_icons.dart';
 import '../../core/constants/equipment_status.dart';
 import '../../core/l10n/l10n_extension.dart';
 import '../../core/utils/image_picker_helper.dart';
+import '../../core/widgets/app_brand.dart';
+import '../../core/widgets/fullscreen_photo_viewer.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/equipment.dart';
 import '../../models/establishment.dart';
@@ -108,7 +110,7 @@ class _EstablishmentDetailScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(establishment.name),
+        title: AppBrandAppBarTitle(subtitle: establishment.name),
         actions: const [LanguageSwitcher()],
       ),
       floatingActionButton: FloatingActionButton(
@@ -345,18 +347,34 @@ class _EquipmentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final photoUrl = equipment.photos.isEmpty ? null : equipment.photos.first;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
         onTap: onTap,
-        leading: CircleAvatar(
-          backgroundColor: _statusColor(context),
-          child: Icon(
-            equipmentTypeIcon(equipment.type),
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
+        leading: photoUrl == null
+            ? CircleAvatar(
+                backgroundColor: _statusColor(context),
+                child: Icon(
+                  equipmentTypeIcon(equipment.type),
+                  color: Colors.white,
+                  size: 20,
+                ),
+              )
+            : GestureDetector(
+                onTap: () => openFullscreenPhoto(context, photoUrl),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    photoUrl,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
         title: Text(equipmentTypeLabel(context, equipment.type)),
         subtitle: Text([
           if (equipment.model != null) equipment.model!,

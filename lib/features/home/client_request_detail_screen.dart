@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/request_status.dart';
 import '../../core/l10n/l10n_extension.dart';
+import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../models/request_list_item.dart';
 import 'request_chat_screen.dart';
+import 'request_equipment_list.dart';
 
 /// Просмотр своей заявки клиентом — только чтение (статус, оборудование,
 /// описание, время визита, комментарий мастера). Менять заявку клиент
@@ -21,7 +23,9 @@ class ClientRequestDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.requestDetailTitle(shortId)),
+        title: AppBrandAppBarTitle(
+          subtitle: context.l10n.requestDetailTitle(shortId),
+        ),
         actions: [
           const LanguageSwitcher(),
           Padding(
@@ -75,6 +79,8 @@ class ClientRequestDetailScreen extends StatelessWidget {
             label: Text(context.l10n.chatWithTechnician),
           ),
           const SizedBox(height: 16),
+          RequestEquipmentList(refs: item.equipmentRefs),
+          const SizedBox(height: 12),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),

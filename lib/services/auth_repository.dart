@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/constants/app_urls.dart';
 import 'supabase_service.dart';
 
 /// Работа с авторизацией Supabase Auth.
@@ -48,6 +52,16 @@ class AuthRepository {
 
   Future<void> signOut() => _client.auth.signOut();
 
+  /// Отправляет письмо со ссылкой восстановления пароля. Supabase не
+  /// сообщает, существует ли такой email — ошибку он вернёт только на
+  /// сетевые/конфигурационные проблемы, что и позволяет не раскрывать
+  /// в интерфейсе, зарегистрирован ли адрес. redirectTo должен быть
+  /// заранее добавлен в Supabase Dashboard -> Authentication -> URL
+  /// Configuration -> Redirect URLs.
+  Future<void> resetPasswordForEmail(String email) {
+    return _client.auth.resetPasswordForEmail(email, redirectTo: kAppWebUrl);
+  }
+
   /// Смена email — в зависимости от настроек проекта (Authentication ->
   /// Sign In / Providers -> Email -> "Secure email change") Supabase
   /// может потребовать подтверждения по ссылке из письма, прежде чем
@@ -58,5 +72,23 @@ class AuthRepository {
 
   Future<void> updatePassword(String newPassword) {
     return _client.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  /// Самостоятельное удаление аккаунта клиентом. Обезличивает профиль
+  /// (имя/телефон) и убирает доступ к заведениям на стороне базы (см.
+  /// delete_own_account в supabase/schema.sql — история заявок
+  /// сохраняется для бухгалтерского учёта сервисной компании), затем
+  /// блокирует вход паролем из случайных символов, который здесь же и
+  /// теряется, и завершает сессию. Полноценное удаление auth.users
+  /// отсюда невозможно — на профиль ссылаются заявки клиента
+  /// (on delete restrict), а обойти это можно только сервисным ключом
+  /// вне доступа обычного пользователя приложения.
+  Future<void> deleteOwnAccount() async {
+    await _client.rpc('delete_own_account');
+
+    final randomBytes = List<int>.generate(32, (_) => Random.secure().nextInt(256));
+    await updatePassword(base64Url.encode(randomBytes));
+
+    await signOut();
   }
 }

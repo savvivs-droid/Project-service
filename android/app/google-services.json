@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "400066393277",
+    "project_id": "fixmygastro",
+    "storage_bucket": "fixmygastro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400066393277:android:36499409260b045ef9b3d4",
+        "android_client_info": {
+          "package_name": "com.projectservice.project_service"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANeDvJuwmaaesumDqWzCdYb7qi2BtSGdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

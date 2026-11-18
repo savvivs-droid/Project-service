@@ -1,0 +1,60 @@
+# Создаёт вебхук базы "request-notifications": INSERT/UPDATE в
+# public.service_requests -> Edge Function send-request-notification
+# (то же самое, что Database -> Webhooks -> Create в Dashboard).
+# Идемпотентно: можно запускать сколько угодно раз.
+name: Setup DB webhooks
+
+on:
+  push:
+    branches: [claude/nothing-appeared-dty6dt]
+    paths:
+      - '.github/workflows/setup-webhooks.yml'
+  workflow_dispatch:
+
+env:
+  SUPABASE_PROJECT_REF: tmdcktpevisansqwgqeq
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Создать вебхук для заявок
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          API="https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF"
+
+          # Ключ service_role — им вебхук авторизуется при вызове функции
+          # (как кнопка "Add auth header with service key" в Dashboard).
+          # В лог не выводится.
+          code=$(curl -sS -o keys.json -w '%{http_code}' \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" "$API/api-keys?reveal=true")
+          if [ "$code" != "200" ]; then
+            echo "::error title=api-keys $code::$(head -c 300 keys.json)"
+            exit 1
+          fi
+          KEY=$(jq -r '[.[] | select(.name == "service_role")][0].api_key // empty' keys.json)
+          rm -f keys.json
+          if [ -z "$KEY" ]; then
+            echo "::error title=Нет ключа::service_role key not found"
+            exit 1
+          fi
+          echo "::add-mask::$KEY"
+
+          URL="https://$SUPABASE_PROJECT_REF.supabase.co/functions/v1/send-request-notification"
+          HEADERS=$(jq -cn --arg k "Bearer $KEY" '{"Content-Type":"application/json","Authorization":$k}')
+          SQL="drop trigger if exists \"request-notifications\" on public.service_requests;
+          create trigger \"request-notifications\"
+            after insert or update on public.service_requests
+            for each row execute function supabase_functions.http_request(
+              '$URL', 'POST', '$HEADERS', '{}', '5000');"
+
+          code=$(jq -n --arg q "$SQL" '{query: $q}' | curl -sS -o result.json -w '%{http_code}' \
+            -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            -H "Content-Type: application/json" --data @- "$API/database/query")
+          if [ "$code" != "200" ] && [ "$code" != "201" ]; then
+            echo "::error title=database/query $code::$(head -c 500 result.json)"
+            exit 1
+          fi
+          echo "Webhook request-notifications created"

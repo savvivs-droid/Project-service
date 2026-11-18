@@ -79,13 +79,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerAddressRequired => 'Enter the establishment\'s address';
 
   @override
-  String get registerEstablishmentPhoneLabel => 'Establishment contact phone';
-
-  @override
-  String get registerEstablishmentPhoneRequired =>
-      'Enter a contact phone number';
-
-  @override
   String get registerSubmitButton => 'Sign up';
 
   @override
@@ -307,6 +300,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equipmentTypeSectionTitle => 'Equipment type';
 
   @override
+  String get equipmentSubtypeSectionTitle => 'Equipment kind';
+
+  @override
   String get equipmentTypeOther => 'Other';
 
   @override
@@ -363,31 +359,136 @@ class AppLocalizationsEn extends AppLocalizations {
   String get systemLanguageOption => 'System language';
 
   @override
-  String get equipmentTypeFridge => 'Fridge';
+  String get equipmentTypeFridge => 'Fridges';
 
   @override
-  String get equipmentTypeFreezer => 'Freezer';
+  String get equipmentTypeFreezer => 'Freezers';
 
   @override
-  String get equipmentTypeCombiOven => 'Combi oven';
+  String get equipmentTypeCombiOven => 'Combi ovens';
 
   @override
-  String get equipmentTypeStove => 'Stove';
+  String get equipmentTypeStove => 'Stoves';
 
   @override
-  String get equipmentTypeDishwasher => 'Dishwasher';
+  String get equipmentTypeDishwasher => 'Dishwashers';
 
   @override
-  String get equipmentTypeGrill => 'Grill';
+  String get equipmentTypeGrill => 'Grills';
 
   @override
-  String get equipmentTypeCoffeeMachine => 'Coffee machine';
+  String get equipmentTypeCoffeeMachine => 'Coffee machines';
 
   @override
-  String get equipmentTypeMixer => 'Mixer/blender';
+  String get equipmentTypeMixer => 'Mixers';
 
   @override
   String get equipmentTypeCuttingTable => 'Cutting table';
+
+  @override
+  String get equipmentCategoryThermal => 'Heating equipment';
+
+  @override
+  String get equipmentCategoryRefrigeration => 'Refrigeration equipment';
+
+  @override
+  String get equipmentCategoryDishwashing => 'Dishwashing equipment';
+
+  @override
+  String get equipmentCategoryFoodPrep => 'Food prep equipment';
+
+  @override
+  String get equipmentCategoryPizzaBakery => 'Pizza & bakery';
+
+  @override
+  String get equipmentCategoryBar => 'Bar & drinks';
+
+  @override
+  String get equipmentCategoryWater => 'Water treatment';
+
+  @override
+  String get equipmentTypeOven => 'Ovens';
+
+  @override
+  String get equipmentTypeFryer => 'Fryers';
+
+  @override
+  String get equipmentTypeSalamander => 'Salamanders';
+
+  @override
+  String get equipmentTypeBainMarie => 'Bain-maries';
+
+  @override
+  String get equipmentTypeMicrowave => 'Microwaves';
+
+  @override
+  String get equipmentTypeColdTable => 'Cold tables';
+
+  @override
+  String get equipmentTypeDisplayCase => 'Display cases';
+
+  @override
+  String get equipmentTypeBlastChiller => 'Blast chillers';
+
+  @override
+  String get equipmentTypeGlasswasher => 'Glasswashers';
+
+  @override
+  String get equipmentTypeHoodDishwasher => 'Hood dishwashers';
+
+  @override
+  String get equipmentTypeConveyorDishwasher => 'Conveyor dishwashers';
+
+  @override
+  String get equipmentTypeMeatGrinder => 'Meat grinders';
+
+  @override
+  String get equipmentTypeSlicer => 'Slicers';
+
+  @override
+  String get equipmentTypeVegetableCutter => 'Vegetable cutters';
+
+  @override
+  String get equipmentTypeCutter => 'Bowl cutters';
+
+  @override
+  String get equipmentTypeBlender => 'Blenders';
+
+  @override
+  String get equipmentTypePizzaOven => 'Pizza ovens';
+
+  @override
+  String get equipmentTypeDoughMixer => 'Dough mixers';
+
+  @override
+  String get equipmentTypeDoughSheeter => 'Dough sheeters';
+
+  @override
+  String get equipmentTypeProvingCabinet => 'Proving cabinets';
+
+  @override
+  String get equipmentTypeCoffeeGrinder => 'Coffee grinders';
+
+  @override
+  String get equipmentTypeIceMaker => 'Ice makers';
+
+  @override
+  String get equipmentTypeDrinkCooler => 'Drink coolers';
+
+  @override
+  String get equipmentTypePostMix => 'Post-mix dispensers';
+
+  @override
+  String get equipmentTypeWaterSoftener => 'Water softeners';
+
+  @override
+  String get equipmentTypeWaterFilter => 'Filters';
+
+  @override
+  String get equipmentTypePump => 'Pumps';
+
+  @override
+  String get equipmentTypeReverseOsmosis => 'Reverse osmosis';
 
   @override
   String get clientEquipmentTab => 'My equipment';
@@ -435,4 +536,327 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordChangeError => 'Couldn\'t change the password';
+
+  @override
+  String get clientCreateRequestButton => 'Create repair request';
+
+  @override
+  String get createRequestTitle => 'New request';
+
+  @override
+  String get createRequestTypeSectionTitle => 'Equipment type';
+
+  @override
+  String get createRequestEquipmentSectionTitle => 'Equipment';
+
+  @override
+  String get createRequestEquipmentRequired => 'Select equipment';
+
+  @override
+  String get createRequestDescriptionSectionTitle => 'Describe the problem';
+
+  @override
+  String get createRequestDescriptionHint => 'Briefly describe what happened';
+
+  @override
+  String get createRequestDescriptionRequired => 'Add a problem description';
+
+  @override
+  String get createRequestSubmitButton => 'Submit request';
+
+  @override
+  String createRequestError(String error) {
+    return 'Failed to create request: $error';
+  }
+
+  @override
+  String get establishmentSwitcherTooltip => 'Switch establishment';
+
+  @override
+  String get establishmentSwitcherAddNew => 'Add establishment';
+
+  @override
+  String get addEstablishmentTitle => 'New establishment';
+
+  @override
+  String get addEstablishmentPhoneLabel => 'Establishment contact phone';
+
+  @override
+  String get addEstablishmentPhoneRequired => 'Enter a contact phone number';
+
+  @override
+  String get addEstablishmentSubmitButton => 'Add';
+
+  @override
+  String get addEstablishmentGenericError =>
+      'Failed to add the establishment. Check the details and your internet connection.';
+
+  @override
+  String get markDoneDialogTitle => 'Close request';
+
+  @override
+  String get markDoneRepairCostLabel => 'Repair cost';
+
+  @override
+  String get markDonePartsCostLabel => 'Parts cost';
+
+  @override
+  String get markDoneCostRequired => 'Enter an amount';
+
+  @override
+  String get markDoneCostInvalid => 'Enter a valid amount';
+
+  @override
+  String get markDoneDialogCancel => 'Cancel';
+
+  @override
+  String get markDoneDialogConfirm => 'Close request';
+
+  @override
+  String get requestCostRepairLabel => 'Repair';
+
+  @override
+  String get requestCostPartsLabel => 'Parts';
+
+  @override
+  String get adminHomeStatsTab => 'Statistics';
+
+  @override
+  String get statsPeriodWeek => 'Week';
+
+  @override
+  String get statsPeriodMonth => 'Month';
+
+  @override
+  String get statsPeriodYear => 'Year';
+
+  @override
+  String get statsPeriodCustom => 'Custom period';
+
+  @override
+  String get statsClosedCount => 'Closed requests';
+
+  @override
+  String get statsRevenue => 'Revenue';
+
+  @override
+  String get statsExpenses => 'Expenses';
+
+  @override
+  String get statsProfit => 'Profit';
+
+  @override
+  String statsLoadError(String error) {
+    return 'Failed to load statistics: $error';
+  }
+
+  @override
+  String get searchByAddressOrPhoneHint => 'Search by address or phone';
+
+  @override
+  String get searchNoResults => 'No results found';
+
+  @override
+  String get callUsTooltip => 'Call us';
+
+  @override
+  String get loginForgotPassword => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Password recovery';
+
+  @override
+  String get forgotPasswordHint =>
+      'Enter the email you registered with — we\'ll send a password reset link to it.';
+
+  @override
+  String get forgotPasswordSubmitButton => 'Send link';
+
+  @override
+  String get forgotPasswordSentMessage =>
+      'If that email is registered, a password reset link has been sent to it. Check your inbox (including Spam).';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Back to sign in';
+
+  @override
+  String get forgotPasswordGenericError =>
+      'Couldn\'t send the email. Check your internet connection.';
+
+  @override
+  String get resetPasswordTitle => 'New password';
+
+  @override
+  String get resetPasswordHint => 'Set a new password to sign in with.';
+
+  @override
+  String get resetPasswordConfirmLabel => 'Repeat password';
+
+  @override
+  String get resetPasswordMismatch => 'Passwords don\'t match';
+
+  @override
+  String get resetPasswordSubmitButton => 'Save password';
+
+  @override
+  String get resetPasswordGenericError =>
+      'Couldn\'t save the password. Try sending the reset link again.';
+
+  @override
+  String get registerPrivacyConsentPrefix => 'I agree to the';
+
+  @override
+  String get registerPrivacyConsentLinkText =>
+      'personal data processing policy';
+
+  @override
+  String get registerPrivacyConsentRequired =>
+      'Please confirm you agree to the personal data processing policy';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyPlaceholder =>
+      'The personal data processing policy text will be added later. For questions about data processing, contact the service administrator.';
+
+  @override
+  String get deleteAccountSectionTitle => 'Delete account';
+
+  @override
+  String get deleteAccountHint =>
+      'Your personal data (name, phone) will be deleted and you won\'t be able to sign in anymore. Your request history stays in the system without a name attached — we need it for bookkeeping.';
+
+  @override
+  String get deleteAccountButton => 'Delete account';
+
+  @override
+  String get deleteAccountDialogTitle => 'Delete account?';
+
+  @override
+  String get deleteAccountDialogContent =>
+      'This can\'t be undone. Your personal data will be deleted and you won\'t be able to sign in anymore.';
+
+  @override
+  String get deleteAccountDialogCancel => 'Cancel';
+
+  @override
+  String get deleteAccountDialogConfirm => 'Delete';
+
+  @override
+  String get deleteAccountError =>
+      'Couldn\'t delete the account. Try again or contact us.';
+
+  @override
+  String get plannerTitle => 'Planner';
+
+  @override
+  String get plannerToday => 'Today';
+
+  @override
+  String get plannerUnassignedTitle => 'Awaiting assignment';
+
+  @override
+  String get plannerUnassignedEmpty => 'All requests are assigned';
+
+  @override
+  String get plannerNoTechnicians => 'No technicians yet. Add them to see the schedule.';
+
+  @override
+  String get plannerLoadError => 'Couldn\'t load the schedule';
+
+  @override
+  String get plannerRetry => 'Try again';
+
+  @override
+  String get plannerPickRequestTitle => 'Which request to schedule?';
+
+  @override
+  String get techniciansTitle => 'Technicians';
+
+  @override
+  String get technicianAddButton => 'Add technician';
+
+  @override
+  String get technicianLabel => 'Technician';
+
+  @override
+  String get technicianNameLabel => 'Name';
+
+  @override
+  String get technicianNameRequired => 'Enter a name';
+
+  @override
+  String get technicianPhoneLabel => 'Phone';
+
+  @override
+  String get technicianColorLabel => 'Color in the planner';
+
+  @override
+  String get technicianActiveLabel => 'Show in the planner';
+
+  @override
+  String get technicianHidden => 'Hidden';
+
+  @override
+  String get technicianSaveButton => 'Save';
+
+  @override
+  String get technicianCancelButton => 'Cancel';
+
+  @override
+  String get techniciansEmpty => 'The list is empty';
+
+  @override
+  String get visitSectionTitle => 'Technician visit';
+
+  @override
+  String get visitNotAssigned => 'Not assigned yet';
+
+  @override
+  String get visitAssignButton => 'Assign technician and time';
+
+  @override
+  String get visitChangeButton => 'Change';
+
+  @override
+  String get visitDateLabel => 'Date';
+
+  @override
+  String get visitStartLabel => 'Start';
+
+  @override
+  String get visitDurationLabel => 'Duration';
+
+  @override
+  String visitHoursShort(int count) {
+    return '$count h';
+  }
+
+  @override
+  String get visitConflict => 'The technician has another visit at this time';
+
+  @override
+  String get visitNoTechnicians => 'Add technicians in the planner first';
+
+  @override
+  String get visitSaveButton => 'Schedule';
+
+  @override
+  String get webPushBannerText => 'Turn on notifications to hear right away about new messages and request updates.';
+
+  @override
+  String get webPushEnableButton => 'Turn on';
+
+  @override
+  String get webPushInstallHint => 'To get notifications on iPhone, add the app to your Home Screen: Share button → Add to Home Screen, and open it from there.';
+
+  @override
+  String get webPushEnabled => 'Notifications are on';
+
+  @override
+  String get webPushFailed => 'Couldn\'t turn on notifications. Check the permission in your browser settings.';
+
+  @override
+  String get webPushDismissTooltip => 'Hide';
 }

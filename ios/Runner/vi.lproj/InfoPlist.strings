@@ -1,0 +1,3 @@
+/* Тексты запросов разрешений iOS — язык "vi" */
+NSCameraUsageDescription = "Dùng để chụp ảnh thiết bị và nhãn của thiết bị khi thêm vào ứng dụng.";
+NSPhotoLibraryUsageDescription = "Dùng để đính kèm ảnh thiết bị và nhãn của thiết bị từ thư viện ảnh.";

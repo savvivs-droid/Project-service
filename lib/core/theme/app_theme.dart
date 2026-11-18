@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Цвета из дизайн-макета FixMyGastro: глубокий тёмно-бирюзовый (petrol) —
-/// основной цвет бренда, вместо дежурного "сервисного синего"; рабочий
-/// оранжевый (amber) — единственный акцент для CTA. Статусы заявок
-/// (см. RequestStatus.color) — отдельная, служебная палитра.
+/// Цвета из FixMyGastro Brand Book 2026: Deep Teal — основной цвет
+/// бренда (логотип, заголовки, формы), Service Orange — единственный
+/// акцент (CTA, важные детали), Soft Grey — вторичный фон. Статусы
+/// заявок (см. RequestStatus.color) — отдельная, служебная палитра.
 class AppTheme {
-  static const primary = Color(0xFF0E5C63);
-  static const accent = Color(0xFFE2762B);
-  static const background = Color(0xFFF3F6F5);
-  static const onPrimary = Color(0xFFF3F6F5);
+  static const primary = Color(0xFF02445A); // Deep Teal
+  static const accent = Color(0xFFF37012); // Service Orange
+  static const background = Color(0xFFF5F7F8); // Soft Grey
+  static const onPrimary = Color(0xFFFFFFFF); // Pure White
 
   static ThemeData get light {
     final colorScheme =
@@ -18,13 +18,14 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
-      // Фирменный шрифт вместо системного Roboto/San Francisco —
-      // см. assets/fonts (Golos Text, Google Fonts, OFL-лицензия).
-      fontFamily: 'Golos Text',
+      // Фирменный шрифт по Brand Book 2026 вместо системного
+      // Roboto/San Francisco — см. assets/fonts (Montserrat, Google
+      // Fonts, OFL-лицензия).
+      fontFamily: 'Montserrat',
       inputDecorationTheme: const InputDecorationTheme(
         border: OutlineInputBorder(),
       ),
-      // Единый фирменный AppBar на всех экранах — петроль с кремовым
+      // Единый фирменный AppBar на всех экранах — deep teal с белым
       // текстом/иконками, как на иконке приложения, а не серо-белый
       // Material-стандарт.
       appBarTheme: const AppBarTheme(
@@ -32,7 +33,7 @@ class AppTheme {
         foregroundColor: onPrimary,
         titleTextStyle: TextStyle(
           color: onPrimary,
-          fontFamily: 'Golos Text',
+          fontFamily: 'Montserrat',
           fontSize: 20,
           fontWeight: FontWeight.w700,
         ),
