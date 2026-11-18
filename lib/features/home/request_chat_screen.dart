@@ -65,6 +65,9 @@ class _RequestChatScreenState extends State<RequestChatScreen> {
 
   @override
   void dispose() {
+    // Ещё раз при выходе — на случай сообщения, пришедшего в последний
+    // момент; заодно точки на главном экране пересчитаются сразу.
+    unawaited(_repository.markRead(widget.requestId));
     _controller.dispose();
     _scrollController.dispose();
     super.dispose();

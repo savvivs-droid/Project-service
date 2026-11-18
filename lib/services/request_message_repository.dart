@@ -26,6 +26,11 @@ class UnreadRequests {
 class RequestMessageRepository {
   final SupabaseClient _client = SupabaseService.client;
 
+  /// Сигнал "отметка прочтения сохранена" — чтобы точки на главном экране
+  /// погасли сразу после выхода из чата, не дожидаясь события Realtime
+  /// (оно приходит не всегда, например в веб-версии на iPhone).
+  static final _readMarked = StreamController<void>.broadcast();
+
   /// Живой поток сообщений по заявке — новые сообщения (свои и чужие)
   /// появляются сами, без ручного обновления экрана (Supabase Realtime).
   Stream<List<RequestMessage>> watchMessages(String requestId) {
@@ -68,6 +73,7 @@ class RequestMessageRepository {
         },
         onConflict: 'request_id,profile_id',
       );
+      _readMarked.add(null);
     } catch (error) {
       debugPrint('Не удалось отметить чат прочитанным: $error');
     }
@@ -134,9 +140,12 @@ class RequestMessageRepository {
       )
       ..subscribe();
 
+    final readMarkedSubscription = _readMarked.stream.listen((_) => refresh());
+
     unawaited(refresh());
 
     controller.onCancel = () {
+      unawaited(readMarkedSubscription.cancel());
       unawaited(_client.removeChannel(channel));
     };
 
