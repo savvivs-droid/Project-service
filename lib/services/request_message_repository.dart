@@ -74,7 +74,7 @@ class RequestMessageRepository {
     final closed = <String>{};
     for (final row in rows as List<dynamic>) {
       final map = row as Map<String, dynamic>;
-      final status = RequestStatus.fromValue(map['status'] as String);
+      final status = RequestStatusX.fromValue(map['status'] as String);
       (status.isActive ? active : closed).add(map['id'] as String);
     }
     return UnreadRequests(active: active, closed: closed);
