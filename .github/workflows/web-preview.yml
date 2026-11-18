@@ -51,6 +51,13 @@ jobs:
           # прошлых сборках ("кэш всегда мешал").
           cp _preview/flutter_service_worker.js build/web/flutter_service_worker.js
           touch build/web/.nojekyll
+          # Метка версии в адресах скриптов — чтобы браузер (особенно iPhone
+          # с приложением на экране «Домой») не подсовывал старую сборку из
+          # кэша после обновления.
+          V="${GITHUB_SHA::7}"
+          sed -i "s#src=\"flutter_bootstrap.js\"#src=\"flutter_bootstrap.js?v=$V\"#" build/web/index.html
+          sed -i "s#\"main.dart.js\"#\"main.dart.js?v=$V\"#g" build/web/flutter_bootstrap.js
+          grep -q "flutter_bootstrap.js?v=$V" build/web/index.html
           cd _preview
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -r ../build/web/. .
