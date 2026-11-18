@@ -1,13 +1,7 @@
--- Отметки прочтения против последних сообщений другой стороны.
-select 'read' as k, left(rrs.request_id::text, 8) as req, p.role::text as who,
-  rrs.last_read_at::text as t1,
-  (select max(rm.created_at) from public.request_messages rm
-     where rm.request_id = rrs.request_id and rm.sender_id <> rrs.profile_id)::text as t2
-from public.request_read_state rrs
-join public.profiles p on p.id = rrs.profile_id
+-- Что unread_message_request_ids() возвращает администратору + её текущее определение.
+select set_config('request.jwt.claims',
+  json_build_object('sub', (select id from public.profiles where role = 'admin' limit 1), 'role', 'authenticated')::text,
+  true);
+select 'unread' as k, u::text as v from public.unread_message_request_ids() u
 union all
-select 'msg', left(rm.request_id::text, 8), p.role::text, rm.created_at::text, ''
-from public.request_messages rm join public.profiles p on p.id = rm.sender_id
-union all
-select 'now', '', '', now()::text, '';
--- run 1795037837
+select 'def', pg_get_functiondef('public.unread_message_request_ids'::regproc);
