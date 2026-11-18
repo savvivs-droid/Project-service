@@ -2,8 +2,24 @@ import 'dart:async';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/constants/request_status.dart';
 import '../models/request_message.dart';
 import 'supabase_service.dart';
+
+/// Заявки с непрочитанными сообщениями, разложенные по вкладкам — чтобы
+/// красная точка на вкладке "Активные" горела только из-за активных
+/// заявок, а на "Выполненные" — только из-за закрытых.
+class UnreadRequests {
+  const UnreadRequests({this.active = const {}, this.closed = const {}});
+
+  final Set<String> active;
+  final Set<String> closed;
+
+  Set<String> get all => {...active, ...closed};
+
+  bool contains(String requestId) =>
+      active.contains(requestId) || closed.contains(requestId);
+}
 
 class RequestMessageRepository {
   final SupabaseClient _client = SupabaseService.client;
@@ -37,15 +53,31 @@ class RequestMessageRepository {
       {
         'request_id': requestId,
         'profile_id': profileId,
-        'last_read_at': DateTime.now().toIso8601String(),
+        // В UTC: "голое" локальное время база приняла бы за UTC, и отметка
+        // прочтения уехала бы на час-два вперёд.
+        'last_read_at': DateTime.now().toUtc().toIso8601String(),
       },
       onConflict: 'request_id,profile_id',
     );
   }
 
-  Future<Set<String>> fetchUnreadRequestIds() async {
+  Future<UnreadRequests> fetchUnreadRequests() async {
     final data = await _client.rpc('unread_message_request_ids');
-    return (data as List<dynamic>).map((id) => id as String).toSet();
+    final ids = (data as List<dynamic>).map((id) => id as String).toList();
+    if (ids.isEmpty) return const UnreadRequests();
+
+    final rows = await _client
+        .from('service_requests')
+        .select('id, status')
+        .inFilter('id', ids);
+    final active = <String>{};
+    final closed = <String>{};
+    for (final row in rows as List<dynamic>) {
+      final map = row as Map<String, dynamic>;
+      final status = RequestStatus.fromValue(map['status'] as String);
+      (status.isActive ? active : closed).add(map['id'] as String);
+    }
+    return UnreadRequests(active: active, closed: closed);
   }
 
   /// Живой набор id заявок с непрочитанными сообщениями — используется,
@@ -55,13 +87,13 @@ class RequestMessageRepository {
   /// учитывать отметки прочтения) — вместо этого любое изменение в
   /// request_messages или request_read_state просто запускает пересчёт
   /// через unread_message_request_ids() на сервере.
-  Stream<Set<String>> watchUnreadRequestIds() {
-    final controller = StreamController<Set<String>>();
+  Stream<UnreadRequests> watchUnreadRequests() {
+    final controller = StreamController<UnreadRequests>();
 
     Future<void> refresh() async {
       if (controller.isClosed) return;
       try {
-        controller.add(await fetchUnreadRequestIds());
+        controller.add(await fetchUnreadRequests());
       } catch (_) {
         // Сеть могла на секунду пропасть — просто подождём следующего
         // события или ручного обновления.
@@ -79,6 +111,13 @@ class RequestMessageRepository {
         event: PostgresChangeEvent.all,
         schema: 'public',
         table: 'request_read_state',
+        callback: (_) => refresh(),
+      )
+      // Заявку закрыли/вернули в работу — точка переезжает между вкладками.
+      ..onPostgresChanges(
+        event: PostgresChangeEvent.update,
+        schema: 'public',
+        table: 'service_requests',
         callback: (_) => refresh(),
       )
       ..subscribe();

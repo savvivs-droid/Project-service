@@ -62,19 +62,19 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   // Id заявок с непрочитанными сообщениями в чате — общий для всех
   // вкладок список, живой (обновляется через Realtime), см.
-  // RequestMessageRepository.watchUnreadRequestIds.
+  // RequestMessageRepository.watchUnreadRequests (по вкладкам).
   final _messageRepository = RequestMessageRepository();
-  Set<String> _unreadRequestIds = const {};
-  StreamSubscription<Set<String>>? _unreadSubscription;
+  UnreadRequests _unread = const UnreadRequests();
+  StreamSubscription<UnreadRequests>? _unreadSubscription;
 
   @override
   void initState() {
     super.initState();
     _selectedEstablishmentId = widget.profile.establishmentId;
     _establishmentsFuture = _loadEstablishments();
-    _unreadSubscription = _messageRepository.watchUnreadRequestIds().listen(
-      (ids) {
-        if (mounted) setState(() => _unreadRequestIds = ids);
+    _unreadSubscription = _messageRepository.watchUnreadRequests().listen(
+      (unread) {
+        if (mounted) setState(() => _unread = unread);
       },
     );
   }
@@ -195,13 +195,13 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                   key: ValueKey('active-$_selectedEstablishmentId-$_refreshTick'),
                   showActive: true,
                   establishmentId: _selectedEstablishmentId,
-                  unreadRequestIds: _unreadRequestIds,
+                  unreadRequestIds: _unread.all,
                 ),
                 _ClientRequestsTab(
                   key: ValueKey('done-$_selectedEstablishmentId'),
                   showActive: false,
                   establishmentId: _selectedEstablishmentId,
-                  unreadRequestIds: _unreadRequestIds,
+                  unreadRequestIds: _unread.all,
                 ),
                 _ClientEquipmentTab(
                   key: ValueKey(_selectedEstablishmentId),
@@ -225,22 +225,22 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
         destinations: [
           NavigationDestination(
             icon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.active.isNotEmpty,
               child: const Icon(Icons.assignment_outlined),
             ),
             selectedIcon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.active.isNotEmpty,
               child: const Icon(Icons.assignment),
             ),
             label: l10n.navActive,
           ),
           NavigationDestination(
             icon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.closed.isNotEmpty,
               child: const Icon(Icons.task_alt_outlined),
             ),
             selectedIcon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.closed.isNotEmpty,
               child: const Icon(Icons.task_alt),
             ),
             label: l10n.navDone,

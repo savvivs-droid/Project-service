@@ -40,17 +40,17 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   // Id заявок с непрочитанными сообщениями в чате — общий для всех
   // вкладок, живой (Realtime), см.
-  // RequestMessageRepository.watchUnreadRequestIds.
+  // RequestMessageRepository.watchUnreadRequests (по вкладкам).
   final _messageRepository = RequestMessageRepository();
-  Set<String> _unreadRequestIds = const {};
-  StreamSubscription<Set<String>>? _unreadSubscription;
+  UnreadRequests _unread = const UnreadRequests();
+  StreamSubscription<UnreadRequests>? _unreadSubscription;
 
   @override
   void initState() {
     super.initState();
-    _unreadSubscription = _messageRepository.watchUnreadRequestIds().listen(
-      (ids) {
-        if (mounted) setState(() => _unreadRequestIds = ids);
+    _unreadSubscription = _messageRepository.watchUnreadRequests().listen(
+      (unread) {
+        if (mounted) setState(() => _unread = unread);
       },
     );
   }
@@ -94,9 +94,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             child: IndexedStack(
               index: _tabIndex,
               children: [
-                _RequestsTab(showActive: true, unreadRequestIds: _unreadRequestIds),
+                _RequestsTab(showActive: true, unreadRequestIds: _unread.all),
                 AdminPlannerTab(key: _plannerKey),
-                _RequestsTab(showActive: false, unreadRequestIds: _unreadRequestIds),
+                _RequestsTab(showActive: false, unreadRequestIds: _unread.all),
                 const _ClientsTab(),
                 const AdminStatsTab(),
               ],
@@ -115,11 +115,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         destinations: [
           NavigationDestination(
             icon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.active.isNotEmpty,
               child: const Icon(Icons.assignment_outlined),
             ),
             selectedIcon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.active.isNotEmpty,
               child: const Icon(Icons.assignment),
             ),
             label: l10n.navActive,
@@ -131,11 +131,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
           NavigationDestination(
             icon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.closed.isNotEmpty,
               child: const Icon(Icons.task_alt_outlined),
             ),
             selectedIcon: Badge(
-              isLabelVisible: _unreadRequestIds.isNotEmpty,
+              isLabelVisible: _unread.closed.isNotEmpty,
               child: const Icon(Icons.task_alt),
             ),
             label: l10n.navDone,
