@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/constants/request_status.dart';
@@ -47,18 +49,28 @@ class RequestMessageRepository {
   /// Отмечает чат заявки прочитанным текущим пользователем "по сейчас" —
   /// сообщения от другой стороны до этого момента больше не считаются
   /// непрочитанными (см. unread_message_request_ids() в schema.sql).
-  Future<void> markRead(String requestId) {
-    final profileId = _client.auth.currentUser!.id;
-    return _client.from('request_read_state').upsert(
-      {
-        'request_id': requestId,
-        'profile_id': profileId,
-        // В UTC: "голое" локальное время база приняла бы за UTC, и отметка
-        // прочтения уехала бы на час-два вперёд.
-        'last_read_at': DateTime.now().toUtc().toIso8601String(),
-      },
-      onConflict: 'request_id,profile_id',
-    );
+  ///
+  /// async + await обязательно: запрос Supabase ленивый и уходит на сервер
+  /// только при await/then. Раньше метод возвращал сам запрос, а вызывали
+  /// его через unawaited(...) — запрос не отправлялся вовсе, отметки
+  /// прочтения не сохранялись, и красные точки не гасли.
+  Future<void> markRead(String requestId) async {
+    final profileId = _client.auth.currentUser?.id;
+    if (profileId == null) return;
+    try {
+      await _client.from('request_read_state').upsert(
+        {
+          'request_id': requestId,
+          'profile_id': profileId,
+          // В UTC: "голое" локальное время база приняла бы за UTC, и отметка
+          // прочтения уехала бы на час-два вперёд.
+          'last_read_at': DateTime.now().toUtc().toIso8601String(),
+        },
+        onConflict: 'request_id,profile_id',
+      );
+    } catch (error) {
+      debugPrint('Не удалось отметить чат прочитанным: $error');
+    }
   }
 
   Future<UnreadRequests> fetchUnreadRequests() async {
