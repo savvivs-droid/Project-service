@@ -1,8 +1,8 @@
--- Права роли authenticated на таблицы public.
-select c.relname as table_name,
-  coalesce((select string_agg(privilege_type, ',' order by privilege_type)
-   from information_schema.role_table_grants g
-   where g.table_schema = 'public' and g.table_name = c.relname and g.grantee = 'authenticated'), '-') as authenticated
+-- Права роли authenticated на таблицы public (has_table_privilege).
+select c.relname as t,
+  has_table_privilege('authenticated', c.oid, 'SELECT') as sel,
+  has_table_privilege('authenticated', c.oid, 'INSERT') as ins,
+  has_table_privilege('authenticated', c.oid, 'UPDATE') as upd
 from pg_class c join pg_namespace n on n.oid = c.relnamespace
 where n.nspname = 'public' and c.relkind = 'r'
 order by 1;
