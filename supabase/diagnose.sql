@@ -10,3 +10,4 @@ select 'msg', left(rm.request_id::text, 8), p.role::text, rm.created_at::text, '
 from public.request_messages rm join public.profiles p on p.id = rm.sender_id
 union all
 select 'now', '', '', now()::text, '';
+-- run 1795037837
