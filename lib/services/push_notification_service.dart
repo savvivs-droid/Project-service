@@ -33,7 +33,8 @@ class PushNotificationService {
   // Нажатие могло прийти до того, как main.dart подписался (холодный
   // старт) — держим его и отдаём первому слушателю.
   final _pendingTaps = <Map<String, String>>[];
-  late final _tapController = StreamController<Map<String, String>>.broadcast(
+  late final StreamController<Map<String, String>> _tapController =
+      StreamController<Map<String, String>>.broadcast(
     onListen: () {
       final pending = List.of(_pendingTaps);
       _pendingTaps.clear();
