@@ -39,9 +39,6 @@ dependencies:
   firebase_core: ^4.13.0
   firebase_messaging: ^16.5.0
 
-  # Видео-заставка при запуске приложения (assets/video/splash_intro.mp4)
-  video_player: ^2.9.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,7 +55,6 @@ flutter:
     - .env
     - assets/brand/logo_mark.png
     - assets/brand/logo_mark_white.png
-    - assets/video/splash_intro.mp4
     - assets/equipment_categories/
     - assets/equipment_types/
   fonts:

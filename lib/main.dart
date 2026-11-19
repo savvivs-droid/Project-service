@@ -4,10 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/l10n/locale_controller.dart';
 import 'core/theme/app_theme.dart';
+import 'features/auth/auth_gate.dart';
 import 'features/home/admin_request_detail_screen.dart';
 import 'features/home/client_request_detail_screen.dart';
 import 'features/home/request_chat_screen.dart';
-import 'features/splash/splash_video_screen.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'services/push_notification_service.dart';
 import 'services/service_request_repository.dart';
@@ -45,7 +45,7 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
   }
 
   /// Ждёт, пока приложение готово показать экран: есть навигатор и вход
-  /// выполнен (при запуске нажатием на уведомление сначала идёт заставка и
+  /// выполнен (при запуске нажатием на уведомление сначала идёт
   /// восстановление сессии). Не дождались за 20 с — false.
   Future<bool> _whenReady() async {
     for (var i = 0; i < 40; i++) {
@@ -131,7 +131,7 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
           // Чешский — язык по умолчанию: первый в списке, на него
           // попадают, если язык устройства не входит в поддерживаемые.
           supportedLocales: LocaleController.supportedLocales,
-          home: const SplashVideoScreen(),
+          home: const AuthGate(),
         );
       },
     );
