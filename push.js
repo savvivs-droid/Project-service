@@ -52,7 +52,51 @@
       .then(waitForActive);
   }
 
+  // Нажатие на уведомление: данные приходят либо в адресе (?fmg_push=…,
+  // приложение запущено нажатием), либо сообщением от service worker
+  // (приложение уже было открыто). Dart забирает их через takeTap/onTap.
+  var pendingTap = null;
+  var tapListener = null;
+
+  function deliverTap(data) {
+    var json = JSON.stringify(data || {});
+    if (tapListener) {
+      tapListener(json);
+    } else {
+      pendingTap = json;
+    }
+  }
+
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var fromUrl = params.get('fmg_push');
+    if (fromUrl) {
+      pendingTap = fromUrl;
+      params.delete('fmg_push');
+      var query = params.toString();
+      window.history.replaceState(null, '',
+        window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+    }
+  } catch (e) {}
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', function (event) {
+      if (event.data && event.data.fmgPushTap) deliverTap(event.data.fmgPushTap);
+    });
+    if (navigator.serviceWorker.startMessages) navigator.serviceWorker.startMessages();
+  }
+
   window.fmgPush = {
+    takeTap: function () {
+      var json = pendingTap;
+      pendingTap = null;
+      return json;
+    },
+
+    onTap: function (callback) {
+      tapListener = callback;
+    },
+
     // 'unsupported' | 'needs-install' | 'default' | 'granted' | 'denied'
     status: function () {
       if (!isSupported()) {
