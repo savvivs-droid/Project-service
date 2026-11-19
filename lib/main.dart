@@ -41,31 +41,49 @@ class _ProjectServiceAppState extends State<ProjectServiceApp> {
     // текущего экрана. Работает и на холодном старте (когда
     // именно нажатие на уведомление запустило приложение), и когда
     // приложение уже было открыто в фоне.
-    PushNotificationService.instance.onNotificationTap.listen((message) {
-      final type = message.data['type'];
-      if (type == 'status' || type == 'new_request') {
-        final requestId = message.data['requestId'];
-        if (requestId != null) {
-          _openRequestDetail(requestId, asAdmin: type == 'new_request');
-        }
-        return;
+    PushNotificationService.instance.onNotificationTap.listen(_handleTap);
+  }
+
+  /// Ждёт, пока приложение готово показать экран: есть навигатор и вход
+  /// выполнен (при запуске нажатием на уведомление сначала идёт заставка и
+  /// восстановление сессии). Не дождались за 20 с — false.
+  Future<bool> _whenReady() async {
+    for (var i = 0; i < 40; i++) {
+      final ready = _navigatorKey.currentState != null &&
+          SupabaseService.client.auth.currentSession != null;
+      if (ready) {
+        // Даём главному экрану встать под открываемый экран.
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+        return true;
       }
-      final requestId = message.data['requestId'];
-      final title = message.data['title'];
-      final otherPartyName = message.data['otherPartyName'];
-      if (requestId == null || title == null || otherPartyName == null) {
-        return;
-      }
-      _navigatorKey.currentState?.push(
-        MaterialPageRoute(
-          builder: (_) => RequestChatScreen(
-            requestId: requestId,
-            title: title,
-            otherPartyName: otherPartyName,
-          ),
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+    return false;
+  }
+
+  Future<void> _handleTap(Map<String, String> data) async {
+    final requestId = data['requestId'];
+    if (requestId == null || !await _whenReady()) return;
+
+    final type = data['type'];
+    if (type == 'status' || type == 'new_request') {
+      await _openRequestDetail(requestId, asAdmin: type == 'new_request');
+      return;
+    }
+
+    // Сообщение в чате.
+    final title = data['title'];
+    final otherPartyName = data['otherPartyName'];
+    if (title == null || otherPartyName == null) return;
+    _navigatorKey.currentState?.push(
+      MaterialPageRoute(
+        builder: (_) => RequestChatScreen(
+          requestId: requestId,
+          title: title,
+          otherPartyName: otherPartyName,
         ),
-      );
-    });
+      ),
+    );
   }
 
   /// Нажатие на push по заявке — открыть её карточку: администратору

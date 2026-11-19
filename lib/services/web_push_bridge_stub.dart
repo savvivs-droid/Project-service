@@ -5,4 +5,8 @@ class WebPushBridge {
   static Future<String?> subscribe(String vapidPublicKey) async => null;
 
   static Future<String?> currentSubscription() async => null;
+
+  static String? takeTap() => null;
+
+  static void onTap(void Function(String json) callback) {}
 }

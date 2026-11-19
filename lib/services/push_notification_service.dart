@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,7 +30,24 @@ class PushNotificationService {
   static final instance = PushNotificationService._();
 
   final _tokenRepository = DeviceTokenRepository();
-  final _tapController = StreamController<RemoteMessage>.broadcast();
+  // Нажатие могло прийти до того, как main.dart подписался (холодный
+  // старт) — держим его и отдаём первому слушателю.
+  final _pendingTaps = <Map<String, String>>[];
+  late final _tapController = StreamController<Map<String, String>>.broadcast(
+    onListen: () {
+      final pending = List.of(_pendingTaps);
+      _pendingTaps.clear();
+      pending.forEach(_tapController.add);
+    },
+  );
+
+  void _emitTap(Map<String, String> data) {
+    if (_tapController.hasListener) {
+      _tapController.add(data);
+    } else {
+      _pendingTaps.add(data);
+    }
+  }
 
   String? _registeredToken;
 
@@ -40,7 +58,7 @@ class PushNotificationService {
   ///   - заявки — type: 'new_request' (администратору) или 'status'
   ///     (клиенту) + requestId (send-request-notification). Слушает main.dart, чтобы открыть
   /// нужный экран поверх текущего.
-  Stream<RemoteMessage> get onNotificationTap => _tapController.stream;
+  Stream<Map<String, String>> get onNotificationTap => _tapController.stream;
 
   Future<void> initializeApp() async {
     if (kIsWeb) return;
@@ -141,10 +159,27 @@ class PushNotificationService {
 
   /// Один раз при старте приложения — не требует авторизации.
   void listenForTaps() {
-    if (kIsWeb) return;
-    FirebaseMessaging.onMessageOpenedApp.listen(_tapController.add);
+    if (kIsWeb) {
+      // Веб: данные нажатия передаёт web/push.js (из адреса при запуске
+      // нажатием или сообщением service worker'а, если уже открыто).
+      void addJson(String json) {
+        try {
+          final decoded = jsonDecode(json) as Map<String, dynamic>;
+          _emitTap(decoded.map((key, value) => MapEntry(key, '$value')));
+        } catch (_) {}
+      }
+
+      final pending = WebPushBridge.takeTap();
+      if (pending != null) addJson(pending);
+      WebPushBridge.onTap(addJson);
+      return;
+    }
+    Map<String, String> dataOf(RemoteMessage message) =>
+        message.data.map((key, value) => MapEntry(key, '$value'));
+    FirebaseMessaging.onMessageOpenedApp
+        .listen((message) => _emitTap(dataOf(message)));
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) _tapController.add(message);
+      if (message != null) _emitTap(dataOf(message));
     });
   }
 }

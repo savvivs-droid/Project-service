@@ -27,22 +27,28 @@ self.addEventListener('push', function (event) {
       icon: new URL('../icons/Icon-192.png', self.registration.scope).href,
       badge: new URL('../icons/Icon-192.png', self.registration.scope).href,
       tag: data.requestId ? data.type + '-' + data.requestId : undefined,
-      data: { url: appUrl() },
+      // Данные для перехода по нажатию: чат или карточка заявки.
+      data: { url: appUrl(), push: data },
     })
   );
 });
 
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
-  var url = (event.notification.data && event.notification.data.url) || appUrl();
+  var info = event.notification.data || {};
+  var url = info.url || appUrl();
+  var push = info.push || {};
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windows) {
+      // Приложение уже открыто — поднимаем его и говорим, что открыть.
       for (var i = 0; i < windows.length; i++) {
         if (windows[i].url.indexOf(url) === 0 && 'focus' in windows[i]) {
+          windows[i].postMessage({ fmgPushTap: push });
           return windows[i].focus();
         }
       }
-      return self.clients.openWindow(url);
+      // Не открыто — запускаем с данными в адресе (их прочитает web/push.js).
+      return self.clients.openWindow(url + '?fmg_push=' + encodeURIComponent(JSON.stringify(push)));
     })
   );
 });

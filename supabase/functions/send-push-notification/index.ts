@@ -497,6 +497,8 @@ Deno.serve(async (req) => {
       body,
       requestId: message.request_id,
       type: "chat",
+      // Для перехода в чат по нажатию (как в data у FCM).
+      otherPartyName: sender.full_name ?? establishmentName,
     });
     if (result === "ok") sent++;
     else failed++;
