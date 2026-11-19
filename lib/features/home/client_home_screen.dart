@@ -9,6 +9,7 @@ import '../../core/widgets/app_brand.dart';
 import '../../core/widgets/equipment_grid_tile.dart';
 import '../../core/widgets/equipment_illustrations.dart';
 import '../../core/widgets/fullscreen_photo_viewer.dart';
+import '../../core/widgets/app_navigation_bar.dart';
 import '../../core/widgets/language_switcher.dart';
 import '../../core/widgets/web_push_banner.dart';
 import '../../models/equipment.dart';
@@ -219,7 +220,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
         clientId: widget.profile.id,
         onRequestCreated: _onRequestCreatedFromFab,
       ),
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: AppNavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
         destinations: [
